@@ -1,205 +1,457 @@
 import 'package:flutter/material.dart';
 import 'package:app_aya_v2/config/theme.dart';
+import 'package:app_aya_v2/features/content/services/lesson_service.dart';
 
-class LessonPage extends StatelessWidget {
+class LessonPage extends StatefulWidget {
+  final String lessonId;
   final String lessonTitle;
-  const LessonPage({super.key, this.lessonTitle = 'Aula 01 - Introdução à Gratidão'});
+  const LessonPage({
+    super.key,
+    required this.lessonId,
+    this.lessonTitle = 'Aula 01 - Introdução à Gratidão',
+  });
+
+  @override
+  State<LessonPage> createState() => _LessonPageState();
+}
+
+class _LessonPageState extends State<LessonPage> {
+  final _lessonService = LessonService();
+  final _commentController = TextEditingController();
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadInitialData();
+  }
+
+  Future<void> _loadInitialData() async {
+    setState(() => _isLoading = true);
+    try {
+      await _lessonService.loadInitialState(widget.lessonId);
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao carregar dados: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _commentController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 700;
+    if (_isLoading) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return Scaffold(
-      backgroundColor: AppTheme.background,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppTheme.primary),
-          onPressed: () => Navigator.of(context).pop(),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: AppTheme.backgroundGradient,
         ),
-        title: const Text(
-          'Aula',
-          style: TextStyle(
-            color: AppTheme.textPrimary,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
+        child: SafeArea(
+          child: Column(
+            children: [
+              _buildHeader(context),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildLessonTitle(),
+                      const SizedBox(height: 16),
+                      _buildLessonContent(),
+                      const SizedBox(height: 24),
+                      _buildNavigationButtons(context),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-        centerTitle: true,
       ),
-      body: ListView(
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return StreamBuilder<bool>(
+      stream: _lessonService.favoriteStream,
+      initialData: false,
+      builder: (context, snapshot) {
+        final isFavorite = snapshot.data ?? false;
+        return AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: AppTheme.primary),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          title: const Text(
+            'Aula',
+            style: TextStyle(
+              color: AppTheme.textPrimary,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+          centerTitle: true,
+          actions: [
+            IconButton(
+              icon: Icon(
+                isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: isFavorite ? AppTheme.primary : AppTheme.textPrimary,
+              ),
+              onPressed: () => _lessonService.toggleFavorite(widget.lessonId),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildLessonTitle() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Player de vídeo/áudio (placeholder visual)
-          Container(
-            height: isMobile ? 220 : 320,
-            margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-            decoration: BoxDecoration(
-              color: const Color(0xFF474C72),
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(32),
-                bottomRight: Radius.circular(32),
-              ),
-              image: const DecorationImage(
-                image: AssetImage('assets/images/lesson1.jpg'),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.black.withAlpha(80),
-                  shape: BoxShape.circle,
-                ),
-                padding: const EdgeInsets.all(18),
-                child: const Icon(Icons.play_circle_fill, color: Color(0xFFACA1EF), size: 64),
-              ),
+          Text(
+            widget.lessonTitle,
+            style: const TextStyle(
+              color: AppTheme.textPrimary,
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
             ),
           ),
-          const SizedBox(height: 24),
-          // Título, metadados, pontos
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  lessonTitle,
-                  style: const TextStyle(
-                    color: AppTheme.textPrimary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    const Icon(Icons.play_circle_outline, color: AppTheme.primary, size: 18),
-                    const SizedBox(width: 4),
-                    const Text('Vídeo • 5 min', style: TextStyle(color: AppTheme.textPrimary, fontSize: 14)),
-                    const SizedBox(width: 12),
-                    const Icon(Icons.auto_awesome, color: Color(0xFF78C7B4), size: 18),
-                    const SizedBox(width: 2),
-                    const Text('1 Ponto Aya', style: TextStyle(color: Color(0xFF78C7B4), fontSize: 14, fontWeight: FontWeight.bold)),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                _ExpandableDescription(
-                  text: 'Descubra como a gratidão pode transformar sua vida. Nesta aula, você aprenderá práticas simples e poderosas para cultivar gratidão diariamente. Aprofunde-se no tema e veja exemplos reais de transformação. ' * 2,
-                ),
-              ],
-            ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              const Icon(Icons.play_circle_outline, color: AppTheme.primary, size: 18),
+              const SizedBox(width: 4),
+              const Text('Vídeo • 5 min', style: TextStyle(color: AppTheme.textPrimary, fontSize: 14)),
+              const SizedBox(width: 12),
+              const Icon(Icons.auto_awesome, color: Color(0xFF78C7B4), size: 18),
+              const SizedBox(width: 2),
+              const Text('1 Ponto Aya', style: TextStyle(color: Color(0xFF78C7B4), fontSize: 14, fontWeight: FontWeight.bold)),
+            ],
           ),
-          const SizedBox(height: 18),
-          // Barra de ações
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
-                _LessonAction(icon: Icons.check_circle, label: 'Concluir'),
-                _LessonAction(icon: Icons.edit_note, label: 'Anotações'),
-                _LessonAction(icon: Icons.playlist_add, label: 'Playlist'),
-                _LessonAction(icon: Icons.star_border, label: 'Favoritar'),
-                _LessonAction(icon: Icons.share, label: 'Compartilhar'),
-                _LessonAction(icon: Icons.download, label: 'Download'),
-              ],
-            ),
+          const SizedBox(height: 16),
+          _ExpandableDescription(
+            text: 'Descubra como a gratidão pode transformar sua vida. Nesta aula, você aprenderá práticas simples e poderosas para cultivar gratidão diariamente. Aprofunde-se no tema e veja exemplos reais de transformação. ' * 2,
           ),
-          const SizedBox(height: 18),
-          // Botão Próximo
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: ElevatedButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.arrow_forward, color: Color(0xFFF8F8FF)),
-              label: const Text('Próxima Aula'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFACA1EF),
-                foregroundColor: const Color(0xFFF8F8FF),
-                padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
-                textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 28),
-          // Seção de comentários
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Comentários',
-                  style: TextStyle(
-                    color: AppTheme.textPrimary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      backgroundImage: AssetImage('assets/images/user1.jpg'),
-                      radius: 18,
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Faça um comentário...'
-                              ,
-                          filled: true,
-                          fillColor: AppTheme.secondary.withAlpha(30),
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.send, color: AppTheme.primary),
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 18),
-                // Lista de comentários
-                _CommentCard(
-                  user: 'Maria Silva',
-                  avatar: 'assets/images/user1.jpg',
-                  time: '4m',
-                  text: 'Amei essa aula! Prática simples e poderosa.',
-                  likes: 3,
-                ),
-                _CommentCard(
-                  user: 'Juliana Santos',
-                  avatar: 'assets/images/user2.jpg',
-                  time: '12m',
-                  text: 'A gratidão realmente faz diferença no meu dia.',
-                  likes: 1,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 32),
         ],
       ),
     );
   }
-}
 
-class _LessonAction extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  const _LessonAction({required this.icon, required this.label});
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildLessonContent() {
+    return Builder(
+      builder: (context) {
+        final screenWidth = MediaQuery.of(context).size.width;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Player de vídeo/áudio
+            StreamBuilder<PlaybackState>(
+              stream: _lessonService.playbackStream,
+              initialData: PlaybackState(),
+              builder: (context, snapshot) {
+                final playbackState = snapshot.data!;
+                return Container(
+                  height: screenWidth < 700 ? 220 : 320,
+                  margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF474C72),
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(32),
+                      bottomRight: Radius.circular(32),
+                    ),
+                    image: const DecorationImage(
+                      image: AssetImage('assets/images/lesson1.jpg'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: Stack(
+                    children: [
+                      // Overlay escuro
+                      Positioned.fill(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black.withAlpha(80),
+                            borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(32),
+                              bottomRight: Radius.circular(32),
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Controles do player
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                playbackState.isPlaying ? Icons.pause : Icons.play_circle_fill,
+                                color: const Color(0xFFACA1EF),
+                                size: 64,
+                              ),
+                              onPressed: () {
+                                if (playbackState.isPlaying) {
+                                  _lessonService.pause(widget.lessonId);
+                                } else {
+                                  _lessonService.play(widget.lessonId);
+                                }
+                              },
+                            ),
+                            const SizedBox(height: 16),
+                            // Barra de progresso
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 32),
+                              child: Column(
+                                children: [
+                                  Slider(
+                                    value: playbackState.currentPosition.inSeconds.toDouble(),
+                                    min: 0,
+                                    max: playbackState.totalDuration.inSeconds.toDouble(),
+                                    activeColor: const Color(0xFFACA1EF),
+                                    inactiveColor: Colors.white.withAlpha(40),
+                                    onChanged: (value) {
+                                      _lessonService.seekTo(
+                                        widget.lessonId,
+                                        Duration(seconds: value.toInt()),
+                                      );
+                                    },
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          _formatDuration(playbackState.currentPosition),
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                        Text(
+                                          _formatDuration(playbackState.totalDuration),
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 24),
+            // Barra de ações
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildActionButton(Icons.favorite_border, 'Favoritar'),
+                  _buildActionButton(Icons.share, 'Compartilhar'),
+                  _buildActionButton(Icons.download, 'Download'),
+                ],
+              ),
+            ),
+            const SizedBox(height: 18),
+            // Seção de comentários
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Comentários',
+                    style: TextStyle(
+                      color: Color(0xFFF8F8FF),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  _buildCommentInput(),
+                  const SizedBox(height: 16),
+                  _buildCommentList(),
+                ],
+              ),
+            ),
+            const SizedBox(height: 32),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildNavigationButtons(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: ElevatedButton.icon(
+        onPressed: () async {
+          try {
+            final nextLessonId = await _lessonService.getNextLessonId(widget.lessonId);
+            if (nextLessonId != null && mounted) {
+              // TODO: Navegar para próxima aula
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Carregando próxima aula...'),
+                  duration: Duration(seconds: 2),
+                  backgroundColor: AppTheme.primary,
+                ),
+              );
+            }
+          } catch (e) {
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Erro ao carregar próxima aula: $e'),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+          }
+        },
+        icon: const Icon(Icons.arrow_forward, color: Color(0xFFF8F8FF)),
+        label: const Text('Próxima Aula'),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFFACA1EF),
+          foregroundColor: const Color(0xFFF8F8FF),
+          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
+          textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionButton(IconData icon, String label) {
+    if (label == 'Download') {
+      return StreamBuilder<double>(
+        stream: _lessonService.getDownloadProgress(widget.lessonId),
+        builder: (context, snapshot) {
+          final progress = snapshot.data ?? 0.0;
+          return FutureBuilder<bool>(
+            future: _lessonService.isLessonDownloaded(widget.lessonId),
+            builder: (context, snap) {
+              final isDownloaded = snap.data ?? false;
+              if (progress > 0 && progress < 1) {
+                // Baixando
+                return Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: AppTheme.primary.withAlpha(30),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            CircularProgressIndicator(
+                              value: progress,
+                              strokeWidth: 2,
+                              color: AppTheme.primary,
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.close, size: 16, color: AppTheme.primary),
+                              onPressed: _cancelDownload,
+                              tooltip: 'Cancelar download',
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    const Text('Baixando', style: TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
+                  ],
+                );
+              } else if (isDownloaded) {
+                // Baixado
+                return Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.green.withAlpha(30),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.check_circle, color: Colors.green, size: 22),
+                        onPressed: _removeDownloadedLesson,
+                        tooltip: 'Remover download',
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    const Text('Baixado', style: TextStyle(color: Colors.green, fontSize: 13)),
+                  ],
+                );
+              } else {
+                // Não baixado
+                return Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: AppTheme.primary.withAlpha(30),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.download, color: AppTheme.primary, size: 22),
+                        onPressed: _downloadLesson,
+                        tooltip: 'Baixar aula',
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    const Text('Download', style: TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
+                  ],
+                );
+              }
+            },
+          );
+        },
+      );
+    }
+    // Favoritar e Compartilhar permanecem iguais
     return Column(
       children: [
         Container(
@@ -208,7 +460,19 @@ class _LessonAction extends StatelessWidget {
             color: AppTheme.primary.withAlpha(30),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(icon, color: AppTheme.primary, size: 22),
+          child: IconButton(
+            icon: Icon(icon, color: AppTheme.primary, size: 22),
+            onPressed: () {
+              switch (label) {
+                case 'Favoritar':
+                  _lessonService.toggleFavorite(widget.lessonId);
+                  break;
+                case 'Compartilhar':
+                  _shareLesson();
+                  break;
+              }
+            },
+          ),
         ),
         const SizedBox(height: 6),
         Text(
@@ -220,6 +484,169 @@ class _LessonAction extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Widget _buildCommentInput() {
+    return Row(
+      children: [
+        const CircleAvatar(
+          backgroundImage: AssetImage('assets/images/user1.jpg'),
+          radius: 18,
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: TextField(
+            controller: _commentController,
+            decoration: InputDecoration(
+              hintText: 'Faça um comentário...',
+              filled: true,
+              fillColor: AppTheme.secondary.withAlpha(30),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none,
+              ),
+            ),
+            onSubmitted: (text) {
+              if (text.isNotEmpty) {
+                _lessonService.addComment(widget.lessonId, text);
+                _commentController.clear();
+              }
+            },
+          ),
+        ),
+        IconButton(
+          icon: const Icon(Icons.send, color: AppTheme.primary),
+          onPressed: () {
+            final text = _commentController.text;
+            if (text.isNotEmpty) {
+              _lessonService.addComment(widget.lessonId, text);
+              _commentController.clear();
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCommentList() {
+    return StreamBuilder<List<Comment>>(
+      stream: _lessonService.commentsStream,
+      initialData: const [],
+      builder: (context, snapshot) {
+        final comments = snapshot.data!;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: comments.map((comment) => _CommentCard(
+            comment: comment,
+            onLike: () => _lessonService.toggleLikeComment(widget.lessonId, comment.id),
+            onReply: (text) => _lessonService.replyToComment(widget.lessonId, comment.id, text),
+          )).toList(),
+        );
+      },
+    );
+  }
+
+  String _formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    final minutes = twoDigits(duration.inMinutes.remainder(60));
+    final seconds = twoDigits(duration.inSeconds.remainder(60));
+    return '$minutes:$seconds';
+  }
+
+  // Método para compartilhar aula
+  Future<void> _shareLesson() async {
+    try {
+      await _lessonService.shareLesson(widget.lessonId);
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao compartilhar aula: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  // Método para baixar aula
+  Future<void> _downloadLesson() async {
+    if (!mounted) return;
+    
+    final messenger = ScaffoldMessenger.of(context);
+    
+    try {
+      await _lessonService.downloadLesson(
+        widget.lessonId,
+        fileName: '${widget.lessonId}.mp4',
+        fileType: 'video/mp4',
+      );
+      
+      if (!mounted) return;
+      messenger.showSnackBar(
+        const SnackBar(
+          content: Text('Aula baixada com sucesso!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text('Erro ao baixar aula: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  // Método para cancelar download
+  Future<void> _cancelDownload() async {
+    try {
+      await _lessonService.cancelDownload(widget.lessonId);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Download cancelado'),
+            backgroundColor: Colors.orange,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao cancelar download: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  // Método para remover aula baixada
+  Future<void> _removeDownloadedLesson() async {
+    try {
+      await _lessonService.removeDownloadedLesson(widget.lessonId);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Aula removida com sucesso'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao remover aula: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 }
 
@@ -247,11 +674,11 @@ class _ExpandableDescriptionState extends State<_ExpandableDescription> {
         if (widget.text.length > 120)
           TextButton(
             onPressed: () => setState(() => expanded = !expanded),
-            child: Text(expanded ? 'Ver menos' : 'Ver mais'),
             style: TextButton.styleFrom(
               foregroundColor: AppTheme.primary,
               textStyle: const TextStyle(fontWeight: FontWeight.bold),
             ),
+            child: Text(expanded ? 'Ver menos' : 'Ver mais'),
           ),
       ],
     );
@@ -259,12 +686,16 @@ class _ExpandableDescriptionState extends State<_ExpandableDescription> {
 }
 
 class _CommentCard extends StatelessWidget {
-  final String user;
-  final String avatar;
-  final String time;
-  final String text;
-  final int likes;
-  const _CommentCard({required this.user, required this.avatar, required this.time, required this.text, required this.likes});
+  final Comment comment;
+  final VoidCallback onLike;
+  final Function(String) onReply;
+
+  const _CommentCard({
+    required this.comment,
+    required this.onLike,
+    required this.onReply,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -277,7 +708,7 @@ class _CommentCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CircleAvatar(
-              backgroundImage: AssetImage(avatar),
+              backgroundImage: AssetImage(comment.userAvatar),
               radius: 18,
             ),
             const SizedBox(width: 12),
@@ -288,7 +719,7 @@ class _CommentCard extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        user,
+                        comment.userName,
                         style: const TextStyle(
                           color: Color(0xFFF8F8FF),
                           fontWeight: FontWeight.bold,
@@ -297,7 +728,7 @@ class _CommentCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        time,
+                        comment.timeAgo,
                         style: const TextStyle(
                           color: Color(0xFFACA1EF),
                           fontSize: 12,
@@ -307,7 +738,7 @@ class _CommentCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    text,
+                    comment.text,
                     style: const TextStyle(
                       color: Color(0xFFF8F8FF),
                       fontSize: 14,
@@ -316,17 +747,66 @@ class _CommentCard extends StatelessWidget {
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      Icon(Icons.favorite_border, color: Color(0xFFACA1EF), size: 18),
+                      IconButton(
+                        icon: Icon(
+                          comment.isLiked ? Icons.favorite : Icons.favorite_border,
+                          color: comment.isLiked ? AppTheme.primary : const Color(0xFFACA1EF),
+                          size: 18,
+                        ),
+                        onPressed: onLike,
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                      ),
                       const SizedBox(width: 4),
-                      Text('$likes', style: const TextStyle(color: Color(0xFFACA1EF), fontSize: 13)),
+                      Text(
+                        '${comment.likes}',
+                        style: TextStyle(
+                          color: comment.isLiked ? AppTheme.primary : const Color(0xFFACA1EF),
+                          fontSize: 13,
+                        ),
+                      ),
                       const SizedBox(width: 16),
                       TextButton(
-                        onPressed: () {},
-                        child: const Text('Responder'),
+                        onPressed: () {
+                          final controller = TextEditingController();
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Responder comentário'),
+                              content: TextField(
+                                controller: controller,
+                                decoration: const InputDecoration(
+                                  hintText: 'Digite sua resposta...',
+                                ),
+                                maxLines: 3,
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('Cancelar'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    final text = controller.text;
+                                    if (text.isNotEmpty) {
+                                      onReply(text);
+                                      Navigator.pop(context);
+                                    }
+                                  },
+                                  child: const Text('Responder'),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                         style: TextButton.styleFrom(
-                          foregroundColor: Color(0xFF78C7B4),
+                          foregroundColor: const Color(0xFF78C7B4),
                           textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                          padding: EdgeInsets.zero,
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
+                        child: const Text('Responder'),
                       ),
                     ],
                   ),
@@ -338,4 +818,4 @@ class _CommentCard extends StatelessWidget {
       ),
     );
   }
-} 
+}

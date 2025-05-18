@@ -13,7 +13,11 @@ class AdminGamificationSection extends StatelessWidget {
         const Text('Gerencie desafios e badges.'),
         const SizedBox(height: 32),
         // TODO: Listagem e CRUD de desafios e badges
-        Center(child: Text('Funcionalidade em desenvolvimento...')),
+        Container(
+          height: 400,
+          alignment: Alignment.center,
+          child: const Text('Funcionalidade em desenvolvimento...'),
+        ),
       ],
     );
   }

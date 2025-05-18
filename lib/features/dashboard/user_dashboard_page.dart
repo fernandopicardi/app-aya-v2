@@ -12,89 +12,374 @@ class UserDashboardPage extends StatefulWidget {
 }
 
 class _UserDashboardPageState extends State<UserDashboardPage> {
-  int _selectedIndex = 0;
-
   // Simulação de nome do usuário
   final String userName = 'Aya';
 
   @override
   Widget build(BuildContext context) {
-    final isWeb = kIsWeb && MediaQuery.of(context).size.width > 900;
     return Scaffold(
-      backgroundColor: AppTheme.background,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 16),
-          child: Row(
-            children: [
-              Icon(Icons.spa, color: AppTheme.primary, size: 28),
-              const SizedBox(width: 8),
-              Text(
-                'App Aya',
-                style: TextStyle(
-                  color: AppTheme.textPrimary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  letterSpacing: 1.2,
-                ),
-              ),
-            ],
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: AppTheme.backgroundGradient,
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildHeader(context),
+                _buildWelcomeSection(),
+                _buildRecommendedSection(context),
+                _buildCategoriesSection(context),
+                _buildFavoritesSection(context),
+                _buildCommunitySection(context),
+                _buildIASection(context),
+              ],
+            ),
           ),
         ),
-        title: null,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_none, color: AppTheme.primary),
-            onPressed: () {},
-          ),
-        ],
       ),
-      drawer: isWeb
-          ? null
-          : null, // Drawer pode ser adicionado para mobile se desejar
-      body: Row(
+    );
+  }
+
+  void _handleCardTap(BuildContext context, CardType type) {
+    final router = GoRouter.of(context);
+    switch (type) {
+      case CardType.recommended:
+        router.push('/content/modules');
+        break;
+      case CardType.category:
+        router.push('/content/modules');
+        break;
+      case CardType.favorite:
+        router.push('/content/modules');
+        break;
+      case CardType.community:
+        router.push('/community');
+        break;
+      case CardType.ia:
+        router.push('/chatbot');
+        break;
+    }
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      leading: Padding(
+        padding: const EdgeInsets.only(left: 16),
+        child: Row(
+          children: [
+            Icon(Icons.spa, color: AppTheme.primary, size: 28),
+            const SizedBox(width: 8),
+            Text(
+              'App Aya',
+              style: TextStyle(
+                color: AppTheme.textPrimary,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                letterSpacing: 1.2,
+              ),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.notifications_none, color: AppTheme.primary),
+          onPressed: () {},
+        ),
+      ],
+    );
+  }
+
+  Widget _buildWelcomeSection() {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (isWeb)
-            _WebSidebar(selectedIndex: _selectedIndex, onTap: (i) => setState(() => _selectedIndex = i)),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-              children: [
-                const SizedBox(height: 16),
-                // Carrossel de destaques
-                _HeroCarousel(),
-                const SizedBox(height: 32),
-                // Seção: Recomendado para você
-                _SectionTitle('Recomendado para você'),
-                _ContinueJourneyList(loading: false),
-                const SizedBox(height: 32),
-                // Seção: Explore por Categorias
-                _SectionTitle('Explore por Categorias'),
-                _FeaturedModulesList(),
-                const SizedBox(height: 32),
-                // Seção: Favoritos
-                _SectionTitle('Seus Favoritos'),
-                _HorizontalCardList(itemCount: 3, cardType: CardType.favorite),
-                const SizedBox(height: 32),
-                // Seção: Comunidade
-                _SectionTitle('Comunidade em Destaque'),
-                _HorizontalCardList(itemCount: 2, cardType: CardType.community),
-                const SizedBox(height: 32),
-                // Seção: Seu Agente IA
-                _SectionTitle('Seu Agente IA Aya'),
-                _HorizontalCardList(itemCount: 1, cardType: CardType.ia),
-                const SizedBox(height: 32),
-              ],
+          Text(
+            'Bem-vindo(a)!',
+            style: TextStyle(
+              color: AppTheme.textPrimary,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Continue sua jornada de autoconhecimento',
+            style: TextStyle(
+              color: AppTheme.textPrimary.withAlpha(204),
+              fontSize: 16,
             ),
           ),
         ],
       ),
-      bottomNavigationBar: isWeb
-          ? null
-          : _AyaBottomNavBar(selectedIndex: _selectedIndex, onTap: (i) => setState(() => _selectedIndex = i)),
     );
+  }
+
+  Widget _buildRecommendedSection(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'Recomendado para você',
+            style: TextStyle(
+              color: AppTheme.textPrimary,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 200,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            itemCount: 3,
+            itemBuilder: (context, index) {
+              return _buildCard(context, CardType.recommended);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCategoriesSection(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'Explore por Categorias',
+            style: TextStyle(
+              color: AppTheme.textPrimary,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 200,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            itemCount: 3,
+            itemBuilder: (context, index) {
+              return _buildCard(context, CardType.category);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFavoritesSection(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'Seus Favoritos',
+            style: TextStyle(
+              color: AppTheme.textPrimary,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 200,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            itemCount: 3,
+            itemBuilder: (context, index) {
+              return _buildCard(context, CardType.favorite);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCommunitySection(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'Comunidade em Destaque',
+            style: TextStyle(
+              color: AppTheme.textPrimary,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 200,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            itemCount: 2,
+            itemBuilder: (context, index) {
+              return _buildCard(context, CardType.community);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildIASection(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'Seu Agente IA Aya',
+            style: TextStyle(
+              color: AppTheme.textPrimary,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 200,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            itemCount: 1,
+            itemBuilder: (context, index) {
+              return _buildCard(context, CardType.ia);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCard(BuildContext context, CardType type) {
+    return GestureDetector(
+      onTap: () => _handleCardTap(context, type),
+      child: Container(
+        width: 300,
+        margin: const EdgeInsets.only(right: 16),
+        decoration: BoxDecoration(
+          color: AppTheme.secondary,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppTheme.primary.withAlpha(26),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                  ),
+                ),
+                child: Center(
+                  child: Icon(
+                    _getIconForType(type),
+                    color: AppTheme.primary,
+                    size: 48,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _getTitleForType(type),
+                    style: const TextStyle(
+                      color: AppTheme.textPrimary,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    _getDescriptionForType(type),
+                    style: TextStyle(
+                      color: AppTheme.textPrimary.withAlpha(204),
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  IconData _getIconForType(CardType type) {
+    switch (type) {
+      case CardType.recommended:
+        return Icons.star;
+      case CardType.category:
+        return Icons.category;
+      case CardType.favorite:
+        return Icons.favorite;
+      case CardType.community:
+        return Icons.people;
+      case CardType.ia:
+        return Icons.psychology;
+    }
+  }
+
+  String _getTitleForType(CardType type) {
+    switch (type) {
+      case CardType.recommended:
+        return 'Recomendado para você';
+      case CardType.category:
+        return 'Categorias';
+      case CardType.favorite:
+        return 'Favoritos';
+      case CardType.community:
+        return 'Comunidade';
+      case CardType.ia:
+        return 'Agente IA Aya';
+    }
+  }
+
+  String _getDescriptionForType(CardType type) {
+    switch (type) {
+      case CardType.recommended:
+        return 'Conteúdo personalizado baseado no seu perfil';
+      case CardType.category:
+        return 'Explore por temas e categorias';
+      case CardType.favorite:
+        return 'Acesse seus conteúdos favoritos';
+      case CardType.community:
+        return 'Conecte-se com outros usuários';
+      case CardType.ia:
+        return 'Converse com seu assistente pessoal';
+    }
   }
 }
 
@@ -527,6 +812,23 @@ class _DashboardCard extends StatelessWidget {
   final int index;
   const _DashboardCard({required this.cardType, required this.index});
 
+  void _handleCardTap(BuildContext context) {
+    final router = GoRouter.of(context);
+    switch (cardType) {
+      case CardType.recommended:
+      case CardType.category:
+      case CardType.favorite:
+        router.push('/content/modules');
+        break;
+      case CardType.community:
+        router.push('/community');
+        break;
+      case CardType.ia:
+        router.push('/chatbot');
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // Exemplos de imagens (substitua pelos assets reais depois)
@@ -551,25 +853,9 @@ class _DashboardCard extends StatelessWidget {
       CardType.community: 'Participe da discussão',
       CardType.ia: 'Sua assistente pessoal',
     };
-    // Destinos de navegação
-    void _handleTap() {
-      switch (cardType) {
-        case CardType.recommended:
-        case CardType.category:
-        case CardType.favorite:
-          context.push('/content/modules'); // Exemplo: detalhes/conteúdo
-          break;
-        case CardType.community:
-          context.push('/community');
-          break;
-        case CardType.ia:
-          context.push('/chatbot');
-          break;
-      }
-    }
     return InkWell(
       borderRadius: BorderRadius.circular(16),
-      onTap: _handleTap,
+      onTap: () => _handleCardTap(context),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
         curve: Curves.easeInOut,
@@ -958,6 +1244,89 @@ class _FeaturedModulesListState extends State<_FeaturedModulesList> {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class _VideoPlayerModal extends StatelessWidget {
+  final String title;
+  const _VideoPlayerModal({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    final router = GoRouter.of(context);
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.all(16),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppTheme.secondary.withAlpha(250),
+          borderRadius: BorderRadius.circular(18),
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: AppTheme.textPrimary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.close, color: AppTheme.textPrimary),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppTheme.background,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Center(
+                  child: Icon(Icons.play_circle_fill, color: AppTheme.primary, size: 64),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Gostou? Descubra mais com nossos planos!',
+              style: TextStyle(
+                color: AppTheme.textPrimary.withAlpha(230),
+                fontSize: 15,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                router.push('/plans');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primary,
+                foregroundColor: AppTheme.textPrimary,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: const Text('Ver Planos'),
+            ),
+          ],
+        ),
       ),
     );
   }

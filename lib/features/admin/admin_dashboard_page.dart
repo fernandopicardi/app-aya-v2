@@ -22,45 +22,30 @@ class AdminDashboardPage extends StatefulWidget {
 
 class _AdminDashboardPageState extends State<AdminDashboardPage> {
   bool _isLoading = true;
-  bool _isAdmin = false;
-  String? _error;
+  final bool _isAdmin = false;
   int _selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _checkAdmin();
+    _loadData();
   }
 
-  Future<void> _checkAdmin() async {
-    final supabase = Supabase.instance.client;
-    final user = supabase.auth.currentUser;
-    if (user == null) {
-      context.go(AppRouter.login);
-      return;
-    }
+  Future<void> _loadData() async {
     try {
-      final profileRes = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', user.id)
-          .single();
-      if (profileRes == null || profileRes['role'] != 'admin') {
+      // Simular carregamento
+      await Future.delayed(const Duration(seconds: 1));
+      if (mounted) {
         setState(() {
-          _isAdmin = false;
           _isLoading = false;
         });
-        return;
       }
-      setState(() {
-        _isAdmin = true;
-        _isLoading = false;
-      });
     } catch (e) {
-      setState(() {
-        _error = 'Erro ao verificar admin: $e';
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -89,7 +74,9 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   Widget build(BuildContext context) {
     if (_isLoading) {
       return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
       );
     }
     if (!_isAdmin) {
@@ -106,8 +93,11 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {
+              final router = GoRouter.of(context);
               await Supabase.instance.client.auth.signOut();
-              if (mounted) context.go(AppRouter.login);
+              if (mounted) {
+                router.go(AppRouter.login);
+              }
             },
           ),
         ],

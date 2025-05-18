@@ -1,5 +1,4 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' show OAuthProvider;
 
 class AuthService {
   final SupabaseClient _supabase = Supabase.instance.client;
@@ -100,6 +99,10 @@ class AuthService {
     } catch (e) {
       throw Exception('Ocorreu um erro inesperado durante o login com Apple.');
     }
+  }
+
+  Future<Session?> getCurrentSession() async {
+    return _supabase.auth.currentSession;
   }
 
   // TODO: Implementar outros métodos de autenticação se necessário (ex: Google, Apple)

@@ -1,23 +1,22 @@
-import 'dart:async'; // For StreamSubscription
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart'; // For Supabase auth state
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-// Importação da página inicial
 import '../features/home/home_page.dart';
-// Importação das páginas de autenticação
 import '../features/auth/login_page.dart';
 import '../features/auth/register_page.dart';
-import '../features/auth/forgot_password_page.dart'; // Importar a nova página
+import '../features/auth/forgot_password_page.dart';
+import '../features/auth/simple_register_page.dart';
 import '../features/content/pages/content_modules_page.dart';
 import '../features/landing/landing_page.dart';
 import '../features/subscription/subscription_plans_page.dart';
-import '../features/auth/simple_register_page.dart';
 import '../features/subscription/payment_page.dart';
+import '../features/subscription/subscription_plan.dart';
 import '../features/dashboard/user_dashboard_page.dart';
 import '../features/admin/admin_dashboard_page.dart';
 
-// Helper class to convert a Stream to a Listenable for GoRouter
+/// Helper class to convert a Stream to a Listenable for GoRouter
 class GoRouterRefreshStream extends ChangeNotifier {
   GoRouterRefreshStream(Stream<dynamic> stream) {
     notifyListeners();
@@ -48,14 +47,14 @@ class AppRouter {
   static const String meditation = '/meditation';
   static const String community = '/community';
   static const String chatbot = '/chatbot';
-  static const String forgotPassword = '/forgot-password'; // Nova rota
+  static const String forgotPassword = '/forgot-password';
   static const String landing = '/';
   static const String subscriptionPlans = '/plans';
   static const String simpleRegister = '/simple-register';
   static const String payment = '/payment';
   static const String dashboard = '/dashboard';
   static const String adminDashboard = '/admin';
-  
+
   // Configuração do router
   static final GoRouter router = GoRouter(
     initialLocation: landing,
@@ -64,19 +63,19 @@ class AppRouter {
     redirect: (BuildContext context, GoRouterState state) {
       final supabase = Supabase.instance.client;
       final loggedIn = supabase.auth.currentUser != null;
-      final loggingIn = state.matchedLocation == AppRouter.login || 
-                       state.matchedLocation == AppRouter.register ||
-                       state.matchedLocation == AppRouter.forgotPassword;
-      final isLanding = state.matchedLocation == AppRouter.landing;
+      final loggingIn = state.matchedLocation == login || 
+                       state.matchedLocation == register ||
+                       state.matchedLocation == forgotPassword;
+      final isLanding = state.matchedLocation == landing;
 
       // Permite acesso público à LandingPage
       if (!loggedIn && !loggingIn && !isLanding) {
-        return AppRouter.login;
+        return login;
       }
 
       // Se já está logado e tentando acessar login/register, redireciona para dashboard
       if (loggedIn && loggingIn) {
-        return AppRouter.dashboard;
+        return dashboard;
       }
 
       return null;
@@ -125,12 +124,12 @@ class AppRouter {
       GoRoute(
         path: payment,
         name: 'payment',
-        builder: (context, state) {
-          final plan = state.extra is Map ? (state.extra as Map)['plan'] as String : '';
-          final price = state.extra is Map ? (state.extra as Map)['price'] as String : '';
-          final benefits = state.extra is Map ? (state.extra as Map)['benefits'] as List<String> : <String>[];
-          return PaymentPage(plan: plan, price: price, benefits: benefits);
-        },
+        builder: (context, state) => PaymentPage(
+          plan: SubscriptionPlan.plans.firstWhere(
+            (plan) => plan.name == state.uri.queryParameters['plan'],
+            orElse: () => SubscriptionPlan.plans[0],
+          ),
+        ),
       ),
       GoRoute(
         path: dashboard,
@@ -142,9 +141,7 @@ class AppRouter {
         name: 'adminDashboard',
         builder: (context, state) => const AdminDashboardPage(),
       ),
-      // Outras rotas serão adicionadas conforme o desenvolvimento do aplicativo
     ],
-    // Tratamento de erros de navegação
     errorBuilder: (context, state) => Scaffold(
       body: Center(
         child: Text(

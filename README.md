@@ -1,71 +1,99 @@
 # App Aya
 
-Aplicativo de saúde e bem-estar focado em autoconhecimento, equilíbrio, meditação, espiritualidade e práticas de saúde mental para iniciantes e usuários avançados.
+Plataforma de autoconhecimento, meditação e bem-estar para mulheres, construída com Flutter + Supabase.
 
 ## Visão Geral
+O App Aya oferece:
+- Meditações guiadas, jornadas de autoconhecimento e comunidade
+- Gamificação (desafios, badges, pontos)
+- Sistema de assinatura (planos gratuitos e pagos)
+- Painel de Administração completo para gestão de usuários, conteúdo, comunidade e configurações
 
-O App Aya é uma plataforma multiplataforma (iOS, Android, Web) desenvolvida com Flutter para o frontend e Supabase como principal plataforma de backend. O objetivo é criar uma plataforma motivacional com conteúdo rico, uma comunidade de suporte, elementos gamificados e um chatbot de IA interativo.
+## Tecnologias
+- **Flutter** (Web, Mobile)
+- **Supabase** (Auth, Database, Storage, RLS)
+- **GoRouter** (Navegação)
+- **Supabase Auth** (Email/senha, Google, Apple)
+- **Supabase Storage** (Uploads de mídia)
 
-## Tecnologias Utilizadas
-
-- **Frontend**: Flutter
-- **Backend**: Supabase (Autenticação, Banco de Dados, Storage, Edge Functions, Realtime)
-- **Gerenciamento de Estado**: Flutter Riverpod
-- **Navegação**: Go Router
-- **Integrações Externas**: RevenueCat (assinaturas), n8n (automação de fluxos), OpenAI (modelo de IA)
-
-## Estrutura do Projeto
-
+## Estrutura de Pastas
 ```
-app_aya_v2/
-├── assets/            # Recursos estáticos (imagens, ícones, áudio)
-├── lib/
-│   ├── config/        # Configurações globais (tema, rotas, constantes)
-│   ├── core/          # Funcionalidades centrais (autenticação, API, storage)
-│   ├── features/      # Módulos de funcionalidades do aplicativo
-│   ├── shared/        # Widgets e utilitários compartilhados
-│   └── main.dart      # Ponto de entrada do aplicativo
-└── test/              # Testes automatizados
+lib/
+├── config/                # Temas, rotas, helpers globais
+├── core/                  # Configuração do Supabase, utilitários
+├── features/
+│   ├── admin/             # Painel de Administração (navegação, seções)
+│   │   ├── admin_dashboard_page.dart
+│   │   ├── admin_menu.dart
+│   │   └── sections/
+│   │       ├── admin_dashboard_overview.dart
+│   │       ├── admin_users_section.dart
+│   │       ├── admin_content_section.dart
+│   │       ├── admin_moderation_section.dart
+│   │       ├── admin_gamification_section.dart
+│   │       ├── admin_logs_section.dart
+│   │       └── admin_settings_section.dart
+│   ├── auth/              # Login, registro, AuthService
+│   ├── content/           # Módulos, pastas, aulas, páginas de conteúdo
+│   ├── dashboard/         # Dashboard do usuário
+│   ├── landing/           # Landing page (pública)
+│   ├── subscription/      # Planos, pagamentos
+│   └── ...                # Outras features (comunidade, fórum, etc)
+├── shared/                # Widgets reutilizáveis
+└── main.dart              # Entry point
+
+supabase/
+├── migrations/            # Scripts SQL de schema, RLS, triggers
+└── ...
 ```
 
-## Identidade Visual
+## Fluxo de Autenticação
+- Cadastro/login via email/senha, Google ou Apple
+- Supabase Auth + tabela `profiles` (com coluna `role`)
+- RLS protege todos os dados sensíveis
+- Redirecionamento automático para dashboard ou painel admin conforme role
 
-### Paleta de Cores
+## Painel de Administração
+- Acesso restrito a usuários com `role = 'admin'`
+- Navegação lateral com seções:
+  - Dashboard (KPIs, ações rápidas)
+  - Usuários (CRUD, alteração de role)
+  - Conteúdo (CRUD de módulos, pastas, aulas)
+  - Moderação (comentários, posts)
+  - Gamificação (desafios, badges)
+  - Logs de auditoria
+  - Configurações globais
 
-- **Fundo**: #2A2939FF (com degradês para #474C72FF)
-- **Texto**: #F8F8FF (Ghost White)
-- **Menu/Cabeçalhos**: #474C72FF
-- **Secundário**: #575C84FF
-- **Botões Primários**: #ACA1EFFF (degradê para #73BDDAFF)
-- **Links/Botões Secundários**: #73BDDAFF
-- **Indicadores**: #78C7B4FF
-- **Cards**: #8DB1D1FF (degradê para #78C7B4FF)
+## Setup Local
+1. **Clone o repositório:**
+   ```bash
+   git clone <repo-url>
+   cd app-aya-v2
+   ```
+2. **Configure o Supabase:**
+   - Crie um projeto no [Supabase](https://supabase.com/)
+   - Copie as chaves para `lib/core/supabase_config.dart`
+   - Execute os scripts SQL em `supabase/migrations/` para criar o schema e RLS
+3. **Instale as dependências:**
+   ```bash
+   flutter pub get
+   ```
+4. **Rode o app:**
+   ```bash
+   flutter run -d chrome
+   # ou para mobile: flutter run
+   ```
 
-### Estética
+## Comandos Úteis
+- `flutter analyze` — análise estática de código
+- `flutter run` — rodar o app
+- `flutter test` — rodar testes (se houver)
 
-Feminina, curvas suaves, cantos arredondados (8px), ícones delicados, ilustrações empoderadoras.
+## Observações
+- Para definir o primeiro admin, altere manualmente a coluna `role` na tabela `profiles` para 'admin' via Supabase SQL.
+- O painel admin pode ser expandido para web dedicada no futuro.
+- Assets de imagens devem ser adicionados em `assets/images/` e referenciados no `pubspec.yaml`.
 
-## Configuração do Projeto
+---
 
-### Pré-requisitos
-
-- Flutter SDK (versão mais recente)
-- Dart SDK
-- Conta no Supabase
-
-### Instalação
-
-1. Clone o repositório
-2. Execute `flutter pub get` para instalar as dependências
-3. Configure as variáveis de ambiente do Supabase no arquivo `main.dart`
-4. Execute `flutter run` para iniciar o aplicativo
-
-## Funcionalidades Planejadas
-
-- Autenticação de usuários
-- Conteúdo de saúde e bem-estar
-- Sistema de gamificação
-- Comunidade de suporte
-- Chatbot de IA interativo
-- Meditações guiadas com áudio
-- Sistema de assinaturas premium
+**App Aya** — Transformando vidas com autoconhecimento e bem-estar.
