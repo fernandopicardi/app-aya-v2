@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:app_aya_v2/config/theme.dart';
 
 class AppState {
   static final AppState _instance = AppState._internal();
@@ -140,4 +139,4 @@ class User {
       avatar: avatar ?? this.avatar,
     );
   }
-} 
+}

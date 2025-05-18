@@ -21,7 +21,10 @@ class StoragePathService {
   // Método para obter URL assinada para conteúdo de aula
   Future<String> getSignedUrlForLessonContent({
     required String lessonId,
+    required String moduleId,
     required String fileType,
+    String? folderId,
+    String? subfolderId,
     String? fileName,
     int expirySeconds = 300,
   }) async {
@@ -31,12 +34,15 @@ class StoragePathService {
       folderId: folderId,
       subfolderId: subfolderId,
       fileType: fileType,
-      fileName: fileName,
     );
+
+    final finalPath = fileName != null
+        ? '$path/$fileName'
+        : '$path/${_getDefaultFileName(fileType)}';
 
     return await _supabase.storage
         .from(bucketContent)
-        .createSignedUrl(path, expirySeconds);
+        .createSignedUrl(finalPath, expirySeconds);
   }
 
   // Método para obter URL assinada para thumbnail de aula
@@ -89,7 +95,8 @@ class StoragePathService {
     required String subfolderId,
     int expirySeconds = 300,
   }) async {
-    final path = 'modules/$moduleId/folders/$folderId/subfolders/$subfolderId/cover.jpg';
+    final path =
+        'modules/$moduleId/folders/$folderId/subfolders/$subfolderId/cover.jpg';
     return await _supabase.storage
         .from(bucketContent)
         .createSignedUrl(path, expirySeconds);
@@ -124,25 +131,21 @@ class StoragePathService {
     String? folderId,
     String? subfolderId,
     required String fileType,
-    String? fileName,
   }) {
-    final buffer = StringBuffer('modules/$moduleId/');
+    final parts = <String>[
+      'modules',
+      moduleId,
+      if (folderId != null) 'folders',
+      if (folderId != null) folderId,
+      if (subfolderId != null) 'subfolders',
+      if (subfolderId != null) subfolderId,
+      'lessons',
+      lessonId,
+      'content',
+      fileType,
+    ];
 
-    if (folderId != null) {
-      buffer.write('folders/$folderId/');
-      
-      if (subfolderId != null) {
-        buffer.write('subfolders/$subfolderId/');
-      }
-    }
-
-    buffer.write('lessons/$lessonId/');
-
-    // Define o nome do arquivo baseado no tipo
-    final defaultFileName = _getDefaultFileName(fileType);
-    buffer.write(fileName ?? defaultFileName);
-
-    return buffer.toString();
+    return parts.join('/');
   }
 
   // Método para construir caminho do thumbnail da aula
@@ -156,7 +159,7 @@ class StoragePathService {
 
     if (folderId != null) {
       buffer.write('folders/$folderId/');
-      
+
       if (subfolderId != null) {
         buffer.write('subfolders/$subfolderId/');
       }
@@ -181,4 +184,4 @@ class StoragePathService {
         return 'content.dat';
     }
   }
-} 
+}

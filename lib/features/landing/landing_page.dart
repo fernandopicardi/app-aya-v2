@@ -1,562 +1,525 @@
 import 'package:flutter/material.dart';
-import 'package:app_aya_v2/config/theme.dart';
-import 'package:go_router/go_router.dart';
-import 'package:app_aya_v2/config/routes.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final isWide = MediaQuery.of(context).size.width > 900;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          gradient: AppTheme.backgroundGradient,
-        ),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                _buildHeader(context),
-                _buildHeroSection(context),
-                _buildFeaturesSection(),
-                _buildTestimonialsSection(),
-                _buildPricingSection(context),
-                _buildFooter(context),
-              ],
-            ),
+          gradient: LinearGradient(
+            colors: [Color(0xFF2B2352), Color(0xFF3B3B98)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildHeader(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.spa, color: AppTheme.primary, size: 28),
-              const SizedBox(width: 8),
-              Text(
-                'App Aya',
-                style: TextStyle(
-                  color: AppTheme.textPrimary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  letterSpacing: 1.2,
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              TextButton(
-                onPressed: () {
-                  final router = GoRouter.of(context);
-                  router.go(AppRouter.login);
-                },
-                child: Text(
-                  'Entrar',
-                  style: TextStyle(
-                    color: AppTheme.textPrimary,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                onPressed: () {
-                  final router = GoRouter.of(context);
-                  router.go(AppRouter.simpleRegister);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.primary,
-                  foregroundColor: AppTheme.textPrimary,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: const Text('Começar Agora'),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHeroSection(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 48),
-      child: Column(
-        children: [
-          Text(
-            'Descubra o poder da\nmeditação guiada',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: AppTheme.textPrimary,
-              fontSize: 48,
-              fontWeight: FontWeight.bold,
-              height: 1.2,
-            ),
-          ),
-          const SizedBox(height: 24),
-          Text(
-            'Aprenda técnicas de meditação e mindfulness\npara uma vida mais equilibrada e consciente',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: AppTheme.textPrimary.withAlpha(204),
-              fontSize: 18,
-              height: 1.5,
-            ),
-          ),
-          const SizedBox(height: 48),
-          ElevatedButton(
-            onPressed: () {
-              final router = GoRouter.of(context);
-              router.go(AppRouter.simpleRegister);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.primary,
-              foregroundColor: AppTheme.textPrimary,
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            child: const Text('Comece Gratuitamente'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFeaturesSection() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 48),
-      child: Column(
-        children: [
-          Text(
-            'Recursos',
-            style: TextStyle(
-              color: AppTheme.textPrimary,
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 48),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildFeatureCard(
-                icon: Icons.self_improvement,
-                title: 'Meditações Guiadas',
-                description: 'Aprenda técnicas de meditação com guias experientes',
-              ),
-              _buildFeatureCard(
-                icon: Icons.psychology,
-                title: 'Agente IA Aya',
-                description: 'Converse com seu assistente pessoal de mindfulness',
-              ),
-              _buildFeatureCard(
-                icon: Icons.people,
-                title: 'Comunidade',
-                description: 'Conecte-se com outros praticantes',
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFeatureCard({
-    required IconData icon,
-    required String title,
-    required String description,
-  }) {
-    return Container(
-      width: 300,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: AppTheme.secondary,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        children: [
-          Icon(icon, color: AppTheme.primary, size: 48),
-          const SizedBox(height: 16),
-          Text(
-            title,
-            style: const TextStyle(
-              color: AppTheme.textPrimary,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            description,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: AppTheme.textPrimary.withAlpha(204),
-              fontSize: 16,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTestimonialsSection() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 48),
-      child: Column(
-        children: [
-          Text(
-            'O que nossos usuários dizem',
-            style: TextStyle(
-              color: AppTheme.textPrimary,
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 48),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildTestimonialCard(
-                name: 'Maria Silva',
-                role: 'Professora',
-                text: 'O App Aya transformou minha prática de meditação. As sessões guiadas são incríveis!',
-                avatar: 'assets/images/user1.jpg',
-              ),
-              _buildTestimonialCard(
-                name: 'João Santos',
-                role: 'Empresário',
-                text: 'A IA Aya é um diferencial incrível. Ela me ajuda a manter a consistência na prática.',
-                avatar: 'assets/images/user2.jpg',
-              ),
-              _buildTestimonialCard(
-                name: 'Ana Costa',
-                role: 'Estudante',
-                text: 'A comunidade é muito acolhedora. Aprendo muito com as experiências dos outros.',
-                avatar: 'assets/images/user3.jpg',
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTestimonialCard({
-    required String name,
-    required String role,
-    required String text,
-    required String avatar,
-  }) {
-    return Container(
-      width: 300,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: AppTheme.secondary,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        children: [
-          CircleAvatar(
-            radius: 40,
-            backgroundImage: AssetImage(avatar),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            text,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: AppTheme.textPrimary.withAlpha(204),
-              fontSize: 16,
-              fontStyle: FontStyle.italic,
-            ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            name,
-            style: const TextStyle(
-              color: AppTheme.textPrimary,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            role,
-            style: TextStyle(
-              color: AppTheme.textPrimary.withAlpha(153),
-              fontSize: 14,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPricingSection(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 48),
-      child: Column(
-        children: [
-          Text(
-            'Planos',
-            style: TextStyle(
-              color: AppTheme.textPrimary,
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 48),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildPricingCard(
-                title: 'Gratuito',
-                price: 'R\$ 0',
-                period: 'para sempre',
-                features: [
-                  'Acesso a meditações básicas',
-                  'Comunidade',
-                  'Agente IA Aya básico',
-                ],
-                isPopular: false,
-                onPressed: () {
-                  final router = GoRouter.of(context);
-                  router.go(AppRouter.simpleRegister);
-                },
-              ),
-              _buildPricingCard(
-                title: 'Premium',
-                price: 'R\$ 19,90',
-                period: 'por mês',
-                features: [
-                  'Todas as meditações',
-                  'Comunidade premium',
-                  'Agente IA Aya avançado',
-                  'Conteúdo exclusivo',
-                  'Suporte prioritário',
-                ],
-                isPopular: true,
-                onPressed: () {
-                  final router = GoRouter.of(context);
-                  router.go(AppRouter.subscriptionPlans);
-                },
-              ),
-              _buildPricingCard(
-                title: 'Anual',
-                price: 'R\$ 199,90',
-                period: 'por ano',
-                features: [
-                  'Todas as meditações',
-                  'Comunidade premium',
-                  'Agente IA Aya avançado',
-                  'Conteúdo exclusivo',
-                  'Suporte prioritário',
-                  '2 meses grátis',
-                ],
-                isPopular: false,
-                onPressed: () {
-                  final router = GoRouter.of(context);
-                  router.go(AppRouter.subscriptionPlans);
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPricingCard({
-    required String title,
-    required String price,
-    required String period,
-    required List<String> features,
-    required bool isPopular,
-    required VoidCallback onPressed,
-  }) {
-    return Container(
-      width: 300,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: AppTheme.secondary,
-        borderRadius: BorderRadius.circular(16),
-        border: isPopular
-            ? Border.all(color: AppTheme.primary, width: 2)
-            : null,
-      ),
-      child: Column(
-        children: [
-          if (isPopular)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: AppTheme.primary,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Text(
-                'Mais Popular',
-                style: TextStyle(
-                  color: AppTheme.textPrimary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          if (isPopular) const SizedBox(height: 16),
-          Text(
-            title,
-            style: const TextStyle(
-              color: AppTheme.textPrimary,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            price,
-            style: const TextStyle(
-              color: AppTheme.textPrimary,
-              fontSize: 36,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            period,
-            style: TextStyle(
-              color: AppTheme.textPrimary.withAlpha(153),
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 24),
-          ...features.map((feature) => Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Row(
-                  children: [
-                    Icon(Icons.check_circle, color: AppTheme.primary, size: 20),
-                    const SizedBox(width: 8),
-                    Text(
-                      feature,
-                      style: const TextStyle(
-                        color: AppTheme.textPrimary,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-              )),
-          const SizedBox(height: 24),
-          ElevatedButton(
-            onPressed: onPressed,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: isPopular ? AppTheme.primary : AppTheme.secondary,
-              foregroundColor: AppTheme.textPrimary,
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-              textStyle: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-                side: BorderSide(
-                  color: isPopular ? AppTheme.primary : AppTheme.textPrimary.withAlpha(77),
-                ),
-              ),
-            ),
-            child: Text(isPopular ? 'Começar Agora' : 'Escolher Plano'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFooter(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 48),
-      color: AppTheme.secondary,
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 1200),
+            child: isWide
+                ? Row(
                     children: [
-                      Icon(Icons.spa, color: AppTheme.primary, size: 28),
-                      const SizedBox(width: 8),
-                      Text(
-                        'App Aya',
-                        style: TextStyle(
-                          color: AppTheme.textPrimary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          letterSpacing: 1.2,
+                      // Esquerda: Vídeo e mensagem
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(32),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Sua Jornada Começa Agora.',
+                                style: TextStyle(
+                                  fontFamily: 'Serif',
+                                  fontSize: 38,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 32),
+                              AspectRatio(
+                                aspectRatio: 16 / 9,
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(16),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withAlpha(51),
+                                            blurRadius: 12,
+                                          ),
+                                        ],
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(16),
+                                        child: Image.asset(
+                                          'assets/placeholder_video.jpg',
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    // Ícone de play (placeholder para vídeo)
+                                    Center(
+                                      child: Icon(Icons.play_circle_fill,
+                                          color: Colors.white.withAlpha(20),
+                                          size: 64),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 24),
+                              const Text(
+                                'Transforme sua rotina com meditações, jornadas de autoconhecimento e uma comunidade acolhedora.',
+                                style: TextStyle(
+                                  fontFamily: 'Sans',
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      // Direita: Login e ações
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 48, horizontal: 32),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withAlpha(230),
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Image.asset('assets/logo.png', height: 64),
+                              const SizedBox(height: 32),
+                              const Text(
+                                'Acesse sua Conta',
+                                style: TextStyle(
+                                  fontFamily: 'Serif',
+                                  fontSize: 28,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 32),
+                              // Login form simplificado
+                              TextField(
+                                decoration: InputDecoration(
+                                  hintText: 'Email',
+                                  filled: true,
+                                  fillColor: Colors.white.withAlpha(230),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              TextField(
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  hintText: 'Senha',
+                                  filled: true,
+                                  fillColor: Colors.white.withAlpha(230),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/forgot');
+                                  },
+                                  child: const Text('Esqueceu sua senha?',
+                                      style:
+                                          TextStyle(color: Color(0xFF78C7B4))),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/login');
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF7B5CF6),
+                                  foregroundColor: Colors.white,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
+                                  textStyle: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12)),
+                                ),
+                                child: const Text('Entrar'),
+                              ),
+                              const SizedBox(height: 16),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: OutlinedButton.icon(
+                                      onPressed: () {},
+                                      icon: const Icon(Icons.g_mobiledata,
+                                          color: Color(0xFF78C7B4)),
+                                      label: const Text('Entrar com Google',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                      style: OutlinedButton.styleFrom(
+                                        side: const BorderSide(
+                                            color: Color(0xFF78C7B4)),
+                                        foregroundColor: Colors.white,
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 14),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12)),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: OutlinedButton.icon(
+                                      onPressed: () {},
+                                      icon: const Icon(Icons.apple,
+                                          color: Colors.white),
+                                      label: const Text('Apple',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                      style: OutlinedButton.styleFrom(
+                                        side: const BorderSide(
+                                            color: Colors.white),
+                                        foregroundColor: Colors.white,
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 14),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12)),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 24),
+                              Divider(
+                                  color: Colors.black.withAlpha(51),
+                                  thickness: 1),
+                              const SizedBox(height: 16),
+                              const Text(
+                                'Novo por aqui?',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 8),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/plans');
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF78C7B4),
+                                  foregroundColor: Colors.white,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
+                                  textStyle: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12)),
+                                ),
+                                child: const Text('Ver Planos e Assinar'),
+                              ),
+                              const SizedBox(height: 8),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/signup');
+                                },
+                                child: const Text('Criar Conta Gratuita',
+                                    style: TextStyle(color: Colors.white)),
+                              ),
+                              const SizedBox(height: 32),
+                              Divider(
+                                  color: Colors.black.withAlpha(51),
+                                  thickness: 1),
+                              const SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: const Text('Termos de Uso',
+                                        style:
+                                            TextStyle(color: Colors.white70)),
+                                  ),
+                                  const Text(' | ',
+                                      style: TextStyle(color: Colors.white38)),
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: const Text('Política de Privacidade',
+                                        style:
+                                            TextStyle(color: Colors.white70)),
+                                  ),
+                                  const Text(' | ',
+                                      style: TextStyle(color: Colors.white38)),
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: const Text('Ajuda/FAQ',
+                                        style:
+                                            TextStyle(color: Colors.white70)),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              const Text('© 2024 Caminho Aya',
+                                  style: TextStyle(
+                                      color: Colors.white38, fontSize: 13),
+                                  textAlign: TextAlign.center),
+                            ],
+                          ),
                         ),
                       ),
                     ],
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Transforme sua vida através\nda meditação e mindfulness',
-                    style: TextStyle(
-                      color: AppTheme.textPrimary.withAlpha(204),
-                      fontSize: 16,
+                  )
+                : SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const SizedBox(height: 32),
+                          Image.asset('assets/logo.png', height: 64),
+                          const SizedBox(height: 32),
+                          const Text(
+                            'Sua Jornada Começa Agora.',
+                            style: TextStyle(
+                              fontFamily: 'Serif',
+                              fontSize: 28,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 24),
+                          AspectRatio(
+                            aspectRatio: 16 / 9,
+                            child: Stack(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withAlpha(51),
+                                        blurRadius: 12,
+                                      ),
+                                    ],
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: Image.asset(
+                                      'assets/placeholder_video.jpg',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                Center(
+                                  child: Icon(Icons.play_circle_fill,
+                                      color: Colors.white.withAlpha(20),
+                                      size: 64),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          const Text(
+                            'Transforme sua rotina com meditações, jornadas de autoconhecimento e uma comunidade acolhedora.',
+                            style: TextStyle(
+                              fontFamily: 'Sans',
+                              fontSize: 18,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 32),
+                          // Login form simplificado
+                          TextField(
+                            decoration: InputDecoration(
+                              hintText: 'Email',
+                              filled: true,
+                              fillColor: Colors.white.withAlpha(230),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          TextField(
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              hintText: 'Senha',
+                              filled: true,
+                              fillColor: Colors.white.withAlpha(230),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/forgot');
+                              },
+                              child: const Text('Esqueceu sua senha?',
+                                  style: TextStyle(color: Color(0xFF78C7B4))),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/login');
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF7B5CF6),
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              textStyle: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
+                            ),
+                            child: const Text('Entrar'),
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: OutlinedButton.icon(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.g_mobiledata,
+                                      color: Color(0xFF78C7B4)),
+                                  label: const Text('Entrar com Google',
+                                      style: TextStyle(color: Colors.white)),
+                                  style: OutlinedButton.styleFrom(
+                                    side: const BorderSide(
+                                        color: Color(0xFF78C7B4)),
+                                    foregroundColor: Colors.white,
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 14),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: OutlinedButton.icon(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.apple,
+                                      color: Colors.white),
+                                  label: const Text('Apple',
+                                      style: TextStyle(color: Colors.white)),
+                                  style: OutlinedButton.styleFrom(
+                                    side: const BorderSide(color: Colors.white),
+                                    foregroundColor: Colors.white,
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 14),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 24),
+                          Divider(
+                              color: Colors.black.withAlpha(51), thickness: 1),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'Novo por aqui?',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 8),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/plans');
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF78C7B4),
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              textStyle: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
+                            ),
+                            child: const Text('Ver Planos e Assinar'),
+                          ),
+                          const SizedBox(height: 8),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/signup');
+                            },
+                            child: const Text('Criar Conta Gratuita',
+                                style: TextStyle(color: Colors.white)),
+                          ),
+                          const SizedBox(height: 32),
+                          Divider(
+                              color: Colors.black.withAlpha(51), thickness: 1),
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextButton(
+                                onPressed: () {},
+                                child: const Text('Termos de Uso',
+                                    style: TextStyle(color: Colors.white70)),
+                              ),
+                              const Text(' | ',
+                                  style: TextStyle(color: Colors.white38)),
+                              TextButton(
+                                onPressed: () {},
+                                child: const Text('Política de Privacidade',
+                                    style: TextStyle(color: Colors.white70)),
+                              ),
+                              const Text(' | ',
+                                  style: TextStyle(color: Colors.white38)),
+                              TextButton(
+                                onPressed: () {},
+                                child: const Text('Ajuda/FAQ',
+                                    style: TextStyle(color: Colors.white70)),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          const Text('© 2024 Caminho Aya',
+                              style: TextStyle(
+                                  color: Colors.white38, fontSize: 13),
+                              textAlign: TextAlign.center),
+                        ],
+                      ),
                     ),
                   ),
-                ],
-              ),
-              Row(
-                children: [
-                  _buildFooterLink('Sobre'),
-                  _buildFooterLink('Recursos'),
-                  _buildFooterLink('Planos'),
-                  _buildFooterLink('Contato'),
-                ],
-              ),
-            ],
           ),
-          const SizedBox(height: 48),
-          const Divider(color: AppTheme.textPrimary),
-          const SizedBox(height: 24),
-          Text(
-            '© 2024 App Aya. Todos os direitos reservados.',
-            style: TextStyle(
-              color: AppTheme.textPrimary.withAlpha(153),
-              fontSize: 14,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFooterLink(String label) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: AppTheme.textPrimary.withAlpha(204),
-          fontSize: 16,
         ),
       ),
     );
   }
-} 
+}

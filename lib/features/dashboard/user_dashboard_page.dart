@@ -17,27 +17,47 @@ class _UserDashboardPageState extends State<UserDashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isWeb = kIsWeb || MediaQuery.of(context).size.width > 900;
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: AppTheme.backgroundGradient,
-        ),
-        child: SafeArea(
-          child: SingleChildScrollView(
+      body: Row(
+        children: [
+          if (isWeb) _WebSidebar(selectedIndex: 0, onTap: (i) {}),
+          Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildHeader(context),
-                _buildWelcomeSection(),
-                _buildRecommendedSection(context),
-                _buildCategoriesSection(context),
-                _buildFavoritesSection(context),
-                _buildCommunitySection(context),
-                _buildIASection(context),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _SectionTitle('Exemplo de SectionTitle'),
+                        const SizedBox(height: 16),
+                        _HorizontalCardList(
+                            itemCount: 3, cardType: CardType.recommended),
+                        const SizedBox(height: 16),
+                        _ContinueJourneyList(loading: true),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => const _VideoPlayerModal(
+                                  title: 'Exemplo de Vídeo'),
+                            );
+                          },
+                          child: const Text('Abrir Modal de Vídeo'),
+                        ),
+                        const SizedBox(height: 16),
+                        // ... outros widgets do dashboard ...
+                      ],
+                    ),
+                  ),
+                ),
+                if (!isWeb) _AyaBottomNavBar(selectedIndex: 0, onTap: (i) {}),
               ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -63,220 +83,7 @@ class _UserDashboardPageState extends State<UserDashboardPage> {
     }
   }
 
-  Widget _buildHeader(BuildContext context) {
-    return AppBar(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      leading: Padding(
-        padding: const EdgeInsets.only(left: 16),
-        child: Row(
-          children: [
-            Icon(Icons.spa, color: AppTheme.primary, size: 28),
-            const SizedBox(width: 8),
-            Text(
-              'App Aya',
-              style: TextStyle(
-                color: AppTheme.textPrimary,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                letterSpacing: 1.2,
-              ),
-            ),
-          ],
-        ),
-      ),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.notifications_none, color: AppTheme.primary),
-          onPressed: () {},
-        ),
-      ],
-    );
-  }
-
-  Widget _buildWelcomeSection() {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Bem-vindo(a)!',
-            style: TextStyle(
-              color: AppTheme.textPrimary,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Continue sua jornada de autoconhecimento',
-            style: TextStyle(
-              color: AppTheme.textPrimary.withAlpha(204),
-              fontSize: 16,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildRecommendedSection(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            'Recomendado para você',
-            style: TextStyle(
-              color: AppTheme.textPrimary,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        SizedBox(
-          height: 200,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              return _buildCard(context, CardType.recommended);
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCategoriesSection(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            'Explore por Categorias',
-            style: TextStyle(
-              color: AppTheme.textPrimary,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        SizedBox(
-          height: 200,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              return _buildCard(context, CardType.category);
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFavoritesSection(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            'Seus Favoritos',
-            style: TextStyle(
-              color: AppTheme.textPrimary,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        SizedBox(
-          height: 200,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              return _buildCard(context, CardType.favorite);
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCommunitySection(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            'Comunidade em Destaque',
-            style: TextStyle(
-              color: AppTheme.textPrimary,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        SizedBox(
-          height: 200,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: 2,
-            itemBuilder: (context, index) {
-              return _buildCard(context, CardType.community);
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildIASection(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            'Seu Agente IA Aya',
-            style: TextStyle(
-              color: AppTheme.textPrimary,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        SizedBox(
-          height: 200,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: 1,
-            itemBuilder: (context, index) {
-              return _buildCard(context, CardType.ia);
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCard(BuildContext context, CardType type) {
+  Widget buildCard(BuildContext context, CardType type) {
     return GestureDetector(
       onTap: () => _handleCardTap(context, type),
       child: Container(
@@ -406,17 +213,24 @@ class _WebSidebar extends StatelessWidget {
           ...List.generate(items.length, (i) {
             final item = items[i];
             return ListTile(
-              leading: Icon(item['icon'] as IconData, color: i == selectedIndex ? AppTheme.primary : AppTheme.textPrimary.withAlpha(179)),
+              leading: Icon(item['icon'] as IconData,
+                  color: i == selectedIndex
+                      ? AppTheme.primary
+                      : AppTheme.textPrimary.withAlpha(179)),
               title: Text(
                 item['label'] as String,
                 style: TextStyle(
-                  color: i == selectedIndex ? AppTheme.primary : AppTheme.textPrimary.withAlpha(204),
-                  fontWeight: i == selectedIndex ? FontWeight.bold : FontWeight.normal,
+                  color: i == selectedIndex
+                      ? AppTheme.primary
+                      : AppTheme.textPrimary.withAlpha(204),
+                  fontWeight:
+                      i == selectedIndex ? FontWeight.bold : FontWeight.normal,
                 ),
               ),
               selected: i == selectedIndex,
               onTap: () => onTap(i),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
               selectedTileColor: AppTheme.primary.withAlpha(20),
               hoverColor: AppTheme.primary.withAlpha(31),
             );
@@ -477,21 +291,24 @@ class _HeroCarouselState extends State<_HeroCarousel> {
     _HeroSlideData(
       image: 'assets/images/hero_module.jpg',
       title: 'Novo Módulo: Jornada da Gratidão',
-      description: 'Descubra práticas diárias para cultivar gratidão e bem-estar. Comece agora sua transformação!',
+      description:
+          'Descubra práticas diárias para cultivar gratidão e bem-estar. Comece agora sua transformação!',
       cta: 'Quero saber mais',
       onTap: () {},
     ),
     _HeroSlideData(
       image: 'assets/images/hero_event.jpg',
       title: 'Evento Especial: Meditação ao Vivo',
-      description: 'Participe do nosso evento exclusivo e medite com a comunidade Aya.',
+      description:
+          'Participe do nosso evento exclusivo e medite com a comunidade Aya.',
       cta: 'Inscreva-se',
       onTap: () {},
     ),
     _HeroSlideData(
       image: 'assets/images/hero_challenge.jpg',
       title: 'Desafio da Comunidade',
-      description: 'Junte-se ao desafio semanal e compartilhe seu progresso com outras mulheres.',
+      description:
+          'Junte-se ao desafio semanal e compartilhe seu progresso com outras mulheres.',
       cta: 'Participar do Desafio',
       onTap: () {},
     ),
@@ -506,7 +323,8 @@ class _HeroCarouselState extends State<_HeroCarousel> {
   }
 
   void _goTo(int index) {
-    _controller.animateToPage(index, duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
+    _controller.animateToPage(index,
+        duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
   }
 
   @override
@@ -521,7 +339,9 @@ class _HeroCarouselState extends State<_HeroCarousel> {
               baseColor: AppTheme.secondary.withAlpha(77),
               highlightColor: AppTheme.primary.withAlpha(38),
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: isMobile ? 12 : 64, vertical: isMobile ? 16 : 32),
+                margin: EdgeInsets.symmetric(
+                    horizontal: isMobile ? 12 : 64,
+                    vertical: isMobile ? 16 : 32),
                 decoration: BoxDecoration(
                   color: AppTheme.secondary,
                   borderRadius: BorderRadius.circular(28),
@@ -536,15 +356,17 @@ class _HeroCarouselState extends State<_HeroCarousel> {
               highlightColor: AppTheme.primary.withAlpha(38),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(3, (i) => Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 6),
-                  width: 22,
-                  height: 10,
-                  decoration: BoxDecoration(
-                    color: AppTheme.secondary,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                )),
+                children: List.generate(
+                    3,
+                    (i) => Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 6),
+                          width: 22,
+                          height: 10,
+                          decoration: BoxDecoration(
+                            color: AppTheme.secondary,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        )),
               ),
             ),
           ),
@@ -579,7 +401,9 @@ class _HeroCarouselState extends State<_HeroCarousel> {
                 itemBuilder: (context, i) {
                   final slide = slides[i];
                   return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: isMobile ? 12 : 64, vertical: isMobile ? 16 : 32),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: isMobile ? 12 : 64,
+                        vertical: isMobile ? 16 : 32),
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(28),
@@ -608,10 +432,14 @@ class _HeroCarouselState extends State<_HeroCarousel> {
                           ),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: isMobile ? 20 : 48, vertical: isMobile ? 28 : 48),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: isMobile ? 20 : 48,
+                              vertical: isMobile ? 28 : 48),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+                            crossAxisAlignment: isMobile
+                                ? CrossAxisAlignment.center
+                                : CrossAxisAlignment.start,
                             children: [
                               Text(
                                 slide.title,
@@ -621,7 +449,9 @@ class _HeroCarouselState extends State<_HeroCarousel> {
                                   fontSize: isMobile ? 22 : 30,
                                   letterSpacing: 1.1,
                                 ),
-                                textAlign: isMobile ? TextAlign.center : TextAlign.left,
+                                textAlign: isMobile
+                                    ? TextAlign.center
+                                    : TextAlign.left,
                               ),
                               const SizedBox(height: 16),
                               Text(
@@ -630,7 +460,9 @@ class _HeroCarouselState extends State<_HeroCarousel> {
                                   color: const Color(0xFFF8F8FF),
                                   fontSize: isMobile ? 15 : 18,
                                 ),
-                                textAlign: isMobile ? TextAlign.center : TextAlign.left,
+                                textAlign: isMobile
+                                    ? TextAlign.center
+                                    : TextAlign.left,
                               ),
                               const SizedBox(height: 28),
                               ElevatedButton(
@@ -639,7 +471,8 @@ class _HeroCarouselState extends State<_HeroCarousel> {
                                   backgroundColor: const Color(0xFFACA1EF),
                                   foregroundColor: const Color(0xFFF8F8FF),
                                   elevation: 0,
-                                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 32, vertical: 16),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(16),
                                   ),
@@ -668,8 +501,10 @@ class _HeroCarouselState extends State<_HeroCarousel> {
                   top: 0,
                   bottom: 0,
                   child: IconButton(
-                    icon: Icon(Icons.arrow_back_ios, color: Colors.white.withAlpha(200)),
-                    onPressed: () => _goTo((_current - 1 + slides.length) % slides.length),
+                    icon: Icon(Icons.arrow_back_ios,
+                        color: Colors.white.withAlpha(200)),
+                    onPressed: () =>
+                        _goTo((_current - 1 + slides.length) % slides.length),
                   ),
                 ),
                 Positioned(
@@ -677,7 +512,8 @@ class _HeroCarouselState extends State<_HeroCarousel> {
                   top: 0,
                   bottom: 0,
                   child: IconButton(
-                    icon: Icon(Icons.arrow_forward_ios, color: Colors.white.withAlpha(200)),
+                    icon: Icon(Icons.arrow_forward_ios,
+                        color: Colors.white.withAlpha(200)),
                     onPressed: () => _goTo((_current + 1) % slides.length),
                   ),
                 ),
@@ -698,7 +534,9 @@ class _HeroCarouselState extends State<_HeroCarousel> {
                 width: _current == i ? 22 : 10,
                 height: 10,
                 decoration: BoxDecoration(
-                  color: _current == i ? const Color(0xFFACA1EF) : const Color(0xFFF8F8FF).withAlpha(120),
+                  color: _current == i
+                      ? const Color(0xFFACA1EF)
+                      : const Color(0xFFF8F8FF).withAlpha(120),
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
@@ -717,8 +555,10 @@ class _HeroCarouselState extends State<_HeroCarousel> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFF474C72),
                 foregroundColor: Color(0xFFF8F8FF),
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-                textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+                textStyle:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
                 ),
@@ -738,7 +578,12 @@ class _HeroSlideData {
   final String description;
   final String cta;
   final VoidCallback onTap;
-  const _HeroSlideData({required this.image, required this.title, required this.description, required this.cta, required this.onTap});
+  const _HeroSlideData(
+      {required this.image,
+      required this.title,
+      required this.description,
+      required this.cta,
+      required this.onTap});
 }
 
 class _SectionTitle extends StatelessWidget {
@@ -769,31 +614,6 @@ class _HorizontalCardList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Simula carregamento
-    final isLoading = false; // Troque para true para ver o shimmer
-    if (isLoading) {
-      return SizedBox(
-        height: 200,
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          itemCount: itemCount,
-          separatorBuilder: (_, __) => const SizedBox(width: 16),
-          itemBuilder: (context, i) => Shimmer.fromColors(
-            baseColor: AppTheme.secondary.withAlpha(77),
-            highlightColor: AppTheme.primary.withAlpha(38),
-            child: Container(
-              width: 140,
-              height: 200,
-              decoration: BoxDecoration(
-                color: AppTheme.secondary,
-                borderRadius: BorderRadius.circular(16),
-              ),
-            ),
-          ),
-        ),
-      );
-    }
     return SizedBox(
       height: 200,
       child: ListView.separated(
@@ -801,7 +621,8 @@ class _HorizontalCardList extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: itemCount,
         separatorBuilder: (_, __) => const SizedBox(width: 16),
-        itemBuilder: (context, index) => _DashboardCard(cardType: cardType, index: index),
+        itemBuilder: (context, index) =>
+            _DashboardCard(cardType: cardType, index: index),
       ),
     );
   }
@@ -920,7 +741,9 @@ class _DashboardCard extends StatelessWidget {
                         children: [
                           Icon(Icons.lock, color: AppTheme.primary, size: 16),
                           const SizedBox(width: 4),
-                          Text('Premium', style: TextStyle(color: AppTheme.primary, fontSize: 12)),
+                          Text('Premium',
+                              style: TextStyle(
+                                  color: AppTheme.primary, fontSize: 12)),
                         ],
                       ),
                     ),
@@ -1051,7 +874,9 @@ class _ContinueJourneyList extends StatelessWidget {
                           Row(
                             children: [
                               Icon(
-                                item['type'] == 'Áudio' ? Icons.headphones : Icons.play_circle_outline,
+                                item['type'] == 'Áudio'
+                                    ? Icons.headphones
+                                    : Icons.play_circle_outline,
                                 color: const Color(0xFFF8F8FF),
                                 size: 16,
                               ),
@@ -1072,7 +897,8 @@ class _ContinueJourneyList extends StatelessWidget {
                             child: LinearProgressIndicator(
                               value: item['progress'] as double,
                               backgroundColor: Colors.white.withAlpha(40),
-                              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFACA1EF)),
+                              valueColor: const AlwaysStoppedAnimation<Color>(
+                                  Color(0xFFACA1EF)),
                               minHeight: 4,
                             ),
                           ),
@@ -1102,12 +928,14 @@ class _FeaturedModulesListState extends State<_FeaturedModulesList> {
     {
       'image': 'assets/images/module_awakening.jpg',
       'title': 'Módulo: Despertar da Consciência',
-      'desc': 'Inicie sua jornada de autoconhecimento com práticas e reflexões profundas.',
+      'desc':
+          'Inicie sua jornada de autoconhecimento com práticas e reflexões profundas.',
     },
     {
       'image': 'assets/images/module_gratitude.jpg',
       'title': 'Módulo: Jornada da Gratidão',
-      'desc': 'Aprenda a cultivar gratidão diariamente e transformar sua perspectiva.',
+      'desc':
+          'Aprenda a cultivar gratidão diariamente e transformar sua perspectiva.',
     },
     {
       'image': 'assets/images/module_mindfulness.jpg',
@@ -1184,7 +1012,8 @@ class _FeaturedModulesListState extends State<_FeaturedModulesList> {
               child: Row(
                 children: [
                   ClipRRect(
-                    borderRadius: const BorderRadius.horizontal(left: Radius.circular(18)),
+                    borderRadius: const BorderRadius.horizontal(
+                        left: Radius.circular(18)),
                     child: Image.asset(
                       m['image'] as String,
                       width: isMobile ? 90 : 120,
@@ -1194,7 +1023,8 @@ class _FeaturedModulesListState extends State<_FeaturedModulesList> {
                   ),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 18, vertical: 18),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -1225,8 +1055,10 @@ class _FeaturedModulesListState extends State<_FeaturedModulesList> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF474C72),
                                 foregroundColor: const Color(0xFFF8F8FF),
-                                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                                textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 18, vertical: 8),
+                                textStyle: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 13),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
@@ -1295,7 +1127,8 @@ class _VideoPlayerModal extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Center(
-                  child: Icon(Icons.play_circle_fill, color: AppTheme.primary, size: 64),
+                  child: Icon(Icons.play_circle_fill,
+                      color: AppTheme.primary, size: 64),
                 ),
               ),
             ),
@@ -1318,7 +1151,8 @@ class _VideoPlayerModal extends StatelessWidget {
                 backgroundColor: AppTheme.primary,
                 foregroundColor: AppTheme.textPrimary,
                 padding: const EdgeInsets.symmetric(vertical: 14),
-                textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                textStyle:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -1330,4 +1164,4 @@ class _VideoPlayerModal extends StatelessWidget {
       ),
     );
   }
-} 
+}

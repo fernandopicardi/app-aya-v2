@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:app_aya_v2/features/admin/widgets/test_runner_button.dart';
 
 class AdminScreen extends StatelessWidget {
   const AdminScreen({super.key});
@@ -16,17 +15,18 @@ class AdminScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Text(
-              'Testes',
+              'Administração',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 16),
-            const TestRunnerButton(),
+            // Removido TestRunnerButton e seção de testes
+            // Aqui você pode adicionar widgets reais do admin
           ],
         ),
       ),
     );
   }
-} 
+}

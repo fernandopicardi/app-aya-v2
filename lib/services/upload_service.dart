@@ -30,7 +30,6 @@ class UploadService {
         folderId: folderId,
         subfolderId: subfolderId,
         fileType: fileType,
-        fileName: fileName,
       );
 
       final response = await _supabase.storage
@@ -144,7 +143,8 @@ class UploadService {
     void Function(double)? onProgress,
   }) async {
     try {
-      final path = 'modules/$moduleId/folders/$folderId/subfolders/$subfolderId/cover.jpg';
+      final path =
+          'modules/$moduleId/folders/$folderId/subfolders/$subfolderId/cover.jpg';
       final response = await _supabase.storage
           .from(StoragePathService.bucketContent)
           .uploadBinary(
@@ -244,7 +244,8 @@ class UploadService {
       if (maxSizeInBytes != null) {
         final fileSize = await file.length();
         if (fileSize > maxSizeInBytes) {
-          throw Exception('Arquivo muito grande. Tamanho máximo: ${maxSizeInBytes ~/ (1024 * 1024)}MB');
+          throw Exception(
+              'Arquivo muito grande. Tamanho máximo: ${maxSizeInBytes ~/ (1024 * 1024)}MB');
         }
       }
 
@@ -279,4 +280,4 @@ class UploadService {
       rethrow;
     }
   }
-} 
+}

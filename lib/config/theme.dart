@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   // Cores principais
-  static const Color primary = Color(0xFFACA1EF);
-  static const Color secondary = Color(0xFF474C72);
-  static const Color background = Color(0xFF2A2939);
-  static const Color textPrimary = Color(0xFFF8F8FF);
+  static const Color primary = Color(0xFF4CAF50);
+  static const Color secondary = Color(0xFF2E7D32);
+  static const Color accent = Color(0xFF81C784);
+  static const Color background = Color(0xFFF5F5F5);
+  static const Color surface = Colors.white;
+  static const Color error = Color(0xFFD32F2F);
+  static const Color textPrimary = Color(0xFF212121);
+  static const Color textSecondary = Color(0xFF757575);
+  static const Color divider = Color(0xFFBDBDBD);
   static const Color buttonSecondary = Color(0xFF73BDDA);
   static const Color indicator = Color(0xFF78C7B4);
   static const Color card = Color(0xFF8DB1D1);
@@ -33,16 +38,15 @@ class AppTheme {
       useMaterial3: true,
       colorScheme: ColorScheme.light(
         primary: primary,
-        secondary: buttonSecondary,
+        secondary: secondary,
         tertiary: indicator,
-        surface: Colors.white,
+        surface: surface,
+        error: error,
         onSurface: Colors.black87,
-        error: Colors.red[700]!,
-        onError: Colors.white,
       ),
-      scaffoldBackgroundColor: Colors.grey[50],
+      scaffoldBackgroundColor: background,
       appBarTheme: AppBarTheme(
-        backgroundColor: Colors.white,
+        backgroundColor: secondary,
         elevation: 0,
         centerTitle: true,
         iconTheme: IconThemeData(color: primary),
@@ -57,12 +61,12 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(_borderRadius),
         ),
-        color: Colors.white,
+        color: surface,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: primary,
-          foregroundColor: textPrimary,
+          foregroundColor: Colors.white,
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           shape: RoundedRectangleBorder(
@@ -78,22 +82,22 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: Colors.grey[100],
+        fillColor: surface,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(_borderRadius),
-          borderSide: BorderSide.none,
+          borderSide: const BorderSide(color: divider),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(_borderRadius),
-          borderSide: BorderSide.none,
+          borderSide: const BorderSide(color: divider),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(_borderRadius),
-          borderSide: BorderSide(color: primary, width: 2),
+          borderSide: const BorderSide(color: primary),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(_borderRadius),
-          borderSide: BorderSide(color: Colors.red[700]!, width: 2),
+          borderSide: const BorderSide(color: error),
         ),
         contentPadding: _padding,
       ),
@@ -101,35 +105,39 @@ class AppTheme {
         displayLarge: TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.bold,
-          color: Colors.black87,
+          color: textPrimary,
         ),
         displayMedium: TextStyle(
           fontSize: 28,
           fontWeight: FontWeight.bold,
-          color: Colors.black87,
+          color: textPrimary,
         ),
         displaySmall: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.bold,
-          color: Colors.black87,
+          color: textPrimary,
         ),
         headlineMedium: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: Colors.black87,
+          color: textPrimary,
         ),
         titleLarge: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w600,
-          color: Colors.black87,
+          color: textPrimary,
         ),
         bodyLarge: TextStyle(
           fontSize: 16,
-          color: Colors.black87,
+          color: textPrimary,
         ),
         bodyMedium: TextStyle(
           fontSize: 14,
-          color: Colors.black87,
+          color: textPrimary,
+        ),
+        bodySmall: TextStyle(
+          fontSize: 12,
+          color: textSecondary,
         ),
       ),
     );
@@ -141,7 +149,7 @@ class AppTheme {
       useMaterial3: true,
       colorScheme: ColorScheme.dark(
         primary: primary,
-        secondary: buttonSecondary,
+        secondary: secondary,
         tertiary: indicator,
         surface: const Color(0xFF1E1E1E),
         onSurface: textPrimary,

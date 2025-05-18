@@ -4,26 +4,21 @@ import 'dart:typed_data';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:app_aya_v2/services/metadata_service.dart';
 import 'package:app_aya_v2/services/encryption_service.dart';
 import 'package:app_aya_v2/services/storage_path_service.dart';
 import 'package:crypto/crypto.dart';
-import 'package:http/http.dart' as http;
-import 'package:path/path.dart' as path;
 
 class DownloadService {
   static final DownloadService _instance = DownloadService._internal();
   factory DownloadService() => _instance;
   DownloadService._internal();
 
-  final _supabase = Supabase.instance.client;
   final _metadata = MetadataService();
   final _encryption = EncryptionService();
   final _storagePath = StoragePathService();
   final Map<String, StreamController<double>> _downloadProgressControllers = {};
 
-  static const _bucketName = 'aya-content';
   static const _maxDownloads = 100;
   static const _maxStorageSize = 1024 * 1024 * 1024; // 1GB
 
@@ -39,6 +34,10 @@ class DownloadService {
       // Verifica limites de download
       await _checkDownloadLimits();
 
+      // Criar um controlador de progresso para este download
+      final progressController = StreamController<double>.broadcast();
+      _downloadProgressControllers[lessonId] = progressController;
+
       // Obtém a URL assinada para o arquivo
       final signedUrl = await _storagePath.getSignedUrlForLessonContent(
         moduleId: moduleId,
@@ -48,34 +47,69 @@ class DownloadService {
         fileType: fileType,
       );
 
-      // Faz o download do arquivo
-      final response = await http.get(Uri.parse(signedUrl));
+      // Usa HttpClient para monitorar o progresso
+      final httpClient = HttpClient();
+      final request = await httpClient.getUrl(Uri.parse(signedUrl));
+      final response = await request.close();
+
       if (response.statusCode != 200) {
         throw Exception('Erro ao baixar arquivo: ${response.statusCode}');
       }
 
-      // Criptografa o conteúdo
-      final encryptedData = await _encryption.encryptFile(response.bodyBytes);
+      // Preparar o buffer para receber os dados
+      final totalBytes = response.contentLength;
+      var receivedBytes = 0;
+      final chunks = <List<int>>[];
 
-      // Gera um nome de arquivo hash
-      final hashedName = _generateHashedFileName(lessonId, fileType);
+      try {
+        // Processar a resposta em chunks e atualizar o progresso
+        await for (final chunk in response) {
+          chunks.add(chunk);
+          receivedBytes += chunk.length;
+          if (totalBytes > 0) {
+            final progress = receivedBytes / totalBytes;
+            progressController.add(progress);
+          }
+        }
 
-      // Salva o arquivo localmente
-      final file = File(await _getLocalFilePath(hashedName));
-      await file.writeAsBytes(encryptedData);
+        // Combinar todos os chunks em um Uint8List
+        final builder = BytesBuilder();
+        chunks.forEach(builder.add);
+        final downloadedData = Uint8List.fromList(builder.takeBytes());
 
-      // Salva os metadados
-      await _metadata.saveDownloadMetadata(
-        lessonId: lessonId,
-        moduleId: moduleId,
-        folderId: folderId,
-        subfolderId: subfolderId,
-        localPath: file.path,
-        title: fileName,
-        type: fileType,
-        fileSize: file.lengthSync(),
-      );
+        // Criptografa o conteúdo
+        final encryptedData = await _encryption.encryptFile(downloadedData);
+
+        // Gera um nome de arquivo hash
+        final hashedName = _generateHashedFileName(lessonId, fileType);
+
+        // Salva o arquivo localmente
+        final file = File(await _getLocalFilePath(hashedName));
+        await file.writeAsBytes(encryptedData);
+
+        // Salva os metadados
+        await _metadata.saveDownloadMetadata(
+          lessonId: lessonId,
+          moduleId: moduleId,
+          folderId: folderId,
+          subfolderId: subfolderId,
+          localPath: file.path,
+          title: fileName,
+          type: fileType,
+          fileSize: file.lengthSync(),
+        );
+
+        progressController.add(1.0); // Download completo
+      } finally {
+        httpClient.close();
+        await progressController.close();
+        _downloadProgressControllers.remove(lessonId);
+      }
     } catch (e) {
+      _downloadProgressControllers[lessonId]?.addError(e);
+      await _downloadProgressControllers[lessonId]?.close();
+      _downloadProgressControllers.remove(lessonId);
+
       throw Exception('Erro ao baixar aula: $e');
     }
   }

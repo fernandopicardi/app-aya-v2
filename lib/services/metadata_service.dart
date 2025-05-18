@@ -1,7 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 
 class MetadataService {
   static final MetadataService _instance = MetadataService._internal();

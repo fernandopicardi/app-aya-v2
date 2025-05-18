@@ -1,0 +1,679 @@
+Listagem de caminhos de pasta para o volume HD Interno
+O n£mero de s‚rie do volume ‚ 944D-9B97
+E:.
+|   .flutter-plugins
+|   .flutter-plugins-dependencies
+|   .gitignore
+|   .metadata
+|   analysis_options.yaml
+|   app_aya_v2.iml
+|   estrutura.txt
+|   pubspec.lock
+|   pubspec.yaml
+|   README.md
+|   
++---.dart_tool
+|   |   package_config.json
+|   |   package_config_subset
+|   |   version
+|   |   
+|   +---chrome-device
+|   |   \---Default
+|   |       |   Account Web Data
+|   |       |   Account Web Data-journal
+|   |       |   Affiliation Database
+|   |       |   Affiliation Database-journal
+|   |       |   BrowsingTopicsSiteData
+|   |       |   BrowsingTopicsSiteData-journal
+|   |       |   BrowsingTopicsState
+|   |       |   DIPS
+|   |       |   DIPS-shm
+|   |       |   DIPS-wal
+|   |       |   Favicons
+|   |       |   Favicons-journal
+|   |       |   heavy_ad_intervention_opt_out.db
+|   |       |   heavy_ad_intervention_opt_out.db-journal
+|   |       |   History
+|   |       |   History-journal
+|   |       |   LOCK
+|   |       |   LOG
+|   |       |   LOG.old
+|   |       |   Login Data
+|   |       |   Login Data For Account
+|   |       |   Login Data For Account-journal
+|   |       |   Login Data-journal
+|   |       |   Network Action Predictor
+|   |       |   Network Action Predictor-journal
+|   |       |   passkey_enclave_state
+|   |       |   Preferences
+|   |       |   PreferredApps
+|   |       |   README
+|   |       |   Secure Preferences
+|   |       |   SharedStorage
+|   |       |   SharedStorage-wal
+|   |       |   Shortcuts
+|   |       |   Shortcuts-journal
+|   |       |   Top Sites
+|   |       |   Top Sites-journal
+|   |       |   trusted_vault.pb
+|   |       |   Web Data
+|   |       |   Web Data-journal
+|   |       |   
+|   |       +---AutofillStrikeDatabase
+|   |       |       LOCK
+|   |       |       LOG
+|   |       |       LOG.old
+|   |       |       
+|   |       +---blob_storage
+|   |       |   +---04b36f27-345b-4599-b488-59acc2c56135
+|   |       |   +---151805d6-e11e-41ae-afe9-1f23ba71ae19
+|   |       |   +---3a6eee3b-7105-4fa3-a464-6714caafc358
+|   |       |   +---584fec21-ca79-4379-afb3-7fb5216c9dfd
+|   |       |   +---5a7f9417-b0e9-4ada-90c2-6da8c46130a3
+|   |       |   +---5d59a176-a4e3-4d82-bb8b-13487fca527f
+|   |       |   +---6d9a264c-dd47-4399-b9be-2ac2944fcef1
+|   |       |   +---74e5508b-2ccb-41e3-b931-d7d53c1c06c3
+|   |       |   +---76edd224-0fe7-467c-ba4e-223b6b498cbf
+|   |       |   +---9802abeb-2d7f-4776-9036-0f5ac53458a7
+|   |       |   +---aee48a38-b7e7-4414-b4f0-a11ed8f0e517
+|   |       |   +---e27b7e72-e4ee-479e-af7e-f552f7711269
+|   |       |   \---fedb1d29-f3f5-40a4-b72b-a4ad15b1f93c
+|   |       +---BudgetDatabase
+|   |       |       LOCK
+|   |       |       LOG
+|   |       |       LOG.old
+|   |       |       
+|   |       +---chrome_cart_db
+|   |       |       LOCK
+|   |       |       LOG
+|   |       |       LOG.old
+|   |       |       
+|   |       +---ClientCertificates
+|   |       |       LOCK
+|   |       |       LOG
+|   |       |       LOG.old
+|   |       |       
+|   |       +---commerce_subscription_db
+|   |       |       LOCK
+|   |       |       LOG
+|   |       |       LOG.old
+|   |       |       
+|   |       +---discounts_db
+|   |       |       LOCK
+|   |       |       LOG
+|   |       |       LOG.old
+|   |       |       
+|   |       +---Download Service
+|   |       |   +---EntryDB
+|   |       |   |       LOCK
+|   |       |   |       LOG
+|   |       |   |       LOG.old
+|   |       |   |       
+|   |       |   \---Files
+|   |       +---Extension Rules
+|   |       |       000003.log
+|   |       |       CURRENT
+|   |       |       LOCK
+|   |       |       LOG
+|   |       |       MANIFEST-000001
+|   |       |       
+|   |       +---Extension Scripts
+|   |       |       000003.log
+|   |       |       CURRENT
+|   |       |       LOCK
+|   |       |       LOG
+|   |       |       MANIFEST-000001
+|   |       |       
+|   |       +---Extension State
+|   |       |       000003.log
+|   |       |       CURRENT
+|   |       |       LOCK
+|   |       |       LOG
+|   |       |       LOG.old
+|   |       |       MANIFEST-000001
+|   |       |       
+|   |       +---Feature Engagement Tracker
+|   |       |   +---AvailabilityDB
+|   |       |   |       LOCK
+|   |       |   |       LOG
+|   |       |   |       LOG.old
+|   |       |   |       
+|   |       |   \---EventDB
+|   |       |           LOCK
+|   |       |           LOG
+|   |       |           LOG.old
+|   |       |           
+|   |       +---GCM Store
+|   |       |   \---Encryption
+|   |       |           000003.log
+|   |       |           CURRENT
+|   |       |           LOCK
+|   |       |           LOG
+|   |       |           LOG.old
+|   |       |           MANIFEST-000001
+|   |       |           
+|   |       +---IndexedDB
+|   |       |   \---http_localhost_43997.indexeddb.leveldb
+|   |       |           LOCK
+|   |       |           LOG
+|   |       |           
+|   |       +---Local Storage
+|   |       |   \---leveldb
+|   |       |           000003.log
+|   |       |           CURRENT
+|   |       |           LOCK
+|   |       |           LOG
+|   |       |           LOG.old
+|   |       |           MANIFEST-000001
+|   |       |           
+|   |       +---Network
+|   |       |       Cookies
+|   |       |       Cookies-journal
+|   |       |       Network Persistent State
+|   |       |       NetworkDataMigrated
+|   |       |       Reporting and NEL
+|   |       |       Reporting and NEL-journal
+|   |       |       TransportSecurity
+|   |       |       Trust Tokens
+|   |       |       Trust Tokens-journal
+|   |       |       
+|   |       +---optimization_guide_hint_cache_store
+|   |       |       LOCK
+|   |       |       LOG
+|   |       |       LOG.old
+|   |       |       
+|   |       +---parcel_tracking_db
+|   |       |       LOCK
+|   |       |       LOG
+|   |       |       LOG.old
+|   |       |       
+|   |       +---PersistentOriginTrials
+|   |       |       LOCK
+|   |       |       LOG
+|   |       |       LOG.old
+|   |       |       
+|   |       +---Safe Browsing Network
+|   |       |       NetworkDataMigrated
+|   |       |       Safe Browsing Cookies
+|   |       |       Safe Browsing Cookies-journal
+|   |       |       
+|   |       +---Segmentation Platform
+|   |       |   +---SegmentInfoDB
+|   |       |   |       LOCK
+|   |       |   |       LOG
+|   |       |   |       LOG.old
+|   |       |   |       
+|   |       |   +---SignalDB
+|   |       |   |       LOCK
+|   |       |   |       LOG
+|   |       |   |       LOG.old
+|   |       |   |       
+|   |       |   \---SignalStorageConfigDB
+|   |       |           LOCK
+|   |       |           LOG
+|   |       |           LOG.old
+|   |       |           
+|   |       +---Service Worker
+|   |       |   +---Database
+|   |       |   |       000003.log
+|   |       |   |       CURRENT
+|   |       |   |       LOCK
+|   |       |   |       LOG
+|   |       |   |       LOG.old
+|   |       |   |       MANIFEST-000001
+|   |       |   |       
+|   |       |   \---ScriptCache
+|   |       |       |   013888a1cda32b90_0
+|   |       |       |   08b99d499107ba17_0
+|   |       |       |   0ae129c33e7a30bd_0
+|   |       |       |   297ecea5cebb5dfe_0
+|   |       |       |   2a0afd649b00527b_0
+|   |       |       |   2cc80dabc69f58b6_0
+|   |       |       |   4cb013792b196a35_0
+|   |       |       |   67a473248953641b_0
+|   |       |       |   7b4fd8111178d5b1_0
+|   |       |       |   b6c28cea6ed9dfc1_0
+|   |       |       |   ba23d8ecda68de77_0
+|   |       |       |   d0757ff92c7cde0a_0
+|   |       |       |   f1cdccba37924bda_0
+|   |       |       |   fa813c9ad67834ac_0
+|   |       |       |   index
+|   |       |       |   
+|   |       |       \---index-dir
+|   |       |               the-real-index
+|   |       |               
+|   |       +---Session Storage
+|   |       |       000003.log
+|   |       |       CURRENT
+|   |       |       LOCK
+|   |       |       LOG
+|   |       |       LOG.old
+|   |       |       MANIFEST-000001
+|   |       |       
+|   |       +---Sessions
+|   |       |       Session_13391987731645406
+|   |       |       Session_13391989225052966
+|   |       |       Session_13391992221486178
+|   |       |       Session_13391993914718107
+|   |       |       Session_13391993926196226
+|   |       |       Session_13391994354698980
+|   |       |       Session_13391994400311154
+|   |       |       Session_13392016440726838
+|   |       |       Session_13392016505832624
+|   |       |       Session_13392017446488944
+|   |       |       Session_13392017682933947
+|   |       |       Session_13392018378721336
+|   |       |       Session_13392018786314989
+|   |       |       Session_13392021960509500
+|   |       |       Session_13392055099985745
+|   |       |       Session_13392057328675296
+|   |       |       Session_13392060158743530
+|   |       |       Tabs_13391987851772820
+|   |       |       Tabs_13391989225292465
+|   |       |       Tabs_13391992221702314
+|   |       |       Tabs_13391993374654579
+|   |       |       Tabs_13391994354943335
+|   |       |       Tabs_13392016440937197
+|   |       |       Tabs_13392017446698233
+|   |       |       Tabs_13392017683221652
+|   |       |       Tabs_13392018378933682
+|   |       |       Tabs_13392018786543845
+|   |       |       Tabs_13392021960693197
+|   |       |       Tabs_13392055100191496
+|   |       |       Tabs_13392057328891327
+|   |       |       Tabs_13392060158980989
+|   |       |       
+|   |       +---Shared Dictionary
+|   |       |   |   db
+|   |       |   |   db-journal
+|   |       |   |   
+|   |       |   \---cache
+|   |       |       |   index
+|   |       |       |   
+|   |       |       \---index-dir
+|   |       |               the-real-index
+|   |       |               
+|   |       +---shared_proto_db
+|   |       |   |   000003.log
+|   |       |   |   000004.log
+|   |       |   |   000005.ldb
+|   |       |   |   000007.log
+|   |       |   |   000008.ldb
+|   |       |   |   CURRENT
+|   |       |   |   LOCK
+|   |       |   |   LOG
+|   |       |   |   LOG.old
+|   |       |   |   MANIFEST-000001
+|   |       |   |   
+|   |       |   \---metadata
+|   |       |           000003.log
+|   |       |           CURRENT
+|   |       |           LOCK
+|   |       |           LOG
+|   |       |           LOG.old
+|   |       |           MANIFEST-000001
+|   |       |           
+|   |       +---Site Characteristics Database
+|   |       |       000003.log
+|   |       |       CURRENT
+|   |       |       LOCK
+|   |       |       LOG
+|   |       |       LOG.old
+|   |       |       MANIFEST-000001
+|   |       |       
+|   |       +---Sync Data
+|   |       |   \---LevelDB
+|   |       |           000003.log
+|   |       |           CURRENT
+|   |       |           LOCK
+|   |       |           LOG
+|   |       |           LOG.old
+|   |       |           MANIFEST-000001
+|   |       |           
+|   |       \---WebStorage
+|   |               QuotaManager
+|   |               QuotaManager-journal
+|   |               
+|   +---dartpad
+|   |       web_plugin_registrant.dart
+|   |       
+|   +---extension_discovery
+|   |       vs_code.json
+|   |       
+|   \---flutter_build
+|           dart_plugin_registrant.dart
+|           
++---.idea
+|   |   modules.xml
+|   |   workspace.xml
+|   |   
+|   +---libraries
+|   |       Dart_SDK.xml
+|   |       KotlinJavaRuntime.xml
+|   |       
+|   \---runConfigurations
+|           main_dart.xml
+|           
++---android
+|   |   .gitignore
+|   |   app_aya_v2_android.iml
+|   |   build.gradle
+|   |   gradle.properties
+|   |   gradlew
+|   |   gradlew.bat
+|   |   local.properties
+|   |   settings.gradle
+|   |   
+|   +---app
+|   |   |   build.gradle
+|   |   |   
+|   |   \---src
+|   |       +---debug
+|   |       |       AndroidManifest.xml
+|   |       |       
+|   |       +---main
+|   |       |   |   AndroidManifest.xml
+|   |       |   |   
+|   |       |   +---java
+|   |       |   |   \---io
+|   |       |   |       \---flutter
+|   |       |   |           \---plugins
+|   |       |   |                   GeneratedPluginRegistrant.java
+|   |       |   |                   
+|   |       |   +---kotlin
+|   |       |   |   \---com
+|   |       |   |       \---example
+|   |       |   |           \---app_aya_v2
+|   |       |   |                   MainActivity.kt
+|   |       |   |                   
+|   |       |   \---res
+|   |       |       +---drawable
+|   |       |       |       launch_background.xml
+|   |       |       |       
+|   |       |       +---drawable-v21
+|   |       |       |       launch_background.xml
+|   |       |       |       
+|   |       |       +---mipmap-hdpi
+|   |       |       |       ic_launcher.png
+|   |       |       |       
+|   |       |       +---mipmap-mdpi
+|   |       |       |       ic_launcher.png
+|   |       |       |       
+|   |       |       +---mipmap-xhdpi
+|   |       |       |       ic_launcher.png
+|   |       |       |       
+|   |       |       +---mipmap-xxhdpi
+|   |       |       |       ic_launcher.png
+|   |       |       |       
+|   |       |       +---mipmap-xxxhdpi
+|   |       |       |       ic_launcher.png
+|   |       |       |       
+|   |       |       +---values
+|   |       |       |       styles.xml
+|   |       |       |       
+|   |       |       \---values-night
+|   |       |               styles.xml
+|   |       |               
+|   |       \---profile
+|   |               AndroidManifest.xml
+|   |               
+|   \---gradle
+|       \---wrapper
+|               gradle-wrapper.jar
+|               gradle-wrapper.properties
+|               
++---assets
+|   +---audio
+|   +---icons
+|   \---images
+|           hero_aya_illustration.png
+|           
++---build
+|   |   cache.dill.track.dill
+|   |   
+|   +---89364f87122270b58ece77a899f7e422
+|   |       gen_dart_plugin_registrant.stamp
+|   |       gen_localizations.stamp
+|   |       _composite.stamp
+|   |       
+|   +---flutter_assets
+|   |   |   AssetManifest.bin
+|   |   |   AssetManifest.bin.json
+|   |   |   AssetManifest.json
+|   |   |   FontManifest.json
+|   |   |   NOTICES
+|   |   |   
+|   |   +---assets
+|   |   |   \---images
+|   |   |           hero_aya_illustration.png
+|   |   |           
+|   |   +---fonts
+|   |   |       MaterialIcons-Regular.otf
+|   |   |       
+|   |   +---packages
+|   |   |   \---cupertino_icons
+|   |   |       \---assets
+|   |   |               CupertinoIcons.ttf
+|   |   |               
+|   |   \---shaders
+|   |           ink_sparkle.frag
+|   |           
+|   +---native_assets
+|   |   \---windows
+|   |           native_assets.yaml
+|   |           
+|   \---unit_test_assets
+|       |   AssetManifest.bin
+|       |   AssetManifest.json
+|       |   FontManifest.json
+|       |   NOTICES.Z
+|       |   
+|       +---assets
+|       |   \---images
+|       |           hero_aya_illustration.png
+|       |           
+|       +---fonts
+|       |       MaterialIcons-Regular.otf
+|       |       
+|       +---packages
+|       |   \---cupertino_icons
+|       |       \---assets
+|       |               CupertinoIcons.ttf
+|       |               
+|       \---shaders
+|               ink_sparkle.frag
+|               
++---ios
+|   |   .gitignore
+|   |   
+|   +---Flutter
+|   |       AppFrameworkInfo.plist
+|   |       Debug.xcconfig
+|   |       flutter_export_environment.sh
+|   |       Generated.xcconfig
+|   |       Release.xcconfig
+|   |       
+|   +---Runner
+|   |   |   AppDelegate.swift
+|   |   |   GeneratedPluginRegistrant.h
+|   |   |   GeneratedPluginRegistrant.m
+|   |   |   Info.plist
+|   |   |   Runner-Bridging-Header.h
+|   |   |   
+|   |   +---Assets.xcassets
+|   |   |   +---AppIcon.appiconset
+|   |   |   |       Contents.json
+|   |   |   |       Icon-App-1024x1024@1x.png
+|   |   |   |       Icon-App-20x20@1x.png
+|   |   |   |       Icon-App-20x20@2x.png
+|   |   |   |       Icon-App-20x20@3x.png
+|   |   |   |       Icon-App-29x29@1x.png
+|   |   |   |       Icon-App-29x29@2x.png
+|   |   |   |       Icon-App-29x29@3x.png
+|   |   |   |       Icon-App-40x40@1x.png
+|   |   |   |       Icon-App-40x40@2x.png
+|   |   |   |       Icon-App-40x40@3x.png
+|   |   |   |       Icon-App-60x60@2x.png
+|   |   |   |       Icon-App-60x60@3x.png
+|   |   |   |       Icon-App-76x76@1x.png
+|   |   |   |       Icon-App-76x76@2x.png
+|   |   |   |       Icon-App-83.5x83.5@2x.png
+|   |   |   |       
+|   |   |   \---LaunchImage.imageset
+|   |   |           Contents.json
+|   |   |           LaunchImage.png
+|   |   |           LaunchImage@2x.png
+|   |   |           LaunchImage@3x.png
+|   |   |           README.md
+|   |   |           
+|   |   \---Base.lproj
+|   |           LaunchScreen.storyboard
+|   |           Main.storyboard
+|   |           
+|   +---Runner.xcodeproj
+|   |   |   project.pbxproj
+|   |   |   
+|   |   +---project.xcworkspace
+|   |   |   |   contents.xcworkspacedata
+|   |   |   |   
+|   |   |   \---xcshareddata
+|   |   |           IDEWorkspaceChecks.plist
+|   |   |           WorkspaceSettings.xcsettings
+|   |   |           
+|   |   \---xcshareddata
+|   |       \---xcschemes
+|   |               Runner.xcscheme
+|   |               
+|   +---Runner.xcworkspace
+|   |   |   contents.xcworkspacedata
+|   |   |   
+|   |   \---xcshareddata
+|   |           IDEWorkspaceChecks.plist
+|   |           WorkspaceSettings.xcsettings
+|   |           
+|   \---RunnerTests
+|           RunnerTests.swift
+|           
++---lib
+|   |   main.dart
+|   |   
+|   +---config
+|   |       routes.dart
+|   |       theme.dart
+|   |       
+|   +---core
+|   |       supabase_config.dart
+|   |       supabase_init.dart
+|   |       
+|   +---features
+|   |   +---admin
+|   |   |   |   admin_dashboard_page.dart
+|   |   |   |   admin_menu.dart
+|   |   |   |   
+|   |   |   +---screens
+|   |   |   |       admin_screen.dart
+|   |   |   |       
+|   |   |   +---sections
+|   |   |   |       admin_content_section.dart
+|   |   |   |       admin_dashboard_overview.dart
+|   |   |   |       admin_gamification_section.dart
+|   |   |   |       admin_logs_section.dart
+|   |   |   |       admin_moderation_section.dart
+|   |   |   |       admin_settings_section.dart
+|   |   |   |       admin_users_section.dart
+|   |   |   |       
+|   |   |   \---widgets
+|   |   +---auth
+|   |   |   |   auth_service.dart
+|   |   |   |   forgot_password_page.dart
+|   |   |   |   login_page.dart
+|   |   |   |   register_page.dart
+|   |   |   |   simple_register_page.dart
+|   |   |   |   
+|   |   |   +---models
+|   |   |   |       user_profile.dart
+|   |   |   |       
+|   |   |   +---providers
+|   |   |   |       user_profile_provider.dart
+|   |   |   |       
+|   |   |   \---screens
+|   |   |           forgot_password_page.dart
+|   |   |           login_screen.dart
+|   |   |           signup_screen.dart
+|   |   |           
+|   |   +---content
+|   |   |   +---models
+|   |   |   |       content_module.dart
+|   |   |   |       playback_state.dart
+|   |   |   |       
+|   |   |   +---pages
+|   |   |   |       content_modules_page.dart
+|   |   |   |       lesson_page.dart
+|   |   |   |       module_page.dart
+|   |   |   |       
+|   |   |   +---providers
+|   |   |   |       content_modules_provider.dart
+|   |   |   |       
+|   |   |   \---services
+|   |   |           lesson_service.dart
+|   |   |           
+|   |   +---dashboard
+|   |   |       dashboard_page.dart
+|   |   |       user_dashboard_page.dart
+|   |   |       
+|   |   +---home
+|   |   |       home_page.dart
+|   |   |       
+|   |   +---landing
+|   |   |       landing_page.dart
+|   |   |       
+|   |   +---subscription
+|   |   |       payment_page.dart
+|   |   |       plans_page.dart
+|   |   |       subscription_plan.dart
+|   |   |       subscription_plans_page.dart
+|   |   |       
+|   |   \---user
+|   |           user_profile_screen.dart
+|   |           
+|   +---services
+|   |       app_state.dart
+|   |       auth_service.dart
+|   |       download_service.dart
+|   |       encryption_service.dart
+|   |       favorites_service.dart
+|   |       metadata_service.dart
+|   |       share_service.dart
+|   |       storage_path_service.dart
+|   |       storage_service.dart
+|   |       upload_service.dart
+|   |       
+|   +---shared
+|   |   \---widgets
+|   |           gradient_button.dart
+|   |           
+|   \---test
++---supabase
+|   \---migrations
+|           20240320000000_initial_schema.sql
+|           20240320000001_roles_and_rls.sql
+|           
++---test
+|   |   widget_test.dart
+|   |   
+|   \---features
+|       \---content
+|           \---services
+|                   lesson_service_test.dart
+|                   
+\---web
+    |   favicon.png
+    |   index.html
+    |   manifest.json
+    |   
+    \---icons
+            Icon-192.png
+            Icon-512.png
+            Icon-maskable-192.png
+            Icon-maskable-512.png
+            

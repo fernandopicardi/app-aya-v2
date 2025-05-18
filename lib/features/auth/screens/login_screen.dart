@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_aya_v2/services/auth_service.dart';
-import 'package:app_aya_v2/features/admin/screens/admin_screen.dart';
+import 'package:app_aya_v2/features/auth/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,6 +13,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
+  String? _errorMessage;
 
   @override
   void dispose() {
@@ -24,39 +24,69 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
-
-    setState(() => _isLoading = true);
-
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
     try {
-      await AuthService().signInWithEmail(
-        email: _emailController.text,
-        password: _passwordController.text,
+      await AuthService().signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
       );
-
-      if (mounted) {
-        // Se for o usuário de teste, redireciona para o painel admin
-        if (_emailController.text == 'teste@example.com') {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const AdminScreen()),
-          );
-        } else {
-          // Caso contrário, redireciona para o dashboard
-          Navigator.of(context).pushReplacementNamed('/dashboard');
-        }
-      }
+      if (!mounted) return;
+      _navigateToDashboard();
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Erro ao fazer login: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+      if (!mounted) return;
+      setState(() {
+        _errorMessage = e.toString().replaceFirst('Exception: ', '');
+      });
     } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  void _navigateToDashboard() {
+    if (!mounted) return;
+    Navigator.of(context).pushReplacementNamed('/dashboard');
+  }
+
+  Future<void> _handleGoogleSignIn() async {
+    if (!mounted) return;
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+    try {
+      await AuthService().signInWithGoogle();
+      if (!mounted) return;
+      _navigateToDashboard();
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _errorMessage = e.toString().replaceFirst('Exception: ', '');
+      });
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _handleAppleSignIn() async {
+    if (!mounted) return;
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+    try {
+      await AuthService().signInWithApple();
+      if (!mounted) return;
+      _navigateToDashboard();
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _errorMessage = e.toString().replaceFirst('Exception: ', '');
+      });
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
@@ -110,6 +140,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     return null;
                   },
                 ),
+                if (_errorMessage != null) ...[
+                  const SizedBox(height: 16),
+                  Text(_errorMessage!,
+                      style: const TextStyle(color: Colors.redAccent),
+                      textAlign: TextAlign.center),
+                ],
                 const SizedBox(height: 24),
                 ElevatedButton(
                   onPressed: _isLoading ? null : _login,
@@ -117,14 +153,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       ? const CircularProgressIndicator()
                       : const Text('Entrar'),
                 ),
-                const SizedBox(height: 16),
-                TextButton(
-                  onPressed: () {
-                    // Preenche automaticamente com as credenciais de teste
-                    _emailController.text = 'teste@example.com';
-                    _passwordController.text = 'teste123';
-                  },
-                  child: const Text('Usar credenciais de teste'),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.g_mobiledata,
+                          color: Colors.blue, size: 36),
+                      onPressed: _isLoading ? null : _handleGoogleSignIn,
+                    ),
+                    const SizedBox(width: 16),
+                    IconButton(
+                      icon: const Icon(Icons.apple,
+                          color: Colors.black, size: 32),
+                      onPressed: _isLoading ? null : _handleAppleSignIn,
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -133,4 +177,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-} 
+}

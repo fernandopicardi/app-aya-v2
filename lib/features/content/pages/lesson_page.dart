@@ -30,19 +30,23 @@ class _LessonPageState extends State<LessonPage> {
     setState(() => _isLoading = true);
     try {
       await _lessonService.loadInitialState(widget.lessonId);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Dados carregados com sucesso!'),
+          backgroundColor: Colors.green,
+        ),
+      );
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Erro ao carregar dados: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao carregar dados: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
     } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
@@ -146,18 +150,27 @@ class _LessonPageState extends State<LessonPage> {
           const SizedBox(height: 10),
           Row(
             children: [
-              const Icon(Icons.play_circle_outline, color: AppTheme.primary, size: 18),
+              const Icon(Icons.play_circle_outline,
+                  color: AppTheme.primary, size: 18),
               const SizedBox(width: 4),
-              const Text('Vídeo • 5 min', style: TextStyle(color: AppTheme.textPrimary, fontSize: 14)),
+              const Text('Vídeo • 5 min',
+                  style: TextStyle(color: AppTheme.textPrimary, fontSize: 14)),
               const SizedBox(width: 12),
-              const Icon(Icons.auto_awesome, color: Color(0xFF78C7B4), size: 18),
+              const Icon(Icons.auto_awesome,
+                  color: Color(0xFF78C7B4), size: 18),
               const SizedBox(width: 2),
-              const Text('1 Ponto Aya', style: TextStyle(color: Color(0xFF78C7B4), fontSize: 14, fontWeight: FontWeight.bold)),
+              const Text('1 Ponto Aya',
+                  style: TextStyle(
+                      color: Color(0xFF78C7B4),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold)),
             ],
           ),
           const SizedBox(height: 16),
           _ExpandableDescription(
-            text: 'Descubra como a gratidão pode transformar sua vida. Nesta aula, você aprenderá práticas simples e poderosas para cultivar gratidão diariamente. Aprofunde-se no tema e veja exemplos reais de transformação. ' * 2,
+            text:
+                'Descubra como a gratidão pode transformar sua vida. Nesta aula, você aprenderá práticas simples e poderosas para cultivar gratidão diariamente. Aprofunde-se no tema e veja exemplos reais de transformação. ' *
+                    2,
           ),
         ],
       ),
@@ -179,7 +192,8 @@ class _LessonPageState extends State<LessonPage> {
                 final playbackState = snapshot.data!;
                 return Container(
                   height: screenWidth < 700 ? 220 : 320,
-                  margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                   decoration: BoxDecoration(
                     color: const Color(0xFF474C72),
                     borderRadius: const BorderRadius.only(
@@ -212,7 +226,9 @@ class _LessonPageState extends State<LessonPage> {
                           children: [
                             IconButton(
                               icon: Icon(
-                                playbackState.isPlaying ? Icons.pause : Icons.play_circle_fill,
+                                playbackState.isPlaying
+                                    ? Icons.pause
+                                    : Icons.play_circle_fill,
                                 color: const Color(0xFFACA1EF),
                                 size: 64,
                               ),
@@ -227,13 +243,17 @@ class _LessonPageState extends State<LessonPage> {
                             const SizedBox(height: 16),
                             // Barra de progresso
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 32),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 32),
                               child: Column(
                                 children: [
                                   Slider(
-                                    value: playbackState.currentPosition.inSeconds.toDouble(),
+                                    value: playbackState
+                                        .currentPosition.inSeconds
+                                        .toDouble(),
                                     min: 0,
-                                    max: playbackState.totalDuration.inSeconds.toDouble(),
+                                    max: playbackState.duration.inSeconds
+                                        .toDouble(),
                                     activeColor: const Color(0xFFACA1EF),
                                     inactiveColor: Colors.white.withAlpha(40),
                                     onChanged: (value) {
@@ -244,19 +264,23 @@ class _LessonPageState extends State<LessonPage> {
                                     },
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          _formatDuration(playbackState.currentPosition),
+                                          _formatDuration(
+                                              playbackState.currentPosition),
                                           style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 12,
                                           ),
                                         ),
                                         Text(
-                                          _formatDuration(playbackState.totalDuration),
+                                          _formatDuration(
+                                              playbackState.duration),
                                           style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 12,
@@ -322,30 +346,7 @@ class _LessonPageState extends State<LessonPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: ElevatedButton.icon(
-        onPressed: () async {
-          try {
-            final nextLessonId = await _lessonService.getNextLessonId(widget.lessonId);
-            if (nextLessonId != null && mounted) {
-              // TODO: Navegar para próxima aula
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Carregando próxima aula...'),
-                  duration: Duration(seconds: 2),
-                  backgroundColor: AppTheme.primary,
-                ),
-              );
-            }
-          } catch (e) {
-            if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Erro ao carregar próxima aula: $e'),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            }
-          }
-        },
+        onPressed: () => _handleNextLessonNavigation(widget.lessonId),
         icon: const Icon(Icons.arrow_forward, color: Color(0xFFF8F8FF)),
         label: const Text('Próxima Aula'),
         style: ElevatedButton.styleFrom(
@@ -357,6 +358,40 @@ class _LessonPageState extends State<LessonPage> {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
+      ),
+    );
+  }
+
+  Future<void> _handleNextLessonNavigation(String lessonId) async {
+    try {
+      final nextLessonId = await _lessonService.getNextLessonId(lessonId);
+      if (!mounted) return;
+      if (nextLessonId != null) {
+        _showNextLessonSnackBar();
+      }
+    } catch (e) {
+      if (!mounted) return;
+      _showErrorSnackBar('Erro ao carregar próxima aula: $e');
+    }
+  }
+
+  void _showNextLessonSnackBar() {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Carregando próxima aula...'),
+        duration: Duration(seconds: 2),
+        backgroundColor: AppTheme.primary,
+      ),
+    );
+  }
+
+  void _showErrorSnackBar(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
       ),
     );
   }
@@ -393,7 +428,8 @@ class _LessonPageState extends State<LessonPage> {
                               color: AppTheme.primary,
                             ),
                             IconButton(
-                              icon: const Icon(Icons.close, size: 16, color: AppTheme.primary),
+                              icon: const Icon(Icons.close,
+                                  size: 16, color: AppTheme.primary),
                               onPressed: _cancelDownload,
                               tooltip: 'Cancelar download',
                             ),
@@ -402,7 +438,9 @@ class _LessonPageState extends State<LessonPage> {
                       ),
                     ),
                     const SizedBox(height: 6),
-                    const Text('Baixando', style: TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
+                    const Text('Baixando',
+                        style: TextStyle(
+                            color: AppTheme.textPrimary, fontSize: 13)),
                   ],
                 );
               } else if (isDownloaded) {
@@ -416,13 +454,15 @@ class _LessonPageState extends State<LessonPage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: IconButton(
-                        icon: const Icon(Icons.check_circle, color: Colors.green, size: 22),
+                        icon: const Icon(Icons.check_circle,
+                            color: Colors.green, size: 22),
                         onPressed: _removeDownloadedLesson,
                         tooltip: 'Remover download',
                       ),
                     ),
                     const SizedBox(height: 6),
-                    const Text('Baixado', style: TextStyle(color: Colors.green, fontSize: 13)),
+                    const Text('Baixado',
+                        style: TextStyle(color: Colors.green, fontSize: 13)),
                   ],
                 );
               } else {
@@ -436,13 +476,16 @@ class _LessonPageState extends State<LessonPage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: IconButton(
-                        icon: const Icon(Icons.download, color: AppTheme.primary, size: 22),
+                        icon: const Icon(Icons.download,
+                            color: AppTheme.primary, size: 22),
                         onPressed: _downloadLesson,
                         tooltip: 'Baixar aula',
                       ),
                     ),
                     const SizedBox(height: 6),
-                    const Text('Download', style: TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
+                    const Text('Download',
+                        style: TextStyle(
+                            color: AppTheme.textPrimary, fontSize: 13)),
                   ],
                 );
               }
@@ -501,7 +544,8 @@ class _LessonPageState extends State<LessonPage> {
               hintText: 'Faça um comentário...',
               filled: true,
               fillColor: AppTheme.secondary.withAlpha(30),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide.none,
@@ -537,11 +581,15 @@ class _LessonPageState extends State<LessonPage> {
         final comments = snapshot.data!;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: comments.map((comment) => _CommentCard(
-            comment: comment,
-            onLike: () => _lessonService.toggleLikeComment(widget.lessonId, comment.id),
-            onReply: (text) => _lessonService.replyToComment(widget.lessonId, comment.id, text),
-          )).toList(),
+          children: comments
+              .map((comment) => _CommentCard(
+                    comment: comment,
+                    onLike: () => _lessonService.toggleLikeComment(
+                        widget.lessonId, comment.id),
+                    onReply: (text) => _lessonService.replyToComment(
+                        widget.lessonId, comment.id, text),
+                  ))
+              .toList(),
         );
       },
     );
@@ -554,35 +602,39 @@ class _LessonPageState extends State<LessonPage> {
     return '$minutes:$seconds';
   }
 
-  // Método para compartilhar aula
   Future<void> _shareLesson() async {
     try {
       await _lessonService.shareLesson(widget.lessonId);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Aula compartilhada com sucesso!'),
+          backgroundColor: Colors.green,
+        ),
+      );
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Erro ao compartilhar aula: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao compartilhar aula: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
-  // Método para baixar aula
   Future<void> _downloadLesson() async {
     if (!mounted) return;
-    
     final messenger = ScaffoldMessenger.of(context);
-    
+
     try {
       await _lessonService.downloadLesson(
         widget.lessonId,
+        moduleId: 'default-module',
         fileName: '${widget.lessonId}.mp4',
         fileType: 'video/mp4',
       );
-      
+
       if (!mounted) return;
       messenger.showSnackBar(
         const SnackBar(
@@ -601,51 +653,45 @@ class _LessonPageState extends State<LessonPage> {
     }
   }
 
-  // Método para cancelar download
   Future<void> _cancelDownload() async {
     try {
       await _lessonService.cancelDownload(widget.lessonId);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Download cancelado'),
-            backgroundColor: Colors.orange,
-          ),
-        );
-      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Download cancelado'),
+          backgroundColor: Colors.orange,
+        ),
+      );
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Erro ao cancelar download: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao cancelar download: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
-  // Método para remover aula baixada
   Future<void> _removeDownloadedLesson() async {
     try {
       await _lessonService.removeDownloadedLesson(widget.lessonId);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Aula removida com sucesso'),
-            backgroundColor: Colors.green,
-          ),
-        );
-      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Aula removida com sucesso'),
+          backgroundColor: Colors.green,
+        ),
+      );
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Erro ao remover aula: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao remover aula: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 }
@@ -749,8 +795,12 @@ class _CommentCard extends StatelessWidget {
                     children: [
                       IconButton(
                         icon: Icon(
-                          comment.isLiked ? Icons.favorite : Icons.favorite_border,
-                          color: comment.isLiked ? AppTheme.primary : const Color(0xFFACA1EF),
+                          comment.isLiked
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: comment.isLiked
+                              ? AppTheme.primary
+                              : const Color(0xFFACA1EF),
                           size: 18,
                         ),
                         onPressed: onLike,
@@ -761,7 +811,9 @@ class _CommentCard extends StatelessWidget {
                       Text(
                         '${comment.likes}',
                         style: TextStyle(
-                          color: comment.isLiked ? AppTheme.primary : const Color(0xFFACA1EF),
+                          color: comment.isLiked
+                              ? AppTheme.primary
+                              : const Color(0xFFACA1EF),
                           fontSize: 13,
                         ),
                       ),
@@ -801,7 +853,8 @@ class _CommentCard extends StatelessWidget {
                         },
                         style: TextButton.styleFrom(
                           foregroundColor: const Color(0xFF78C7B4),
-                          textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                          textStyle: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 13),
                           padding: EdgeInsets.zero,
                           minimumSize: Size.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,

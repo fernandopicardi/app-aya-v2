@@ -1,4 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'dart:typed_data';
 
 class AuthService {
   final SupabaseClient _supabase = Supabase.instance.client;
@@ -69,7 +70,8 @@ class AuthService {
     } on AuthException catch (e) {
       throw Exception('Falha ao enviar e-mail de redefinição: ${e.message}');
     } catch (e) {
-      throw Exception('Ocorreu um erro inesperado ao tentar enviar o e-mail de redefinição.');
+      throw Exception(
+          'Ocorreu um erro inesperado ao tentar enviar o e-mail de redefinição.');
     }
   }
 
@@ -103,6 +105,42 @@ class AuthService {
 
   Future<Session?> getCurrentSession() async {
     return _supabase.auth.currentSession;
+  }
+
+  // Upload de avatar do usuário
+  Future<String> uploadAvatar(Uint8List bytes, String fileName) async {
+    final user = _supabase.auth.currentUser;
+    if (user == null) throw Exception('Usuário não autenticado');
+    final path = '${user.id}/$fileName';
+    final bucket = 'user-avatars';
+    final storage = _supabase.storage.from(bucket);
+    await storage.uploadBinary(path, bytes,
+        fileOptions: FileOptions(contentType: 'image/jpeg'));
+    // Gerar URL pública
+    final publicUrl = storage.getPublicUrl(path);
+    return publicUrl;
+  }
+
+  // Obter perfil do usuário atual
+  Future<Map<String, dynamic>?> getCurrentUserProfile() async {
+    final user = _supabase.auth.currentUser;
+    if (user == null) return null;
+    final response =
+        await _supabase.from('profiles').select().eq('id', user.id).single();
+    return response;
+  }
+
+  // Atualizar perfil do usuário
+  Future<void> updateUserProfile(
+      {required String name, String? avatarUrl}) async {
+    final user = _supabase.auth.currentUser;
+    if (user == null) throw Exception('Usuário não autenticado');
+    final data = {
+      'name': name,
+      if (avatarUrl != null) 'avatar_url': avatarUrl,
+      'updated_at': DateTime.now().toIso8601String(),
+    };
+    await _supabase.from('profiles').update(data).eq('id', user.id);
   }
 
   // TODO: Implementar outros métodos de autenticação se necessário (ex: Google, Apple)
