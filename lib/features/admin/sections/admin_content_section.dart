@@ -86,6 +86,7 @@ class _AdminContentSectionState extends State<AdminContentSection> {
       // Recarregar módulos
       await _loadModules();
 
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Módulo criado com sucesso!'),
@@ -113,6 +114,7 @@ class _AdminContentSectionState extends State<AdminContentSection> {
       // Recarregar módulos
       await _loadModules();
 
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Módulo excluído com sucesso!'),
