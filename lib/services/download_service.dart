@@ -8,6 +8,9 @@ import 'package:app_aya_v2/services/metadata_service.dart';
 import 'package:app_aya_v2/services/encryption_service.dart';
 import 'package:app_aya_v2/services/storage_path_service.dart';
 import 'package:crypto/crypto.dart';
+import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as path;
+import '../core/services/logging_service.dart';
 
 class DownloadService {
   static final DownloadService _instance = DownloadService._internal();
@@ -18,6 +21,7 @@ class DownloadService {
   final _encryption = EncryptionService();
   final _storagePath = StoragePathService();
   final Map<String, StreamController<double>> _downloadProgressControllers = {};
+  final _logger = LoggingService();
 
   static const _maxDownloads = 100;
   static const _maxStorageSize = 1024 * 1024 * 1024; // 1GB
@@ -197,7 +201,7 @@ class DownloadService {
       await _downloadProgressControllers[lessonId]?.close();
       _downloadProgressControllers.remove(lessonId);
     } catch (e) {
-      debugPrint('Erro ao cancelar download: $e');
+      _logger.error('Erro ao cancelar download', e);
       rethrow;
     }
   }
@@ -218,7 +222,45 @@ class DownloadService {
       final encryptedBytes = await file.readAsBytes();
       return await _encryption.decryptFile(encryptedBytes);
     } catch (e) {
-      debugPrint('Erro ao obter dados descriptografados: $e');
+      _logger.error('Erro ao obter dados descriptografados', e);
+      rethrow;
+    }
+  }
+
+  Future<String> downloadFile(String url, String fileName) async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final filePath = path.join(directory.path, fileName);
+      final file = File(filePath);
+
+      if (await file.exists()) {
+        _logger.info('Arquivo já existe em: $filePath');
+        return filePath;
+      }
+
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        await file.writeAsBytes(response.bodyBytes);
+        _logger.info('Arquivo baixado com sucesso: $filePath');
+        return filePath;
+      } else {
+        throw Exception('Falha ao baixar arquivo: ${response.statusCode}');
+      }
+    } catch (e) {
+      _logger.error('Erro ao baixar arquivo', e);
+      rethrow;
+    }
+  }
+
+  Future<void> deleteFile(String filePath) async {
+    try {
+      final file = File(filePath);
+      if (await file.exists()) {
+        await file.delete();
+        _logger.info('Arquivo deletado com sucesso: $filePath');
+      }
+    } catch (e) {
+      _logger.error('Erro ao deletar arquivo', e);
       rethrow;
     }
   }

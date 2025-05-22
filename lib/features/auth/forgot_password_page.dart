@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:app_aya_v2/config/theme.dart';
 import 'package:app_aya_v2/config/routes.dart';
 import 'package:app_aya_v2/shared/widgets/gradient_button.dart';
-import 'package:app_aya_v2/features/auth/auth_service.dart'; // Import AuthService
+import 'package:app_aya_v2/features/auth/services/auth_service.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -33,9 +33,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         _message = null;
       });
       try {
-        await _authService.sendPasswordResetEmail(_emailController.text.trim());
+        await _authService.sendPasswordResetEmail(
+          email: _emailController.text.trim(),
+        );
         setState(() {
-          _message = 'Um e-mail de redefinição de senha foi enviado para ${_emailController.text.trim()}. Verifique sua caixa de entrada.';
+          _message =
+              'Um e-mail de redefinição de senha foi enviado para ${_emailController.text.trim()}. Verifique sua caixa de entrada.';
           _isSuccess = true;
         });
       } catch (e) {
@@ -63,7 +66,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           icon: Icon(Icons.arrow_back, color: AppTheme.textPrimary),
           onPressed: () => GoRouter.of(context).pop(),
         ),
-        title: Text('Recuperar Senha', style: TextStyle(color: AppTheme.textPrimary)),
+        title: Text('Recuperar Senha',
+            style: TextStyle(color: AppTheme.textPrimary)),
         centerTitle: true,
       ),
       body: Container(
@@ -83,13 +87,19 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     Text(
                       'Esqueceu sua senha?',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppTheme.textPrimary, fontWeight: FontWeight.bold),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium
+                          ?.copyWith(
+                              color: AppTheme.textPrimary,
+                              fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       'Insira seu e-mail para enviarmos um link de redefinição.',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppTheme.textPrimary.withAlpha(204)),
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: AppTheme.textPrimary.withAlpha(204)),
                     ),
                     const SizedBox(height: 32),
                     TextFormField(
@@ -98,14 +108,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       style: const TextStyle(color: AppTheme.textPrimary),
                       decoration: InputDecoration(
                         hintText: 'Seu e-mail',
-                        hintStyle: TextStyle(color: AppTheme.textPrimary.withAlpha(153)),
+                        hintStyle: TextStyle(
+                            color: AppTheme.textPrimary.withAlpha(153)),
                         filled: true,
                         fillColor: AppTheme.secondary.withAlpha(77),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
                           borderSide: BorderSide.none,
                         ),
-                        prefixIcon: Icon(Icons.email_outlined, color: AppTheme.textPrimary.withAlpha(179)),
+                        prefixIcon: Icon(Icons.email_outlined,
+                            color: AppTheme.textPrimary.withAlpha(179)),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -123,13 +135,18 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         padding: const EdgeInsets.only(bottom: 10.0),
                         child: Text(
                           _message!,
-                          style: TextStyle(color: _isSuccess ? Colors.green : Colors.redAccent, fontSize: 14),
+                          style: TextStyle(
+                              color:
+                                  _isSuccess ? Colors.green : Colors.redAccent,
+                              fontSize: 14),
                           textAlign: TextAlign.center,
                         ),
                       ),
                     const SizedBox(height: 8),
                     _isLoading
-                        ? const Center(child: CircularProgressIndicator(color: AppTheme.textPrimary))
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                                color: AppTheme.textPrimary))
                         : GradientButton(
                             text: 'Enviar Link',
                             onPressed: _sendPasswordResetEmail,

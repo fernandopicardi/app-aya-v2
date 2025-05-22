@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_aya_v2/config/theme.dart';
+import 'package:app_aya_v2/theme/aya_theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
@@ -90,7 +90,7 @@ class _UserDashboardPageState extends State<UserDashboardPage> {
         width: 300,
         margin: const EdgeInsets.only(right: 16),
         decoration: BoxDecoration(
-          color: AppTheme.secondary,
+          color: AyaColors.surface,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
@@ -99,7 +99,7 @@ class _UserDashboardPageState extends State<UserDashboardPage> {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: AppTheme.primary.withAlpha(26),
+                  color: AyaColors.turquoise,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16),
@@ -108,7 +108,7 @@ class _UserDashboardPageState extends State<UserDashboardPage> {
                 child: Center(
                   child: Icon(
                     _getIconForType(type),
-                    color: AppTheme.primary,
+                    color: AyaColors.turquoise,
                     size: 48,
                   ),
                 ),
@@ -122,7 +122,7 @@ class _UserDashboardPageState extends State<UserDashboardPage> {
                   Text(
                     _getTitleForType(type),
                     style: const TextStyle(
-                      color: AppTheme.textPrimary,
+                      color: AyaColors.textPrimary,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -131,7 +131,7 @@ class _UserDashboardPageState extends State<UserDashboardPage> {
                   Text(
                     _getDescriptionForType(type),
                     style: TextStyle(
-                      color: AppTheme.textPrimary.withAlpha(204),
+                      color: AyaColors.textPrimary80,
                       fontSize: 14,
                     ),
                   ),
@@ -206,7 +206,7 @@ class _WebSidebar extends StatelessWidget {
     ];
     return Container(
       width: 220,
-      color: AppTheme.secondary.withAlpha(242),
+      color: AyaColors.textPrimary80,
       child: Column(
         children: [
           const SizedBox(height: 32),
@@ -215,14 +215,14 @@ class _WebSidebar extends StatelessWidget {
             return ListTile(
               leading: Icon(item['icon'] as IconData,
                   color: i == selectedIndex
-                      ? AppTheme.primary
-                      : AppTheme.textPrimary.withAlpha(179)),
+                      ? AyaColors.turquoise
+                      : AyaColors.textPrimary60),
               title: Text(
                 item['label'] as String,
                 style: TextStyle(
                   color: i == selectedIndex
-                      ? AppTheme.primary
-                      : AppTheme.textPrimary.withAlpha(204),
+                      ? AyaColors.turquoise
+                      : AyaColors.textPrimary80,
                   fontWeight:
                       i == selectedIndex ? FontWeight.bold : FontWeight.normal,
                 ),
@@ -231,8 +231,8 @@ class _WebSidebar extends StatelessWidget {
               onTap: () => onTap(i),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
-              selectedTileColor: AppTheme.primary.withAlpha(20),
-              hoverColor: AppTheme.primary.withAlpha(31),
+              selectedTileColor: AyaColors.lavenderSoft30,
+              hoverColor: AyaColors.lavenderSoft30,
             );
           }),
           const Spacer(),
@@ -336,14 +336,14 @@ class _HeroCarouselState extends State<_HeroCarousel> {
           SizedBox(
             height: isMobile ? 320 : 380,
             child: Shimmer.fromColors(
-              baseColor: AppTheme.secondary.withAlpha(77),
-              highlightColor: AppTheme.primary.withAlpha(38),
+              baseColor: AyaColors.textPrimary40,
+              highlightColor: AyaColors.lavenderSoft30,
               child: Container(
                 margin: EdgeInsets.symmetric(
                     horizontal: isMobile ? 12 : 64,
                     vertical: isMobile ? 16 : 32),
                 decoration: BoxDecoration(
-                  color: AppTheme.secondary,
+                  color: AyaColors.surface,
                   borderRadius: BorderRadius.circular(28),
                 ),
               ),
@@ -352,8 +352,8 @@ class _HeroCarouselState extends State<_HeroCarousel> {
           Padding(
             padding: const EdgeInsets.only(top: 16, bottom: 8),
             child: Shimmer.fromColors(
-              baseColor: AppTheme.secondary.withAlpha(77),
-              highlightColor: AppTheme.primary.withAlpha(38),
+              baseColor: AyaColors.textPrimary40,
+              highlightColor: AyaColors.lavenderSoft30,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(
@@ -363,7 +363,7 @@ class _HeroCarouselState extends State<_HeroCarousel> {
                           width: 22,
                           height: 10,
                           decoration: BoxDecoration(
-                            color: AppTheme.secondary,
+                            color: AyaColors.surface,
                             borderRadius: BorderRadius.circular(8),
                           ),
                         )),
@@ -373,13 +373,13 @@ class _HeroCarouselState extends State<_HeroCarousel> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12),
             child: Shimmer.fromColors(
-              baseColor: AppTheme.secondary.withAlpha(77),
-              highlightColor: AppTheme.primary.withAlpha(38),
+              baseColor: AyaColors.textPrimary40,
+              highlightColor: AyaColors.lavenderSoft30,
               child: Container(
                 width: 220,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: AppTheme.secondary,
+                  color: AyaColors.surface,
                   borderRadius: BorderRadius.circular(14),
                 ),
               ),
@@ -413,7 +413,7 @@ class _HeroCarouselState extends State<_HeroCarousel> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: AppTheme.primary.withAlpha(33),
+                            color: AyaColors.lavenderSoft30,
                             blurRadius: 16,
                             offset: const Offset(0, 8),
                           ),
@@ -596,7 +596,7 @@ class _SectionTitle extends StatelessWidget {
       child: Text(
         title,
         style: TextStyle(
-          color: AppTheme.textPrimary,
+          color: AyaColors.textPrimary,
           fontWeight: FontWeight.bold,
           fontSize: 18,
         ),
@@ -689,7 +689,7 @@ class _DashboardCard extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: AppTheme.primary.withAlpha(33),
+              color: AyaColors.lavenderSoft30,
               blurRadius: 12,
               offset: const Offset(0, 6),
             ),
@@ -706,7 +706,7 @@ class _DashboardCard extends StatelessWidget {
                     end: Alignment.bottomCenter,
                     colors: [
                       Colors.transparent,
-                      AppTheme.secondary.withAlpha(217),
+                      AyaColors.surface.withAlpha(217),
                     ],
                   ),
                 ),
@@ -721,7 +721,7 @@ class _DashboardCard extends StatelessWidget {
                   Text(
                     titles[cardType]!,
                     style: TextStyle(
-                      color: AppTheme.textPrimary,
+                      color: AyaColors.textPrimary,
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
                     ),
@@ -730,7 +730,7 @@ class _DashboardCard extends StatelessWidget {
                   Text(
                     subtitles[cardType]!,
                     style: TextStyle(
-                      color: AppTheme.textPrimary.withAlpha(230),
+                      color: AyaColors.textPrimary80,
                       fontSize: 12,
                     ),
                   ),
@@ -739,11 +739,12 @@ class _DashboardCard extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 8),
                       child: Row(
                         children: [
-                          Icon(Icons.lock, color: AppTheme.primary, size: 16),
+                          Icon(Icons.lock,
+                              color: AyaColors.turquoise, size: 16),
                           const SizedBox(width: 4),
                           Text('Premium',
                               style: TextStyle(
-                                  color: AppTheme.primary, fontSize: 12)),
+                                  color: AyaColors.turquoise, fontSize: 12)),
                         ],
                       ),
                     ),
@@ -795,12 +796,12 @@ class _ContinueJourneyList extends StatelessWidget {
           itemCount: 3,
           separatorBuilder: (_, __) => const SizedBox(width: 18),
           itemBuilder: (context, i) => Shimmer.fromColors(
-            baseColor: AppTheme.secondary.withAlpha(77),
-            highlightColor: AppTheme.primary.withAlpha(38),
+            baseColor: AyaColors.textPrimary40,
+            highlightColor: AyaColors.lavenderSoft30,
             child: Container(
               width: isMobile ? 220 : 260,
               decoration: BoxDecoration(
-                color: AppTheme.secondary,
+                color: AyaColors.surface,
                 borderRadius: BorderRadius.circular(18),
               ),
             ),
@@ -834,7 +835,7 @@ class _ContinueJourneyList extends StatelessWidget {
                 borderRadius: BorderRadius.circular(18),
                 boxShadow: [
                   BoxShadow(
-                    color: AppTheme.primary.withAlpha(33),
+                    color: AyaColors.lavenderSoft30,
                     blurRadius: 12,
                     offset: const Offset(0, 6),
                   ),
@@ -964,12 +965,12 @@ class _FeaturedModulesListState extends State<_FeaturedModulesList> {
           itemCount: 3,
           separatorBuilder: (_, __) => const SizedBox(width: 18),
           itemBuilder: (context, i) => Shimmer.fromColors(
-            baseColor: AppTheme.secondary.withAlpha(77),
-            highlightColor: AppTheme.primary.withAlpha(38),
+            baseColor: AyaColors.textPrimary40,
+            highlightColor: AyaColors.lavenderSoft30,
             child: Container(
               width: isMobile ? 320 : 380,
               decoration: BoxDecoration(
-                color: AppTheme.secondary,
+                color: AyaColors.surface,
                 borderRadius: BorderRadius.circular(18),
               ),
             ),
@@ -1003,7 +1004,7 @@ class _FeaturedModulesListState extends State<_FeaturedModulesList> {
                 borderRadius: BorderRadius.circular(18),
                 boxShadow: [
                   BoxShadow(
-                    color: AppTheme.primary.withAlpha(33),
+                    color: AyaColors.lavenderSoft30,
                     blurRadius: 12,
                     offset: const Offset(0, 6),
                   ),
@@ -1093,7 +1094,7 @@ class _VideoPlayerModal extends StatelessWidget {
       insetPadding: const EdgeInsets.all(16),
       child: Container(
         decoration: BoxDecoration(
-          color: AppTheme.secondary.withAlpha(250),
+          color: AyaColors.textPrimary80,
           borderRadius: BorderRadius.circular(18),
         ),
         padding: const EdgeInsets.all(16),
@@ -1107,13 +1108,13 @@ class _VideoPlayerModal extends StatelessWidget {
                 Text(
                   title,
                   style: const TextStyle(
-                    color: AppTheme.textPrimary,
+                    color: AyaColors.textPrimary,
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.close, color: AppTheme.textPrimary),
+                  icon: const Icon(Icons.close, color: AyaColors.textPrimary),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               ],
@@ -1123,12 +1124,12 @@ class _VideoPlayerModal extends StatelessWidget {
               aspectRatio: 16 / 9,
               child: Container(
                 decoration: BoxDecoration(
-                  color: AppTheme.background,
+                  color: AyaColors.background,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Center(
                   child: Icon(Icons.play_circle_fill,
-                      color: AppTheme.primary, size: 64),
+                      color: AyaColors.turquoise, size: 64),
                 ),
               ),
             ),
@@ -1136,7 +1137,7 @@ class _VideoPlayerModal extends StatelessWidget {
             Text(
               'Gostou? Descubra mais com nossos planos!',
               style: TextStyle(
-                color: AppTheme.textPrimary.withAlpha(230),
+                color: AyaColors.textPrimary80,
                 fontSize: 15,
               ),
               textAlign: TextAlign.center,
@@ -1148,8 +1149,8 @@ class _VideoPlayerModal extends StatelessWidget {
                 router.push('/plans');
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.primary,
-                foregroundColor: AppTheme.textPrimary,
+                backgroundColor: AyaColors.turquoise,
+                foregroundColor: AyaColors.textPrimary,
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 textStyle:
                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),

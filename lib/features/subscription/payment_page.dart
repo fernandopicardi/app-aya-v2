@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_aya_v2/features/subscription/subscription_plan.dart';
-import 'package:app_aya_v2/config/theme.dart';
+import 'package:app_aya_v2/theme/aya_theme.dart';
 
 class PaymentPage extends StatelessWidget {
   final SubscriptionPlan plan;
@@ -15,8 +15,8 @@ class PaymentPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pagamento'),
-        backgroundColor: AppTheme.primary,
-        foregroundColor: AppTheme.textPrimary,
+        backgroundColor: AyaColors.turquoise,
+        foregroundColor: AyaColors.textPrimary,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -36,7 +36,7 @@ class PaymentPage extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.textPrimary,
+                          color: AyaColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -44,7 +44,7 @@ class PaymentPage extends StatelessWidget {
                         plan.description,
                         style: TextStyle(
                           fontSize: 16,
-                          color: AppTheme.textPrimary.withAlpha(230),
+                          color: AyaColors.textPrimary80,
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -53,7 +53,7 @@ class PaymentPage extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.primary,
+                          color: AyaColors.turquoise,
                         ),
                       ),
                     ],
@@ -67,7 +67,7 @@ class PaymentPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: AppTheme.textPrimary,
+                  color: AyaColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 16),
@@ -118,13 +118,14 @@ class PaymentPage extends StatelessWidget {
                     final scaffoldMessenger = ScaffoldMessenger.of(context);
                     scaffoldMessenger.showSnackBar(
                       const SnackBar(
-                        content: Text('Funcionalidade de pagamento em desenvolvimento'),
+                        content: Text(
+                            'Funcionalidade de pagamento em desenvolvimento'),
                       ),
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.primary,
-                    foregroundColor: AppTheme.textPrimary,
+                    backgroundColor: AyaColors.turquoise,
+                    foregroundColor: AyaColors.textPrimary,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     textStyle: const TextStyle(
                       fontSize: 18,
@@ -143,4 +144,4 @@ class PaymentPage extends StatelessWidget {
       ),
     );
   }
-} 
+}

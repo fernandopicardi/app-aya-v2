@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_aya_v2/config/theme.dart';
+import 'package:app_aya_v2/theme/aya_theme.dart';
 
 class TermsPage extends StatelessWidget {
   const TermsPage({super.key});
@@ -9,7 +9,7 @@ class TermsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Termos de Uso'),
-        backgroundColor: AppTheme.secondary,
+        backgroundColor: AyaColors.surface,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -21,14 +21,14 @@ class TermsPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: AppTheme.textPrimary,
+                color: AyaColors.textPrimary,
               ),
             ),
             const SizedBox(height: 16),
             const Text(
               'Última atualização: 1 de Março de 2024',
               style: TextStyle(
-                color: AppTheme.textPrimary,
+                color: AyaColors.textPrimary,
                 fontSize: 14,
               ),
             ),
@@ -82,7 +82,7 @@ class TermsPage extends StatelessWidget {
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: AppTheme.textPrimary,
+              color: AyaColors.textPrimary,
             ),
           ),
           const SizedBox(height: 8),
@@ -90,7 +90,7 @@ class TermsPage extends StatelessWidget {
             content,
             style: const TextStyle(
               fontSize: 16,
-              color: AppTheme.textPrimary,
+              color: AyaColors.textPrimary,
               height: 1.5,
             ),
           ),

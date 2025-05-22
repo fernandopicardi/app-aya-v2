@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_aya_v2/config/theme.dart';
+import 'package:app_aya_v2/theme/aya_theme.dart';
 
 class FAQPage extends StatelessWidget {
   const FAQPage({super.key});
@@ -9,7 +9,7 @@ class FAQPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Perguntas Frequentes'),
-        backgroundColor: AppTheme.secondary,
+        backgroundColor: AyaColors.surface,
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
@@ -115,7 +115,7 @@ class FAQPage extends StatelessWidget {
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: AppTheme.textPrimary,
+              color: AyaColors.textPrimary,
             ),
           ),
         ),
@@ -132,7 +132,7 @@ class FAQPage extends StatelessWidget {
         style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
-          color: AppTheme.textPrimary,
+          color: AyaColors.textPrimary,
         ),
       ),
       children: [
@@ -142,7 +142,7 @@ class FAQPage extends StatelessWidget {
             answer,
             style: const TextStyle(
               fontSize: 14,
-              color: AppTheme.textPrimary,
+              color: AyaColors.textPrimary,
               height: 1.5,
             ),
           ),

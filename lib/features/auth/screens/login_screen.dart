@@ -1,178 +1,68 @@
 import 'package:flutter/material.dart';
-import 'package:app_aya_v2/features/auth/auth_service.dart';
+import 'dart:io' show Platform;
+import '../services/auth_service.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  bool _isLoading = false;
-  String? _errorMessage;
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _login() async {
-    if (!_formKey.currentState!.validate()) return;
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-    });
-    try {
-      await AuthService().signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-      if (!mounted) return;
-      _navigateToDashboard();
-    } catch (e) {
-      if (!mounted) return;
-      setState(() {
-        _errorMessage = e.toString().replaceFirst('Exception: ', '');
-      });
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
-    }
-  }
-
-  void _navigateToDashboard() {
-    if (!mounted) return;
-    Navigator.of(context).pushReplacementNamed('/dashboard');
-  }
-
-  Future<void> _handleGoogleSignIn() async {
-    if (!mounted) return;
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-    });
-    try {
-      await AuthService().signInWithGoogle();
-      if (!mounted) return;
-      _navigateToDashboard();
-    } catch (e) {
-      if (!mounted) return;
-      setState(() {
-        _errorMessage = e.toString().replaceFirst('Exception: ', '');
-      });
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
-    }
-  }
-
-  Future<void> _handleAppleSignIn() async {
-    if (!mounted) return;
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-    });
-    try {
-      await AuthService().signInWithApple();
-      if (!mounted) return;
-      _navigateToDashboard();
-    } catch (e) {
-      if (!mounted) return;
-      setState(() {
-        _errorMessage = e.toString().replaceFirst('Exception: ', '');
-      });
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final authService = AuthService();
+
     return Scaffold(
       body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const Text(
-                  'Login',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 32),
-                TextFormField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    border: OutlineInputBorder(),
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor, insira seu email';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _passwordController,
-                  decoration: const InputDecoration(
-                    labelText: 'Senha',
-                    border: OutlineInputBorder(),
-                  ),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor, insira sua senha';
-                    }
-                    return null;
-                  },
-                ),
-                if (_errorMessage != null) ...[
-                  const SizedBox(height: 16),
-                  Text(_errorMessage!,
-                      style: const TextStyle(color: Colors.redAccent),
-                      textAlign: TextAlign.center),
-                ],
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: _isLoading ? null : _login,
-                  child: _isLoading
-                      ? const CircularProgressIndicator()
-                      : const Text('Entrar'),
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.g_mobiledata,
-                          color: Colors.blue, size: 36),
-                      onPressed: _isLoading ? null : _handleGoogleSignIn,
-                    ),
-                    const SizedBox(width: 16),
-                    IconButton(
-                      icon: const Icon(Icons.apple,
-                          color: Colors.black, size: 32),
-                      onPressed: _isLoading ? null : _handleAppleSignIn,
-                    ),
-                  ],
-                ),
-              ],
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Google Sign In Button
+            ElevatedButton(
+              onPressed: () async {
+                try {
+                  final user = await authService.signInWithGoogle();
+                  if (user != null) {
+                    // Navigate to dashboard or home screen
+                    Navigator.pushReplacementNamed(context, '/dashboard');
+                  }
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Erro no login: $e')),
+                  );
+                }
+              },
+              child: const Text('Entrar com Google'),
             ),
-          ),
+            const SizedBox(height: 16),
+            // Apple Sign In Button (iOS/macOS only)
+            if (Platform.isIOS || Platform.isMacOS)
+              ElevatedButton(
+                onPressed: () async {
+                  try {
+                    final user = await authService.signInWithApple();
+                    if (user != null) {
+                      // Navigate to dashboard or home screen
+                      Navigator.pushReplacementNamed(context, '/dashboard');
+                    }
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Erro no login: $e')),
+                    );
+                  }
+                },
+                child: const Text('Entrar com Apple'),
+              ),
+            const SizedBox(height: 16),
+            // Show current user ID if logged in
+            StreamBuilder(
+              stream: authService.authStateChanges,
+              builder: (context, snapshot) {
+                final user = authService.getCurrentUser();
+                if (user != null) {
+                  return Text('Usuário logado: ${user.id}');
+                }
+                return const Text('Não logado');
+              },
+            ),
+          ],
         ),
       ),
     );

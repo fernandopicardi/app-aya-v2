@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_aya_v2/config/theme.dart';
+import 'package:app_aya_v2/theme/aya_theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:app_aya_v2/config/routes.dart';
 
@@ -9,7 +9,7 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.background,
+      backgroundColor: AyaColors.background,
       body: CustomScrollView(
         slivers: [
           // Enhanced AppBar with user progress
@@ -17,7 +17,7 @@ class DashboardPage extends StatelessWidget {
             expandedHeight: 120,
             floating: true,
             pinned: true,
-            backgroundColor: AppTheme.secondary.withAlpha(247),
+            backgroundColor: AyaColors.textPrimary80,
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
                 decoration: BoxDecoration(
@@ -25,8 +25,8 @@ class DashboardPage extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      AppTheme.secondary,
-                      AppTheme.secondary.withAlpha(242),
+                      AyaColors.surface,
+                      AyaColors.surface.withAlpha(242),
                     ],
                   ),
                 ),
@@ -40,13 +40,14 @@ class DashboardPage extends StatelessWidget {
                     Text(
                       'Olá, Maria!',
                       style: TextStyle(
-                        color: AppTheme.textPrimary,
+                        color: AyaColors.textPrimary,
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                       ),
                     ),
                     const SizedBox(width: 8),
-                    Icon(Icons.waving_hand, color: AppTheme.primary, size: 20),
+                    Icon(Icons.waving_hand,
+                        color: AyaColors.turquoise, size: 20),
                   ],
                 ),
                 GestureDetector(
@@ -56,7 +57,7 @@ class DashboardPage extends StatelessWidget {
                       Text(
                         'Caminhante',
                         style: TextStyle(
-                          color: AppTheme.textPrimary.withAlpha(230),
+                          color: AyaColors.textPrimary.withAlpha(230),
                           fontSize: 14,
                         ),
                       ),
@@ -64,13 +65,14 @@ class DashboardPage extends StatelessWidget {
                       Text(
                         '| 250/500 pts',
                         style: TextStyle(
-                          color: AppTheme.primary,
+                          color: AyaColors.turquoise,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                       const SizedBox(width: 4),
-                      Icon(Icons.auto_awesome, color: AppTheme.primary, size: 14),
+                      Icon(Icons.auto_awesome,
+                          color: AyaColors.turquoise, size: 14),
                     ],
                   ),
                 ),
@@ -78,11 +80,12 @@ class DashboardPage extends StatelessWidget {
             ),
             actions: [
               IconButton(
-                icon: Icon(Icons.notifications_outlined, color: AppTheme.textPrimary),
+                icon: Icon(Icons.notifications_outlined,
+                    color: AyaColors.textPrimary),
                 onPressed: () {},
               ),
               IconButton(
-                icon: Icon(Icons.person_outline, color: AppTheme.textPrimary),
+                icon: Icon(Icons.person_outline, color: AyaColors.textPrimary),
                 onPressed: () => context.push(AppRouter.profile),
               ),
               const SizedBox(width: 8),
@@ -168,12 +171,12 @@ class _SectionHeader extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
       child: Row(
         children: [
-          Icon(icon, color: AppTheme.primary, size: 24),
+          Icon(icon, color: AyaColors.turquoise, size: 24),
           const SizedBox(width: 8),
           Text(
             title,
             style: TextStyle(
-              color: AppTheme.textPrimary,
+              color: AyaColors.textPrimary,
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
@@ -201,7 +204,7 @@ class _ContinueProgressCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primary.withAlpha(25),
+            color: AyaColors.turquoise.withAlpha(25),
             blurRadius: 12,
             offset: const Offset(0, 6),
           ),
@@ -228,7 +231,7 @@ class _ContinueProgressCard extends StatelessWidget {
                   Text(
                     'Meditação para Aliviar a Ansiedade',
                     style: TextStyle(
-                      color: AppTheme.textPrimary,
+                      color: AyaColors.textPrimary,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
@@ -238,8 +241,9 @@ class _ContinueProgressCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(4),
                     child: LinearProgressIndicator(
                       value: 0.7,
-                      backgroundColor: AppTheme.textPrimary.withAlpha(51),
-                      valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primary),
+                      backgroundColor: AyaColors.textPrimary.withAlpha(51),
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(AyaColors.turquoise),
                       minHeight: 4,
                     ),
                   ),
@@ -247,7 +251,7 @@ class _ContinueProgressCard extends StatelessWidget {
                   Text(
                     '70% Concluído',
                     style: TextStyle(
-                      color: AppTheme.textPrimary.withAlpha(230),
+                      color: AyaColors.textPrimary.withAlpha(230),
                       fontSize: 14,
                     ),
                   ),
@@ -257,9 +261,10 @@ class _ContinueProgressCard extends StatelessWidget {
                     icon: const Icon(Icons.play_arrow_rounded),
                     label: const Text('Continuar'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.primary,
-                      foregroundColor: AppTheme.textPrimary,
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      backgroundColor: AyaColors.turquoise,
+                      foregroundColor: AyaColors.textPrimary,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 12),
                     ),
                   ),
                 ],
@@ -325,7 +330,7 @@ class _ContentCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primary.withAlpha(25),
+            color: AyaColors.turquoise.withAlpha(25),
             blurRadius: 12,
             offset: const Offset(0, 6),
           ),
@@ -355,7 +360,7 @@ class _ContentCard extends StatelessWidget {
                     end: Alignment.bottomCenter,
                     colors: [
                       Colors.transparent,
-                      AppTheme.secondary.withAlpha(242),
+                      AyaColors.surface.withAlpha(242),
                     ],
                   ),
                 ),
@@ -365,7 +370,7 @@ class _ContentCard extends StatelessWidget {
                     Text(
                       title,
                       style: const TextStyle(
-                        color: AppTheme.textPrimary,
+                        color: AyaColors.textPrimary,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -376,35 +381,39 @@ class _ContentCard extends StatelessWidget {
                     Row(
                       children: [
                         Icon(
-                          type == 'Áudio' ? Icons.headphones : Icons.play_circle_outline,
-                          color: AppTheme.textPrimary.withAlpha(230),
+                          type == 'Áudio'
+                              ? Icons.headphones
+                              : Icons.play_circle_outline,
+                          color: AyaColors.textPrimary.withAlpha(230),
                           size: 16,
                         ),
                         const SizedBox(width: 4),
                         Text(
                           '$type • $duration',
                           style: TextStyle(
-                            color: AppTheme.textPrimary.withAlpha(230),
+                            color: AyaColors.textPrimary.withAlpha(230),
                             fontSize: 12,
                           ),
                         ),
                         if (isPremium) ...[
                           const SizedBox(width: 8),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
-                              color: AppTheme.primary,
+                              color: AyaColors.turquoise,
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.lock, color: AppTheme.textPrimary, size: 12),
+                                Icon(Icons.lock,
+                                    color: AyaColors.textPrimary, size: 12),
                                 const SizedBox(width: 2),
                                 Text(
                                   'Premium',
                                   style: TextStyle(
-                                    color: AppTheme.textPrimary,
+                                    color: AyaColors.textPrimary,
                                     fontSize: 10,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -430,8 +439,16 @@ class _CategoriesGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categories = [
-      {'name': 'Meditação Guiada', 'icon': Icons.self_improvement, 'count': '24 aulas'},
-      {'name': 'Autoconhecimento', 'icon': Icons.psychology_alt, 'count': '18 aulas'},
+      {
+        'name': 'Meditação Guiada',
+        'icon': Icons.self_improvement,
+        'count': '24 aulas'
+      },
+      {
+        'name': 'Autoconhecimento',
+        'icon': Icons.psychology_alt,
+        'count': '18 aulas'
+      },
       {'name': 'Mindfulness', 'icon': Icons.spa, 'count': '15 aulas'},
       {'name': 'Bem-estar', 'icon': Icons.favorite, 'count': '12 aulas'},
     ];
@@ -452,11 +469,11 @@ class _CategoriesGrid extends StatelessWidget {
           final category = categories[index];
           return Container(
             decoration: BoxDecoration(
-              color: AppTheme.secondary.withAlpha(179),
+              color: AyaColors.surface.withAlpha(179),
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: AppTheme.primary.withAlpha(25),
+                  color: AyaColors.turquoise.withAlpha(25),
                   blurRadius: 12,
                   offset: const Offset(0, 6),
                 ),
@@ -474,14 +491,14 @@ class _CategoriesGrid extends StatelessWidget {
                     children: [
                       Icon(
                         category['icon'] as IconData,
-                        color: AppTheme.primary,
+                        color: AyaColors.turquoise,
                         size: 32,
                       ),
                       const SizedBox(height: 8),
                       Text(
                         category['name'] as String,
                         style: const TextStyle(
-                          color: AppTheme.textPrimary,
+                          color: AyaColors.textPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
@@ -491,7 +508,7 @@ class _CategoriesGrid extends StatelessWidget {
                       Text(
                         category['count'] as String,
                         style: TextStyle(
-                          color: AppTheme.textPrimary.withAlpha(230),
+                          color: AyaColors.textPrimary.withAlpha(230),
                           fontSize: 12,
                         ),
                       ),
@@ -515,7 +532,7 @@ class _FavoritesList extends StatelessWidget {
       height: 200,
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: AppTheme.secondary.withAlpha(179),
+        color: AyaColors.surface.withAlpha(179),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Center(
@@ -524,14 +541,14 @@ class _FavoritesList extends StatelessWidget {
           children: [
             Icon(
               Icons.favorite_border,
-              color: AppTheme.primary,
+              color: AyaColors.turquoise,
               size: 48,
             ),
             const SizedBox(height: 16),
             Text(
               'Suas aulas favoritas aparecerão aqui',
               style: TextStyle(
-                color: AppTheme.textPrimary,
+                color: AyaColors.textPrimary,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
@@ -540,7 +557,7 @@ class _FavoritesList extends StatelessWidget {
             Text(
               'Explore e salve o que mais te inspirar! ✨',
               style: TextStyle(
-                color: AppTheme.textPrimary.withAlpha(230),
+                color: AyaColors.textPrimary.withAlpha(230),
                 fontSize: 14,
               ),
             ),
@@ -564,11 +581,11 @@ class _ActiveChallengesList extends StatelessWidget {
         itemBuilder: (context, index) => Container(
           width: 280,
           decoration: BoxDecoration(
-            color: AppTheme.secondary.withAlpha(179),
+            color: AyaColors.surface.withAlpha(179),
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: AppTheme.primary.withAlpha(25),
+                color: AyaColors.turquoise.withAlpha(25),
                 blurRadius: 12,
                 offset: const Offset(0, 6),
               ),
@@ -581,12 +598,13 @@ class _ActiveChallengesList extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(Icons.emoji_events, color: AppTheme.primary, size: 24),
+                    Icon(Icons.emoji_events,
+                        color: AyaColors.turquoise, size: 24),
                     const SizedBox(width: 8),
                     Text(
                       'Desafio da Semana',
                       style: TextStyle(
-                        color: AppTheme.textPrimary,
+                        color: AyaColors.textPrimary,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -597,7 +615,7 @@ class _ActiveChallengesList extends StatelessWidget {
                 Text(
                   '7 dias de meditação guiada',
                   style: TextStyle(
-                    color: AppTheme.textPrimary.withAlpha(230),
+                    color: AyaColors.textPrimary.withAlpha(230),
                     fontSize: 14,
                   ),
                 ),
@@ -606,8 +624,9 @@ class _ActiveChallengesList extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                   child: LinearProgressIndicator(
                     value: 0.4,
-                    backgroundColor: AppTheme.textPrimary.withAlpha(51),
-                    valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primary),
+                    backgroundColor: AyaColors.textPrimary.withAlpha(51),
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(AyaColors.turquoise),
                     minHeight: 4,
                   ),
                 ),
@@ -615,7 +634,7 @@ class _ActiveChallengesList extends StatelessWidget {
                 Text(
                   '3 de 7 dias completos',
                   style: TextStyle(
-                    color: AppTheme.textPrimary.withAlpha(230),
+                    color: AyaColors.textPrimary.withAlpha(230),
                     fontSize: 12,
                   ),
                 ),
@@ -673,7 +692,7 @@ class _CommunityUpdateCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.secondary.withAlpha(179),
+        color: AyaColors.surface.withAlpha(179),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Material(
@@ -685,7 +704,7 @@ class _CommunityUpdateCard extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                Icon(icon, color: AppTheme.primary, size: 24),
+                Icon(icon, color: AyaColors.turquoise, size: 24),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
@@ -694,7 +713,7 @@ class _CommunityUpdateCard extends StatelessWidget {
                       Text(
                         title,
                         style: TextStyle(
-                          color: AppTheme.textPrimary,
+                          color: AyaColors.textPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                         ),
@@ -703,7 +722,7 @@ class _CommunityUpdateCard extends StatelessWidget {
                       Text(
                         subtitle,
                         style: TextStyle(
-                          color: AppTheme.textPrimary.withAlpha(230),
+                          color: AyaColors.textPrimary.withAlpha(230),
                           fontSize: 12,
                         ),
                       ),
@@ -712,7 +731,7 @@ class _CommunityUpdateCard extends StatelessWidget {
                 ),
                 Icon(
                   Icons.chevron_right,
-                  color: AppTheme.textPrimary.withAlpha(230),
+                  color: AyaColors.textPrimary.withAlpha(230),
                 ),
               ],
             ),
@@ -733,8 +752,8 @@ class _AIChatCard extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppTheme.primary.withAlpha(25),
-            AppTheme.buttonSecondary.withAlpha(25),
+            AyaColors.turquoise.withAlpha(25),
+            AyaColors.lavenderVibrant.withAlpha(25),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
@@ -751,12 +770,12 @@ class _AIChatCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: AppTheme.primary.withAlpha(25),
+                    color: AyaColors.turquoise.withAlpha(25),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(
                     Icons.chat_bubble_outline,
-                    color: AppTheme.primary,
+                    color: AyaColors.turquoise,
                     size: 32,
                   ),
                 ),
@@ -768,7 +787,7 @@ class _AIChatCard extends StatelessWidget {
                       Text(
                         'Fale com Aya',
                         style: TextStyle(
-                          color: AppTheme.textPrimary,
+                          color: AyaColors.textPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                         ),
@@ -777,7 +796,7 @@ class _AIChatCard extends StatelessWidget {
                       Text(
                         'Precisa de uma sugestão ou tem alguma dúvida? Converse com Aya!',
                         style: TextStyle(
-                          color: AppTheme.textPrimary.withAlpha(230),
+                          color: AyaColors.textPrimary.withAlpha(230),
                           fontSize: 14,
                         ),
                       ),
@@ -786,7 +805,7 @@ class _AIChatCard extends StatelessWidget {
                 ),
                 Icon(
                   Icons.arrow_forward_ios,
-                  color: AppTheme.primary,
+                  color: AyaColors.turquoise,
                   size: 20,
                 ),
               ],
@@ -796,4 +815,4 @@ class _AIChatCard extends StatelessWidget {
       ),
     );
   }
-} 
+}

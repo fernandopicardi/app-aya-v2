@@ -1,55 +1,80 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+// import 'package:share_plus/share_plus.dart'; // TODO: Reativar para implementação de compartilhamento
+import '../core/services/logging_service.dart';
 
 class ShareService {
   static final ShareService _instance = ShareService._internal();
   factory ShareService() => _instance;
   ShareService._internal();
 
+  final _logger = LoggingService();
+
   Future<void> shareLesson(String lessonId, String title) async {
     try {
-      final url = 'https://app.aya.com.br/lesson/$lessonId';
-      final text = 'Confira esta aula incrível: $title\n$url';
+      final text =
+          'Confira esta aula: $title\n\nLink: https://app.aya.com.br/lessons/$lessonId';
       await _shareText(text);
     } catch (e) {
-      debugPrint('Erro ao compartilhar aula: $e');
+      _logger.error('Erro ao compartilhar aula', e);
       rethrow;
     }
   }
 
-  Future<void> shareProfile(String userId, String name) async {
+  Future<void> shareProfile(String userId, String username) async {
     try {
-      final url = 'https://app.aya.com.br/profile/$userId';
-      final text = 'Conheça o perfil de $name no Aya\n$url';
+      final text =
+          'Conheça o perfil de $username\n\nLink: https://app.aya.com.br/profile/$userId';
       await _shareText(text);
     } catch (e) {
-      debugPrint('Erro ao compartilhar perfil: $e');
+      _logger.error('Erro ao compartilhar perfil', e);
       rethrow;
     }
   }
 
   Future<void> shareAchievement(String achievementId, String title) async {
     try {
-      final url = 'https://app.aya.com.br/achievement/$achievementId';
-      final text = 'Conquistei: $title no Aya!\n$url';
+      final text =
+          'Conquista desbloqueada: $title\n\nLink: https://app.aya.com.br/achievements/$achievementId';
       await _shareText(text);
     } catch (e) {
-      debugPrint('Erro ao compartilhar conquista: $e');
+      _logger.error('Erro ao compartilhar conquista', e);
       rethrow;
     }
   }
 
   Future<void> _shareText(String text) async {
     try {
-      final uri = Uri.parse('mailto:?subject=Compartilhamento Aya&body=${Uri.encodeComponent(text)}');
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri);
+      final url = Uri.parse('https://wa.me/?text=${Uri.encodeComponent(text)}');
+      if (await canLaunchUrl(url)) {
+        await launchUrl(url);
       } else {
-        throw Exception('Não foi possível abrir o aplicativo de e-mail');
+        throw Exception('Não foi possível abrir o WhatsApp');
       }
     } catch (e) {
-      debugPrint('Erro ao compartilhar texto: $e');
+      _logger.error('Erro ao compartilhar texto', e);
       rethrow;
     }
   }
-} 
+
+  // TODO: Reimplementar funcionalidade de compartilhamento com share_plus
+  Future<void> shareFile(String filePath) async {
+    _logger.info(
+        'Funcionalidade de compartilhamento de arquivo temporariamente desabilitada');
+    // Implementação futura com share_plus
+  }
+
+  // TODO: Reimplementar funcionalidade de compartilhamento com share_plus
+  Future<void> shareMultipleFiles(List<String> filePaths) async {
+    _logger.info(
+        'Funcionalidade de compartilhamento de múltiplos arquivos temporariamente desabilitada');
+    // Implementação futura com share_plus
+  }
+
+  // TODO: Reimplementar funcionalidade de compartilhamento com share_plus
+  Future<void> shareWithResult(String text) async {
+    _logger.info(
+        'Funcionalidade de compartilhamento com resultado temporariamente desabilitada');
+    // Implementação futura com share_plus
+  }
+}

@@ -1,7 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:app_aya_v2/features/auth/auth_service.dart';
 
-class LandingPage extends StatelessWidget {
+class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
+
+  @override
+  State<LandingPage> createState() => _LandingPageState();
+}
+
+class _LandingPageState extends State<LandingPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _isLoading = false;
+  String? _errorMessage;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _login() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      await AuthService().signInWithEmail(
+        _emailController.text.trim(),
+        _passwordController.text.trim(),
+      );
+      if (!mounted) return;
+      Navigator.of(context).pushReplacementNamed('/dashboard');
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _errorMessage = e.toString().replaceFirst('Exception: ', '');
+      });
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,17 +96,17 @@ class LandingPage extends StatelessWidget {
                                       ),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(16),
-                                        child: Image.asset(
-                                          'assets/placeholder_video.jpg',
-                                          fit: BoxFit.cover,
+                                        child: Container(
+                                          color: Colors.grey[800],
+                                          child: const Center(
+                                            child: Icon(
+                                              Icons.play_circle_fill,
+                                              color: Colors.white,
+                                              size: 64,
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    // Ícone de play (placeholder para vídeo)
-                                    Center(
-                                      child: Icon(Icons.play_circle_fill,
-                                          color: Colors.white.withAlpha(20),
-                                          size: 64),
                                     ),
                                   ],
                                 ),
@@ -96,7 +137,24 @@ class LandingPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Image.asset('assets/logo.png', height: 64),
+                              Container(
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    'Logo',
+                                    style: TextStyle(
+                                      fontFamily: 'Serif',
+                                      fontSize: 28,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
                               const SizedBox(height: 32),
                               const Text(
                                 'Acesse sua Conta',
@@ -111,6 +169,7 @@ class LandingPage extends StatelessWidget {
                               const SizedBox(height: 32),
                               // Login form simplificado
                               TextField(
+                                controller: _emailController,
                                 decoration: InputDecoration(
                                   hintText: 'Email',
                                   filled: true,
@@ -123,6 +182,7 @@ class LandingPage extends StatelessWidget {
                               ),
                               const SizedBox(height: 16),
                               TextField(
+                                controller: _passwordController,
                                 obscureText: true,
                                 decoration: InputDecoration(
                                   hintText: 'Senha',
@@ -134,6 +194,15 @@ class LandingPage extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                              if (_errorMessage != null) ...[
+                                const SizedBox(height: 16),
+                                Text(
+                                  _errorMessage!,
+                                  style:
+                                      const TextStyle(color: Colors.redAccent),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
                               const SizedBox(height: 12),
                               Align(
                                 alignment: Alignment.centerRight,
@@ -148,9 +217,7 @@ class LandingPage extends StatelessWidget {
                               ),
                               const SizedBox(height: 8),
                               ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/login');
-                                },
+                                onPressed: _isLoading ? null : _login,
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFF7B5CF6),
                                   foregroundColor: Colors.white,
@@ -162,14 +229,42 @@ class LandingPage extends StatelessWidget {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12)),
                                 ),
-                                child: const Text('Entrar'),
+                                child: _isLoading
+                                    ? const CircularProgressIndicator()
+                                    : const Text('Entrar'),
                               ),
                               const SizedBox(height: 16),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Expanded(
                                     child: OutlinedButton.icon(
-                                      onPressed: () {},
+                                      onPressed: _isLoading
+                                          ? null
+                                          : () async {
+                                              try {
+                                                setState(
+                                                    () => _isLoading = true);
+                                                await AuthService()
+                                                    .signInWithGoogle();
+                                                if (!mounted) return;
+                                                Navigator.of(context)
+                                                    .pushReplacementNamed(
+                                                        '/dashboard');
+                                              } catch (e) {
+                                                if (!mounted) return;
+                                                setState(() {
+                                                  _errorMessage = e
+                                                      .toString()
+                                                      .replaceFirst(
+                                                          'Exception: ', '');
+                                                });
+                                              } finally {
+                                                if (mounted)
+                                                  setState(
+                                                      () => _isLoading = false);
+                                              }
+                                            },
                                       icon: const Icon(Icons.g_mobiledata,
                                           color: Color(0xFF78C7B4)),
                                       label: const Text('Entrar com Google',
@@ -190,7 +285,32 @@ class LandingPage extends StatelessWidget {
                                   const SizedBox(width: 12),
                                   Expanded(
                                     child: OutlinedButton.icon(
-                                      onPressed: () {},
+                                      onPressed: _isLoading
+                                          ? null
+                                          : () async {
+                                              try {
+                                                setState(
+                                                    () => _isLoading = true);
+                                                await AuthService()
+                                                    .signInWithApple();
+                                                if (!mounted) return;
+                                                Navigator.of(context)
+                                                    .pushReplacementNamed(
+                                                        '/dashboard');
+                                              } catch (e) {
+                                                if (!mounted) return;
+                                                setState(() {
+                                                  _errorMessage = e
+                                                      .toString()
+                                                      .replaceFirst(
+                                                          'Exception: ', '');
+                                                });
+                                              } finally {
+                                                if (mounted)
+                                                  setState(
+                                                      () => _isLoading = false);
+                                              }
+                                            },
                                       icon: const Icon(Icons.apple,
                                           color: Colors.white),
                                       label: const Text('Apple',
@@ -237,53 +357,8 @@ class LandingPage extends StatelessWidget {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12)),
                                 ),
-                                child: const Text('Ver Planos e Assinar'),
+                                child: const Text('Criar Conta Gratuita'),
                               ),
-                              const SizedBox(height: 8),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/signup');
-                                },
-                                child: const Text('Criar Conta Gratuita',
-                                    style: TextStyle(color: Colors.white)),
-                              ),
-                              const SizedBox(height: 32),
-                              Divider(
-                                  color: Colors.black.withAlpha(51),
-                                  thickness: 1),
-                              const SizedBox(height: 8),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: const Text('Termos de Uso',
-                                        style:
-                                            TextStyle(color: Colors.white70)),
-                                  ),
-                                  const Text(' | ',
-                                      style: TextStyle(color: Colors.white38)),
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: const Text('Política de Privacidade',
-                                        style:
-                                            TextStyle(color: Colors.white70)),
-                                  ),
-                                  const Text(' | ',
-                                      style: TextStyle(color: Colors.white38)),
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: const Text('Ajuda/FAQ',
-                                        style:
-                                            TextStyle(color: Colors.white70)),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 8),
-                              const Text('© 2024 Caminho Aya',
-                                  style: TextStyle(
-                                      color: Colors.white38, fontSize: 13),
-                                  textAlign: TextAlign.center),
                             ],
                           ),
                         ),
@@ -298,7 +373,24 @@ class LandingPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           const SizedBox(height: 32),
-                          Image.asset('assets/logo.png', height: 64),
+                          Container(
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'Logo',
+                                style: TextStyle(
+                                  fontFamily: 'Serif',
+                                  fontSize: 28,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
                           const SizedBox(height: 32),
                           const Text(
                             'Sua Jornada Começa Agora.',
@@ -327,16 +419,17 @@ class LandingPage extends StatelessWidget {
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(16),
-                                    child: Image.asset(
-                                      'assets/placeholder_video.jpg',
-                                      fit: BoxFit.cover,
+                                    child: Container(
+                                      color: Colors.grey[800],
+                                      child: const Center(
+                                        child: Icon(
+                                          Icons.play_circle_fill,
+                                          color: Colors.white,
+                                          size: 64,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Center(
-                                  child: Icon(Icons.play_circle_fill,
-                                      color: Colors.white.withAlpha(20),
-                                      size: 64),
                                 ),
                               ],
                             ),
@@ -354,6 +447,7 @@ class LandingPage extends StatelessWidget {
                           const SizedBox(height: 32),
                           // Login form simplificado
                           TextField(
+                            controller: _emailController,
                             decoration: InputDecoration(
                               hintText: 'Email',
                               filled: true,
@@ -366,6 +460,7 @@ class LandingPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 16),
                           TextField(
+                            controller: _passwordController,
                             obscureText: true,
                             decoration: InputDecoration(
                               hintText: 'Senha',
@@ -377,6 +472,14 @@ class LandingPage extends StatelessWidget {
                               ),
                             ),
                           ),
+                          if (_errorMessage != null) ...[
+                            const SizedBox(height: 16),
+                            Text(
+                              _errorMessage!,
+                              style: const TextStyle(color: Colors.redAccent),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                           const SizedBox(height: 12),
                           Align(
                             alignment: Alignment.centerRight,
@@ -390,9 +493,7 @@ class LandingPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           ElevatedButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/login');
-                            },
+                            onPressed: _isLoading ? null : _login,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF7B5CF6),
                               foregroundColor: Colors.white,
@@ -402,14 +503,41 @@ class LandingPage extends StatelessWidget {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)),
                             ),
-                            child: const Text('Entrar'),
+                            child: _isLoading
+                                ? const CircularProgressIndicator()
+                                : const Text('Entrar'),
                           ),
                           const SizedBox(height: 16),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Expanded(
                                 child: OutlinedButton.icon(
-                                  onPressed: () {},
+                                  onPressed: _isLoading
+                                      ? null
+                                      : () async {
+                                          try {
+                                            setState(() => _isLoading = true);
+                                            await AuthService()
+                                                .signInWithGoogle();
+                                            if (!mounted) return;
+                                            Navigator.of(context)
+                                                .pushReplacementNamed(
+                                                    '/dashboard');
+                                          } catch (e) {
+                                            if (!mounted) return;
+                                            setState(() {
+                                              _errorMessage = e
+                                                  .toString()
+                                                  .replaceFirst(
+                                                      'Exception: ', '');
+                                            });
+                                          } finally {
+                                            if (mounted)
+                                              setState(
+                                                  () => _isLoading = false);
+                                          }
+                                        },
                                   icon: const Icon(Icons.g_mobiledata,
                                       color: Color(0xFF78C7B4)),
                                   label: const Text('Entrar com Google',
@@ -429,7 +557,31 @@ class LandingPage extends StatelessWidget {
                               const SizedBox(width: 12),
                               Expanded(
                                 child: OutlinedButton.icon(
-                                  onPressed: () {},
+                                  onPressed: _isLoading
+                                      ? null
+                                      : () async {
+                                          try {
+                                            setState(() => _isLoading = true);
+                                            await AuthService()
+                                                .signInWithApple();
+                                            if (!mounted) return;
+                                            Navigator.of(context)
+                                                .pushReplacementNamed(
+                                                    '/dashboard');
+                                          } catch (e) {
+                                            if (!mounted) return;
+                                            setState(() {
+                                              _errorMessage = e
+                                                  .toString()
+                                                  .replaceFirst(
+                                                      'Exception: ', '');
+                                            });
+                                          } finally {
+                                            if (mounted)
+                                              setState(
+                                                  () => _isLoading = false);
+                                          }
+                                        },
                                   icon: const Icon(Icons.apple,
                                       color: Colors.white),
                                   label: const Text('Apple',
@@ -470,22 +622,15 @@ class LandingPage extends StatelessWidget {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)),
                             ),
-                            child: const Text('Ver Planos e Assinar'),
-                          ),
-                          const SizedBox(height: 8),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/signup');
-                            },
-                            child: const Text('Criar Conta Gratuita',
-                                style: TextStyle(color: Colors.white)),
+                            child: const Text('Criar Conta Gratuita'),
                           ),
                           const SizedBox(height: 32),
                           Divider(
                               color: Colors.black.withAlpha(51), thickness: 1),
                           const SizedBox(height: 8),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          Wrap(
+                            alignment: WrapAlignment.center,
+                            spacing: 8,
                             children: [
                               TextButton(
                                 onPressed: () {},

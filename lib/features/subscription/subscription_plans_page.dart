@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_aya_v2/config/theme.dart';
+import 'package:app_aya_v2/theme/aya_theme.dart';
 
 class SubscriptionPlansPage extends StatelessWidget {
   const SubscriptionPlansPage({super.key});
@@ -12,7 +12,7 @@ class SubscriptionPlansPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      backgroundColor: AppTheme.background,
+      backgroundColor: AyaColors.background,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -21,7 +21,7 @@ class SubscriptionPlansPage extends StatelessWidget {
             Text(
               'Transforme sua jornada com o App Aya! Escolha o plano ideal para você:',
               style: TextStyle(
-                color: AppTheme.textPrimary,
+                color: AyaColors.textPrimary,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -117,7 +117,7 @@ class SubscriptionPlansPage extends StatelessWidget {
             Text(
               'Comparativo de funcionalidades',
               style: TextStyle(
-                color: AppTheme.textPrimary,
+                color: AyaColors.textPrimary,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),
@@ -129,7 +129,7 @@ class SubscriptionPlansPage extends StatelessWidget {
             Text(
               'Dúvidas frequentes',
               style: TextStyle(
-                color: AppTheme.textPrimary,
+                color: AyaColors.textPrimary,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),
@@ -138,7 +138,7 @@ class SubscriptionPlansPage extends StatelessWidget {
             Text(
               '• Posso cancelar quando quiser? Sim!\n• O que está incluso no plano anual? Acesso total a todos os conteúdos, inclusive os exclusivos.\n• Como funciona o pagamento? 100% seguro via RevenueCat/Stripe/Google/Apple.',
               style: TextStyle(
-                color: AppTheme.textPrimary.withAlpha(217),
+                color: Color.fromRGBO(255, 255, 255, 0.85),
                 fontSize: 14,
               ),
             ),
@@ -170,19 +170,26 @@ class _PlanCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         gradient: highlight
-            ? AppTheme.buttonGradient
+            ? LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  AyaColors.cardGradientStart,
+                  AyaColors.cardGradientEnd,
+                ],
+              )
             : LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  AppTheme.secondary.withAlpha(217),
-                  AppTheme.background.withAlpha(242),
+                  Color.fromRGBO(0, 0, 0, 0.85),
+                  Color.fromRGBO(255, 255, 255, 0.95),
                 ],
               ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primary.withAlpha(33),
+            color: Color.fromRGBO(0, 0, 0, 0.13),
             blurRadius: 16,
             offset: const Offset(0, 8),
           ),
@@ -201,7 +208,7 @@ class _PlanCard extends StatelessWidget {
               Text(
                 title,
                 style: TextStyle(
-                  color: AppTheme.textPrimary,
+                  color: AyaColors.textPrimary,
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                 ),
@@ -211,7 +218,7 @@ class _PlanCard extends StatelessWidget {
               Text(
                 price,
                 style: TextStyle(
-                  color: AppTheme.textPrimary,
+                  color: AyaColors.textPrimary,
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
@@ -220,13 +227,13 @@ class _PlanCard extends StatelessWidget {
               const SizedBox(height: 12),
               ...benefits.map((b) => Row(
                     children: [
-                      Icon(Icons.check, color: AppTheme.indicator, size: 18),
+                      Icon(Icons.check, color: AyaColors.turquoise, size: 18),
                       const SizedBox(width: 6),
                       Expanded(
                         child: Text(
                           b,
                           style: TextStyle(
-                            color: AppTheme.textPrimary,
+                            color: AyaColors.textPrimary,
                             fontSize: 14,
                           ),
                         ),
@@ -236,11 +243,18 @@ class _PlanCard extends StatelessWidget {
               const SizedBox(height: 20),
               Container(
                 decoration: BoxDecoration(
-                  gradient: AppTheme.buttonGradient,
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      AyaColors.cardGradientStart,
+                      AyaColors.cardGradientEnd,
+                    ],
+                  ),
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: AppTheme.primary.withAlpha(46),
+                      color: Color.fromRGBO(0, 0, 0, 0.18),
                       blurRadius: 8,
                       offset: const Offset(0, 4),
                     ),
@@ -257,7 +271,7 @@ class _PlanCard extends StatelessWidget {
                         child: Text(
                           cta,
                           style: const TextStyle(
-                            color: AppTheme.textPrimary,
+                            color: AyaColors.textPrimary,
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                           ),
@@ -288,24 +302,29 @@ class _PlanComparisonTable extends StatelessWidget {
       ['Suporte prioritário', 'Não', 'Sim', 'Sim'],
     ];
     return Table(
-      border: TableBorder.all(color: AppTheme.secondary.withAlpha(64)),
+      border: TableBorder.all(color: Color.fromRGBO(0, 0, 0, 0.25)),
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: rows.map((row) {
         return TableRow(
-          children: row.map((cell) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-            child: Text(
-              cell,
-              style: TextStyle(
-                color: AppTheme.textPrimary,
-                fontWeight: row[0] == cell ? FontWeight.bold : FontWeight.normal,
-                fontSize: 13,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          )).toList(),
+          children: row
+              .map((cell) => Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                    child: Text(
+                      cell,
+                      style: TextStyle(
+                        color: AyaColors.textPrimary,
+                        fontWeight: row[0] == cell
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                        fontSize: 13,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ))
+              .toList(),
         );
       }).toList(),
     );
   }
-} 
+}

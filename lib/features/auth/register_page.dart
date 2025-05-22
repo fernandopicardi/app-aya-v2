@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:app_aya_v2/config/theme.dart';
-import 'package:app_aya_v2/config/routes.dart'; // For AppRouter.login
+import 'package:app_aya_v2/config/routes.dart';
 import 'package:app_aya_v2/shared/widgets/gradient_button.dart';
-import 'package:app_aya_v2/features/auth/auth_service.dart'; // Import AuthService
+import 'package:app_aya_v2/features/auth/services/auth_service.dart';
+import 'package:app_aya_v2/theme/aya_theme.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -13,11 +13,11 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final AuthService _authService = AuthService();
   bool _isLoading = false;
   String? _errorMessage;
@@ -37,14 +37,15 @@ class _RegisterPageState extends State<RegisterPage> {
         _errorMessage = null;
       });
       try {
-        await _authService.signUpWithEmailAndPassword(
+        await _authService.register(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
         if (mounted) {
           GoRouter.of(context).go(AppRouter.login);
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Registro realizado com sucesso! Faça o login.')),
+            const SnackBar(
+                content: Text('Registro realizado com sucesso! Faça o login.')),
           );
         }
       } catch (e) {
@@ -65,8 +66,15 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: AppTheme.backgroundGradient,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              AyaColors.background,
+              AyaColors.backgroundGradientEnd,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
         ),
         child: SafeArea(
           child: Center(
@@ -81,13 +89,21 @@ class _RegisterPageState extends State<RegisterPage> {
                     Text(
                       'Crie sua conta',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppTheme.textPrimary, fontWeight: FontWeight.bold),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium
+                          ?.copyWith(
+                              color: AyaColors.textPrimary,
+                              fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       'Comece sua jornada de autoconhecimento.',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppTheme.textPrimary.withAlpha(153)),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge
+                          ?.copyWith(color: AyaColors.textPrimary60),
                     ),
                     const SizedBox(height: 32),
                     // Name field (Optional, can be added)
@@ -95,14 +111,14 @@ class _RegisterPageState extends State<RegisterPage> {
                     //   style: const TextStyle(color: AppTheme.textPrimary),
                     //   decoration: InputDecoration(
                     //     hintText: 'Seu nome',
-                    //     hintStyle: TextStyle(color: AppTheme.textPrimary.withOpacity(0.6)),
+                    //     hintStyle: TextStyle(color: AyaColors.textPrimary60),
                     //     filled: true,
-                    //     fillColor: AppTheme.secondary.withOpacity(0.3),
+                    //     fillColor: AyaColors.lavenderSoft30,
                     //     border: OutlineInputBorder(
                     //       borderRadius: BorderRadius.circular(8.0),
                     //       borderSide: BorderSide.none,
                     //     ),
-                    //     prefixIcon: Icon(Icons.person_outline, color: AppTheme.textPrimary.withOpacity(0.7)),
+                    //     prefixIcon: Icon(Icons.person_outline, color: AyaColors.textPrimary60),
                     //   ),
                     // ),
                     // const SizedBox(height: 16),
@@ -110,17 +126,19 @@ class _RegisterPageState extends State<RegisterPage> {
                     TextFormField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
-                      style: const TextStyle(color: AppTheme.textPrimary),
+                      style: const TextStyle(color: AyaColors.textPrimary),
                       decoration: InputDecoration(
                         hintText: 'Seu e-mail',
-                        hintStyle: TextStyle(color: AppTheme.textPrimary.withAlpha(153)),
+                        hintStyle:
+                            const TextStyle(color: AyaColors.textPrimary60),
                         filled: true,
-                        fillColor: AppTheme.secondary.withAlpha(77),
+                        fillColor: AyaColors.lavenderSoft30,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
                           borderSide: BorderSide.none,
                         ),
-                        prefixIcon: Icon(Icons.email_outlined, color: AppTheme.textPrimary.withAlpha(179)),
+                        prefixIcon: const Icon(Icons.email_outlined,
+                            color: AyaColors.textPrimary60),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -137,17 +155,19 @@ class _RegisterPageState extends State<RegisterPage> {
                     TextFormField(
                       controller: _passwordController,
                       obscureText: true,
-                      style: const TextStyle(color: AppTheme.textPrimary),
+                      style: const TextStyle(color: AyaColors.textPrimary),
                       decoration: InputDecoration(
                         hintText: 'Crie uma senha',
-                        hintStyle: TextStyle(color: AppTheme.textPrimary.withAlpha(153)),
+                        hintStyle:
+                            const TextStyle(color: AyaColors.textPrimary60),
                         filled: true,
-                        fillColor: AppTheme.secondary.withAlpha(77),
+                        fillColor: AyaColors.lavenderSoft30,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
                           borderSide: BorderSide.none,
                         ),
-                        prefixIcon: Icon(Icons.lock_outline, color: AppTheme.textPrimary.withAlpha(179)),
+                        prefixIcon: const Icon(Icons.lock_outline,
+                            color: AyaColors.textPrimary60),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -164,17 +184,19 @@ class _RegisterPageState extends State<RegisterPage> {
                     TextFormField(
                       controller: _confirmPasswordController,
                       obscureText: true,
-                      style: const TextStyle(color: AppTheme.textPrimary),
+                      style: const TextStyle(color: AyaColors.textPrimary),
                       decoration: InputDecoration(
                         hintText: 'Confirme sua senha',
-                        hintStyle: TextStyle(color: AppTheme.textPrimary.withAlpha(153)),
+                        hintStyle:
+                            const TextStyle(color: AyaColors.textPrimary60),
                         filled: true,
-                        fillColor: AppTheme.secondary.withAlpha(77),
+                        fillColor: AyaColors.lavenderSoft30,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
                           borderSide: BorderSide.none,
                         ),
-                        prefixIcon: Icon(Icons.lock_outline, color: AppTheme.textPrimary.withAlpha(179)),
+                        prefixIcon: const Icon(Icons.lock_outline,
+                            color: AyaColors.textPrimary60),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -192,13 +214,16 @@ class _RegisterPageState extends State<RegisterPage> {
                         padding: const EdgeInsets.only(bottom: 10.0),
                         child: Text(
                           _errorMessage!,
-                          style: const TextStyle(color: Colors.redAccent, fontSize: 14),
+                          style: const TextStyle(
+                              color: Colors.redAccent, fontSize: 14),
                           textAlign: TextAlign.center,
                         ),
                       ),
                     const SizedBox(height: 8),
                     _isLoading
-                        ? const Center(child: CircularProgressIndicator(color: AppTheme.textPrimary))
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                                color: AyaColors.textPrimary))
                         : GradientButton(
                             text: 'Registrar',
                             onPressed: _signUp,
@@ -210,7 +235,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                       child: Text(
                         'Já tem uma conta? Faça login',
-                        style: TextStyle(color: AppTheme.buttonSecondary),
+                        style: TextStyle(color: AyaColors.turquoise),
                       ),
                     ),
                   ],

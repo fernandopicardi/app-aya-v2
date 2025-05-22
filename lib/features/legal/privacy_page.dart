@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_aya_v2/config/theme.dart';
+import 'package:app_aya_v2/theme/aya_theme.dart';
 
 class PrivacyPage extends StatelessWidget {
   const PrivacyPage({super.key});
@@ -9,7 +9,7 @@ class PrivacyPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Política de Privacidade'),
-        backgroundColor: AppTheme.secondary,
+        backgroundColor: AyaColors.surface,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -21,14 +21,14 @@ class PrivacyPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: AppTheme.textPrimary,
+                color: AyaColors.textPrimary,
               ),
             ),
             const SizedBox(height: 16),
             const Text(
               'Última atualização: 1 de Março de 2024',
               style: TextStyle(
-                color: AppTheme.textPrimary,
+                color: AyaColors.textPrimary,
                 fontSize: 14,
               ),
             ),
@@ -93,7 +93,7 @@ class PrivacyPage extends StatelessWidget {
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: AppTheme.textPrimary,
+              color: AyaColors.textPrimary,
             ),
           ),
           const SizedBox(height: 8),
@@ -101,7 +101,7 @@ class PrivacyPage extends StatelessWidget {
             content,
             style: const TextStyle(
               fontSize: 16,
-              color: AppTheme.textPrimary,
+              color: AyaColors.textPrimary,
               height: 1.5,
             ),
           ),

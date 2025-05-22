@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../core/services/logging_service.dart';
 
-class AppState {
+class AppState extends ChangeNotifier {
   static final AppState _instance = AppState._internal();
   factory AppState() => _instance;
   AppState._internal();
+
+  final _logger = LoggingService();
 
   // Stream controllers
   final _themeController = StreamController<ThemeMode>.broadcast();
@@ -15,6 +18,9 @@ class AppState {
   ThemeMode _themeMode = ThemeMode.system;
   User? _user;
   int _points = 0;
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
   // Getters para streams
   Stream<ThemeMode> get themeStream => _themeController.stream;
@@ -32,8 +38,9 @@ class AppState {
       // TODO: Persistir preferência do usuário
       _themeMode = mode;
       _themeController.add(_themeMode);
-    } catch (e) {
-      debugPrint('Erro ao definir tema: $e');
+      _logger.info('Theme mode changed to: ${mode.name}');
+    } catch (e, stackTrace) {
+      _logger.error('Error setting theme mode', e, stackTrace);
       rethrow;
     }
   }
@@ -49,8 +56,9 @@ class AppState {
         avatar: 'assets/images/user1.jpg',
       );
       _userController.add(_user);
-    } catch (e) {
-      debugPrint('Erro ao fazer login: $e');
+      _logger.info('User logged in: ${_user?.email}');
+    } catch (e, stackTrace) {
+      _logger.error('Error during login', e, stackTrace);
       rethrow;
     }
   }
@@ -58,49 +66,47 @@ class AppState {
   Future<void> logout() async {
     try {
       // TODO: Implementar logout
+      final email = _user?.email;
       _user = null;
       _userController.add(_user);
-    } catch (e) {
-      debugPrint('Erro ao fazer logout: $e');
+      _logger.info('User logged out: $email');
+    } catch (e, stackTrace) {
+      _logger.error('Error during logout', e, stackTrace);
       rethrow;
     }
   }
 
-  Future<void> updateProfile(String name, String? avatar) async {
+  Future<void> updateProfile(Map<String, dynamic> profile) async {
     try {
-      if (_user != null) {
-        // TODO: Implementar atualização de perfil
-        _user = _user!.copyWith(
-          name: name,
-          avatar: avatar ?? _user!.avatar,
-        );
-        _userController.add(_user);
-      }
+      // TODO: Implementar atualização do perfil
+      _logger.info('Perfil atualizado com sucesso');
     } catch (e) {
-      debugPrint('Erro ao atualizar perfil: $e');
+      _logger.error('Erro ao atualizar perfil', e);
       rethrow;
     }
   }
 
   // Métodos para pontos
-  Future<void> addPoints(int amount) async {
+  Future<void> addPoints(int points) async {
     try {
-      // TODO: Implementar persistência de pontos
-      _points += amount;
+      // TODO: Implementar adição de pontos
+      _points += points;
       _pointsController.add(_points);
+      _logger.info('Pontos adicionados com sucesso: $points');
     } catch (e) {
-      debugPrint('Erro ao adicionar pontos: $e');
+      _logger.error('Erro ao adicionar pontos', e);
       rethrow;
     }
   }
 
-  Future<void> removePoints(int amount) async {
+  Future<void> removePoints(int points) async {
     try {
-      // TODO: Implementar persistência de pontos
-      _points = (_points - amount).clamp(0, double.infinity).toInt();
+      // TODO: Implementar remoção de pontos
+      _points = (_points - points).clamp(0, double.infinity).toInt();
       _pointsController.add(_points);
+      _logger.info('Pontos removidos com sucesso: $points');
     } catch (e) {
-      debugPrint('Erro ao remover pontos: $e');
+      _logger.error('Erro ao remover pontos', e);
       rethrow;
     }
   }
@@ -110,6 +116,22 @@ class AppState {
     _themeController.close();
     _userController.close();
     _pointsController.close();
+  }
+
+  void setLoading(bool value) {
+    _isLoading = value;
+    _logger.info('Estado de carregamento alterado: $value');
+    notifyListeners();
+  }
+
+  void showError(String message) {
+    _logger.error('Erro na aplicação: $message');
+    // TODO: Implementar exibição de erro na UI
+  }
+
+  void showSuccess(String message) {
+    _logger.info('Sucesso na aplicação: $message');
+    // TODO: Implementar exibição de sucesso na UI
   }
 }
 

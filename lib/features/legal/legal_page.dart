@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_aya_v2/config/theme.dart';
+import 'package:app_aya_v2/theme/aya_theme.dart';
 import 'package:app_aya_v2/features/legal/terms_page.dart';
 import 'package:app_aya_v2/features/legal/privacy_page.dart';
 import 'package:app_aya_v2/features/legal/faq_page.dart';
@@ -12,7 +12,7 @@ class LegalPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Legal'),
-        backgroundColor: AppTheme.secondary,
+        backgroundColor: AyaColors.surface,
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
@@ -62,20 +62,20 @@ class LegalPage extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: 16.0),
       child: ListTile(
-        leading: Icon(icon, color: AppTheme.primary),
+        leading: Icon(icon, color: AyaColors.turquoise),
         title: Text(
           title,
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color: AppTheme.textPrimary,
+            color: AyaColors.textPrimary,
           ),
         ),
         subtitle: Text(
           subtitle,
           style: const TextStyle(
             fontSize: 14,
-            color: AppTheme.textSecondary,
+            color: AyaColors.textSecondary,
           ),
         ),
         trailing: const Icon(Icons.chevron_right),

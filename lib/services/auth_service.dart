@@ -1,5 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter/foundation.dart';
+import '../core/services/logging_service.dart';
 
 class AuthService {
   static final AuthService _instance = AuthService._internal();
@@ -7,6 +7,7 @@ class AuthService {
   AuthService._internal();
 
   final _supabase = Supabase.instance.client;
+  final _logger = LoggingService();
 
   Future<void> signInWithEmail({
     required String email,
@@ -77,20 +78,20 @@ class AuthService {
   bool get isAuthenticated => currentUser != null;
 
   // Método para obter o perfil do usuário atual
-  Future<Map<String, dynamic>?> getCurrentUserProfile() async {
+  Future<Map<String, dynamic>?> getUserProfile() async {
     try {
-      if (currentUser == null) return null;
+      final user = _supabase.auth.currentUser;
+      if (user == null) {
+        _logger.warning('Nenhum usuário autenticado');
+        return null;
+      }
 
-      final response = await _supabase
-          .from('profiles')
-          .select()
-          .eq('id', currentUser!.id)
-          .single();
-
+      final response =
+          await _supabase.from('profiles').select().eq('id', user.id).single();
       return response;
     } catch (e) {
-      debugPrint('Erro ao obter perfil do usuário: $e');
-      return null;
+      _logger.error('Erro ao obter perfil do usuário', e);
+      rethrow;
     }
   }
 
@@ -117,7 +118,7 @@ class AuthService {
   // Método para atualizar a role do usuário (apenas admin)
   Future<void> updateUserRole(String userId, String role) async {
     try {
-      final profile = await getCurrentUserProfile();
+      final profile = await getUserProfile();
       if (profile == null || profile['role'] != 'admin') {
         throw Exception('Apenas administradores podem alterar roles');
       }

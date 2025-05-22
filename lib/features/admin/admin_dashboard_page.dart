@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:app_aya_v2/config/theme.dart';
+import 'package:app_aya_v2/theme/aya_theme.dart';
 import 'package:app_aya_v2/config/routes.dart';
+import 'package:app_aya_v2/widgets/aya_bottom_nav.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'admin_menu.dart';
 
@@ -14,7 +15,7 @@ import 'sections/admin_logs_section.dart';
 import 'sections/admin_settings_section.dart';
 
 class AdminDashboardPage extends StatefulWidget {
-  const AdminDashboardPage({super.key});
+  const AdminDashboardPage({Key? key}) : super(key: key);
 
   @override
   State<AdminDashboardPage> createState() => _AdminDashboardPageState();
@@ -24,6 +25,24 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   bool _isLoading = true;
   final bool _isAdmin = false;
   int _selectedIndex = 0;
+
+  final List<AyaBottomNavItem> _navItems = [
+    const AyaBottomNavItem(
+      label: 'Dashboard',
+      icon: Icons.dashboard_outlined,
+      selectedIcon: Icons.dashboard,
+    ),
+    const AyaBottomNavItem(
+      label: 'Users',
+      icon: Icons.people_outline,
+      selectedIcon: Icons.people,
+    ),
+    const AyaBottomNavItem(
+      label: 'Settings',
+      icon: Icons.settings_outlined,
+      selectedIcon: Icons.settings,
+    ),
+  ];
 
   @override
   void initState() {
@@ -81,22 +100,22 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
     }
     if (!_isAdmin) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Admin')), 
-        body: const Center(child: Text('Acesso restrito apenas para administradores.')),
+        appBar: AppBar(title: const Text('Admin')),
+        body: const Center(
+            child: Text('Acesso restrito apenas para administradores.')),
       );
     }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Painel de Administração'),
-        backgroundColor: AppTheme.primary,
+        backgroundColor: AyaColors.turquoise,
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {
-              final router = GoRouter.of(context);
               await Supabase.instance.client.auth.signOut();
               if (mounted) {
-                router.go(AppRouter.login);
+                context.go(AppRouter.login);
               }
             },
           ),
@@ -106,7 +125,12 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
         selectedIndex: _selectedIndex,
         onItemSelected: (i) => setState(() => _selectedIndex = i),
       ),
-      backgroundColor: AppTheme.background,
+      bottomNavigationBar: AyaBottomNav(
+        currentIndex: _selectedIndex,
+        items: _navItems,
+        onTap: (index) => setState(() => _selectedIndex = index),
+      ),
+      backgroundColor: AyaColors.background,
       body: Row(
         children: [
           if (MediaQuery.of(context).size.width > 900)
@@ -127,4 +151,4 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
       ),
     );
   }
-} 
+}

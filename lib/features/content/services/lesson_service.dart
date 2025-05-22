@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:app_aya_v2/services/storage_service.dart';
 import 'package:app_aya_v2/services/share_service.dart';
 import 'package:app_aya_v2/services/download_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../../../core/services/logging_service.dart';
 
 class LessonService {
   static final LessonService _instance = LessonService._internal();
@@ -12,6 +13,8 @@ class LessonService {
   final _storage = StorageService();
   final _share = ShareService();
   final _download = DownloadService();
+  final _supabase = Supabase.instance.client;
+  final _logger = LoggingService();
 
   // Stream controllers para gerenciar estados
   final _favoriteController = StreamController<bool>.broadcast();
@@ -39,7 +42,7 @@ class LessonService {
       _isFavorite = !_isFavorite;
       _favoriteController.add(_isFavorite);
     } catch (e) {
-      debugPrint('Erro ao alternar favorito: $e');
+      _logger.error('Erro ao alternar favorito', e);
       rethrow;
     }
   }
@@ -50,7 +53,7 @@ class LessonService {
       _playbackState = _playbackState.copyWith(isPlaying: true);
       _playbackController.add(_playbackState);
     } catch (e) {
-      debugPrint('Erro ao iniciar reprodução: $e');
+      _logger.error('Erro ao iniciar reprodução', e);
       rethrow;
     }
   }
@@ -62,7 +65,7 @@ class LessonService {
       await _storage.saveLessonProgress(
           lessonId, _playbackState.currentPosition);
     } catch (e) {
-      debugPrint('Erro ao pausar reprodução: $e');
+      _logger.error('Erro ao pausar reprodução', e);
       rethrow;
     }
   }
@@ -73,7 +76,7 @@ class LessonService {
       _playbackController.add(_playbackState);
       await _storage.saveLessonProgress(lessonId, position);
     } catch (e) {
-      debugPrint('Erro ao buscar posição: $e');
+      _logger.error('Erro ao buscar posição', e);
       rethrow;
     }
   }
@@ -93,7 +96,7 @@ class LessonService {
       _comments = [..._comments, newComment];
       _commentsController.add(_comments);
     } catch (e) {
-      debugPrint('Erro ao adicionar comentário: $e');
+      _logger.error('Erro ao adicionar comentário', e);
       rethrow;
     }
   }
@@ -120,7 +123,7 @@ class LessonService {
       }).toList();
       _commentsController.add(_comments);
     } catch (e) {
-      debugPrint('Erro ao curtir comentário: $e');
+      _logger.error('Erro ao curtir comentário', e);
       rethrow;
     }
   }
@@ -141,7 +144,7 @@ class LessonService {
       _comments = [..._comments, newReply];
       _commentsController.add(_comments);
     } catch (e) {
-      debugPrint('Erro ao responder comentário: $e');
+      _logger.error('Erro ao responder comentário', e);
       rethrow;
     }
   }
@@ -165,9 +168,9 @@ class LessonService {
         fileType: fileType,
       );
       await _storage.addDownloadedLesson(lessonId);
-      debugPrint('Aula baixada com sucesso');
+      _logger.info('Aula baixada com sucesso');
     } catch (e) {
-      debugPrint('Erro ao baixar aula: $e');
+      _logger.error('Erro ao baixar aula', e);
       rethrow;
     }
   }
@@ -180,7 +183,7 @@ class LessonService {
     try {
       await _download.cancelDownload(lessonId);
     } catch (e) {
-      debugPrint('Erro ao cancelar download: $e');
+      _logger.error('Erro ao cancelar download', e);
       rethrow;
     }
   }
@@ -189,7 +192,7 @@ class LessonService {
     try {
       return await _download.isLessonDownloaded(lessonId);
     } catch (e) {
-      debugPrint('Erro ao verificar download: $e');
+      _logger.error('Erro ao verificar download', e);
       return false;
     }
   }
@@ -199,7 +202,7 @@ class LessonService {
       await _download.removeDownloadedLesson(lessonId);
       await _storage.removeDownloadedLesson(lessonId);
     } catch (e) {
-      debugPrint('Erro ao remover aula baixada: $e');
+      _logger.error('Erro ao remover aula baixada', e);
       rethrow;
     }
   }
@@ -209,7 +212,7 @@ class LessonService {
     try {
       await _share.shareLesson(lessonId, 'Aula do Aya');
     } catch (e) {
-      debugPrint('Erro ao compartilhar aula: $e');
+      _logger.error('Erro ao compartilhar aula', e);
       rethrow;
     }
   }
@@ -220,7 +223,7 @@ class LessonService {
       // TODO: Implementar chamada à API
       return 'next_lesson_id';
     } catch (e) {
-      debugPrint('Erro ao obter próxima aula: $e');
+      _logger.error('Erro ao obter próxima aula', e);
       rethrow;
     }
   }
@@ -252,7 +255,7 @@ class LessonService {
       }).toList();
       _commentsController.add(_comments);
     } catch (e) {
-      debugPrint('Erro ao carregar estado inicial: $e');
+      _logger.error('Erro ao carregar estado inicial', e);
       rethrow;
     }
   }
@@ -263,6 +266,117 @@ class LessonService {
     _playbackController.close();
     _commentsController.close();
   }
+
+  Future<List<Map<String, dynamic>>> getLessons() async {
+    try {
+      final response = await _supabase
+          .from('lessons')
+          .select()
+          .order('created_at', ascending: false);
+      return List<Map<String, dynamic>>.from(response);
+    } catch (e) {
+      _logger.error('Erro ao buscar aulas', e);
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> getLesson(String id) async {
+    try {
+      final response =
+          await _supabase.from('lessons').select().eq('id', id).single();
+      return response;
+    } catch (e) {
+      _logger.error('Erro ao buscar aula', e);
+      rethrow;
+    }
+  }
+
+  Future<void> createLesson(Map<String, dynamic> lesson) async {
+    try {
+      await _supabase.from('lessons').insert(lesson);
+      _logger.info('Aula criada com sucesso');
+    } catch (e) {
+      _logger.error('Erro ao criar aula', e);
+      rethrow;
+    }
+  }
+
+  Future<void> updateLesson(String id, Map<String, dynamic> lesson) async {
+    try {
+      await _supabase.from('lessons').update(lesson).eq('id', id);
+      _logger.info('Aula atualizada com sucesso');
+    } catch (e) {
+      _logger.error('Erro ao atualizar aula', e);
+      rethrow;
+    }
+  }
+
+  Future<void> deleteLesson(String id) async {
+    try {
+      await _supabase.from('lessons').delete().eq('id', id);
+      _logger.info('Aula deletada com sucesso');
+    } catch (e) {
+      _logger.error('Erro ao deletar aula', e);
+      rethrow;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getLessonsByModule(String moduleId) async {
+    try {
+      final response = await _supabase
+          .from('lessons')
+          .select()
+          .eq('module_id', moduleId)
+          .order('created_at', ascending: false);
+      return List<Map<String, dynamic>>.from(response);
+    } catch (e) {
+      _logger.error('Erro ao buscar aulas do módulo', e);
+      rethrow;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getLessonsByFolder(String folderId) async {
+    try {
+      final response = await _supabase
+          .from('lessons')
+          .select()
+          .eq('folder_id', folderId)
+          .order('created_at', ascending: false);
+      return List<Map<String, dynamic>>.from(response);
+    } catch (e) {
+      _logger.error('Erro ao buscar aulas da pasta', e);
+      rethrow;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getLessonsBySubfolder(
+      String subfolderId) async {
+    try {
+      final response = await _supabase
+          .from('lessons')
+          .select()
+          .eq('subfolder_id', subfolderId)
+          .order('created_at', ascending: false);
+      return List<Map<String, dynamic>>.from(response);
+    } catch (e) {
+      _logger.error('Erro ao buscar aulas da subpasta', e);
+      rethrow;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> searchLessons(String query) async {
+    try {
+      final response = await _supabase
+          .from('lessons')
+          .select()
+          .ilike('title', '%$query%')
+          .order('created_at', ascending: false);
+      return List<Map<String, dynamic>>.from(response);
+    } catch (e) {
+      _logger.error('Erro ao buscar aulas por termo', e);
+      rethrow;
+    }
+  }
 }
 
 class PlaybackState {
@@ -270,7 +384,7 @@ class PlaybackState {
   final Duration currentPosition;
   final Duration duration;
 
-  PlaybackState({
+  const PlaybackState({
     this.isPlaying = false,
     this.currentPosition = Duration.zero,
     this.duration = Duration.zero,
@@ -300,7 +414,7 @@ class Comment {
   final String? parentId;
   final bool isLiked;
 
-  Comment({
+  const Comment({
     required this.id,
     required this.userId,
     required this.userName,

@@ -1,8 +1,8 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:app_aya_v2/services/storage_path_service.dart';
 import 'package:path/path.dart' as path;
+import '../core/services/logging_service.dart';
 
 class UploadService {
   static final UploadService _instance = UploadService._internal();
@@ -11,6 +11,7 @@ class UploadService {
 
   final _supabase = Supabase.instance.client;
   final _storagePath = StoragePathService();
+  final _logger = LoggingService();
 
   // Método para fazer upload de conteúdo de aula
   Future<String> uploadLessonContent({
@@ -44,7 +45,7 @@ class UploadService {
 
       return response;
     } catch (e) {
-      debugPrint('Erro ao fazer upload do conteúdo da aula: $e');
+      _logger.error('Erro ao fazer upload do conteúdo da aula', e);
       rethrow;
     }
   }
@@ -78,7 +79,7 @@ class UploadService {
 
       return response;
     } catch (e) {
-      debugPrint('Erro ao fazer upload do thumbnail da aula: $e');
+      _logger.error('Erro ao fazer upload do thumbnail da aula', e);
       rethrow;
     }
   }
@@ -103,7 +104,7 @@ class UploadService {
 
       return response;
     } catch (e) {
-      debugPrint('Erro ao fazer upload da capa do módulo: $e');
+      _logger.error('Erro ao fazer upload da capa do módulo', e);
       rethrow;
     }
   }
@@ -129,7 +130,7 @@ class UploadService {
 
       return response;
     } catch (e) {
-      debugPrint('Erro ao fazer upload da capa da pasta: $e');
+      _logger.error('Erro ao fazer upload da capa da pasta', e);
       rethrow;
     }
   }
@@ -157,7 +158,7 @@ class UploadService {
 
       return response;
     } catch (e) {
-      debugPrint('Erro ao fazer upload da capa da subpasta: $e');
+      _logger.error('Erro ao fazer upload da capa da subpasta', e);
       rethrow;
     }
   }
@@ -182,7 +183,7 @@ class UploadService {
 
       return response;
     } catch (e) {
-      debugPrint('Erro ao fazer upload do avatar do usuário: $e');
+      _logger.error('Erro ao fazer upload do avatar do usuário', e);
       rethrow;
     }
   }
@@ -207,7 +208,7 @@ class UploadService {
 
       return response;
     } catch (e) {
-      debugPrint('Erro ao fazer upload do ícone do badge: $e');
+      _logger.error('Erro ao fazer upload do ícone do badge', e);
       rethrow;
     }
   }
@@ -276,7 +277,7 @@ class UploadService {
 
       return true;
     } catch (e) {
-      debugPrint('Erro ao validar arquivo: $e');
+      _logger.error('Erro ao validar arquivo', e);
       rethrow;
     }
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:app_aya_v2/config/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:app_aya_v2/config/routes.dart';
-import 'package:app_aya_v2/features/auth/auth_service.dart';
+import 'package:app_aya_v2/features/auth/services/auth_service.dart';
 
 class SimpleRegisterPage extends StatefulWidget {
   const SimpleRegisterPage({super.key});
@@ -34,7 +34,8 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
   void _register() async {
     if (!_acceptTerms) {
       setState(() {
-        _errorMessage = 'Você precisa aceitar os Termos de Uso e Política de Privacidade.';
+        _errorMessage =
+            'Você precisa aceitar os Termos de Uso e Política de Privacidade.';
       });
       return;
     }
@@ -47,7 +48,7 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
         await _authService.signUpWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
-          data: {
+          userMetadata: {
             'name': _nameController.text.trim(),
           },
         );
@@ -99,7 +100,8 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
                 style: const TextStyle(color: AppTheme.textPrimary),
                 decoration: InputDecoration(
                   labelText: 'Nome',
-                  labelStyle: TextStyle(color: AppTheme.textPrimary.withAlpha(204)),
+                  labelStyle:
+                      TextStyle(color: AppTheme.textPrimary.withAlpha(204)),
                   prefixIcon: Icon(Icons.person, color: AppTheme.primary),
                 ),
                 validator: (value) {
@@ -116,7 +118,8 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
                 style: const TextStyle(color: AppTheme.textPrimary),
                 decoration: InputDecoration(
                   labelText: 'E-mail',
-                  labelStyle: TextStyle(color: AppTheme.textPrimary.withAlpha(204)),
+                  labelStyle:
+                      TextStyle(color: AppTheme.textPrimary.withAlpha(204)),
                   prefixIcon: Icon(Icons.email, color: AppTheme.primary),
                 ),
                 validator: (value) {
@@ -136,7 +139,8 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
                 style: const TextStyle(color: AppTheme.textPrimary),
                 decoration: InputDecoration(
                   labelText: 'Senha',
-                  labelStyle: TextStyle(color: AppTheme.textPrimary.withAlpha(204)),
+                  labelStyle:
+                      TextStyle(color: AppTheme.textPrimary.withAlpha(204)),
                   prefixIcon: Icon(Icons.lock, color: AppTheme.primary),
                 ),
                 validator: (value) {
@@ -156,7 +160,8 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
                 style: const TextStyle(color: AppTheme.textPrimary),
                 decoration: InputDecoration(
                   labelText: 'Confirme a senha',
-                  labelStyle: TextStyle(color: AppTheme.textPrimary.withAlpha(204)),
+                  labelStyle:
+                      TextStyle(color: AppTheme.textPrimary.withAlpha(204)),
                   prefixIcon: Icon(Icons.lock_outline, color: AppTheme.primary),
                 ),
                 validator: (value) {
@@ -196,20 +201,24 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
                   padding: const EdgeInsets.only(bottom: 10.0),
                   child: Text(
                     _errorMessage!,
-                    style: const TextStyle(color: Colors.redAccent, fontSize: 14),
+                    style:
+                        const TextStyle(color: Colors.redAccent, fontSize: 14),
                     textAlign: TextAlign.center,
                   ),
                 ),
               const SizedBox(height: 16),
               _isLoading
-                  ? const Center(child: CircularProgressIndicator(color: AppTheme.textPrimary))
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                          color: AppTheme.textPrimary))
                   : ElevatedButton(
                       onPressed: _register,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.primary,
                         foregroundColor: AppTheme.textPrimary,
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        textStyle: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -219,12 +228,16 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
               const SizedBox(height: 24),
               Row(
                 children: [
-                  Expanded(child: Divider(color: AppTheme.secondary.withAlpha(102))),
+                  Expanded(
+                      child: Divider(color: AppTheme.secondary.withAlpha(102))),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Text('ou', style: TextStyle(color: AppTheme.textPrimary.withAlpha(153))),
+                    child: Text('ou',
+                        style: TextStyle(
+                            color: AppTheme.textPrimary.withAlpha(153))),
                   ),
-                  Expanded(child: Divider(color: AppTheme.secondary.withAlpha(102))),
+                  Expanded(
+                      child: Divider(color: AppTheme.secondary.withAlpha(102))),
                 ],
               ),
               const SizedBox(height: 16),
@@ -232,51 +245,64 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.g_mobiledata, color: AppTheme.primary, size: 36),
-                    onPressed: _isLoading ? null : () async {
-                      setState(() { 
-                        _isLoading = true; 
-                        _errorMessage = null; 
-                      });
-                      try {
-                        await _authService.signInWithGoogle();
-                        // O redirecionamento será tratado pelo Supabase
-                      } catch (e) {
-                        if (mounted) {
-                          setState(() { 
-                            _errorMessage = e.toString().replaceFirst('Exception: ', ''); 
-                          });
-                        }
-                      } finally {
-                        if (mounted) {
-                          setState(() { _isLoading = false; });
-                        }
-                      }
-                    },
+                    icon: Icon(Icons.g_mobiledata,
+                        color: AppTheme.primary, size: 36),
+                    onPressed: _isLoading
+                        ? null
+                        : () async {
+                            setState(() {
+                              _isLoading = true;
+                              _errorMessage = null;
+                            });
+                            try {
+                              await _authService.signInWithGoogle();
+                              // O redirecionamento será tratado pelo Supabase
+                            } catch (e) {
+                              if (mounted) {
+                                setState(() {
+                                  _errorMessage = e
+                                      .toString()
+                                      .replaceFirst('Exception: ', '');
+                                });
+                              }
+                            } finally {
+                              if (mounted) {
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                              }
+                            }
+                          },
                   ),
                   const SizedBox(width: 16),
                   IconButton(
                     icon: Icon(Icons.apple, color: AppTheme.primary, size: 32),
-                    onPressed: _isLoading ? null : () async {
-                      setState(() { 
-                        _isLoading = true; 
-                        _errorMessage = null; 
-                      });
-                      try {
-                        await _authService.signInWithApple();
-                        // O redirecionamento será tratado pelo Supabase
-                      } catch (e) {
-                        if (mounted) {
-                          setState(() { 
-                            _errorMessage = e.toString().replaceFirst('Exception: ', ''); 
-                          });
-                        }
-                      } finally {
-                        if (mounted) {
-                          setState(() { _isLoading = false; });
-                        }
-                      }
-                    },
+                    onPressed: _isLoading
+                        ? null
+                        : () async {
+                            setState(() {
+                              _isLoading = true;
+                              _errorMessage = null;
+                            });
+                            try {
+                              await _authService.signInWithApple();
+                              // O redirecionamento será tratado pelo Supabase
+                            } catch (e) {
+                              if (mounted) {
+                                setState(() {
+                                  _errorMessage = e
+                                      .toString()
+                                      .replaceFirst('Exception: ', '');
+                                });
+                              }
+                            } finally {
+                              if (mounted) {
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                              }
+                            }
+                          },
                   ),
                 ],
               ),
@@ -286,4 +312,4 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
       ),
     );
   }
-} 
+}

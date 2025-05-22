@@ -13,6 +13,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   bool _sent = false;
   bool _isLoading = false;
   String? _errorMessage;
+  final AuthService _authService = AuthService();
 
   @override
   void dispose() {
@@ -26,18 +27,27 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       _errorMessage = null;
     });
     try {
-      await AuthService().sendPasswordResetEmail(_emailController.text.trim());
-      setState(() {
-        _sent = true;
-      });
+      await _authService.resetPassword(_emailController.text.trim());
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('E-mail de recuperação enviado com sucesso!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+      Navigator.of(context).pop();
     } catch (e) {
-      setState(() {
-        _errorMessage = e.toString().replaceFirst('Exception: ', '');
-      });
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao enviar e-mail: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 

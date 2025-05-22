@@ -27,6 +27,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   File? _newAvatar;
   Uint8List? _newAvatarBytes;
   String? _errorMessage;
+  final AuthService _authService = AuthService();
 
   @override
   void initState() {
@@ -37,7 +38,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Future<void> _loadProfile() async {
     setState(() => _isLoading = true);
     try {
-      final profile = await AuthService().getCurrentUserProfile();
+      final profile = await _authService.getCurrentUserProfile();
       if (profile != null) {
         _nameController.text = profile['name'] ?? '';
         _emailController.text = profile['email'] ?? '';
@@ -60,10 +61,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       if (_newAvatarBytes != null) {
         final fileName = 'avatar_${DateTime.now().millisecondsSinceEpoch}.jpg';
         final response =
-            await AuthService().uploadAvatar(_newAvatarBytes!, fileName);
+            await _authService.uploadAvatar(_newAvatarBytes!, fileName);
         avatarUrl = response;
       }
-      await AuthService().updateUserProfile(
+      await _authService.updateProfile(
         name: _nameController.text.trim(),
         avatarUrl: avatarUrl,
       );
@@ -75,12 +76,23 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         _newAvatarBytes = null;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Perfil atualizado!')),
+        const SnackBar(
+          content: Text('Perfil atualizado com sucesso!'),
+          backgroundColor: Colors.green,
+        ),
       );
     } catch (e) {
-      setState(() => _errorMessage = 'Erro ao salvar perfil');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao atualizar perfil: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
@@ -97,7 +109,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   }
 
   Future<void> _logout() async {
-    await AuthService().signOut();
+    await _authService.signOut();
     if (mounted) {
       Navigator.of(context).pushReplacementNamed('/login');
     }
