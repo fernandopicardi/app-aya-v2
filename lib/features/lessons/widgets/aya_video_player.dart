@@ -20,8 +20,8 @@ class AyaVideoPlayer extends StatefulWidget {
 class _AyaVideoPlayerState extends State<AyaVideoPlayer> {
   late VideoPlayerController _controller;
   bool _isInitialized = false;
-  bool _showControls = true;
-  bool _isFullScreen = false;
+  bool _isLoading = true;
+  String? _errorMessage;
 
   @override
   void initState() {
@@ -30,14 +30,24 @@ class _AyaVideoPlayerState extends State<AyaVideoPlayer> {
   }
 
   Future<void> _initializePlayer() async {
-    _controller = VideoPlayerController.network(widget.videoUrl);
     try {
+      setState(() {
+        _isLoading = true;
+        _errorMessage = null;
+      });
+
+      _controller = VideoPlayerController.network(widget.videoUrl);
       await _controller.initialize();
+
       setState(() {
         _isInitialized = true;
+        _isLoading = false;
       });
     } catch (e) {
-      debugPrint('Error initializing video player: $e');
+      setState(() {
+        _errorMessage = 'Erro ao carregar o vídeo. Tente novamente.';
+        _isLoading = false;
+      });
     }
   }
 
@@ -49,203 +59,213 @@ class _AyaVideoPlayerState extends State<AyaVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 16 / 9,
-      child: Stack(
-        fit: StackFit.expand,
+    return Container(
+      decoration: BoxDecoration(
+        color: AyaColors.lavenderSoft,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
         children: [
-          // Video or Thumbnail
-          if (_isInitialized)
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  _showControls = !_showControls;
-                });
-              },
-              child: VideoPlayer(_controller),
-            )
-          else
-            CachedNetworkImage(
-              imageUrl: widget.thumbnailUrl,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                color: AyaColors.lavenderSoft,
-                child: const Center(
-                  child: CircularProgressIndicator(
-                    color: AyaColors.turquoise,
-                  ),
-                ),
-              ),
-              errorWidget: (context, url, error) => Container(
-                color: AyaColors.lavenderSoft,
-                child: const Icon(
-                  Icons.image_not_supported,
-                  color: AyaColors.textPrimary,
-                  size: 48,
-                ),
-              ),
-            ),
-
-          // Play Button (when not playing)
-          if (_isInitialized && !_controller.value.isPlaying)
-            Center(
-              child: IconButton(
-                icon: const Icon(
-                  Icons.play_circle_fill,
-                  color: AyaColors.turquoise,
-                  size: 64,
-                ),
-                onPressed: () {
-                  _controller.play();
-                },
-              ),
-            ),
-
-          // Controls Overlay
-          if (_showControls && _isInitialized)
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.black.withOpacity(0.7),
-                    Colors.transparent,
-                    Colors.transparent,
-                    Colors.black.withOpacity(0.7),
-                  ],
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Top Bar
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+          // Video Player
+          AspectRatio(
+            aspectRatio: 16 / 9,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                if (_isLoading)
+                  const Center(
+                    child: CircularProgressIndicator(
+                      color: AyaColors.turquoise,
+                    ),
+                  )
+                else if (_errorMessage != null)
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        IconButton(
-                          icon: Icon(
-                            _isFullScreen
-                                ? Icons.fullscreen_exit
-                                : Icons.fullscreen,
-                            color: AyaColors.textPrimary,
+                        const Icon(
+                          Icons.error_outline,
+                          color: AyaColors.textPrimary,
+                          size: 48,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          _errorMessage!,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: AyaColors.textPrimary,
+                                  ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: _initializePlayer,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AyaColors.turquoise,
+                            foregroundColor: AyaColors.surface,
                           ),
-                          onPressed: () {
-                            setState(() {
-                              _isFullScreen = !_isFullScreen;
-                            });
-                            // TODO: Implement fullscreen toggle
-                          },
+                          child: const Text('Tentar Novamente'),
                         ),
                       ],
                     ),
-                  ),
-
-                  // Bottom Bar
-                  Container(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // Progress Bar
-                        ValueListenableBuilder(
-                          valueListenable: _controller,
-                          builder: (context, VideoPlayerValue value, child) {
-                            return SliderTheme(
-                              data: SliderThemeData(
-                                trackHeight: 2,
-                                thumbShape: const RoundSliderThumbShape(
-                                  enabledThumbRadius: 6,
-                                ),
-                                overlayShape: const RoundSliderOverlayShape(
-                                  overlayRadius: 12,
-                                ),
-                                activeTrackColor: AyaColors.turquoise,
-                                inactiveTrackColor:
-                                    AyaColors.textPrimary.withOpacity(0.3),
-                                thumbColor: AyaColors.turquoise,
-                                overlayColor:
-                                    AyaColors.turquoise.withOpacity(0.2),
-                              ),
-                              child: Slider(
-                                value: value.position.inMilliseconds.toDouble(),
-                                min: 0,
-                                max: value.duration.inMilliseconds.toDouble(),
-                                onChanged: (newValue) {
-                                  _controller.seekTo(
-                                    Duration(
-                                      milliseconds: newValue.toInt(),
-                                    ),
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                        ),
-
-                        // Controls
-                        Row(
-                          children: [
-                            // Play/Pause
-                            IconButton(
-                              icon: Icon(
-                                _controller.value.isPlaying
-                                    ? Icons.pause
-                                    : Icons.play_arrow,
-                                color: AyaColors.textPrimary,
+                  )
+                else
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      VideoPlayer(_controller),
+                      ValueListenableBuilder(
+                        valueListenable: _controller,
+                        builder: (context, VideoPlayerValue value, child) {
+                          if (!value.isPlaying) {
+                            return IconButton(
+                              icon: const Icon(
+                                Icons.play_circle_filled,
+                                color: AyaColors.turquoise,
+                                size: 64,
                               ),
                               onPressed: () {
-                                setState(() {
-                                  if (_controller.value.isPlaying) {
+                                _controller.play();
+                              },
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
+                      ),
+                    ],
+                  ),
+              ],
+            ),
+          ),
+
+          // Controls
+          if (_isInitialized && _errorMessage == null)
+            Container(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  // Progress Bar
+                  ValueListenableBuilder(
+                    valueListenable: _controller,
+                    builder: (context, VideoPlayerValue value, child) {
+                      final duration = value.duration;
+                      final position = value.position;
+                      final max = duration.inMilliseconds.toDouble();
+                      final current = position.inMilliseconds
+                          .toDouble()
+                          .clamp(0.0, max > 0 ? max : 1.0);
+
+                      return SliderTheme(
+                        data: SliderThemeData(
+                          trackHeight: 4,
+                          thumbShape: const RoundSliderThumbShape(
+                            enabledThumbRadius: 6,
+                          ),
+                          overlayShape: const RoundSliderOverlayShape(
+                            overlayRadius: 12,
+                          ),
+                          activeTrackColor: AyaColors.turquoise,
+                          inactiveTrackColor:
+                              AyaColors.textPrimary.withOpacity(0.3),
+                          thumbColor: AyaColors.turquoise,
+                          overlayColor: AyaColors.turquoise.withOpacity(0.2),
+                        ),
+                        child: Slider(
+                          value: current,
+                          min: 0.0,
+                          max: max > 0 ? max : 1.0,
+                          onChanged: max > 0
+                              ? (value) {
+                                  _controller.seekTo(
+                                      Duration(milliseconds: value.toInt()));
+                                }
+                              : null,
+                        ),
+                      );
+                    },
+                  ),
+
+                  // Time and Controls
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Current Position
+                      ValueListenableBuilder(
+                        valueListenable: _controller,
+                        builder: (context, VideoPlayerValue value, child) {
+                          return Text(
+                            _formatDuration(value.position),
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: AyaColors.textPrimary60,
+                                    ),
+                          );
+                        },
+                      ),
+
+                      // Controls
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.replay,
+                              color: AyaColors.textPrimary,
+                            ),
+                            onPressed: () {
+                              final newPosition = _controller.value.position -
+                                  const Duration(seconds: 15);
+                              _controller.seekTo(newPosition);
+                            },
+                          ),
+                          ValueListenableBuilder(
+                            valueListenable: _controller,
+                            builder: (context, VideoPlayerValue value, child) {
+                              return IconButton(
+                                icon: Icon(
+                                  value.isPlaying
+                                      ? Icons.pause_circle_filled
+                                      : Icons.play_circle_filled,
+                                  color: AyaColors.turquoise,
+                                  size: 48,
+                                ),
+                                onPressed: () {
+                                  if (value.isPlaying) {
                                     _controller.pause();
                                   } else {
                                     _controller.play();
                                   }
-                                });
-                              },
+                                },
+                              );
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.forward,
+                              color: AyaColors.textPrimary,
                             ),
+                            onPressed: () {
+                              final newPosition = _controller.value.position +
+                                  const Duration(seconds: 15);
+                              _controller.seekTo(newPosition);
+                            },
+                          ),
+                        ],
+                      ),
 
-                            // Current Position / Duration
-                            ValueListenableBuilder(
-                              valueListenable: _controller,
-                              builder:
-                                  (context, VideoPlayerValue value, child) {
-                                return Text(
-                                  '${_formatDuration(value.position)} / ${_formatDuration(value.duration)}',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall
-                                      ?.copyWith(
-                                        color: AyaColors.textPrimary,
-                                      ),
-                                );
-                              },
-                            ),
-
-                            const Spacer(),
-
-                            // Volume
-                            IconButton(
-                              icon: Icon(
-                                _controller.value.volume > 0
-                                    ? Icons.volume_up
-                                    : Icons.volume_off,
-                                color: AyaColors.textPrimary,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _controller.setVolume(
-                                    _controller.value.volume > 0 ? 0 : 1,
-                                  );
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                      // Duration
+                      ValueListenableBuilder(
+                        valueListenable: _controller,
+                        builder: (context, VideoPlayerValue value, child) {
+                          return Text(
+                            _formatDuration(value.duration),
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: AyaColors.textPrimary60,
+                                    ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -257,11 +277,8 @@ class _AyaVideoPlayerState extends State<AyaVideoPlayer> {
 
   String _formatDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
-    final hours = twoDigits(duration.inHours);
     final minutes = twoDigits(duration.inMinutes.remainder(60));
     final seconds = twoDigits(duration.inSeconds.remainder(60));
-    return duration.inHours > 0
-        ? '$hours:$minutes:$seconds'
-        : '$minutes:$seconds';
+    return '$minutes:$seconds';
   }
 }

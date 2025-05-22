@@ -5,6 +5,8 @@ import '../widgets/aya_app_bar.dart';
 import '../widgets/aya_bottom_nav.dart';
 import '../widgets/aya_drawer.dart';
 import '../widgets/aya_cards.dart';
+import '../../../core/routes/app_router.dart';
+import '../../lessons/screens/lessons_list_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -47,209 +49,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildHomeTab() {
-    return ListView(
-      children: [
-        // Featured Card
-        AyaFeaturedCard(
-          title: 'Planos de Assinatura',
-          description: 'Desbloqueie todo o conteúdo e recursos premium',
-          imageUrl: 'https://picsum.photos/800/400',
-          buttonText: 'Gerenciar minha assinatura',
-          onTap: () {
-            Navigator.pushNamed(context, '/subscription');
-          },
+    return CustomScrollView(
+      slivers: [
+        const SliverAppBar(
+          title: Text('AYA'),
+          floating: true,
+          snap: true,
+          backgroundColor: AyaColors.surface,
+          foregroundColor: AyaColors.textPrimary,
         ),
-
-        // Comece por Aqui Section
-        AyaSectionHeader(
-          title: 'Comece por aqui',
-          subtitle: 'Aprenda a mergulhar no app',
-          onSeeAllPressed: () {
-            // TODO: Navigate to all getting started content
-          },
-        ),
-        SizedBox(
-          height: 200,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            children: [
-              AyaContentCard(
-                title: 'Como usar o app',
-                subtitle: 'Guia rápido',
-                imageUrl: 'https://picsum.photos/200/300',
-                onTap: () {
-                  // TODO: Navigate to guide
-                },
-              ),
-              AyaContentCard(
-                title: 'Primeiros passos',
-                subtitle: 'Introdução',
-                imageUrl: 'https://picsum.photos/200/301',
-                onTap: () {
-                  // TODO: Navigate to intro
-                },
-              ),
-              AyaContentCard(
-                title: 'Dicas e truques',
-                subtitle: 'Aproveite ao máximo',
-                imageUrl: 'https://picsum.photos/200/302',
-                onTap: () {
-                  // TODO: Navigate to tips
-                },
-              ),
-            ],
-          ),
-        ),
-
-        // Astrologia na Prática Section
-        AyaSectionHeader(
-          title: 'Astrologia na Prática',
-          subtitle: 'Aprenda a interpretar seu mapa astral',
-          onSeeAllPressed: () {
-            // TODO: Navigate to all astrology content
-          },
-        ),
-        SizedBox(
-          height: 200,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            children: [
-              AyaContentCard(
-                title: 'Introdução à Astrologia',
-                subtitle: 'Módulo 1 • Aula 1',
-                imageUrl: 'https://picsum.photos/200/303',
-                onTap: () {
-                  // TODO: Navigate to lesson
-                },
-              ),
-              AyaContentCard(
-                title: 'Os 12 Signos',
-                subtitle: 'Módulo 1 • Aula 2',
-                imageUrl: 'https://picsum.photos/200/304',
-                onTap: () {
-                  // TODO: Navigate to lesson
-                },
-              ),
-              AyaContentCard(
-                title: 'Casas Astrológicas',
-                subtitle: 'Módulo 1 • Aula 3',
-                imageUrl: 'https://picsum.photos/200/305',
-                onTap: () {
-                  // TODO: Navigate to lesson
-                },
-              ),
-            ],
-          ),
-        ),
-
-        // Jornadas de Mindfulness Section
-        AyaSectionHeader(
-          title: 'Jornadas de Mindfulness',
-          subtitle: 'Meditações guiadas e práticas',
-          onSeeAllPressed: () {
-            // TODO: Navigate to all mindfulness content
-          },
-        ),
-        SizedBox(
-          height: 200,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            children: [
-              AyaContentCard(
-                title: 'Meditação para Iniciantes',
-                subtitle: 'Jornada 1 • Aula 1',
-                imageUrl: 'https://picsum.photos/200/306',
-                onTap: () {
-                  // TODO: Navigate to lesson
-                },
-              ),
-              AyaContentCard(
-                title: 'Respiração Consciente',
-                subtitle: 'Jornada 1 • Aula 2',
-                imageUrl: 'https://picsum.photos/200/307',
-                onTap: () {
-                  // TODO: Navigate to lesson
-                },
-              ),
-              AyaContentCard(
-                title: 'Mindfulness no Dia a Dia',
-                subtitle: 'Jornada 1 • Aula 3',
-                imageUrl: 'https://picsum.photos/200/308',
-                onTap: () {
-                  // TODO: Navigate to lesson
-                },
-              ),
-            ],
-          ),
-        ),
-
-        // Seu Progresso Section
-        AyaSectionHeader(
-          title: 'Seu Progresso',
-          subtitle: 'Acompanhe sua jornada',
-        ),
-        Container(
-          margin: const EdgeInsets.all(16),
+        SliverPadding(
           padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: AyaColors.lavenderSoft,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Nível 3',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: AyaColors.textPrimary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AyaColors.turquoise,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      '750 pontos',
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                            color: AyaColors.textPrimary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: LinearProgressIndicator(
-                  value: 0.7,
-                  backgroundColor: AyaColors.lavenderSoft30,
-                  valueColor: const AlwaysStoppedAnimation<Color>(
-                    AyaColors.turquoise,
-                  ),
-                  minHeight: 8,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                '70% do nível atual',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AyaColors.textPrimary60,
-                    ),
-              ),
-            ],
+          sliver: SliverList(
+            delegate: SliverChildListDelegate([
+              _buildWelcomeCard(),
+              const SizedBox(height: 24),
+              _buildContinueLearningSection(),
+              const SizedBox(height: 24),
+              _buildRecommendedSection(),
+            ]),
           ),
         ),
       ],
@@ -257,7 +75,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildLibraryTab() {
-    return const Center(child: Text('Biblioteca'));
+    return Navigator(
+      onGenerateRoute: (settings) {
+        if (settings.name == '/') {
+          return MaterialPageRoute(
+            builder: (_) => const LessonsListScreen(),
+          );
+        }
+        return null;
+      },
+    );
   }
 
   Widget _buildCommunityTab() {
@@ -269,6 +96,227 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildProfileTab() {
-    return const Center(child: Text('Perfil'));
+    return CustomScrollView(
+      slivers: [
+        const SliverAppBar(
+          title: Text('Meu Perfil'),
+          floating: true,
+          snap: true,
+          backgroundColor: AyaColors.surface,
+          foregroundColor: AyaColors.textPrimary,
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.all(16),
+          sliver: SliverList(
+            delegate: SliverChildListDelegate([
+              _buildProfileCard(),
+              const SizedBox(height: 24),
+              _buildDownloadsSection(),
+              const SizedBox(height: 24),
+              _buildSettingsSection(),
+            ]),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildWelcomeCard() {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: AyaColors.lavenderSoft,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Bem-vindo(a) ao AYA',
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: AyaColors.textPrimary,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Explore nosso conteúdo e comece sua jornada de autoconhecimento.',
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: AyaColors.textPrimary60,
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildContinueLearningSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Continue Aprendendo',
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: AyaColors.textPrimary,
+                fontWeight: FontWeight.bold,
+              ),
+        ),
+        const SizedBox(height: 16),
+        // TODO: Implementar lista de aulas em progresso
+        Container(
+          height: 200,
+          decoration: BoxDecoration(
+            color: AyaColors.lavenderSoft,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: const Center(
+            child: Text('Nenhuma aula em progresso'),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRecommendedSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Recomendados para Você',
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: AyaColors.textPrimary,
+                fontWeight: FontWeight.bold,
+              ),
+        ),
+        const SizedBox(height: 16),
+        // TODO: Implementar lista de aulas recomendadas
+        Container(
+          height: 200,
+          decoration: BoxDecoration(
+            color: AyaColors.lavenderSoft,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: const Center(
+            child: Text('Nenhuma recomendação disponível'),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProfileCard() {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: AyaColors.lavenderSoft,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        children: [
+          const CircleAvatar(
+            radius: 48,
+            backgroundColor: AyaColors.turquoise,
+            child: Icon(
+              Icons.person,
+              size: 48,
+              color: AyaColors.surface,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Usuário AYA',
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: AyaColors.textPrimary,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'usuario@aya.com',
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: AyaColors.textPrimary60,
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDownloadsSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Downloads',
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: AyaColors.textPrimary,
+                fontWeight: FontWeight.bold,
+              ),
+        ),
+        const SizedBox(height: 16),
+        // TODO: Implementar lista de downloads
+        Container(
+          height: 200,
+          decoration: BoxDecoration(
+            color: AyaColors.lavenderSoft,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: const Center(
+            child: Text('Nenhum download disponível'),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSettingsSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Configurações',
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: AyaColors.textPrimary,
+                fontWeight: FontWeight.bold,
+              ),
+        ),
+        const SizedBox(height: 16),
+        Container(
+          decoration: BoxDecoration(
+            color: AyaColors.lavenderSoft,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Column(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.notifications_outlined),
+                title: const Text('Notificações'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () {
+                  // TODO: Implementar configurações de notificações
+                },
+              ),
+              const Divider(height: 1),
+              ListTile(
+                leading: const Icon(Icons.dark_mode_outlined),
+                title: const Text('Tema'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () {
+                  // TODO: Implementar configurações de tema
+                },
+              ),
+              const Divider(height: 1),
+              ListTile(
+                leading: const Icon(Icons.logout),
+                title: const Text('Sair'),
+                onTap: () {
+                  // TODO: Implementar logout
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

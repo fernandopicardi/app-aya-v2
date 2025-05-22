@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'dart:math' as math;
 import '../../../core/theme/app_theme.dart';
 
 class AyaAudioPlayer extends StatefulWidget {
@@ -18,71 +17,48 @@ class AyaAudioPlayer extends StatefulWidget {
   State<AyaAudioPlayer> createState() => _AyaAudioPlayerState();
 }
 
-class _AyaAudioPlayerState extends State<AyaAudioPlayer>
-    with SingleTickerProviderStateMixin {
-  late AudioPlayer _player;
+class _AyaAudioPlayerState extends State<AyaAudioPlayer> {
+  final AudioPlayer _player = AudioPlayer();
   bool _isInitialized = false;
-  bool _isPlaying = false;
-  Duration _duration = Duration.zero;
-  Duration _position = Duration.zero;
-  late AnimationController _waveformController;
-  final List<double> _waveformData = List.generate(
-    50,
-    (index) => math.Random().nextDouble() * 0.5 + 0.2,
-  );
+  bool _isLoading = true;
+  String? _errorMessage;
 
   @override
   void initState() {
     super.initState();
     _initializePlayer();
-    _waveformController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    )..repeat();
   }
 
   Future<void> _initializePlayer() async {
-    _player = AudioPlayer();
     try {
+      setState(() {
+        _isLoading = true;
+        _errorMessage = null;
+      });
+
       await _player.setUrl(widget.audioUrl);
+
       setState(() {
         _isInitialized = true;
-        _duration = _player.duration ?? Duration.zero;
-      });
-
-      // Listen to position changes
-      _player.positionStream.listen((position) {
-        if (mounted) {
-          setState(() {
-            _position = position;
-          });
-        }
-      });
-
-      // Listen to player state changes
-      _player.playerStateStream.listen((state) {
-        if (mounted) {
-          setState(() {
-            _isPlaying = state.playing;
-          });
-        }
+        _isLoading = false;
       });
     } catch (e) {
-      debugPrint('Error initializing audio player: $e');
+      setState(() {
+        _errorMessage = 'Erro ao carregar o áudio. Tente novamente.';
+        _isLoading = false;
+      });
     }
   }
 
   @override
   void dispose() {
     _player.dispose();
-    _waveformController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
       decoration: BoxDecoration(
         color: AyaColors.lavenderSoft,
         borderRadius: BorderRadius.circular(16),
@@ -90,158 +66,271 @@ class _AyaAudioPlayerState extends State<AyaAudioPlayer>
       child: Column(
         children: [
           // Thumbnail
-          Expanded(
-            flex: 2,
-            child: ClipRRect(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(16)),
-              child: CachedNetworkImage(
-                imageUrl: widget.thumbnailUrl,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                placeholder: (context, url) => Container(
-                  color: AyaColors.lavenderSoft,
-                  child: const Center(
-                    child: CircularProgressIndicator(
-                      color: AyaColors.turquoise,
-                    ),
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+            child: CachedNetworkImage(
+              imageUrl: widget.thumbnailUrl,
+              height: 200,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => Container(
+                height: 200,
+                color: AyaColors.lavenderSoft,
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    color: AyaColors.turquoise,
                   ),
                 ),
-                errorWidget: (context, url, error) => Container(
-                  color: AyaColors.lavenderSoft,
-                  child: const Icon(
-                    Icons.image_not_supported,
-                    color: AyaColors.textPrimary,
-                    size: 48,
-                  ),
+              ),
+              errorWidget: (context, url, error) => Container(
+                height: 200,
+                color: AyaColors.lavenderSoft,
+                child: const Icon(
+                  Icons.image_not_supported,
+                  color: AyaColors.textPrimary,
+                  size: 48,
                 ),
               ),
             ),
           ),
 
-          // Audio Waveform
-          Expanded(
-            flex: 1,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: AnimatedBuilder(
-                animation: _waveformController,
-                builder: (context, child) {
-                  return CustomPaint(
-                    painter: WaveformPainter(
-                      waveformData: _waveformData,
-                      progress: _position.inMilliseconds /
-                          (_duration.inMilliseconds == 0
-                              ? 1
-                              : _duration.inMilliseconds),
-                      isPlaying: _isPlaying,
-                      color: AyaColors.turquoise,
-                    ),
-                    size: Size.infinite,
-                  );
-                },
-              ),
-            ),
-          ),
-
-          // Controls
-          Container(
+          // Player Controls
+          Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                // Progress Bar
-                SliderTheme(
-                  data: SliderThemeData(
-                    trackHeight: 2,
-                    thumbShape: const RoundSliderThumbShape(
-                      enabledThumbRadius: 6,
+                if (_isLoading)
+                  const Center(
+                    child: CircularProgressIndicator(
+                      color: AyaColors.turquoise,
                     ),
-                    overlayShape: const RoundSliderOverlayShape(
-                      overlayRadius: 12,
-                    ),
-                    activeTrackColor: AyaColors.turquoise,
-                    inactiveTrackColor: AyaColors.textPrimary.withOpacity(0.3),
-                    thumbColor: AyaColors.turquoise,
-                    overlayColor: AyaColors.turquoise.withOpacity(0.2),
-                  ),
-                  child: Slider(
-                    value: _position.inMilliseconds.toDouble(),
-                    min: 0,
-                    max: _duration.inMilliseconds.toDouble(),
-                    onChanged: (value) {
-                      _player.seek(Duration(milliseconds: value.toInt()));
-                    },
-                  ),
-                ),
-
-                // Time and Controls
-                Row(
-                  children: [
-                    // Current Position
-                    Text(
-                      _formatDuration(_position),
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AyaColors.textPrimary60,
+                  )
+                else if (_errorMessage != null)
+                  Center(
+                    child: Column(
+                      children: [
+                        const Icon(
+                          Icons.error_outline,
+                          color: AyaColors.textPrimary,
+                          size: 48,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          _errorMessage!,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: AyaColors.textPrimary,
+                                  ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: _initializePlayer,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AyaColors.turquoise,
+                            foregroundColor: AyaColors.surface,
                           ),
+                          child: const Text('Tentar Novamente'),
+                        ),
+                      ],
                     ),
-                    const Spacer(),
-
-                    // Previous 15s
-                    IconButton(
-                      icon: const Icon(
-                        Icons.replay,
-                        color: AyaColors.textPrimary,
+                  )
+                else
+                  Column(
+                    children: [
+                      // Waveform Visualization
+                      Container(
+                        height: 60,
+                        margin: const EdgeInsets.only(bottom: 16),
+                        child: StreamBuilder<Duration?>(
+                          stream: _player.durationStream,
+                          builder: (context, snapshot) {
+                            final duration = snapshot.data ?? Duration.zero;
+                            return StreamBuilder<Duration>(
+                              stream: _player.positionStream,
+                              builder: (context, snapshot) {
+                                final position = snapshot.data ?? Duration.zero;
+                                return StreamBuilder<PlayerState>(
+                                  stream: _player.playerStateStream,
+                                  builder: (context, snapshot) {
+                                    final playerState = snapshot.data;
+                                    final isPlaying =
+                                        playerState?.playing ?? false;
+                                    return CustomPaint(
+                                      painter: WaveformPainter(
+                                        position:
+                                            position.inMilliseconds.toDouble(),
+                                        duration:
+                                            duration.inMilliseconds.toDouble(),
+                                        isPlaying: isPlaying,
+                                      ),
+                                      size: const Size(double.infinity, 60),
+                                    );
+                                  },
+                                );
+                              },
+                            );
+                          },
+                        ),
                       ),
-                      onPressed: () {
-                        final newPosition =
-                            _position - const Duration(seconds: 15);
-                        _player.seek(newPosition.isNegative
-                            ? Duration.zero
-                            : newPosition);
-                      },
-                    ),
 
-                    // Play/Pause
-                    IconButton(
-                      icon: Icon(
-                        _isPlaying ? Icons.pause_circle : Icons.play_circle,
-                        color: AyaColors.turquoise,
-                        size: 48,
+                      // Progress Bar
+                      StreamBuilder<Duration?>(
+                        stream: _player.durationStream,
+                        builder: (context, snapshot) {
+                          final duration = snapshot.data ?? Duration.zero;
+                          return StreamBuilder<Duration>(
+                            stream: _player.positionStream,
+                            builder: (context, snapshot) {
+                              final position = snapshot.data ?? Duration.zero;
+                              final max = duration.inMilliseconds.toDouble();
+                              final value = position.inMilliseconds
+                                  .toDouble()
+                                  .clamp(0.0, max > 0 ? max : 1.0);
+
+                              return SliderTheme(
+                                data: SliderThemeData(
+                                  trackHeight: 4,
+                                  thumbShape: const RoundSliderThumbShape(
+                                    enabledThumbRadius: 6,
+                                  ),
+                                  overlayShape: const RoundSliderOverlayShape(
+                                    overlayRadius: 12,
+                                  ),
+                                  activeTrackColor: AyaColors.turquoise,
+                                  inactiveTrackColor:
+                                      AyaColors.textPrimary.withOpacity(0.3),
+                                  thumbColor: AyaColors.turquoise,
+                                  overlayColor:
+                                      AyaColors.turquoise.withOpacity(0.2),
+                                ),
+                                child: Slider(
+                                  value: value,
+                                  min: 0.0,
+                                  max: max > 0 ? max : 1.0,
+                                  onChanged: max > 0
+                                      ? (value) {
+                                          _player.seek(Duration(
+                                              milliseconds: value.toInt()));
+                                        }
+                                      : null,
+                                ),
+                              );
+                            },
+                          );
+                        },
                       ),
-                      onPressed: () {
-                        if (_isPlaying) {
-                          _player.pause();
-                        } else {
-                          _player.play();
-                        }
-                      },
-                    ),
 
-                    // Next 15s
-                    IconButton(
-                      icon: const Icon(
-                        Icons.forward,
-                        color: AyaColors.textPrimary,
-                      ),
-                      onPressed: () {
-                        final newPosition =
-                            _position + const Duration(seconds: 15);
-                        if (newPosition <= _duration) {
-                          _player.seek(newPosition);
-                        }
-                      },
-                    ),
-                    const Spacer(),
-
-                    // Duration
-                    Text(
-                      _formatDuration(_duration),
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AyaColors.textPrimary60,
+                      // Time and Controls
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Current Position
+                          StreamBuilder<Duration>(
+                            stream: _player.positionStream,
+                            builder: (context, snapshot) {
+                              final position = snapshot.data ?? Duration.zero;
+                              return Text(
+                                _formatDuration(position),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                      color: AyaColors.textPrimary60,
+                                    ),
+                              );
+                            },
                           ),
-                    ),
-                  ],
-                ),
+
+                          // Controls
+                          Row(
+                            children: [
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.replay,
+                                  color: AyaColors.textPrimary,
+                                ),
+                                onPressed: () {
+                                  final newPosition = _player.position -
+                                      const Duration(seconds: 15);
+                                  _player.seek(newPosition);
+                                },
+                              ),
+                              StreamBuilder<PlayerState>(
+                                stream: _player.playerStateStream,
+                                builder: (context, snapshot) {
+                                  final playerState = snapshot.data;
+                                  final processingState =
+                                      playerState?.processingState;
+                                  final playing = playerState?.playing;
+
+                                  if (processingState ==
+                                          ProcessingState.loading ||
+                                      processingState ==
+                                          ProcessingState.buffering) {
+                                    return Container(
+                                      margin: const EdgeInsets.all(8.0),
+                                      width: 32.0,
+                                      height: 32.0,
+                                      child: const CircularProgressIndicator(
+                                        color: AyaColors.turquoise,
+                                      ),
+                                    );
+                                  } else if (playing != true) {
+                                    return IconButton(
+                                      icon: const Icon(
+                                        Icons.play_circle_filled,
+                                        color: AyaColors.turquoise,
+                                        size: 48,
+                                      ),
+                                      onPressed: _player.play,
+                                    );
+                                  } else {
+                                    return IconButton(
+                                      icon: const Icon(
+                                        Icons.pause_circle_filled,
+                                        color: AyaColors.turquoise,
+                                        size: 48,
+                                      ),
+                                      onPressed: _player.pause,
+                                    );
+                                  }
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.forward,
+                                  color: AyaColors.textPrimary,
+                                ),
+                                onPressed: () {
+                                  final newPosition = _player.position +
+                                      const Duration(seconds: 15);
+                                  _player.seek(newPosition);
+                                },
+                              ),
+                            ],
+                          ),
+
+                          // Duration
+                          StreamBuilder<Duration?>(
+                            stream: _player.durationStream,
+                            builder: (context, snapshot) {
+                              final duration = snapshot.data ?? Duration.zero;
+                              return Text(
+                                _formatDuration(duration),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                      color: AyaColors.textPrimary60,
+                                    ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
               ],
             ),
           ),
@@ -259,53 +348,55 @@ class _AyaAudioPlayerState extends State<AyaAudioPlayer>
 }
 
 class WaveformPainter extends CustomPainter {
-  final List<double> waveformData;
-  final double progress;
+  final double position;
+  final double duration;
   final bool isPlaying;
-  final Color color;
 
   WaveformPainter({
-    required this.waveformData,
-    required this.progress,
+    required this.position,
+    required this.duration,
     required this.isPlaying,
-    required this.color,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = color
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round;
 
-    final barWidth = size.width / waveformData.length;
+    final progress = duration > 0 ? position / duration : 0.0;
+    final progressWidth = size.width * progress;
+
+    // Draw waveform
+    final numberOfBars = 30;
+    final barWidth = size.width / numberOfBars;
     final maxHeight = size.height * 0.8;
 
-    for (var i = 0; i < waveformData.length; i++) {
+    for (var i = 0; i < numberOfBars; i++) {
       final x = i * barWidth;
-      final height = waveformData[i] * maxHeight;
-      final y = (size.height - height) / 2;
+      final height = maxHeight * (0.3 + 0.7 * (i % 3) / 2);
+      final isActive = x < progressWidth;
 
-      // Draw the bar
+      // Animate bars when playing
+      final animationFactor = isPlaying ? 0.8 + 0.2 * (i % 3) / 2 : 1.0;
+      final animatedHeight = height * animationFactor;
+
+      paint.color = isActive
+          ? AyaColors.turquoise
+          : AyaColors.textPrimary.withOpacity(0.3);
+
       canvas.drawLine(
-        Offset(x + barWidth / 2, y),
-        Offset(x + barWidth / 2, y + height),
+        Offset(x + barWidth / 2, size.height / 2 - animatedHeight / 2),
+        Offset(x + barWidth / 2, size.height / 2 + animatedHeight / 2),
         paint,
       );
-
-      // If this bar is before the progress point, make it more opaque
-      if (i / waveformData.length < progress) {
-        paint.color = color.withOpacity(0.8);
-      } else {
-        paint.color = color.withOpacity(0.3);
-      }
     }
   }
 
   @override
   bool shouldRepaint(WaveformPainter oldDelegate) {
-    return oldDelegate.progress != progress ||
-        oldDelegate.isPlaying != isPlaying ||
-        oldDelegate.color != color;
+    return oldDelegate.position != position ||
+        oldDelegate.duration != duration ||
+        oldDelegate.isPlaying != isPlaying;
   }
 }
