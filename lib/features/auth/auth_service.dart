@@ -7,6 +7,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService extends ChangeNotifier {
   final SupabaseClient _supabase = Supabase.instance.client;
+  // TODO: Will be used when implementing Google Sign In
+  // ignore: unused_field
   final _googleSignIn = GoogleSignIn();
   User? _user;
   bool _isLoading = false;

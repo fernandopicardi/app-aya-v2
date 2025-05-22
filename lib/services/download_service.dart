@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:app_aya_v2/services/metadata_service.dart';
 import 'package:app_aya_v2/services/encryption_service.dart';

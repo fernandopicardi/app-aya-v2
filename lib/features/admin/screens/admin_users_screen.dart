@@ -81,7 +81,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
       builder: (context) => AlertDialog(
         title: const Text('Desativar Usuário'),
         content: Text(
-          'Tem certeza que deseja desativar o usuário ${(user.name != null && user.name!.isNotEmpty) ? user.name! : user.email}?',
+          'Tem certeza que deseja desativar o usuário ${user.name.isNotEmpty ? user.name : user.email}?',
         ),
         actions: [
           TextButton(

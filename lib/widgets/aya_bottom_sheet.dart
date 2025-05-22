@@ -145,7 +145,7 @@ class AyaBottomSheet extends StatelessWidget {
         );
 
       case AyaBottomSheetVariant.persistent:
-        final controller = showBottomSheet(
+        showBottomSheet(
           context: context,
           enableDrag: enableDrag,
           backgroundColor: Colors.transparent,
@@ -162,7 +162,6 @@ class AyaBottomSheet extends StatelessWidget {
         return Future.value(null);
 
       case AyaBottomSheetVariant.standard:
-      default:
         return showModalBottomSheet<T>(
           context: context,
           isDismissible: isDismissible,
