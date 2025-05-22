@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:app_aya_v2/config/theme.dart';
+import 'package:app_aya_v2/core/theme/app_theme.dart';
 import 'package:app_aya_v2/features/content/providers/content_modules_provider.dart';
 import 'package:app_aya_v2/features/content/models/content_module.dart';
 import 'package:go_router/go_router.dart';
@@ -37,7 +37,8 @@ class ContentModulesPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildModulesList(BuildContext context, WidgetRef ref, List<ContentModule> modules) {
+  Widget _buildModulesList(
+      BuildContext context, WidgetRef ref, List<ContentModule> modules) {
     if (modules.isEmpty) {
       return const Center(
         child: Text(
@@ -78,17 +79,18 @@ class ContentModulesPage extends ConsumerWidget {
               Text(
                 module.title,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: AppTheme.textPrimary,
-                  fontWeight: FontWeight.bold,
-                ),
+                      color: AppTheme.textPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
               if (module.description != null) ...[
                 const SizedBox(height: 8),
                 Text(
                   module.description!,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppTheme.textPrimary.withAlpha(204), // 0.8 * 255 ≈ 204
-                  ),
+                        color: AppTheme.textPrimary
+                            .withAlpha(204), // 0.8 * 255 ≈ 204
+                      ),
                 ),
               ],
               const SizedBox(height: 16),
@@ -98,7 +100,8 @@ class ContentModulesPage extends ConsumerWidget {
                   IconButton(
                     icon: const Icon(Icons.arrow_forward_ios),
                     color: AppTheme.textPrimary,
-                    onPressed: () => context.push('${AppRouter.contentFolders}/${module.id}'),
+                    onPressed: () => context
+                        .push('${AppRouter.contentFolders}/${module.id}'),
                   ),
                 ],
               ),
@@ -108,4 +111,4 @@ class ContentModulesPage extends ConsumerWidget {
       ),
     );
   }
-} 
+}

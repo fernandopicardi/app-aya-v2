@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:app_aya_v2/config/theme.dart';
+import 'package:app_aya_v2/core/theme/app_theme.dart';
 import 'package:app_aya_v2/config/routes.dart';
 import 'package:app_aya_v2/shared/widgets/gradient_button.dart';
 import 'package:app_aya_v2/features/auth/services/auth_service.dart';
@@ -63,16 +63,21 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppTheme.textPrimary),
+          icon: Icon(Icons.arrow_back, color: AyaColors.textPrimary),
           onPressed: () => GoRouter.of(context).pop(),
         ),
         title: Text('Recuperar Senha',
-            style: TextStyle(color: AppTheme.textPrimary)),
+            style: TextStyle(color: AyaColors.textPrimary)),
         centerTitle: true,
       ),
       body: Container(
         decoration: const BoxDecoration(
-          gradient: AppTheme.backgroundGradient,
+          gradient: LinearGradient(
+            colors: [
+              AyaColors.cardGradientStart,
+              AyaColors.cardGradientEnd,
+            ],
+          ),
         ),
         child: SafeArea(
           child: Center(
@@ -91,7 +96,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           .textTheme
                           .headlineMedium
                           ?.copyWith(
-                              color: AppTheme.textPrimary,
+                              color: AyaColors.textPrimary,
                               fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
@@ -99,25 +104,25 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       'Insira seu e-mail para enviarmos um link de redefinição.',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: AppTheme.textPrimary.withAlpha(204)),
+                          color: AyaColors.textPrimary.withAlpha(204)),
                     ),
                     const SizedBox(height: 32),
                     TextFormField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
-                      style: const TextStyle(color: AppTheme.textPrimary),
+                      style: const TextStyle(color: AyaColors.textPrimary),
                       decoration: InputDecoration(
                         hintText: 'Seu e-mail',
                         hintStyle: TextStyle(
-                            color: AppTheme.textPrimary.withAlpha(153)),
+                            color: AyaColors.textPrimary.withAlpha(153)),
                         filled: true,
-                        fillColor: AppTheme.secondary.withAlpha(77),
+                        fillColor: AyaColors.secondary.withAlpha(77),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
                           borderSide: BorderSide.none,
                         ),
                         prefixIcon: Icon(Icons.email_outlined,
-                            color: AppTheme.textPrimary.withAlpha(179)),
+                            color: AyaColors.textPrimary.withAlpha(179)),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -146,7 +151,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     _isLoading
                         ? const Center(
                             child: CircularProgressIndicator(
-                                color: AppTheme.textPrimary))
+                                color: AyaColors.textPrimary))
                         : GradientButton(
                             text: 'Enviar Link',
                             onPressed: _sendPasswordResetEmail,
@@ -158,7 +163,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       },
                       child: Text(
                         'Voltar para o Login',
-                        style: TextStyle(color: AppTheme.buttonSecondary),
+                        style: TextStyle(color: AyaColors.buttonSecondary),
                       ),
                     ),
                   ],

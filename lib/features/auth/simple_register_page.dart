@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_aya_v2/config/theme.dart';
+import 'package:app_aya_v2/core/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:app_aya_v2/config/routes.dart';
 import 'package:app_aya_v2/features/auth/services/auth_service.dart';
@@ -77,7 +77,7 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      backgroundColor: AppTheme.background,
+      backgroundColor: AyaColors.background,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Form(
@@ -88,7 +88,7 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
               Text(
                 'Bem-vindo ao App Aya! Crie sua conta para começar sua jornada.',
                 style: TextStyle(
-                  color: AppTheme.textPrimary,
+                  color: AyaColors.textPrimary,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -97,12 +97,12 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
               const SizedBox(height: 32),
               TextFormField(
                 controller: _nameController,
-                style: const TextStyle(color: AppTheme.textPrimary),
+                style: const TextStyle(color: AyaColors.textPrimary),
                 decoration: InputDecoration(
                   labelText: 'Nome',
                   labelStyle:
-                      TextStyle(color: AppTheme.textPrimary.withAlpha(204)),
-                  prefixIcon: Icon(Icons.person, color: AppTheme.primary),
+                      TextStyle(color: AyaColors.textPrimary.withAlpha(204)),
+                  prefixIcon: Icon(Icons.person, color: AyaColors.turquoise),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -115,12 +115,12 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
               TextFormField(
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
-                style: const TextStyle(color: AppTheme.textPrimary),
+                style: const TextStyle(color: AyaColors.textPrimary),
                 decoration: InputDecoration(
                   labelText: 'E-mail',
                   labelStyle:
-                      TextStyle(color: AppTheme.textPrimary.withAlpha(204)),
-                  prefixIcon: Icon(Icons.email, color: AppTheme.primary),
+                      TextStyle(color: AyaColors.textPrimary.withAlpha(204)),
+                  prefixIcon: Icon(Icons.email, color: AyaColors.turquoise),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -136,12 +136,12 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
               TextFormField(
                 controller: _passwordController,
                 obscureText: true,
-                style: const TextStyle(color: AppTheme.textPrimary),
+                style: const TextStyle(color: AyaColors.textPrimary),
                 decoration: InputDecoration(
                   labelText: 'Senha',
                   labelStyle:
-                      TextStyle(color: AppTheme.textPrimary.withAlpha(204)),
-                  prefixIcon: Icon(Icons.lock, color: AppTheme.primary),
+                      TextStyle(color: AyaColors.textPrimary.withAlpha(204)),
+                  prefixIcon: Icon(Icons.lock, color: AyaColors.turquoise),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -157,12 +157,13 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
               TextFormField(
                 controller: _confirmPasswordController,
                 obscureText: true,
-                style: const TextStyle(color: AppTheme.textPrimary),
+                style: const TextStyle(color: AyaColors.textPrimary),
                 decoration: InputDecoration(
                   labelText: 'Confirme a senha',
                   labelStyle:
-                      TextStyle(color: AppTheme.textPrimary.withAlpha(204)),
-                  prefixIcon: Icon(Icons.lock_outline, color: AppTheme.primary),
+                      TextStyle(color: AyaColors.textPrimary.withAlpha(204)),
+                  prefixIcon:
+                      Icon(Icons.lock_outline, color: AyaColors.turquoise),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -180,7 +181,7 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
                   Checkbox(
                     value: _acceptTerms,
                     onChanged: (v) => setState(() => _acceptTerms = v ?? false),
-                    activeColor: AppTheme.primary,
+                    activeColor: AyaColors.turquoise,
                   ),
                   Expanded(
                     child: GestureDetector(
@@ -188,7 +189,7 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
                       child: Text(
                         'Aceito os Termos de Uso e Política de Privacidade',
                         style: TextStyle(
-                          color: AppTheme.textPrimary.withAlpha(217),
+                          color: AyaColors.textPrimary.withAlpha(217),
                           decoration: TextDecoration.underline,
                         ),
                       ),
@@ -210,12 +211,12 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
               _isLoading
                   ? const Center(
                       child: CircularProgressIndicator(
-                          color: AppTheme.textPrimary))
+                          color: AyaColors.textPrimary))
                   : ElevatedButton(
                       onPressed: _register,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.primary,
-                        foregroundColor: AppTheme.textPrimary,
+                        backgroundColor: AyaColors.turquoise,
+                        foregroundColor: AyaColors.textPrimary,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         textStyle: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16),
@@ -229,15 +230,17 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
               Row(
                 children: [
                   Expanded(
-                      child: Divider(color: AppTheme.secondary.withAlpha(102))),
+                      child: Divider(
+                          color: AyaColors.lavenderVibrant.withAlpha(102))),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Text('ou',
                         style: TextStyle(
-                            color: AppTheme.textPrimary.withAlpha(153))),
+                            color: AyaColors.textPrimary.withAlpha(153))),
                   ),
                   Expanded(
-                      child: Divider(color: AppTheme.secondary.withAlpha(102))),
+                      child: Divider(
+                          color: AyaColors.lavenderVibrant.withAlpha(102))),
                 ],
               ),
               const SizedBox(height: 16),
@@ -246,7 +249,7 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
                 children: [
                   IconButton(
                     icon: Icon(Icons.g_mobiledata,
-                        color: AppTheme.primary, size: 36),
+                        color: AyaColors.turquoise, size: 36),
                     onPressed: _isLoading
                         ? null
                         : () async {
@@ -276,7 +279,8 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
                   ),
                   const SizedBox(width: 16),
                   IconButton(
-                    icon: Icon(Icons.apple, color: AppTheme.primary, size: 32),
+                    icon:
+                        Icon(Icons.apple, color: AyaColors.turquoise, size: 32),
                     onPressed: _isLoading
                         ? null
                         : () async {

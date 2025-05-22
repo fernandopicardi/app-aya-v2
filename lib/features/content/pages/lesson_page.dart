@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_aya_v2/config/theme.dart';
+import 'package:app_aya_v2/core/theme/app_theme.dart';
 import 'package:app_aya_v2/features/content/services/lesson_service.dart';
 
 class LessonPage extends StatefulWidget {
