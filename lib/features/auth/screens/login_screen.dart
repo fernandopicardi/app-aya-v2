@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart'
+    show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import '../services/auth_service.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -33,7 +34,9 @@ class LoginScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             // Apple Sign In Button (iOS/macOS only)
-            if (Platform.isIOS || Platform.isMacOS)
+            if (!kIsWeb &&
+                (defaultTargetPlatform == TargetPlatform.iOS ||
+                    defaultTargetPlatform == TargetPlatform.macOS))
               ElevatedButton(
                 onPressed: () async {
                   try {
