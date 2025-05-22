@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:app_aya_v2/config/routes.dart';
 import 'package:app_aya_v2/shared/widgets/gradient_button.dart';
 import 'package:app_aya_v2/features/auth/services/auth_service.dart';
-import 'package:app_aya_v2/theme/aya_theme.dart';
+import 'package:app_aya_v2/core/theme/app_theme.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});

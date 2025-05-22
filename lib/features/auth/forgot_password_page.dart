@@ -110,13 +110,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     TextFormField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
-                      style: const TextStyle(color: AyaColors.textPrimary),
+                      style: const TextStyle(color: AyaColors.lavenderVibrant),
                       decoration: InputDecoration(
                         hintText: 'Seu e-mail',
                         hintStyle: TextStyle(
                             color: AyaColors.textPrimary.withAlpha(153)),
                         filled: true,
-                        fillColor: AyaColors.secondary.withAlpha(77),
+                        fillColor: AyaColors.lavenderSoft30,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
                           borderSide: BorderSide.none,

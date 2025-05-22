@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_aya_v2/theme/aya_theme.dart';
+import 'package:app_aya_v2/core/theme/app_theme.dart';
 
 class FAQPage extends StatelessWidget {
   const FAQPage({super.key});

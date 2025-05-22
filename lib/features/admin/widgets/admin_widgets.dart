@@ -168,12 +168,13 @@ class AdminUserListTile extends StatelessWidget {
       leading: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: Text(
-          user.name?.substring(0, 1).toUpperCase() ??
-              user.email[0].toUpperCase(),
+          user.name.isNotEmpty
+              ? user.name[0].toUpperCase()
+              : user.email[0].toUpperCase(),
           style: const TextStyle(color: Colors.white),
         ),
       ),
-      title: Text(user.name ?? user.email),
+      title: Text(user.name.isNotEmpty ? user.name : user.email),
       subtitle: Text(user.email),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -371,7 +372,7 @@ class AdminBadgeListTile extends StatelessWidget {
       ),
       title: Text(badge.name),
       subtitle: Text(
-        '${badge.totalAwarded} concedidos • ${badge.isActive ? 'Ativo' : 'Inativo'}',
+        '$badge.totalAwarded concedidos • ${badge.isActive ? 'Ativo' : 'Inativo'}',
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,

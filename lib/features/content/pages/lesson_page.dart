@@ -69,7 +69,7 @@ class _LessonPageState extends State<LessonPage> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          gradient: AppTheme.backgroundGradient,
+          gradient: AyaColors.backgroundGradient,
         ),
         child: SafeArea(
           child: Column(
@@ -107,13 +107,13 @@ class _LessonPageState extends State<LessonPage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: AppTheme.primary),
+            icon: const Icon(Icons.arrow_back, color: AyaColors.primary),
             onPressed: () => Navigator.of(context).pop(),
           ),
           title: const Text(
             'Aula',
             style: TextStyle(
-              color: AppTheme.textPrimary,
+              color: AyaColors.textPrimary,
               fontWeight: FontWeight.bold,
               fontSize: 18,
             ),
@@ -123,7 +123,7 @@ class _LessonPageState extends State<LessonPage> {
             IconButton(
               icon: Icon(
                 isFavorite ? Icons.favorite : Icons.favorite_border,
-                color: isFavorite ? AppTheme.primary : AppTheme.textPrimary,
+                color: isFavorite ? AyaColors.primary : AyaColors.textPrimary,
               ),
               onPressed: () => _lessonService.toggleFavorite(widget.lessonId),
             ),
@@ -142,7 +142,7 @@ class _LessonPageState extends State<LessonPage> {
           Text(
             widget.lessonTitle,
             style: const TextStyle(
-              color: AppTheme.textPrimary,
+              color: AyaColors.textPrimary,
               fontWeight: FontWeight.bold,
               fontSize: 22,
             ),
@@ -151,10 +151,10 @@ class _LessonPageState extends State<LessonPage> {
           Row(
             children: [
               const Icon(Icons.play_circle_outline,
-                  color: AppTheme.primary, size: 18),
+                  color: AyaColors.primary, size: 18),
               const SizedBox(width: 4),
               const Text('Vídeo • 5 min',
-                  style: TextStyle(color: AppTheme.textPrimary, fontSize: 14)),
+                  style: TextStyle(color: AyaColors.textPrimary, fontSize: 14)),
               const SizedBox(width: 12),
               const Icon(Icons.auto_awesome,
                   color: Color(0xFF78C7B4), size: 18),
@@ -381,7 +381,7 @@ class _LessonPageState extends State<LessonPage> {
       const SnackBar(
         content: Text('Carregando próxima aula...'),
         duration: Duration(seconds: 2),
-        backgroundColor: AppTheme.primary,
+        backgroundColor: AyaColors.primary,
       ),
     );
   }
@@ -413,7 +413,7 @@ class _LessonPageState extends State<LessonPage> {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: AppTheme.primary.withAlpha(30),
+                        color: AyaColors.primary.withAlpha(30),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: SizedBox(
@@ -425,11 +425,11 @@ class _LessonPageState extends State<LessonPage> {
                             CircularProgressIndicator(
                               value: progress,
                               strokeWidth: 2,
-                              color: AppTheme.primary,
+                              color: AyaColors.primary,
                             ),
                             IconButton(
                               icon: const Icon(Icons.close,
-                                  size: 16, color: AppTheme.primary),
+                                  size: 16, color: AyaColors.primary),
                               onPressed: _cancelDownload,
                               tooltip: 'Cancelar download',
                             ),
@@ -440,7 +440,7 @@ class _LessonPageState extends State<LessonPage> {
                     const SizedBox(height: 6),
                     const Text('Baixando',
                         style: TextStyle(
-                            color: AppTheme.textPrimary, fontSize: 13)),
+                            color: AyaColors.textPrimary, fontSize: 13)),
                   ],
                 );
               } else if (isDownloaded) {
@@ -472,12 +472,12 @@ class _LessonPageState extends State<LessonPage> {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: AppTheme.primary.withAlpha(30),
+                        color: AyaColors.primary.withAlpha(30),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: IconButton(
                         icon: const Icon(Icons.download,
-                            color: AppTheme.primary, size: 22),
+                            color: AyaColors.primary, size: 22),
                         onPressed: _downloadLesson,
                         tooltip: 'Baixar aula',
                       ),
@@ -485,7 +485,7 @@ class _LessonPageState extends State<LessonPage> {
                     const SizedBox(height: 6),
                     const Text('Download',
                         style: TextStyle(
-                            color: AppTheme.textPrimary, fontSize: 13)),
+                            color: AyaColors.textPrimary, fontSize: 13)),
                   ],
                 );
               }
@@ -500,11 +500,11 @@ class _LessonPageState extends State<LessonPage> {
         Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: AppTheme.primary.withAlpha(30),
+            color: AyaColors.primary.withAlpha(30),
             borderRadius: BorderRadius.circular(12),
           ),
           child: IconButton(
-            icon: Icon(icon, color: AppTheme.primary, size: 22),
+            icon: Icon(icon, color: AyaColors.primary, size: 22),
             onPressed: () {
               switch (label) {
                 case 'Favoritar':
@@ -521,7 +521,7 @@ class _LessonPageState extends State<LessonPage> {
         Text(
           label,
           style: const TextStyle(
-            color: AppTheme.textPrimary,
+            color: AyaColors.textPrimary,
             fontSize: 13,
           ),
         ),
@@ -543,7 +543,7 @@ class _LessonPageState extends State<LessonPage> {
             decoration: InputDecoration(
               hintText: 'Faça um comentário...',
               filled: true,
-              fillColor: AppTheme.secondary.withAlpha(30),
+              fillColor: AyaColors.lavenderSoft30,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               border: OutlineInputBorder(
@@ -560,7 +560,7 @@ class _LessonPageState extends State<LessonPage> {
           ),
         ),
         IconButton(
-          icon: const Icon(Icons.send, color: AppTheme.primary),
+          icon: const Icon(Icons.send, color: AyaColors.primary),
           onPressed: () {
             final text = _commentController.text;
             if (text.isNotEmpty) {
@@ -713,7 +713,7 @@ class _ExpandableDescriptionState extends State<_ExpandableDescription> {
       children: [
         Text(
           widget.text,
-          style: const TextStyle(color: AppTheme.textPrimary, fontSize: 15),
+          style: const TextStyle(color: AyaColors.textPrimary, fontSize: 15),
           maxLines: maxLines,
           overflow: expanded ? TextOverflow.visible : TextOverflow.ellipsis,
         ),
@@ -721,7 +721,7 @@ class _ExpandableDescriptionState extends State<_ExpandableDescription> {
           TextButton(
             onPressed: () => setState(() => expanded = !expanded),
             style: TextButton.styleFrom(
-              foregroundColor: AppTheme.primary,
+              foregroundColor: AyaColors.primary,
               textStyle: const TextStyle(fontWeight: FontWeight.bold),
             ),
             child: Text(expanded ? 'Ver menos' : 'Ver mais'),
@@ -799,7 +799,7 @@ class _CommentCard extends StatelessWidget {
                               ? Icons.favorite
                               : Icons.favorite_border,
                           color: comment.isLiked
-                              ? AppTheme.primary
+                              ? AyaColors.primary
                               : const Color(0xFFACA1EF),
                           size: 18,
                         ),
@@ -812,7 +812,7 @@ class _CommentCard extends StatelessWidget {
                         '${comment.likes}',
                         style: TextStyle(
                           color: comment.isLiked
-                              ? AppTheme.primary
+                              ? AyaColors.primary
                               : const Color(0xFFACA1EF),
                           fontSize: 13,
                         ),

@@ -6,7 +6,7 @@ import 'features/auth/screens/register_screen.dart';
 import 'features/dashboard/screens/dashboard_screen.dart';
 import 'features/admin/screens/admin_dashboard_screen.dart';
 import 'features/admin/screens/admin_analytics_screen.dart';
-import 'theme/aya_theme.dart';
+import 'package:app_aya_v2/core/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

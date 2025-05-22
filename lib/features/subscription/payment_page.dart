@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_aya_v2/features/subscription/subscription_plan.dart';
-import 'package:app_aya_v2/theme/aya_theme.dart';
+import 'package:app_aya_v2/core/theme/app_theme.dart';
 
 class PaymentPage extends StatelessWidget {
   final SubscriptionPlan plan;

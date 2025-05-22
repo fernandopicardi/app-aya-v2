@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../theme/aya_theme.dart';
+import 'package:app_aya_v2/core/theme/app_theme.dart';
 import '../core/services/animations_service.dart';
 
 enum AyaInputVariant {

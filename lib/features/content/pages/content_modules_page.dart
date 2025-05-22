@@ -21,7 +21,7 @@ class ContentModulesPage extends ConsumerWidget {
       ),
       body: Container(
         decoration: const BoxDecoration(
-          gradient: AppTheme.backgroundGradient,
+          gradient: AyaColors.backgroundGradient,
         ),
         child: modulesAsync.when(
           data: (modules) => _buildModulesList(context, ref, modules),
@@ -43,7 +43,7 @@ class ContentModulesPage extends ConsumerWidget {
       return const Center(
         child: Text(
           'Nenhum módulo disponível no momento.',
-          style: TextStyle(color: AppTheme.textPrimary),
+          style: TextStyle(color: AyaColors.textPrimary),
         ),
       );
     }
@@ -64,7 +64,7 @@ class ContentModulesPage extends ConsumerWidget {
   Widget _buildModuleCard(BuildContext context, ContentModule module) {
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
-      color: AppTheme.secondary.withAlpha(77), // 0.3 * 255 ≈ 77
+      color: AyaColors.lavenderSoft30,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -79,7 +79,7 @@ class ContentModulesPage extends ConsumerWidget {
               Text(
                 module.title,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: AppTheme.textPrimary,
+                      color: AyaColors.textPrimary,
                       fontWeight: FontWeight.bold,
                     ),
               ),
@@ -88,8 +88,7 @@ class ContentModulesPage extends ConsumerWidget {
                 Text(
                   module.description!,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppTheme.textPrimary
-                            .withAlpha(204), // 0.8 * 255 ≈ 204
+                        color: AyaColors.textPrimary.withAlpha(204),
                       ),
                 ),
               ],
@@ -99,7 +98,7 @@ class ContentModulesPage extends ConsumerWidget {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.arrow_forward_ios),
-                    color: AppTheme.textPrimary,
+                    color: AyaColors.textPrimary,
                     onPressed: () => context
                         .push('${AppRouter.contentFolders}/${module.id}'),
                   ),

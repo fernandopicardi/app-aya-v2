@@ -8,12 +8,20 @@ class AyaColors {
   static const Color backgroundGradientEnd = Color(0xFF474C72);
 
   // Accent Colors
+  static const Color primary = Color(0xFF78C7B4); // turquoise
+  static const Color secondary = Color(0xFFACA1EF); // lavenderVibrant
+  static const Color accent = Color(0xFF73BDDA); // softBlue
   static const Color lavenderSoft = Color(0xFF575C84);
   static const Color lavenderVibrant = Color(0xFFACA1EF);
   static const Color turquoise = Color(0xFF78C7B4);
   static const Color softBlue = Color(0xFF73BDDA);
   static const Color cardGradientStart = Color(0xFF8DB1D1);
   static const Color cardGradientEnd = Color(0xFF78C7B4);
+
+  // Button Colors
+  static const Color buttonPrimary = Color(0xFF78C7B4); // turquoise
+  static const Color buttonSecondary = Color(0xFFACA1EF); // lavenderVibrant
+  static const Color buttonDisabled = Color(0xFF575C84); // lavenderSoft
 
   // Text Colors
   static const Color textPrimary = Color(0xFFF8F8FF);
@@ -27,6 +35,19 @@ class AyaColors {
   static const Color lavenderSoft30 = Color(0x4D575C84); // 30% opacity
   static const Color overlayDark = Color(0x66000000); // 40% opacity
   static const Color overlayLight = Color(0x66FFFFFF); // 40% opacity
+
+  // Gradients
+  static const LinearGradient backgroundGradient = LinearGradient(
+    colors: [background, backgroundGradientEnd],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
+
+  static const LinearGradient cardGradient = LinearGradient(
+    colors: [cardGradientStart, cardGradientEnd],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
 }
 
 class AyaTheme {

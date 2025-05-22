@@ -49,17 +49,17 @@ class _AdminSettingsSectionState extends State<AdminSettingsSection> {
 
       setState(() {
         _settings = response;
-        _maintenanceModeController.text =
+        _maintenanceModeController.text ??=
             _settings['maintenance_mode']?.toString() ?? 'false';
-        _maintenanceMessageController.text =
+        _maintenanceMessageController.text ??=
             _settings['maintenance_message'] ?? '';
-        _maxPostsPerDayController.text =
+        _maxPostsPerDayController.text ??=
             _settings['max_posts_per_day']?.toString() ?? '5';
-        _maxCommentsPerPostController.text =
+        _maxCommentsPerPostController.text ??=
             _settings['max_comments_per_post']?.toString() ?? '10';
-        _pointsPerPostController.text =
+        _pointsPerPostController.text ??=
             _settings['points_per_post']?.toString() ?? '10';
-        _pointsPerCommentController.text =
+        _pointsPerCommentController.text ??=
             _settings['points_per_comment']?.toString() ?? '5';
         _isLoading = false;
       });

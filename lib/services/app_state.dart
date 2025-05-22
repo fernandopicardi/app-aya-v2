@@ -112,10 +112,12 @@ class AppState extends ChangeNotifier {
   }
 
   // Limpeza
+  @override
   void dispose() {
     _themeController.close();
     _userController.close();
     _pointsController.close();
+    super.dispose();
   }
 
   void setLoading(bool value) {

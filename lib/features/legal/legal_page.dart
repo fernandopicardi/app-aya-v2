@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_aya_v2/theme/aya_theme.dart';
+import 'package:app_aya_v2/core/theme/app_theme.dart';
 import 'package:app_aya_v2/features/legal/terms_page.dart';
 import 'package:app_aya_v2/features/legal/privacy_page.dart';
 import 'package:app_aya_v2/features/legal/faq_page.dart';

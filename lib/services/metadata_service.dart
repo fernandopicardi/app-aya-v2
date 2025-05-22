@@ -15,7 +15,7 @@ class MetadataService {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'downloads.db');
 
-    _db = await openDatabase(
+    _db ??= await openDatabase(
       path,
       version: 1,
       onCreate: (db, version) async {

@@ -65,10 +65,14 @@ class _AdminModerationSectionState extends State<AdminModerationSection> {
 
       _logger.info('Updated post $postId status to $status');
 
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
       await _loadPosts();
 
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -78,7 +82,9 @@ class _AdminModerationSectionState extends State<AdminModerationSection> {
       );
     } catch (e, stackTrace) {
       _logger.error('Error updating post status', e, stackTrace);
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Erro ao atualizar status: $e'),
