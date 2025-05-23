@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../../../core/theme/app_theme.dart';
 
 class AyaVideoPlayer extends StatefulWidget {
@@ -36,7 +35,8 @@ class _AyaVideoPlayerState extends State<AyaVideoPlayer> {
         _errorMessage = null;
       });
 
-      _controller = VideoPlayerController.network(widget.videoUrl);
+      _controller =
+          VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl));
       await _controller.initialize();
 
       setState(() {
@@ -165,10 +165,9 @@ class _AyaVideoPlayerState extends State<AyaVideoPlayer> {
                             overlayRadius: 12,
                           ),
                           activeTrackColor: AyaColors.turquoise,
-                          inactiveTrackColor:
-                              AyaColors.textPrimary.withOpacity(0.3),
+                          inactiveTrackColor: AyaColors.textPrimary40,
                           thumbColor: AyaColors.turquoise,
-                          overlayColor: AyaColors.turquoise.withOpacity(0.2),
+                          overlayColor: AyaColors.textPrimary40,
                         ),
                         child: Slider(
                           value: current,

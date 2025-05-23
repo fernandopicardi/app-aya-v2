@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../../core/theme/app_theme.dart';
 
@@ -55,63 +55,87 @@ class AyaRichTextViewer extends StatelessWidget {
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16),
-              child: Markdown(
+              child: Html(
                 data: content.isNotEmpty ? content : 'Conteúdo não disponível',
-                selectable: true,
-                shrinkWrap: true,
-                styleSheet: MarkdownStyleSheet(
-                  h1: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                        color: AyaColors.textPrimary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                  h2: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: AyaColors.textPrimary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                  h3: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        color: AyaColors.textPrimary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                  p: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: AyaColors.textPrimary,
-                      ),
-                  blockquote: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: AyaColors.textPrimary60,
-                        fontStyle: FontStyle.italic,
-                      ),
-                  code: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AyaColors.turquoise,
-                        backgroundColor: AyaColors.surface,
-                        fontFamily: 'monospace',
-                      ),
-                  codeblockDecoration: BoxDecoration(
-                    color: AyaColors.surface,
-                    borderRadius: BorderRadius.circular(8),
+                style: {
+                  'body': Style(
+                    color: AyaColors.textPrimary,
+                    fontSize: FontSize(16),
+                    fontFamily: 'Roboto',
                   ),
-                  listBullet: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: AyaColors.textPrimary,
-                      ),
-                  tableHead: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: AyaColors.textPrimary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                  tableBody: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AyaColors.textPrimary,
-                      ),
-                  tableBorder: TableBorder.all(
-                    color: AyaColors.textPrimary.withOpacity(0.3),
-                    width: 1,
+                  'h1': Style(
+                    color: AyaColors.textPrimary,
+                    fontSize: FontSize(32),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Playfair Display',
                   ),
-                  tableCellsPadding: const EdgeInsets.all(8),
-                  horizontalRuleDecoration: BoxDecoration(
+                  'h2': Style(
+                    color: AyaColors.textPrimary,
+                    fontSize: FontSize(28),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Playfair Display',
+                  ),
+                  'h3': Style(
+                    color: AyaColors.textPrimary,
+                    fontSize: FontSize(24),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Roboto',
+                  ),
+                  'p': Style(
+                    color: AyaColors.textPrimary,
+                    fontSize: FontSize(16),
+                    fontFamily: 'Roboto',
+                  ),
+                  'blockquote': Style(
+                    color: AyaColors.textPrimary40,
+                    fontStyle: FontStyle.italic,
+                    fontSize: FontSize(16),
+                    fontFamily: 'Roboto',
+                  ),
+                  'code': Style(
+                    color: AyaColors.turquoise,
+                    backgroundColor: AyaColors.surface,
+                    fontFamily: 'monospace',
+                    fontSize: FontSize(14),
+                  ),
+                  'pre': Style(
+                    backgroundColor: AyaColors.surface,
+                    padding: HtmlPaddings.all(8),
+                  ),
+                  'ul': Style(
+                    color: AyaColors.textPrimary,
+                    fontSize: FontSize(16),
+                    fontFamily: 'Roboto',
+                  ),
+                  'ol': Style(
+                    color: AyaColors.textPrimary,
+                    fontSize: FontSize(16),
+                    fontFamily: 'Roboto',
+                  ),
+                  'table': Style(
+                    border: Border.all(color: AyaColors.textPrimary40),
+                    padding: HtmlPaddings.all(8),
+                  ),
+                  'th': Style(
+                    color: AyaColors.textPrimary,
+                    fontSize: FontSize(18),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Roboto',
+                  ),
+                  'td': Style(
+                    color: AyaColors.textPrimary,
+                    fontSize: FontSize(14),
+                    fontFamily: 'Roboto',
+                  ),
+                  'hr': Style(
                     border: Border(
                       top: BorderSide(
-                        color: AyaColors.textPrimary.withOpacity(0.3),
+                        color: AyaColors.textPrimary40,
                         width: 1,
                       ),
                     ),
                   ),
-                ),
+                },
               ),
             ),
           ),

@@ -15,6 +15,11 @@ class AyaCard extends StatelessWidget {
   final VoidCallback? onTap;
   final double? width;
   final double? height;
+  final double blur;
+  final double opacity;
+  final double borderOpacity;
+  final double borderRadius;
+  final List<BoxShadow>? boxShadow;
 
   const AyaCard({
     Key? key,
@@ -24,6 +29,11 @@ class AyaCard extends StatelessWidget {
     this.onTap,
     this.width,
     this.height,
+    this.blur = 10.0,
+    this.opacity = 0.25,
+    this.borderOpacity = 0.20,
+    this.borderRadius = 16.0,
+    this.boxShadow,
   }) : super(key: key);
 
   @override
@@ -34,14 +44,14 @@ class AyaCard extends StatelessWidget {
         height: height,
         decoration: BoxDecoration(
           gradient: _getGradient(),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: _getShadow(),
+          borderRadius: BorderRadius.circular(borderRadius),
+          boxShadow: boxShadow ?? _getShadow(),
         ),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
             onTap: onTap,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(borderRadius),
             child: Padding(
               padding: padding ?? const EdgeInsets.all(16),
               child: child,
@@ -55,11 +65,11 @@ class AyaCard extends StatelessWidget {
       return AnimationsService.slideInUp(
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(borderRadius),
             boxShadow: [
               BoxShadow(
                 color: AyaColors.overlayDark,
-                blurRadius: 10,
+                blurRadius: blur,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -87,8 +97,7 @@ class AyaCard extends StatelessWidget {
         return LinearGradient(
           colors: [
             AyaColors.backgroundGradientEnd,
-            Color.fromRGBO(71, 76, 114,
-                0.95), // AyaColors.backgroundGradientEnd with 95% opacity
+            Color.fromRGBO(71, 76, 114, opacity),
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -97,8 +106,7 @@ class AyaCard extends StatelessWidget {
         return LinearGradient(
           colors: [
             AyaColors.backgroundGradientEnd,
-            Color.fromRGBO(71, 76, 114,
-                0.98), // AyaColors.backgroundGradientEnd with 98% opacity
+            Color.fromRGBO(71, 76, 114, opacity + 0.03),
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -112,7 +120,7 @@ class AyaCard extends StatelessWidget {
         return [
           BoxShadow(
             color: AyaColors.overlayDark,
-            blurRadius: 10,
+            blurRadius: blur,
             offset: const Offset(0, 4),
           ),
         ];
@@ -129,10 +137,18 @@ extension AyaCardBuilder on AyaCard {
     required String description,
     Widget? trailing,
     VoidCallback? onTap,
+    double blur = 10.0,
+    double opacity = 0.25,
+    double borderOpacity = 0.20,
+    double borderRadius = 16.0,
   }) {
     return AyaCard(
       variant: AyaCardVariant.content,
       onTap: onTap,
+      blur: blur,
+      opacity: opacity,
+      borderOpacity: borderOpacity,
+      borderRadius: borderRadius,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -170,10 +186,18 @@ extension AyaCardBuilder on AyaCard {
     required Widget content,
     Widget? trailing,
     VoidCallback? onTap,
+    double blur = 10.0,
+    double opacity = 0.25,
+    double borderOpacity = 0.20,
+    double borderRadius = 16.0,
   }) {
     return AyaCard(
       variant: AyaCardVariant.ui,
       onTap: onTap,
+      blur: blur,
+      opacity: opacity,
+      borderOpacity: borderOpacity,
+      borderRadius: borderRadius,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,

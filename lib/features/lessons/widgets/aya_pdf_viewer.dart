@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import '../../../core/theme/app_theme.dart';
 
 class AyaPdfViewer extends StatefulWidget {
@@ -11,11 +11,21 @@ class AyaPdfViewer extends StatefulWidget {
 }
 
 class _AyaPdfViewerState extends State<AyaPdfViewer> {
-  int _pages = 0;
-  int _currentPage = 0;
+  late PdfViewerController _pdfViewController;
   bool _isReady = false;
   String? _errorMessage;
-  PDFViewController? _pdfViewController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pdfViewController = PdfViewerController();
+  }
+
+  @override
+  void dispose() {
+    _pdfViewController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,70 +39,52 @@ class _AyaPdfViewerState extends State<AyaPdfViewer> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
-            child: PDFView(
-              filePath: widget.pdfUrl,
-              enableSwipe: true,
-              swipeHorizontal: false,
-              autoSpacing: true,
-              pageFling: true,
-              onRender: (_pages) {
+            child: SfPdfViewer.network(
+              widget.pdfUrl,
+              controller: _pdfViewController,
+              enableDoubleTapZooming: true,
+              enableTextSelection: true,
+              pageLayoutMode: PdfPageLayoutMode.continuous,
+              scrollDirection: PdfScrollDirection.vertical,
+              onDocumentLoaded: (PdfDocumentLoadedDetails details) {
                 setState(() {
-                  this._pages = _pages!;
                   _isReady = true;
+                  _errorMessage = null;
                 });
               },
-              onError: (error) {
+              onDocumentLoadFailed: (PdfDocumentLoadFailedDetails details) {
                 setState(() {
-                  _errorMessage = error.toString();
-                });
-              },
-              onPageError: (page, error) {
-                setState(() {
-                  _errorMessage = '$page: ${error.toString()}';
-                });
-              },
-              onViewCreated: (controller) {
-                _pdfViewController = controller;
-              },
-              onPageChanged: (int? page, int? total) {
-                setState(() {
-                  _currentPage = page ?? 0;
+                  _errorMessage = 'Erro ao carregar o PDF: ${details.error}';
+                  _isReady = false;
                 });
               },
             ),
           ),
-          if (!_isReady)
+          if (!_isReady && _errorMessage == null)
             const Center(
               child: CircularProgressIndicator(color: AyaColors.turquoise),
             ),
           if (_errorMessage != null)
             Center(
-              child: Text(
-                'Erro ao carregar PDF\n$_errorMessage',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.error_outline,
                       color: AyaColors.textPrimary,
+                      size: 48,
                     ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          // Page indicator
-          if (_isReady && _errorMessage == null)
-            Positioned(
-              bottom: 12,
-              right: 16,
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: AyaColors.surface.withOpacity(0.85),
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                child: Text(
-                  '${_currentPage + 1} / $_pages',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AyaColors.textPrimary,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    const SizedBox(height: 16),
+                    Text(
+                      _errorMessage!,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: AyaColors.textPrimary,
+                          ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
               ),
             ),

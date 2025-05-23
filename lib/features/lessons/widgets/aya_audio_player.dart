@@ -19,7 +19,6 @@ class AyaAudioPlayer extends StatefulWidget {
 
 class _AyaAudioPlayerState extends State<AyaAudioPlayer> {
   final AudioPlayer _player = AudioPlayer();
-  bool _isInitialized = false;
   bool _isLoading = true;
   String? _errorMessage;
 
@@ -39,7 +38,6 @@ class _AyaAudioPlayerState extends State<AyaAudioPlayer> {
       await _player.setUrl(widget.audioUrl);
 
       setState(() {
-        _isInitialized = true;
         _isLoading = false;
       });
     } catch (e) {
@@ -198,11 +196,9 @@ class _AyaAudioPlayerState extends State<AyaAudioPlayer> {
                                     overlayRadius: 12,
                                   ),
                                   activeTrackColor: AyaColors.turquoise,
-                                  inactiveTrackColor:
-                                      AyaColors.textPrimary.withOpacity(0.3),
+                                  inactiveTrackColor: AyaColors.textPrimary40,
                                   thumbColor: AyaColors.turquoise,
-                                  overlayColor:
-                                      AyaColors.turquoise.withOpacity(0.2),
+                                  overlayColor: AyaColors.textPrimary40,
                                 ),
                                 child: Slider(
                                   value: value,
@@ -236,7 +232,7 @@ class _AyaAudioPlayerState extends State<AyaAudioPlayer> {
                                     .textTheme
                                     .bodySmall
                                     ?.copyWith(
-                                      color: AyaColors.textPrimary60,
+                                      color: AyaColors.textPrimary40,
                                     ),
                               );
                             },
@@ -322,7 +318,7 @@ class _AyaAudioPlayerState extends State<AyaAudioPlayer> {
                                     .textTheme
                                     .bodySmall
                                     ?.copyWith(
-                                      color: AyaColors.textPrimary60,
+                                      color: AyaColors.textPrimary40,
                                     ),
                               );
                             },
@@ -381,9 +377,7 @@ class WaveformPainter extends CustomPainter {
       final animationFactor = isPlaying ? 0.8 + 0.2 * (i % 3) / 2 : 1.0;
       final animatedHeight = height * animationFactor;
 
-      paint.color = isActive
-          ? AyaColors.turquoise
-          : AyaColors.textPrimary.withOpacity(0.3);
+      paint.color = isActive ? AyaColors.turquoise : AyaColors.textPrimary40;
 
       canvas.drawLine(
         Offset(x + barWidth / 2, size.height / 2 - animatedHeight / 2),

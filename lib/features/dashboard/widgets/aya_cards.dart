@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../widgets/aya_card.dart';
 
 class AyaFeaturedCard extends StatelessWidget {
   final String title;
@@ -20,99 +21,87 @@ class AyaFeaturedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return AyaCard(
+      variant: AyaCardVariant.elevated,
+      height: 200,
       onTap: onTap,
-      child: Container(
-        height: 200,
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: CachedNetworkImage(
+              imageUrl: imageUrl,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => Container(
+                color: AyaColors.lavenderSoft,
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    color: AyaColors.turquoise,
+                  ),
+                ),
+              ),
+              errorWidget: (context, url, error) => Container(
+                color: AyaColors.lavenderSoft,
+                child: const Icon(
+                  Icons.image_not_supported,
+                  color: AyaColors.textPrimary,
+                  size: 48,
+                ),
+              ),
             ),
-          ],
-        ),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            ClipRRect(
+          ),
+          Container(
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              child: CachedNetworkImage(
-                imageUrl: imageUrl,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => Container(
-                  color: AyaColors.lavenderSoft,
-                  child: const Center(
-                    child: CircularProgressIndicator(
-                      color: AyaColors.turquoise,
-                    ),
-                  ),
-                ),
-                errorWidget: (context, url, error) => Container(
-                  color: AyaColors.lavenderSoft,
-                  child: const Icon(
-                    Icons.image_not_supported,
-                    color: AyaColors.textPrimary,
-                    size: 48,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    Colors.black.withOpacity(0.7),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          color: AyaColors.textPrimary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    description,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: AyaColors.textPrimary80,
-                        ),
-                  ),
-                  if (buttonText != null) ...[
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: onTap,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AyaColors.turquoise,
-                        foregroundColor: AyaColors.textPrimary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                      ),
-                      child: Text(buttonText!),
-                    ),
-                  ],
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.transparent,
+                  AyaColors.overlayDark,
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        color: AyaColors.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  description,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: AyaColors.textPrimary80,
+                      ),
+                ),
+                if (buttonText != null) ...[
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: onTap,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AyaColors.turquoise,
+                      foregroundColor: AyaColors.textPrimary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                    ),
+                    child: Text(buttonText!),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -138,85 +127,71 @@ class AyaContentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return AyaCard(
+      variant: AyaCardVariant.ui,
+      width: width,
+      height: height,
       onTap: onTap,
-      child: Container(
-        width: width,
-        height: height,
-        margin: const EdgeInsets.only(right: 12),
-        decoration: BoxDecoration(
-          color: AyaColors.lavenderSoft,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(12)),
-              child: CachedNetworkImage(
-                imageUrl: imageUrl,
-                width: width,
-                height: height * 0.7,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => Container(
-                  color: AyaColors.lavenderSoft,
-                  child: const Center(
-                    child: CircularProgressIndicator(
-                      color: AyaColors.turquoise,
-                    ),
-                  ),
-                ),
-                errorWidget: (context, url, error) => Container(
-                  color: AyaColors.lavenderSoft,
-                  child: const Icon(
-                    Icons.image_not_supported,
-                    color: AyaColors.textPrimary,
-                    size: 32,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+            child: CachedNetworkImage(
+              imageUrl: imageUrl,
+              width: width,
+              height: height * 0.7,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => Container(
+                color: AyaColors.lavenderSoft,
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    color: AyaColors.turquoise,
                   ),
                 ),
               ),
+              errorWidget: (context, url, error) => Container(
+                color: AyaColors.lavenderSoft,
+                child: const Icon(
+                  Icons.image_not_supported,
+                  color: AyaColors.textPrimary,
+                  size: 32,
+                ),
+              ),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: AyaColors.textPrimary,
+                          fontWeight: FontWeight.w500,
+                        ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if (subtitle != null) ...[
+                    const SizedBox(height: 4),
                     Text(
-                      title,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: AyaColors.textPrimary,
-                            fontWeight: FontWeight.w500,
+                      subtitle!,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: AyaColors.textPrimary60,
                           ),
-                      maxLines: 2,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    if (subtitle != null) ...[
-                      const SizedBox(height: 4),
-                      Text(
-                        subtitle!,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: AyaColors.textPrimary60,
-                            ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
                   ],
-                ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -248,7 +223,7 @@ class AyaSectionHeader extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         color: AyaColors.textPrimary,
                         fontWeight: FontWeight.bold,
                       ),
@@ -268,11 +243,12 @@ class AyaSectionHeader extends StatelessWidget {
           if (onSeeAllPressed != null)
             TextButton(
               onPressed: onSeeAllPressed,
-              style: TextButton.styleFrom(
-                foregroundColor: AyaColors.turquoise,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                'Ver todos',
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: AyaColors.turquoise,
+                    ),
               ),
-              child: const Text('Ver todos'),
             ),
         ],
       ),
