@@ -4,41 +4,91 @@ import 'package:app_aya_v2/core/theme/app_theme.dart';
 enum AyaBottomSheetVariant {
   standard,
   modal,
-  persistent,
 }
 
 class AyaBottomSheet extends StatelessWidget {
   final Widget child;
   final String? title;
   final List<Widget>? actions;
-  final AyaBottomSheetVariant variant;
   final bool showDragHandle;
-  final bool isDismissible;
-  final bool enableDrag;
   final Color? backgroundColor;
   final double? maxHeight;
   final EdgeInsets? padding;
+  final AyaBottomSheetVariant variant;
 
   const AyaBottomSheet({
-    Key? key,
+    super.key,
     required this.child,
     this.title,
     this.actions,
-    this.variant = AyaBottomSheetVariant.standard,
     this.showDragHandle = true,
-    this.isDismissible = true,
-    this.enableDrag = true,
     this.backgroundColor,
     this.maxHeight,
     this.padding,
-  }) : super(key: key);
+    this.variant = AyaBottomSheetVariant.standard,
+  });
+
+  static Future<T?> show<T>({
+    required BuildContext context,
+    required Widget child,
+    String? title,
+    List<Widget>? actions,
+    bool showDragHandle = true,
+    bool isDismissible = true,
+    bool enableDrag = true,
+    Color? backgroundColor,
+    double? maxHeight,
+    EdgeInsets? padding,
+    AyaBottomSheetVariant variant = AyaBottomSheetVariant.standard,
+  }) {
+    switch (variant) {
+      case AyaBottomSheetVariant.modal:
+        return showModalBottomSheet<T>(
+          context: context,
+          isDismissible: isDismissible,
+          enableDrag: enableDrag,
+          backgroundColor: Colors.transparent,
+          isScrollControlled: true,
+          builder: (context) => AyaBottomSheet(
+            child: child,
+            title: title,
+            actions: actions,
+            showDragHandle: showDragHandle,
+            backgroundColor: backgroundColor,
+            maxHeight: maxHeight,
+            padding: padding,
+            variant: variant,
+          ),
+        );
+
+      case AyaBottomSheetVariant.standard:
+        return showModalBottomSheet<T>(
+          context: context,
+          isDismissible: isDismissible,
+          enableDrag: enableDrag,
+          backgroundColor: Colors.transparent,
+          builder: (context) => AyaBottomSheet(
+            child: child,
+            title: title,
+            actions: actions,
+            showDragHandle: showDragHandle,
+            backgroundColor: backgroundColor,
+            maxHeight: maxHeight,
+            padding: padding,
+          ),
+        );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final bgColor = backgroundColor ?? AyaColors.backgroundGradientEnd;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final maxSheetHeight = maxHeight ?? screenHeight * 0.9;
+
     return Container(
       constraints: BoxConstraints(
-        maxHeight: maxHeight ?? MediaQuery.of(context).size.height * 0.9,
+        maxHeight: maxSheetHeight,
       ),
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -61,123 +111,58 @@ class AyaBottomSheet extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (showDragHandle) ...[
-            const SizedBox(height: 8),
-            Center(
-              child: Container(
-                width: 32,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: AyaColors.textPrimary40,
-                  borderRadius: BorderRadius.circular(2),
+      child: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (showDragHandle) ...[
+              const SizedBox(height: 8),
+              Center(
+                child: Container(
+                  width: 32,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: AyaColors.textPrimary40,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
               ),
-            ),
-          ],
-          if (title != null || actions != null) ...[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-              child: Row(
-                children: [
-                  if (title != null)
-                    Expanded(
-                      child: Text(
-                        title!,
-                        style: const TextStyle(
-                          color: AyaColors.textPrimary,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
+            ],
+            if (title != null || actions != null) ...[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                child: Row(
+                  children: [
+                    if (title != null)
+                      Expanded(
+                        child: Text(
+                          title!,
+                          style: const TextStyle(
+                            color: AyaColors.textPrimary,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
-                    ),
-                  if (actions != null) ...actions!,
-                ],
+                    if (actions != null) ...actions!,
+                  ],
+                ),
+              ),
+              const Divider(
+                color: AyaColors.lavenderSoft,
+                height: 1,
+              ),
+            ],
+            Flexible(
+              child: SingleChildScrollView(
+                padding: padding ?? const EdgeInsets.all(16),
+                child: child,
               ),
             ),
-            const Divider(
-              color: AyaColors.lavenderSoft,
-              height: 1,
-            ),
           ],
-          Flexible(
-            child: SingleChildScrollView(
-              padding: padding ?? const EdgeInsets.all(16),
-              child: child,
-            ),
-          ),
-        ],
+        ),
       ),
     );
-  }
-
-  static Future<T?> show<T>({
-    required BuildContext context,
-    required Widget child,
-    String? title,
-    List<Widget>? actions,
-    AyaBottomSheetVariant variant = AyaBottomSheetVariant.standard,
-    bool showDragHandle = true,
-    bool isDismissible = true,
-    bool enableDrag = true,
-    Color? backgroundColor,
-    double? maxHeight,
-    EdgeInsets? padding,
-  }) {
-    switch (variant) {
-      case AyaBottomSheetVariant.modal:
-        return showModalBottomSheet<T>(
-          context: context,
-          isDismissible: isDismissible,
-          enableDrag: enableDrag,
-          backgroundColor: Colors.transparent,
-          builder: (context) => AyaBottomSheet(
-            child: child,
-            title: title,
-            actions: actions,
-            showDragHandle: showDragHandle,
-            backgroundColor: backgroundColor,
-            maxHeight: maxHeight,
-            padding: padding,
-          ),
-        );
-
-      case AyaBottomSheetVariant.persistent:
-        showBottomSheet(
-          context: context,
-          enableDrag: enableDrag,
-          backgroundColor: Colors.transparent,
-          builder: (context) => AyaBottomSheet(
-            child: child,
-            title: title,
-            actions: actions,
-            showDragHandle: showDragHandle,
-            backgroundColor: backgroundColor,
-            maxHeight: maxHeight,
-            padding: padding,
-          ),
-        );
-        return Future.value(null);
-
-      case AyaBottomSheetVariant.standard:
-        return showModalBottomSheet<T>(
-          context: context,
-          isDismissible: isDismissible,
-          enableDrag: enableDrag,
-          backgroundColor: Colors.transparent,
-          builder: (context) => AyaBottomSheet(
-            child: child,
-            title: title,
-            actions: actions,
-            showDragHandle: showDragHandle,
-            backgroundColor: backgroundColor,
-            maxHeight: maxHeight,
-            padding: padding,
-          ),
-        );
-    }
   }
 }
 

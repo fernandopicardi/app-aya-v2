@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:ui' as ui;
 import 'package:app_aya_v2/core/theme/app_theme.dart';
 import 'package:app_aya_v2/features/content/services/lesson_service.dart';
+import 'package:app_aya_v2/core/widgets/aya_bottom_sheet.dart';
 
 class LessonPage extends StatefulWidget {
   final String lessonId;
@@ -71,65 +73,99 @@ class _LessonPageState extends State<LessonPage> {
         decoration: const BoxDecoration(
           gradient: AyaColors.backgroundGradient,
         ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              _buildHeader(context),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildLessonTitle(),
-                      const SizedBox(height: 16),
-                      _buildLessonContent(),
-                      const SizedBox(height: 24),
-                      _buildNavigationButtons(context),
-                    ],
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              pinned: true,
+              floating: false,
+              expandedHeight: 200.0,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              scrolledUnderElevation: 0,
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back, color: AyaColors.primary),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              title: const Text(
+                'Aula',
+                style: TextStyle(
+                  color: AyaColors.textPrimary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              centerTitle: true,
+              actions: [
+                StreamBuilder<bool>(
+                  stream: _lessonService.favoriteStream,
+                  initialData: false,
+                  builder: (context, snapshot) {
+                    final isFavorite = snapshot.data ?? false;
+                    return IconButton(
+                      icon: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: isFavorite
+                            ? AyaColors.primary
+                            : AyaColors.textPrimary,
+                      ),
+                      onPressed: () =>
+                          _lessonService.toggleFavorite(widget.lessonId),
+                    );
+                  },
+                ),
+              ],
+              flexibleSpace: ClipRRect(
+                child: BackdropFilter(
+                  filter: ui.ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                  child: Container(
+                    color: AyaColors.surface.withOpacity(0.25),
+                    child: FlexibleSpaceBar(
+                      background: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          Image.asset(
+                            'assets/images/lesson1.jpg',
+                            fit: BoxFit.cover,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.black.withOpacity(0.5),
+                                  Colors.transparent,
+                                ],
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.center,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeader(BuildContext context) {
-    return StreamBuilder<bool>(
-      stream: _lessonService.favoriteStream,
-      initialData: false,
-      builder: (context, snapshot) {
-        final isFavorite = snapshot.data ?? false;
-        return AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: AyaColors.primary),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          title: const Text(
-            'Aula',
-            style: TextStyle(
-              color: AyaColors.textPrimary,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
             ),
-          ),
-          centerTitle: true,
-          actions: [
-            IconButton(
-              icon: Icon(
-                isFavorite ? Icons.favorite : Icons.favorite_border,
-                color: isFavorite ? AyaColors.primary : AyaColors.textPrimary,
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildLessonTitle(),
+                    const SizedBox(height: 16),
+                    const _QuickActionsBar(),
+                    const SizedBox(height: 16),
+                    _buildLessonContent(),
+                    const SizedBox(height: 24),
+                    _buildNavigationButtons(context),
+                  ],
+                ),
               ),
-              onPressed: () => _lessonService.toggleFavorite(widget.lessonId),
             ),
           ],
-        );
-      },
+        ),
+      ),
     );
   }
 
@@ -864,6 +900,152 @@ class _CommentCard extends StatelessWidget {
                     ],
                   ),
                 ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _QuickActionsBar extends StatefulWidget {
+  const _QuickActionsBar();
+
+  @override
+  State<_QuickActionsBar> createState() => _QuickActionsBarState();
+}
+
+class _QuickActionsBarState extends State<_QuickActionsBar> {
+  bool _isLiked = false;
+  bool _isSaved = false;
+  bool _isCompleted = false;
+
+  void _showNotesSheet() {
+    showAyaBottomSheet(
+      context: context,
+      title: 'Anotações',
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              maxLines: 5,
+              decoration: InputDecoration(
+                hintText: 'Digite suas anotações aqui...',
+                filled: true,
+                fillColor: AyaColors.lavenderSoft30,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                // TODO: Integrar salvar anotações com Supabase
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Anotações salvas com sucesso!'),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AyaColors.primary,
+                foregroundColor: Colors.white,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: const Text('Salvar'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _buildActionButton(
+            icon: _isLiked ? Icons.favorite : Icons.favorite_border,
+            label: 'Curtir',
+            onTap: () {
+              setState(() => _isLiked = !_isLiked);
+              // TODO: Integrar curtir com Supabase
+            },
+          ),
+          _buildActionButton(
+            icon: _isSaved ? Icons.bookmark : Icons.bookmark_border,
+            label: 'Salvar',
+            onTap: () {
+              setState(() => _isSaved = !_isSaved);
+              // TODO: Integrar salvar com Supabase
+            },
+          ),
+          _buildActionButton(
+            icon: Icons.edit_note,
+            label: 'Anotações',
+            onTap: _showNotesSheet,
+          ),
+          _buildActionButton(
+            icon:
+                _isCompleted ? Icons.check_circle : Icons.check_circle_outline,
+            label: 'Concluir',
+            onTap: () {
+              setState(() => _isCompleted = !_isCompleted);
+              // TODO: Integrar concluir com Supabase
+              if (_isCompleted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Aula marcada como concluída!'),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActionButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              color: AyaColors.lavenderVibrant,
+              size: 24,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: const TextStyle(
+                color: AyaColors.textSecondary,
+                fontSize: 12,
+                fontFamily: 'Sans-serif',
               ),
             ),
           ],

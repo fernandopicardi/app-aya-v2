@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../widgets/aya_card.dart';
+import '../../../widgets/aya_image.dart';
 
 class AyaFeaturedCard extends StatelessWidget {
   final String title;
@@ -28,28 +29,9 @@ class AyaFeaturedCard extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          ClipRRect(
+          AyaImage(
+            imageUrl: imageUrl,
             borderRadius: BorderRadius.circular(16),
-            child: CachedNetworkImage(
-              imageUrl: imageUrl,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                color: AyaColors.lavenderSoft,
-                child: const Center(
-                  child: CircularProgressIndicator(
-                    color: AyaColors.turquoise,
-                  ),
-                ),
-              ),
-              errorWidget: (context, url, error) => Container(
-                color: AyaColors.lavenderSoft,
-                child: const Icon(
-                  Icons.image_not_supported,
-                  color: AyaColors.textPrimary,
-                  size: 48,
-                ),
-              ),
-            ),
           ),
           Container(
             decoration: BoxDecoration(
@@ -135,30 +117,11 @@ class AyaContentCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
+          AyaImage(
+            imageUrl: imageUrl,
+            width: width,
+            height: height * 0.7,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-            child: CachedNetworkImage(
-              imageUrl: imageUrl,
-              width: width,
-              height: height * 0.7,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                color: AyaColors.lavenderSoft,
-                child: const Center(
-                  child: CircularProgressIndicator(
-                    color: AyaColors.turquoise,
-                  ),
-                ),
-              ),
-              errorWidget: (context, url, error) => Container(
-                color: AyaColors.lavenderSoft,
-                child: const Icon(
-                  Icons.image_not_supported,
-                  color: AyaColors.textPrimary,
-                  size: 32,
-                ),
-              ),
-            ),
           ),
           Expanded(
             child: Padding(

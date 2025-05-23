@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../widgets/aya_image.dart';
 import '../widgets/aya_video_player.dart';
 import '../widgets/aya_audio_player.dart';
 import '../widgets/aya_rich_text_viewer.dart';
@@ -28,134 +29,238 @@ class _LessonPageState extends State<LessonPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AyaColors.background,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: AyaColors.textPrimary,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          widget.lesson.title,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+      body: CustomScrollView(
+        slivers: [
+          // App Bar
+          SliverAppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            pinned: true,
+            leading: IconButton(
+              icon: const Icon(
+                Icons.arrow_back,
                 color: AyaColors.textPrimary,
-                fontWeight: FontWeight.w600,
               ),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              _isLiked ? Icons.favorite : Icons.favorite_border,
-              color: _isLiked ? AyaColors.turquoise : AyaColors.textPrimary,
+              onPressed: () => Navigator.pop(context),
             ),
-            onPressed: () {
-              setState(() => _isLiked = !_isLiked);
-            },
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.more_vert,
-              color: AyaColors.textPrimary,
-            ),
-            onPressed: () {
-              _showMoreOptions(context);
-            },
-          ),
-        ],
-      ),
-      body: ListView(
-        children: [
-          // Content Player/Viewer
-          _buildContentPlayer(),
-
-          // Lesson Info
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Title
-                Text(
-                  widget.lesson.title,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        color: AyaColors.textPrimary,
-                        fontWeight: FontWeight.bold,
-                      ),
+            actions: [
+              IconButton(
+                icon: Icon(
+                  _isLiked ? Icons.favorite : Icons.favorite_border,
+                  color: _isLiked ? AyaColors.turquoise : AyaColors.textPrimary,
                 ),
-                const SizedBox(height: 16),
+                onPressed: () {
+                  setState(() {
+                    _isLiked = !_isLiked;
+                  });
+                },
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.more_vert,
+                  color: AyaColors.textPrimary,
+                ),
+                onPressed: _showOptions,
+              ),
+            ],
+          ),
 
-                // Metadata
-                Row(
-                  children: [
-                    _buildMetadataItem(
-                      icon: _getContentTypeIcon(),
-                      text: _getContentTypeText(),
-                    ),
-                    const SizedBox(width: 16),
-                    _buildMetadataItem(
-                      icon: Icons.timer_outlined,
-                      text: widget.lesson.duration,
-                    ),
-                    if (widget.lesson.difficulty != null) ...[
+          // Content
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Title
+                  Text(
+                    widget.lesson.title,
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                          color: AyaColors.textPrimary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Description
+                  Text(
+                    widget.lesson.description,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: AyaColors.textPrimary80,
+                        ),
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Metadata
+                  Row(
+                    children: [
+                      _buildMetadataItem(
+                        icon: _getContentTypeIcon(),
+                        text: _getContentTypeText(),
+                      ),
                       const SizedBox(width: 16),
                       _buildMetadataItem(
-                        icon: Icons.signal_cellular_alt_outlined,
-                        text: widget.lesson.difficulty!,
+                        icon: Icons.timer_outlined,
+                        text: widget.lesson.duration,
                       ),
+                      if (widget.lesson.difficulty != null) ...[
+                        const SizedBox(width: 16),
+                        _buildMetadataItem(
+                          icon: Icons.signal_cellular_alt_outlined,
+                          text: widget.lesson.difficulty!,
+                        ),
+                      ],
                     ],
-                  ],
-                ),
-                const SizedBox(height: 16),
-
-                // Description
-                Text(
-                  widget.lesson.description,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: AyaColors.textPrimary,
-                        height: 1.5,
-                      ),
-                  maxLines: _isDescriptionExpanded ? null : 3,
-                  overflow: _isDescriptionExpanded
-                      ? TextOverflow.visible
-                      : TextOverflow.ellipsis,
-                ),
-                if (widget.lesson.description.length > 150)
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        _isDescriptionExpanded = !_isDescriptionExpanded;
-                      });
-                    },
-                    style: TextButton.styleFrom(
-                      foregroundColor: AyaColors.turquoise,
-                      padding: EdgeInsets.zero,
-                    ),
-                    child:
-                        Text(_isDescriptionExpanded ? 'Ler menos' : 'Ler mais'),
                   ),
-                const SizedBox(height: 24),
+                  const SizedBox(height: 24),
 
-                // Quick Actions
-                _buildQuickActions(),
-                const SizedBox(height: 24),
+                  // Content Player
+                  _buildContentPlayer(),
+                  const SizedBox(height: 24),
 
-                // Complementary Materials
-                if (widget.lesson.complementaryMaterials.isNotEmpty)
-                  _buildComplementaryMaterials(),
-                const SizedBox(height: 24),
+                  // Complementary Materials
+                  if (widget.lesson.complementaryMaterials.isNotEmpty) ...[
+                    Text(
+                      'Materiais Complementares',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: AyaColors.textPrimary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                    const SizedBox(height: 16),
+                    ...widget.lesson.complementaryMaterials.map((material) {
+                      return Card(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        color: AyaColors.surface,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: ListTile(
+                          leading: Icon(
+                            _getFileTypeIcon(material.fileType),
+                            color: AyaColors.textPrimary,
+                          ),
+                          title: Text(
+                            material.name,
+                            style:
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                      color: AyaColors.textPrimary,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                          ),
+                          subtitle: material.size != null
+                              ? Text(
+                                  material.size!,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                        color: AyaColors.textPrimary60,
+                                      ),
+                                )
+                              : null,
+                          trailing: IconButton(
+                            icon: const Icon(
+                              Icons.download_outlined,
+                              color: AyaColors.turquoise,
+                            ),
+                            onPressed: () {
+                              // TODO: Implement download
+                            },
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ],
 
-                // Next Lesson
-                if (widget.lesson.nextLesson != null) _buildNextLesson(),
-                const SizedBox(height: 24),
-
-                // Comments Section
-                _buildCommentsSection(),
-              ],
+                  // Next Lesson
+                  if (widget.lesson.nextLesson != null) ...[
+                    const SizedBox(height: 24),
+                    Text(
+                      'Próxima Aula',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: AyaColors.textPrimary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                    const SizedBox(height: 16),
+                    Card(
+                      color: AyaColors.surface,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  LessonPage(lesson: widget.lesson.nextLesson!),
+                            ),
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(12),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Row(
+                            children: [
+                              Icon(
+                                _getContentTypeIcon(),
+                                color: AyaColors.turquoise,
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.lesson.nextLesson!.title,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium
+                                          ?.copyWith(
+                                            color: AyaColors.textPrimary,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          _getContentTypeIcon(),
+                                          size: 16,
+                                          color: AyaColors.textPrimary60,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          widget.lesson.nextLesson!.duration,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall
+                                              ?.copyWith(
+                                                color: AyaColors.textPrimary60,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const Icon(
+                                Icons.arrow_forward_ios,
+                                color: AyaColors.textPrimary60,
+                                size: 16,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
             ),
           ),
         ],
@@ -209,269 +314,10 @@ class _LessonPageState extends State<LessonPage> {
     );
   }
 
-  Widget _buildQuickActions() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        _buildQuickActionButton(
-          icon: Icons.favorite_border,
-          label: 'Curtir',
-          onTap: () {
-            setState(() => _isLiked = !_isLiked);
-          },
-        ),
-        _buildQuickActionButton(
-          icon: Icons.playlist_add_outlined,
-          label: 'Salvar',
-          onTap: () {
-            // TODO: Implement save to playlist
-          },
-        ),
-        _buildQuickActionButton(
-          icon: Icons.edit_note_outlined,
-          label: 'Anotações',
-          onTap: () {
-            // TODO: Show notes bottom sheet
-          },
-        ),
-        _buildQuickActionButton(
-          icon: _isCompleted ? Icons.check_circle : Icons.check_circle_outline,
-          label: 'Concluir',
-          onTap: () {
-            setState(() => _isCompleted = !_isCompleted);
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget _buildQuickActionButton({
-    required IconData icon,
-    required String label,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(8),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              color: AyaColors.textPrimary,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: AyaColors.textPrimary60,
-                  ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildComplementaryMaterials() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Materiais para Download',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: AyaColors.textPrimary,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        const SizedBox(height: 16),
-        ...widget.lesson.complementaryMaterials.map((material) {
-          return Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: AyaColors.lavenderSoft,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  _getFileTypeIcon(material.fileType),
-                  color: AyaColors.textPrimary,
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        material.name,
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: AyaColors.textPrimary,
-                              fontWeight: FontWeight.w500,
-                            ),
-                      ),
-                      if (material.size != null)
-                        Text(
-                          material.size!,
-                          style:
-                              Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: AyaColors.textPrimary60,
-                                  ),
-                        ),
-                    ],
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.download_outlined,
-                    color: AyaColors.turquoise,
-                  ),
-                  onPressed: () {
-                    // TODO: Implement download
-                  },
-                ),
-              ],
-            ),
-          );
-        }).toList(),
-      ],
-    );
-  }
-
-  Widget _buildNextLesson() {
-    final nextLesson = widget.lesson.nextLesson!;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Próxima Aula',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: AyaColors.textPrimary,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        const SizedBox(height: 16),
-        GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LessonPage(lesson: nextLesson),
-              ),
-            );
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              color: AyaColors.lavenderSoft,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.horizontal(
-                    left: Radius.circular(12),
-                  ),
-                  child: CachedNetworkImage(
-                    imageUrl: nextLesson.thumbnailUrl,
-                    width: 120,
-                    height: 80,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Container(
-                      color: AyaColors.lavenderSoft,
-                      child: const Center(
-                        child: CircularProgressIndicator(
-                          color: AyaColors.turquoise,
-                        ),
-                      ),
-                    ),
-                    errorWidget: (context, url, error) => Container(
-                      color: AyaColors.lavenderSoft,
-                      child: const Icon(
-                        Icons.image_not_supported,
-                        color: AyaColors.textPrimary,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        nextLesson.title,
-                        style:
-                            Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  color: AyaColors.textPrimary,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Icon(
-                            _getContentTypeIcon(),
-                            size: 16,
-                            color: AyaColors.textPrimary60,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            nextLesson.duration,
-                            style:
-                                Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: AyaColors.textPrimary60,
-                                    ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const Icon(
-                  Icons.arrow_forward_ios,
-                  color: AyaColors.textPrimary60,
-                  size: 16,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCommentsSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Comentários',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: AyaColors.textPrimary,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        const SizedBox(height: 16),
-        // TODO: Implement comments list
-        const Center(
-          child: Text('Comentários em desenvolvimento'),
-        ),
-      ],
-    );
-  }
-
-  void _showMoreOptions(BuildContext context) {
+  void _showOptions() {
     showModalBottomSheet(
       context: context,
-      backgroundColor: AyaColors.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
+      backgroundColor: Colors.transparent,
       builder: (context) {
         return SafeArea(
           child: Column(

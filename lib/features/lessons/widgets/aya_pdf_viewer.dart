@@ -14,6 +14,8 @@ class _AyaPdfViewerState extends State<AyaPdfViewer> {
   late PdfViewerController _pdfViewController;
   bool _isReady = false;
   String? _errorMessage;
+  int _retryCount = 0;
+  static const int maxRetries = 3;
 
   @override
   void initState() {
@@ -27,6 +29,16 @@ class _AyaPdfViewerState extends State<AyaPdfViewer> {
     super.dispose();
   }
 
+  void _retryLoading() {
+    if (_retryCount < maxRetries) {
+      setState(() {
+        _errorMessage = null;
+        _isReady = false;
+        _retryCount++;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,29 +49,32 @@ class _AyaPdfViewerState extends State<AyaPdfViewer> {
       ),
       child: Stack(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SfPdfViewer.network(
-              widget.pdfUrl,
-              controller: _pdfViewController,
-              enableDoubleTapZooming: true,
-              enableTextSelection: true,
-              pageLayoutMode: PdfPageLayoutMode.continuous,
-              scrollDirection: PdfScrollDirection.vertical,
-              onDocumentLoaded: (PdfDocumentLoadedDetails details) {
-                setState(() {
-                  _isReady = true;
-                  _errorMessage = null;
-                });
-              },
-              onDocumentLoadFailed: (PdfDocumentLoadFailedDetails details) {
-                setState(() {
-                  _errorMessage = 'Erro ao carregar o PDF: ${details.error}';
-                  _isReady = false;
-                });
-              },
+          if (_errorMessage == null)
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SfPdfViewer.network(
+                widget.pdfUrl,
+                controller: _pdfViewController,
+                enableDoubleTapZooming: true,
+                enableTextSelection: true,
+                pageLayoutMode: PdfPageLayoutMode.continuous,
+                scrollDirection: PdfScrollDirection.vertical,
+                onDocumentLoaded: (PdfDocumentLoadedDetails details) {
+                  setState(() {
+                    _isReady = true;
+                    _errorMessage = null;
+                    _retryCount = 0;
+                  });
+                },
+                onDocumentLoadFailed: (PdfDocumentLoadFailedDetails details) {
+                  setState(() {
+                    _errorMessage =
+                        'Não foi possível carregar o PDF. ${_retryCount < maxRetries ? 'Tentativa ${_retryCount + 1} de $maxRetries.' : ''}';
+                    _isReady = false;
+                  });
+                },
+              ),
             ),
-          ),
           if (!_isReady && _errorMessage == null)
             const Center(
               child: CircularProgressIndicator(color: AyaColors.turquoise),
@@ -84,6 +99,18 @@ class _AyaPdfViewerState extends State<AyaPdfViewer> {
                           ),
                       textAlign: TextAlign.center,
                     ),
+                    if (_retryCount < maxRetries) ...[
+                      const SizedBox(height: 16),
+                      ElevatedButton.icon(
+                        onPressed: _retryLoading,
+                        icon: const Icon(Icons.refresh),
+                        label: const Text('Tentar Novamente'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AyaColors.turquoise,
+                          foregroundColor: AyaColors.textPrimary,
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),

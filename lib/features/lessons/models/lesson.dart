@@ -55,7 +55,7 @@ class Lesson {
             'Nesta aula introdutória, você aprenderá os conceitos fundamentais da astrologia e como ela pode ser uma ferramenta poderosa para autoconhecimento e desenvolvimento pessoal.',
         contentUrl:
             'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-        thumbnailUrl: 'https://picsum.photos/800/450',
+        thumbnailUrl: 'https://picsum.photos/seed/lesson1/800/450',
         duration: '25 min',
         contentType: ContentType.video,
         difficulty: 'Iniciante',
@@ -74,7 +74,7 @@ class Lesson {
               'Explore as características e significados dos 12 signos do zodíaco, entendendo como eles influenciam nossa personalidade e comportamento.',
           contentUrl:
               'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-          thumbnailUrl: 'https://picsum.photos/800/451',
+          thumbnailUrl: 'https://picsum.photos/seed/lesson2/800/450',
           duration: '30 min',
           contentType: ContentType.video,
           difficulty: 'Iniciante',
@@ -89,7 +89,7 @@ class Lesson {
             'Uma meditação guiada suave e relaxante, perfeita para quem está começando sua jornada de mindfulness.',
         contentUrl:
             'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-        thumbnailUrl: 'https://picsum.photos/800/452',
+        thumbnailUrl: 'https://picsum.photos/seed/lesson3/800/450',
         duration: '15 min',
         contentType: ContentType.audio,
         difficulty: 'Iniciante',
@@ -109,7 +109,7 @@ class Lesson {
             'Uma coleção de sons naturais para ajudar na concentração e relaxamento durante suas práticas de meditação.',
         contentUrl:
             'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
-        thumbnailUrl: 'https://picsum.photos/800/453',
+        thumbnailUrl: 'https://picsum.photos/seed/lesson4/800/450',
         duration: '20 min',
         contentType: ContentType.audio,
         difficulty: 'Iniciante',
@@ -177,7 +177,7 @@ Os aspectos são os ângulos formados entre os planetas:
 - [Glossário Astrológico](https://example.com/glossary)
 - [Biblioteca de Aspectos](https://example.com/aspects)
 ''',
-        thumbnailUrl: 'https://picsum.photos/800/454',
+        thumbnailUrl: 'https://picsum.photos/seed/lesson5/800/450',
         duration: '45 min',
         contentType: ContentType.richText,
         difficulty: 'Intermediário',
@@ -198,8 +198,8 @@ Os aspectos são os ângulos formados entre os planetas:
         description:
             'Um guia abrangente sobre diferentes técnicas de meditação e como incorporá-las em sua rotina diária.',
         contentUrl:
-            'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
-        thumbnailUrl: 'https://picsum.photos/800/455',
+            'https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf',
+        thumbnailUrl: 'https://picsum.photos/seed/lesson6/800/450',
         duration: '60 min',
         contentType: ContentType.pdf,
         difficulty: 'Intermediário',
@@ -218,8 +218,8 @@ Os aspectos são os ângulos formados entre os planetas:
         description:
             'Um manual detalhado com práticas espirituais para diferentes níveis de experiência.',
         contentUrl:
-            'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
-        thumbnailUrl: 'https://picsum.photos/800/456',
+            'https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf',
+        thumbnailUrl: 'https://picsum.photos/seed/lesson7/800/450',
         duration: '90 min',
         contentType: ContentType.pdf,
         difficulty: 'Avançado',
