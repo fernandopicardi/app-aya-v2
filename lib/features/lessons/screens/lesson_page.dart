@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../../widgets/aya_image.dart';
 import '../widgets/aya_video_player.dart';
 import '../widgets/aya_audio_player.dart';
 import '../widgets/aya_rich_text_viewer.dart';
@@ -165,10 +164,10 @@ class _LessonPageState extends State<LessonPage> {
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         decoration: BoxDecoration(
-                          color: AyaColors.surface.withAlpha(128),
+                          color: AyaColors.lavenderSoft30,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: AyaColors.textPrimary.withAlpha(20),
+                            color: AyaColors.textPrimary40,
                           ),
                         ),
                         child: Row(
@@ -226,10 +225,10 @@ class _LessonPageState extends State<LessonPage> {
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: AyaColors.surface.withAlpha(128),
+                          color: AyaColors.lavenderSoft30,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: AyaColors.textPrimary.withAlpha(20),
+                            color: AyaColors.textPrimary40,
                           ),
                         ),
                         child: Column(
@@ -283,11 +282,11 @@ class _LessonPageState extends State<LessonPage> {
                         ...widget.lesson.complementaryMaterials.map((material) {
                           return Card(
                             margin: const EdgeInsets.only(bottom: 12),
-                            color: AyaColors.surface.withAlpha(128),
+                            color: AyaColors.lavenderSoft30,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                               side: BorderSide(
-                                color: AyaColors.textPrimary.withAlpha(20),
+                                color: AyaColors.textPrimary40,
                               ),
                             ),
                             child: ListTile(
@@ -343,11 +342,11 @@ class _LessonPageState extends State<LessonPage> {
                         ),
                         const SizedBox(height: 16),
                         Card(
-                          color: AyaColors.surface.withAlpha(128),
+                          color: AyaColors.lavenderSoft30,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                             side: BorderSide(
-                              color: AyaColors.textPrimary.withAlpha(20),
+                              color: AyaColors.textPrimary40,
                             ),
                           ),
                           child: InkWell(

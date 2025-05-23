@@ -122,60 +122,54 @@ class Lesson {
         description:
             'Um guia detalhado sobre como interpretar seu mapa astral natal, incluindo a posição dos planetas, casas e aspectos.',
         contentUrl: '''
-# Entendendo seu Mapa Astral
+<h1>Entendendo seu Mapa Astral</h1>
 
-O mapa astral é um retrato do céu no momento exato do seu nascimento. Ele revela informações importantes sobre sua personalidade, talentos, desafios e propósito de vida.
+<p>O mapa astral é um retrato do céu no momento exato do seu nascimento. Ele revela informações importantes sobre sua personalidade, talentos, desafios e propósito de vida.</p>
 
-## Elementos do Mapa Astral
+<h2>Elementos do Mapa Astral</h2>
 
-### Planetas
-- **Sol**: Representa sua essência e propósito de vida
-- **Lua**: Rege suas emoções e necessidades internas
-- **Mercúrio**: Controla sua comunicação e forma de pensar
-- **Vênus**: Influencia seus relacionamentos e valores
-- **Marte**: Representa sua energia e forma de agir
+<h3>Planetas</h3>
+<ul>
+  <li><strong>Sol</strong>: Representa sua essência e propósito de vida</li>
+  <li><strong>Lua</strong>: Rege suas emoções e necessidades internas</li>
+  <li><strong>Mercúrio</strong>: Governa sua comunicação e forma de pensar</li>
+  <li><strong>Vênus</strong>: Influencia seus relacionamentos e valores</li>
+  <li><strong>Marte</strong>: Representa sua energia e forma de agir</li>
+  <li><strong>Júpiter</strong>: Expande suas oportunidades e crescimento</li>
+  <li><strong>Saturno</strong>: Define seus limites e responsabilidades</li>
+</ul>
 
-### Signos
-Os 12 signos do zodíaco representam diferentes qualidades e características:
+<h3>Casas Astrológicas</h3>
+<p>As 12 casas representam diferentes áreas da vida:</p>
+<ol>
+  <li>Personalidade e aparência</li>
+  <li>Valores e recursos materiais</li>
+  <li>Comunicação e ambiente próximo</li>
+  <li>Família e raízes</li>
+  <li>Criatividade e expressão</li>
+  <li>Saúde e rotinas</li>
+  <li>Relacionamentos e parcerias</li>
+  <li>Transformação e recursos compartilhados</li>
+  <li>Expansão e sabedoria</li>
+  <li>Carreira e propósito</li>
+  <li>Amigos e grupos</li>
+  <li>Espiritualidade e inconsciente</li>
+</ol>
 
-1. Áries: Iniciativa e coragem
-2. Touro: Estabilidade e sensualidade
-3. Gêmeos: Comunicação e adaptabilidade
-4. Câncer: Emoção e proteção
-5. Leão: Criatividade e liderança
-6. Virgem: Análise e serviço
+<blockquote>
+  "O mapa astral é como um manual de instruções da sua alma, mostrando seus talentos naturais e desafios a serem superados."
+</blockquote>
 
-### Casas
-As 12 casas astrológicas representam diferentes áreas da vida:
+<h2>Como Interpretar seu Mapa</h2>
+<p>Para começar a interpretar seu mapa astral, observe:</p>
+<ul>
+  <li>Os signos em que os planetas estão posicionados</li>
+  <li>Os aspectos (ângulos) entre os planetas</li>
+  <li>As casas em que os planetas estão localizados</li>
+  <li>Os elementos predominantes (fogo, terra, ar, água)</li>
+</ul>
 
-> A primeira casa representa sua personalidade e aparência física
-> A sétima casa representa seus relacionamentos e parcerias
-> A décima casa representa sua carreira e propósito profissional
-
-### Aspectos
-Os aspectos são os ângulos formados entre os planetas:
-
-| Aspecto | Ângulo | Influência |
-|---------|--------|------------|
-| Conjunção | 0° | Fusão de energias |
-| Oposição | 180° | Tensão e polaridade |
-| Trígono | 120° | Harmonia e fluidez |
-| Quadratura | 90° | Desafio e crescimento |
-
-## Como Interpretar seu Mapa
-
-1. Identifique os planetas em seus signos
-2. Observe as casas onde os planetas estão
-3. Analise os aspectos entre os planetas
-4. Considere o contexto geral do mapa
-
-> **Dica**: Mantenha um diário astrológico para registrar suas observações e insights.
-
-## Recursos Adicionais
-
-- [Calculadora de Mapa Astral](https://example.com/calculator)
-- [Glossário Astrológico](https://example.com/glossary)
-- [Biblioteca de Aspectos](https://example.com/aspects)
+<p>Lembre-se que a astrologia é uma ferramenta de autoconhecimento, não um destino imutável. Use essas informações para se entender melhor e crescer como pessoa.</p>
 ''',
         thumbnailUrl: 'https://picsum.photos/seed/lesson5/800/450',
         duration: '45 min',

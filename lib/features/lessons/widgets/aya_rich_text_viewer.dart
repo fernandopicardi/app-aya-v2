@@ -55,88 +55,97 @@ class AyaRichTextViewer extends StatelessWidget {
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16),
-              child: Html(
-                data: content.isNotEmpty ? content : 'Conteúdo não disponível',
-                style: {
-                  'body': Style(
-                    color: AyaColors.textPrimary,
-                    fontSize: FontSize(16),
-                    fontFamily: 'Roboto',
-                  ),
-                  'h1': Style(
-                    color: AyaColors.textPrimary,
-                    fontSize: FontSize(32),
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Playfair Display',
-                  ),
-                  'h2': Style(
-                    color: AyaColors.textPrimary,
-                    fontSize: FontSize(28),
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Playfair Display',
-                  ),
-                  'h3': Style(
-                    color: AyaColors.textPrimary,
-                    fontSize: FontSize(24),
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Roboto',
-                  ),
-                  'p': Style(
-                    color: AyaColors.textPrimary,
-                    fontSize: FontSize(16),
-                    fontFamily: 'Roboto',
-                  ),
-                  'blockquote': Style(
-                    color: AyaColors.textPrimary40,
-                    fontStyle: FontStyle.italic,
-                    fontSize: FontSize(16),
-                    fontFamily: 'Roboto',
-                  ),
-                  'code': Style(
-                    color: AyaColors.turquoise,
-                    backgroundColor: AyaColors.surface,
-                    fontFamily: 'monospace',
-                    fontSize: FontSize(14),
-                  ),
-                  'pre': Style(
-                    backgroundColor: AyaColors.surface,
-                    padding: HtmlPaddings.all(8),
-                  ),
-                  'ul': Style(
-                    color: AyaColors.textPrimary,
-                    fontSize: FontSize(16),
-                    fontFamily: 'Roboto',
-                  ),
-                  'ol': Style(
-                    color: AyaColors.textPrimary,
-                    fontSize: FontSize(16),
-                    fontFamily: 'Roboto',
-                  ),
-                  'table': Style(
-                    border: Border.all(color: AyaColors.textPrimary40),
-                    padding: HtmlPaddings.all(8),
-                  ),
-                  'th': Style(
-                    color: AyaColors.textPrimary,
-                    fontSize: FontSize(18),
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Roboto',
-                  ),
-                  'td': Style(
-                    color: AyaColors.textPrimary,
-                    fontSize: FontSize(14),
-                    fontFamily: 'Roboto',
-                  ),
-                  'hr': Style(
-                    border: Border(
-                      top: BorderSide(
-                        color: AyaColors.textPrimary40,
-                        width: 1,
+              child: content.isEmpty
+                  ? Center(
+                      child: Text(
+                        'Conteúdo não disponível.',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: AyaColors.textPrimary,
+                            ),
                       ),
+                    )
+                  : Html(
+                      data: content,
+                      style: {
+                        'body': Style(
+                          color: AyaColors.textPrimary,
+                          fontSize: FontSize(16),
+                          fontFamily: 'Roboto',
+                        ),
+                        'h1': Style(
+                          color: AyaColors.textPrimary,
+                          fontSize: FontSize(32),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Playfair Display',
+                        ),
+                        'h2': Style(
+                          color: AyaColors.textPrimary,
+                          fontSize: FontSize(28),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Playfair Display',
+                        ),
+                        'h3': Style(
+                          color: AyaColors.textPrimary,
+                          fontSize: FontSize(24),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Roboto',
+                        ),
+                        'p': Style(
+                          color: AyaColors.textPrimary,
+                          fontSize: FontSize(16),
+                          fontFamily: 'Roboto',
+                        ),
+                        'blockquote': Style(
+                          color: AyaColors.textPrimary40,
+                          fontStyle: FontStyle.italic,
+                          fontSize: FontSize(16),
+                          fontFamily: 'Roboto',
+                        ),
+                        'code': Style(
+                          color: AyaColors.turquoise,
+                          backgroundColor: AyaColors.surface,
+                          fontFamily: 'monospace',
+                          fontSize: FontSize(14),
+                        ),
+                        'pre': Style(
+                          backgroundColor: AyaColors.surface,
+                          padding: HtmlPaddings.all(8),
+                        ),
+                        'ul': Style(
+                          color: AyaColors.textPrimary,
+                          fontSize: FontSize(16),
+                          fontFamily: 'Roboto',
+                        ),
+                        'ol': Style(
+                          color: AyaColors.textPrimary,
+                          fontSize: FontSize(16),
+                          fontFamily: 'Roboto',
+                        ),
+                        'table': Style(
+                          border: Border.all(color: AyaColors.textPrimary40),
+                          padding: HtmlPaddings.all(8),
+                        ),
+                        'th': Style(
+                          color: AyaColors.textPrimary,
+                          fontSize: FontSize(18),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Roboto',
+                        ),
+                        'td': Style(
+                          color: AyaColors.textPrimary,
+                          fontSize: FontSize(14),
+                          fontFamily: 'Roboto',
+                        ),
+                        'hr': Style(
+                          border: Border(
+                            top: BorderSide(
+                              color: AyaColors.textPrimary40,
+                              width: 1,
+                            ),
+                          ),
+                        ),
+                      },
                     ),
-                  ),
-                },
-              ),
             ),
           ),
         ],
