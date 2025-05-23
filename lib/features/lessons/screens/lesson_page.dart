@@ -24,6 +24,7 @@ class _LessonPageState extends State<LessonPage> {
   bool _isDescriptionExpanded = false;
   bool _isLiked = false;
   bool _isCompleted = false;
+  bool _isSaved = false;
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +34,18 @@ class _LessonPageState extends State<LessonPage> {
         slivers: [
           // App Bar
           SliverAppBar(
-            backgroundColor: Colors.transparent,
+            backgroundColor: AyaColors.surface.withAlpha(217), // 85% opacity
             elevation: 0,
             pinned: true,
+            title: Text(
+              widget.lesson.title,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: AyaColors.textPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
             leading: IconButton(
               icon: const Icon(
                 Icons.arrow_back,
@@ -67,200 +77,351 @@ class _LessonPageState extends State<LessonPage> {
 
           // Content
           SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Title
-                  Text(
-                    widget.lesson.title,
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          color: AyaColors.textPrimary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                  const SizedBox(height: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Content Player
+                _buildContentPlayer(),
+                const SizedBox(height: 24),
 
-                  // Description
-                  Text(
-                    widget.lesson.description,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: AyaColors.textPrimary80,
-                        ),
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Metadata
-                  Row(
+                // Title and Metadata Section
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildMetadataItem(
-                        icon: _getContentTypeIcon(),
-                        text: _getContentTypeText(),
+                      // Title
+                      Text(
+                        widget.lesson.title,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium
+                            ?.copyWith(
+                              color: AyaColors.textPrimary,
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
-                      const SizedBox(width: 16),
-                      _buildMetadataItem(
-                        icon: Icons.timer_outlined,
-                        text: widget.lesson.duration,
+                      const SizedBox(height: 16),
+
+                      // Metadata
+                      Row(
+                        children: [
+                          _buildMetadataItem(
+                            icon: _getContentTypeIcon(),
+                            text: _getContentTypeText(),
+                          ),
+                          const SizedBox(width: 16),
+                          _buildMetadataItem(
+                            icon: Icons.timer_outlined,
+                            text: widget.lesson.duration,
+                          ),
+                          if (widget.lesson.difficulty != null) ...[
+                            const SizedBox(width: 16),
+                            _buildMetadataItem(
+                              icon: Icons.signal_cellular_alt_outlined,
+                              text: widget.lesson.difficulty!,
+                            ),
+                          ],
+                        ],
                       ),
-                      if (widget.lesson.difficulty != null) ...[
-                        const SizedBox(width: 16),
-                        _buildMetadataItem(
-                          icon: Icons.signal_cellular_alt_outlined,
-                          text: widget.lesson.difficulty!,
+                      const SizedBox(height: 24),
+
+                      // Description with "Read More" functionality
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.lesson.description,
+                            style:
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                      color: AyaColors.textPrimary80,
+                                    ),
+                            maxLines: _isDescriptionExpanded ? null : 3,
+                            overflow: _isDescriptionExpanded
+                                ? null
+                                : TextOverflow.ellipsis,
+                          ),
+                          if (widget.lesson.description.length > 150)
+                            TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  _isDescriptionExpanded =
+                                      !_isDescriptionExpanded;
+                                });
+                              },
+                              child: Text(
+                                _isDescriptionExpanded
+                                    ? 'Mostrar menos'
+                                    : 'Ler mais',
+                                style:
+                                    const TextStyle(color: AyaColors.turquoise),
+                              ),
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Action Bar
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          color: AyaColors.surface.withAlpha(128),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: AyaColors.textPrimary.withAlpha(20),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            _buildActionButton(
+                              icon: _isLiked
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              label: 'Curtir',
+                              isActive: _isLiked,
+                              onTap: () {
+                                setState(() {
+                                  _isLiked = !_isLiked;
+                                });
+                              },
+                            ),
+                            _buildActionButton(
+                              icon: _isSaved
+                                  ? Icons.bookmark
+                                  : Icons.bookmark_border,
+                              label: 'Salvar',
+                              isActive: _isSaved,
+                              onTap: () {
+                                setState(() {
+                                  _isSaved = !_isSaved;
+                                });
+                              },
+                            ),
+                            _buildActionButton(
+                              icon: Icons.note_alt_outlined,
+                              label: 'Anotações',
+                              onTap: () {
+                                // TODO: Implement notes
+                              },
+                            ),
+                            _buildActionButton(
+                              icon: _isCompleted
+                                  ? Icons.check_circle
+                                  : Icons.check_circle_outline,
+                              label: 'Concluir',
+                              isActive: _isCompleted,
+                              onTap: () {
+                                setState(() {
+                                  _isCompleted = !_isCompleted;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Comments Section Placeholder
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: AyaColors.surface.withAlpha(128),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: AyaColors.textPrimary.withAlpha(20),
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.chat_bubble_outline,
+                                  color: AyaColors.textPrimary,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  'Comentários',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge
+                                      ?.copyWith(
+                                        color: AyaColors.textPrimary,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            const Center(
+                              child: Text(
+                                'Comentários em desenvolvimento',
+                                style: TextStyle(
+                                  color: AyaColors.textPrimary60,
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Complementary Materials
+                      if (widget.lesson.complementaryMaterials.isNotEmpty) ...[
+                        Text(
+                          'Materiais Complementares',
+                          style:
+                              Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    color: AyaColors.textPrimary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                        const SizedBox(height: 16),
+                        ...widget.lesson.complementaryMaterials.map((material) {
+                          return Card(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            color: AyaColors.surface.withAlpha(128),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              side: BorderSide(
+                                color: AyaColors.textPrimary.withAlpha(20),
+                              ),
+                            ),
+                            child: ListTile(
+                              leading: Icon(
+                                _getFileTypeIcon(material.fileType),
+                                color: AyaColors.textPrimary,
+                              ),
+                              title: Text(
+                                material.name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
+                                      color: AyaColors.textPrimary,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
+                              subtitle: material.size != null
+                                  ? Text(
+                                      material.size!,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
+                                            color: AyaColors.textPrimary60,
+                                          ),
+                                    )
+                                  : null,
+                              trailing: IconButton(
+                                icon: const Icon(
+                                  Icons.download_outlined,
+                                  color: AyaColors.turquoise,
+                                ),
+                                onPressed: () {
+                                  // TODO: Implement download
+                                },
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ],
+
+                      // Next Lesson
+                      if (widget.lesson.nextLesson != null) ...[
+                        const SizedBox(height: 24),
+                        Text(
+                          'Próxima Aula',
+                          style:
+                              Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    color: AyaColors.textPrimary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                        const SizedBox(height: 16),
+                        Card(
+                          color: AyaColors.surface.withAlpha(128),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            side: BorderSide(
+                              color: AyaColors.textPrimary.withAlpha(20),
+                            ),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LessonPage(
+                                      lesson: widget.lesson.nextLesson!),
+                                ),
+                              );
+                            },
+                            borderRadius: BorderRadius.circular(12),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    _getContentTypeIcon(),
+                                    color: AyaColors.turquoise,
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          widget.lesson.nextLesson!.title,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium
+                                              ?.copyWith(
+                                                color: AyaColors.textPrimary,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              _getContentTypeIcon(),
+                                              size: 16,
+                                              color: AyaColors.textPrimary60,
+                                            ),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              widget
+                                                  .lesson.nextLesson!.duration,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.copyWith(
+                                                    color:
+                                                        AyaColors.textPrimary60,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ],
                   ),
-                  const SizedBox(height: 24),
-
-                  // Content Player
-                  _buildContentPlayer(),
-                  const SizedBox(height: 24),
-
-                  // Complementary Materials
-                  if (widget.lesson.complementaryMaterials.isNotEmpty) ...[
-                    Text(
-                      'Materiais Complementares',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: AyaColors.textPrimary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                    const SizedBox(height: 16),
-                    ...widget.lesson.complementaryMaterials.map((material) {
-                      return Card(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        color: AyaColors.surface,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: ListTile(
-                          leading: Icon(
-                            _getFileTypeIcon(material.fileType),
-                            color: AyaColors.textPrimary,
-                          ),
-                          title: Text(
-                            material.name,
-                            style:
-                                Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                      color: AyaColors.textPrimary,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                          ),
-                          subtitle: material.size != null
-                              ? Text(
-                                  material.size!,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall
-                                      ?.copyWith(
-                                        color: AyaColors.textPrimary60,
-                                      ),
-                                )
-                              : null,
-                          trailing: IconButton(
-                            icon: const Icon(
-                              Icons.download_outlined,
-                              color: AyaColors.turquoise,
-                            ),
-                            onPressed: () {
-                              // TODO: Implement download
-                            },
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ],
-
-                  // Next Lesson
-                  if (widget.lesson.nextLesson != null) ...[
-                    const SizedBox(height: 24),
-                    Text(
-                      'Próxima Aula',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: AyaColors.textPrimary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                    const SizedBox(height: 16),
-                    Card(
-                      color: AyaColors.surface,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  LessonPage(lesson: widget.lesson.nextLesson!),
-                            ),
-                          );
-                        },
-                        borderRadius: BorderRadius.circular(12),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Row(
-                            children: [
-                              Icon(
-                                _getContentTypeIcon(),
-                                color: AyaColors.turquoise,
-                              ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      widget.lesson.nextLesson!.title,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium
-                                          ?.copyWith(
-                                            color: AyaColors.textPrimary,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          _getContentTypeIcon(),
-                                          size: 16,
-                                          color: AyaColors.textPrimary60,
-                                        ),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                          widget.lesson.nextLesson!.duration,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall
-                                              ?.copyWith(
-                                                color: AyaColors.textPrimary60,
-                                              ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const Icon(
-                                Icons.arrow_forward_ios,
-                                color: AyaColors.textPrimary60,
-                                size: 16,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
@@ -404,5 +565,37 @@ class _LessonPageState extends State<LessonPage> {
       default:
         return Icons.insert_drive_file_outlined;
     }
+  }
+
+  Widget _buildActionButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+    bool isActive = false,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              color: isActive ? AyaColors.turquoise : AyaColors.textPrimary,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                color: isActive ? AyaColors.turquoise : AyaColors.textPrimary,
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

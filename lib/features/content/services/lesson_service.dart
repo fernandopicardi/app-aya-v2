@@ -377,6 +377,15 @@ class LessonService {
       rethrow;
     }
   }
+
+  Future<void> downloadMaterial(String lessonId, String type) async {
+    try {
+      // TODO: Implement actual download logic
+      await Future.delayed(const Duration(seconds: 2)); // Simulated download
+    } catch (e) {
+      throw Exception('Failed to download material: $e');
+    }
+  }
 }
 
 class PlaybackState {

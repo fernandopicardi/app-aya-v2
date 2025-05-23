@@ -19,78 +19,81 @@ class AyaAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      leading: showMenu
-          ? IconButton(
-              icon: const Icon(
-                Icons.menu,
-                color: AyaColors.textPrimary,
-              ),
-              onPressed: onMenuPressed,
-            )
-          : null,
-      title: title != null
-          ? Text(
-              title!,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: AyaColors.textPrimary,
-                    fontWeight: FontWeight.w600,
-                  ),
-            )
-          : null,
-      centerTitle: true,
-      actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.search,
-            color: AyaColors.textPrimary,
-          ),
-          onPressed: () {
-            // TODO: Implement search
-          },
-        ),
-        Stack(
-          children: [
-            IconButton(
-              icon: const Icon(
-                Icons.notifications_outlined,
-                color: AyaColors.textPrimary,
-              ),
-              onPressed: () {
-                // TODO: Implement notifications
-              },
-            ),
-            if (notificationCount > 0)
-              Positioned(
-                right: 8,
-                top: 8,
-                child: Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  constraints: const BoxConstraints(
-                    minWidth: 16,
-                    minHeight: 16,
-                  ),
-                  child: Text(
-                    notificationCount.toString(),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
+    return Container(
+      color: AyaColors.surface.withAlpha(26), // 0.1 opacity
+      child: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: showMenu
+            ? IconButton(
+                icon: const Icon(
+                  Icons.menu,
+                  color: AyaColors.textPrimary,
+                ),
+                onPressed: onMenuPressed,
+              )
+            : null,
+        title: title != null
+            ? Text(
+                title!,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: AyaColors.textPrimary,
+                      fontWeight: FontWeight.w600,
                     ),
-                    textAlign: TextAlign.center,
+              )
+            : null,
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.search,
+              color: AyaColors.textPrimary,
+            ),
+            onPressed: () {
+              // TODO: Implement search
+            },
+          ),
+          Stack(
+            children: [
+              IconButton(
+                icon: const Icon(
+                  Icons.notifications_outlined,
+                  color: AyaColors.textPrimary,
+                ),
+                onPressed: () {
+                  // TODO: Implement notifications
+                },
+              ),
+              if (notificationCount > 0)
+                Positioned(
+                  right: 8,
+                  top: 8,
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    constraints: const BoxConstraints(
+                      minWidth: 16,
+                      minHeight: 16,
+                    ),
+                    child: Text(
+                      notificationCount.toString(),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
-              ),
-          ],
-        ),
-        if (actions != null) ...actions!,
-      ],
+            ],
+          ),
+          if (actions != null) ...actions!,
+        ],
+      ),
     );
   }
 

@@ -16,10 +16,9 @@ class AyaBottomNav extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: AyaColors.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
         boxShadow: [
           BoxShadow(
-            color: AyaColors.overlayLight,
+            color: AyaColors.overlayDark,
             blurRadius: 8,
             offset: const Offset(0, -2),
           ),
@@ -37,7 +36,7 @@ class AyaBottomNav extends StatelessWidget {
           _buildNavItem(
               Icons.library_books_outlined, Icons.library_books, 'Biblioteca'),
           _buildNavItem(Icons.people_outline, Icons.people, 'Comunidade'),
-          _buildNavItem(Icons.chat_outlined, Icons.chat, 'Chat IA'),
+          _buildNavItem(Icons.smart_toy_outlined, Icons.smart_toy, 'Chat IA'),
           _buildNavItem(Icons.person_outline, Icons.person, 'Perfil'),
         ],
       ),

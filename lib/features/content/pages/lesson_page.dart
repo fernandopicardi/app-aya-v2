@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:app_aya_v2/core/theme/app_theme.dart';
 import 'package:app_aya_v2/features/content/services/lesson_service.dart';
 import 'package:app_aya_v2/core/widgets/aya_bottom_sheet.dart';
+import 'package:app_aya_v2/core/widgets/aya_app_bar.dart';
 
 class LessonPage extends StatefulWidget {
   final String lessonId;
@@ -75,26 +76,9 @@ class _LessonPageState extends State<LessonPage> {
         ),
         child: CustomScrollView(
           slivers: [
-            SliverAppBar(
-              pinned: true,
-              floating: false,
-              expandedHeight: 200.0,
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              scrolledUnderElevation: 0,
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: AyaColors.primary),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              title: const Text(
-                'Aula',
-                style: TextStyle(
-                  color: AyaColors.textPrimary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-              centerTitle: true,
+            AyaAppBar(
+              title: 'Aula',
+              showBackButton: true,
               actions: [
                 StreamBuilder<bool>(
                   stream: _lessonService.favoriteStream,
@@ -113,54 +97,38 @@ class _LessonPageState extends State<LessonPage> {
                     );
                   },
                 ),
-              ],
-              flexibleSpace: ClipRRect(
-                child: BackdropFilter(
-                  filter: ui.ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                  child: Container(
-                    color: AyaColors.surface.withOpacity(0.25),
-                    child: FlexibleSpaceBar(
-                      background: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          Image.asset(
-                            'assets/images/lesson1.jpg',
-                            fit: BoxFit.cover,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.black.withOpacity(0.5),
-                                  Colors.transparent,
-                                ],
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.center,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                IconButton(
+                  icon:
+                      const Icon(Icons.more_vert, color: AyaColors.textPrimary),
+                  onPressed: () => _showMoreOptions(),
                 ),
-              ),
+              ],
             ),
             SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildLessonTitle(),
-                    const SizedBox(height: 16),
-                    const _QuickActionsBar(),
-                    const SizedBox(height: 16),
-                    _buildLessonContent(),
-                    const SizedBox(height: 24),
-                    _buildNavigationButtons(context),
-                  ],
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildMediaPlayer(),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildLessonTitle(),
+                        const SizedBox(height: 16),
+                        _buildLessonActions(),
+                        const SizedBox(height: 24),
+                        _buildLessonContent(),
+                        const SizedBox(height: 24),
+                        _buildDownloadableMaterials(),
+                        const SizedBox(height: 24),
+                        _buildCommentsSection(),
+                        const SizedBox(height: 32),
+                        _buildNavigationButtons(context),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -169,48 +137,322 @@ class _LessonPageState extends State<LessonPage> {
     );
   }
 
-  Widget _buildLessonTitle() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            widget.lessonTitle,
-            style: const TextStyle(
-              color: AyaColors.textPrimary,
-              fontWeight: FontWeight.bold,
-              fontSize: 22,
+  Widget _buildMediaPlayer() {
+    return StreamBuilder<PlaybackState>(
+      stream: _lessonService.playbackStream,
+      initialData: PlaybackState(),
+      builder: (context, snapshot) {
+        final playbackState = snapshot.data!;
+        return Container(
+          height:
+              MediaQuery.of(context).size.width * 0.5625, // 16:9 aspect ratio
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: AyaColors.surface,
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(32),
+              bottomRight: Radius.circular(32),
             ),
           ),
-          const SizedBox(height: 10),
-          Row(
+          child: Stack(
+            fit: StackFit.expand,
             children: [
-              const Icon(Icons.play_circle_outline,
-                  color: AyaColors.primary, size: 18),
-              const SizedBox(width: 4),
-              const Text('Vídeo • 5 min',
-                  style: TextStyle(color: AyaColors.textPrimary, fontSize: 14)),
-              const SizedBox(width: 12),
-              const Icon(Icons.auto_awesome,
-                  color: Color(0xFF78C7B4), size: 18),
-              const SizedBox(width: 2),
-              const Text('1 Ponto Aya',
-                  style: TextStyle(
-                      color: Color(0xFF78C7B4),
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold)),
+              // Thumbnail or video content
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(32),
+                  bottomRight: Radius.circular(32),
+                ),
+                child: Image.asset(
+                  'assets/images/lesson1.jpg',
+                  fit: BoxFit.cover,
+                ),
+              ),
+              // Overlay gradient
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.transparent,
+                      Colors.black.withOpacity(0.7),
+                    ],
+                  ),
+                ),
+              ),
+              // Playback controls
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        playbackState.isPlaying
+                            ? Icons.pause
+                            : Icons.play_circle_fill,
+                        color: AyaColors.primary,
+                        size: 64,
+                      ),
+                      onPressed: () {
+                        if (playbackState.isPlaying) {
+                          _lessonService.pause(widget.lessonId);
+                        } else {
+                          _lessonService.play(widget.lessonId);
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    // Progress bar
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                      child: Column(
+                        children: [
+                          Slider(
+                            value: playbackState.currentPosition.inSeconds
+                                .toDouble(),
+                            min: 0,
+                            max: playbackState.duration.inSeconds.toDouble(),
+                            activeColor: AyaColors.primary,
+                            inactiveColor: Colors.white.withOpacity(0.3),
+                            onChanged: (value) {
+                              _lessonService.seekTo(
+                                widget.lessonId,
+                                Duration(seconds: value.toInt()),
+                              );
+                            },
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  _formatDuration(
+                                      playbackState.currentPosition),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Text(
+                                  _formatDuration(playbackState.duration),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
-          const SizedBox(height: 16),
-          _ExpandableDescription(
-            text:
-                'Descubra como a gratidão pode transformar sua vida. Nesta aula, você aprenderá práticas simples e poderosas para cultivar gratidão diariamente. Aprofunde-se no tema e veja exemplos reais de transformação. ' *
-                    2,
+        );
+      },
+    );
+  }
+
+  Widget _buildLessonTitle() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          widget.lessonTitle,
+          style: const TextStyle(
+            color: AyaColors.textPrimary,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            const Icon(Icons.play_circle_outline,
+                color: AyaColors.primary, size: 18),
+            const SizedBox(width: 4),
+            const Text('Vídeo • 5 min',
+                style: TextStyle(color: AyaColors.textPrimary, fontSize: 14)),
+            const SizedBox(width: 12),
+            const Icon(Icons.auto_awesome, color: AyaColors.accent, size: 18),
+            const SizedBox(width: 2),
+            const Text('1 Ponto Aya',
+                style: TextStyle(
+                    color: AyaColors.accent,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold)),
+          ],
+        ),
+        const SizedBox(height: 16),
+        _ExpandableDescription(
+          text:
+              'Descubra como a gratidão pode transformar sua vida. Nesta aula, você aprenderá práticas simples e poderosas para cultivar gratidão diariamente. Aprofunde-se no tema e veja exemplos reais de transformação.',
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLessonActions() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        _buildActionButton(Icons.favorite_border, 'Curtir'),
+        _buildActionButton(Icons.bookmark_border, 'Salvar'),
+        _buildActionButton(Icons.edit_note, 'Anotações'),
+        _buildActionButton(Icons.check_circle_outline, 'Concluir'),
+      ],
+    );
+  }
+
+  Widget _buildDownloadableMaterials() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Materiais para Download',
+          style: TextStyle(
+            color: AyaColors.textPrimary,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 16),
+        _buildMaterialItem(
+          icon: Icons.picture_as_pdf,
+          title: 'Slides da Aula',
+          onDownload: () => _downloadMaterial('slides'),
+        ),
+        _buildMaterialItem(
+          icon: Icons.description,
+          title: 'Exercícios',
+          onDownload: () => _downloadMaterial('exercises'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMaterialItem({
+    required IconData icon,
+    required String title,
+    required VoidCallback onDownload,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        children: [
+          Icon(icon, color: AyaColors.primary, size: 24),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              title,
+              style: const TextStyle(
+                color: AyaColors.textPrimary,
+                fontSize: 16,
+              ),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.download, color: AyaColors.primary),
+            onPressed: onDownload,
           ),
         ],
       ),
     );
+  }
+
+  Widget _buildCommentsSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Comentários',
+          style: TextStyle(
+            color: AyaColors.textPrimary,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: AyaColors.surface.withOpacity(0.5),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: const Center(
+            child: Text(
+              'Comentários em desenvolvimento',
+              style: TextStyle(
+                color: AyaColors.textSecondary,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _showMoreOptions() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => AyaBottomSheet(
+        title: 'Opções',
+        items: [
+          BottomSheetItem(
+            icon: Icons.share,
+            label: 'Compartilhar',
+            onTap: () {
+              Navigator.pop(context);
+              _shareLesson();
+            },
+          ),
+          BottomSheetItem(
+            icon: Icons.download,
+            label: 'Baixar Aula',
+            onTap: () {
+              Navigator.pop(context);
+              _downloadLesson();
+            },
+          ),
+          BottomSheetItem(
+            icon: Icons.report,
+            label: 'Reportar Problema',
+            onTap: () {
+              Navigator.pop(context);
+              // TODO: Implement report functionality
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _downloadMaterial(String type) async {
+    try {
+      await _lessonService.downloadMaterial(widget.lessonId, type);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Material baixado com sucesso!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao baixar material: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   Widget _buildLessonContent() {
@@ -900,152 +1142,6 @@ class _CommentCard extends StatelessWidget {
                     ],
                   ),
                 ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _QuickActionsBar extends StatefulWidget {
-  const _QuickActionsBar();
-
-  @override
-  State<_QuickActionsBar> createState() => _QuickActionsBarState();
-}
-
-class _QuickActionsBarState extends State<_QuickActionsBar> {
-  bool _isLiked = false;
-  bool _isSaved = false;
-  bool _isCompleted = false;
-
-  void _showNotesSheet() {
-    showAyaBottomSheet(
-      context: context,
-      title: 'Anotações',
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              maxLines: 5,
-              decoration: InputDecoration(
-                hintText: 'Digite suas anotações aqui...',
-                filled: true,
-                fillColor: AyaColors.lavenderSoft30,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // TODO: Integrar salvar anotações com Supabase
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Anotações salvas com sucesso!'),
-                    backgroundColor: Colors.green,
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AyaColors.primary,
-                foregroundColor: Colors.white,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: const Text('Salvar'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildActionButton(
-            icon: _isLiked ? Icons.favorite : Icons.favorite_border,
-            label: 'Curtir',
-            onTap: () {
-              setState(() => _isLiked = !_isLiked);
-              // TODO: Integrar curtir com Supabase
-            },
-          ),
-          _buildActionButton(
-            icon: _isSaved ? Icons.bookmark : Icons.bookmark_border,
-            label: 'Salvar',
-            onTap: () {
-              setState(() => _isSaved = !_isSaved);
-              // TODO: Integrar salvar com Supabase
-            },
-          ),
-          _buildActionButton(
-            icon: Icons.edit_note,
-            label: 'Anotações',
-            onTap: _showNotesSheet,
-          ),
-          _buildActionButton(
-            icon:
-                _isCompleted ? Icons.check_circle : Icons.check_circle_outline,
-            label: 'Concluir',
-            onTap: () {
-              setState(() => _isCompleted = !_isCompleted);
-              // TODO: Integrar concluir com Supabase
-              if (_isCompleted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Aula marcada como concluída!'),
-                    backgroundColor: Colors.green,
-                  ),
-                );
-              }
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildActionButton({
-    required IconData icon,
-    required String label,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              color: AyaColors.lavenderVibrant,
-              size: 24,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: const TextStyle(
-                color: AyaColors.textSecondary,
-                fontSize: 12,
-                fontFamily: 'Sans-serif',
               ),
             ),
           ],
