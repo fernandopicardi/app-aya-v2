@@ -122,7 +122,8 @@ class _LessonPageState extends State<LessonPage> {
                             const SizedBox(width: 16),
                             _buildMetadataItem(
                               icon: Icons.signal_cellular_alt_outlined,
-                              text: widget.lesson.difficulty!,
+                              text:
+                                  _getDifficultyText(widget.lesson.difficulty!),
                             ),
                           ],
                         ],
@@ -610,5 +611,16 @@ class _LessonPageState extends State<LessonPage> {
         ),
       ),
     );
+  }
+
+  String _getDifficultyText(LessonDifficulty difficulty) {
+    switch (difficulty) {
+      case LessonDifficulty.beginner:
+        return 'Iniciante';
+      case LessonDifficulty.intermediate:
+        return 'Intermediário';
+      case LessonDifficulty.advanced:
+        return 'Avançado';
+    }
   }
 }

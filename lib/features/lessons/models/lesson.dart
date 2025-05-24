@@ -7,6 +7,12 @@ enum ContentType {
   pdf,
 }
 
+enum LessonDifficulty {
+  beginner,
+  intermediate,
+  advanced,
+}
+
 class ComplementaryMaterial {
   final String name;
   final String fileType;
@@ -29,7 +35,7 @@ class Lesson {
   final String thumbnailUrl;
   final String duration;
   final ContentType contentType;
-  final String? difficulty;
+  final LessonDifficulty? difficulty;
   final bool isPremium;
   final int studentsCount;
   final List<ComplementaryMaterial> complementaryMaterials;
@@ -63,7 +69,7 @@ class Lesson {
         thumbnailUrl: 'https://picsum.photos/800/400',
         contentType: ContentType.video,
         duration: '45 min',
-        difficulty: 'Iniciante',
+        difficulty: LessonDifficulty.beginner,
         isPremium: false,
         studentsCount: 1234,
         complementaryMaterials: [
@@ -84,7 +90,7 @@ class Lesson {
           thumbnailUrl: 'https://picsum.photos/seed/lesson2/800/450',
           duration: '30 min',
           contentType: ContentType.video,
-          difficulty: 'Iniciante',
+          difficulty: LessonDifficulty.beginner,
           isPremium: false,
           studentsCount: 0,
         ),
@@ -100,7 +106,7 @@ class Lesson {
         thumbnailUrl: 'https://picsum.photos/800/402',
         contentType: ContentType.audio,
         duration: '30 min',
-        difficulty: 'Avançado',
+        difficulty: LessonDifficulty.advanced,
         isPremium: true,
         studentsCount: 567,
         complementaryMaterials: [
@@ -122,7 +128,7 @@ class Lesson {
         thumbnailUrl: 'https://picsum.photos/seed/lesson4/800/450',
         duration: '20 min',
         contentType: ContentType.audio,
-        difficulty: 'Iniciante',
+        difficulty: LessonDifficulty.beginner,
         isPremium: false,
         studentsCount: 0,
       ),
@@ -137,7 +143,7 @@ class Lesson {
         thumbnailUrl: 'https://picsum.photos/800/403',
         contentType: ContentType.richText,
         duration: '20 min',
-        difficulty: 'Intermediário',
+        difficulty: LessonDifficulty.intermediate,
         isPremium: false,
         studentsCount: 432,
         complementaryMaterials: [
@@ -160,7 +166,7 @@ class Lesson {
         thumbnailUrl: 'https://picsum.photos/800/404',
         contentType: ContentType.pdf,
         duration: '40 min',
-        difficulty: 'Avançado',
+        difficulty: LessonDifficulty.advanced,
         isPremium: true,
         studentsCount: 321,
         complementaryMaterials: [
@@ -182,7 +188,7 @@ class Lesson {
         thumbnailUrl: 'https://picsum.photos/seed/lesson7/800/450',
         duration: '90 min',
         contentType: ContentType.pdf,
-        difficulty: 'Avançado',
+        difficulty: LessonDifficulty.advanced,
         isPremium: false,
         studentsCount: 0,
         complementaryMaterials: [
