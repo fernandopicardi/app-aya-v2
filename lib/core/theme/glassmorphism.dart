@@ -69,8 +69,8 @@ class Glassmorphism extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          AyaColors.glassHighlight.withOpacity(0.5),
-                          AyaColors.glassHighlight.withOpacity(0.0),
+                          AyaColors.glassHighlight.withValues(alpha: 0.5),
+                          AyaColors.glassHighlight.withValues(alpha: 0.0),
                         ],
                       ),
                     ),

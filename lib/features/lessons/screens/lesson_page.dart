@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_theme.dart';
+// TODO: Implement custom icons
+// import '../../../core/theme/aya_icons.dart';
+import '../../../widgets/aya_premium_icon.dart';
 import '../widgets/aya_video_player.dart';
 import '../widgets/aya_audio_player.dart';
 import '../widgets/aya_rich_text_viewer.dart';
 import '../widgets/aya_pdf_viewer.dart';
 import '../models/lesson.dart';
+// TODO: Implement iconoir icons
+// import 'package:iconoir_flutter/iconoir_flutter.dart' as iconoir;
 
 class LessonPage extends StatefulWidget {
   final Lesson lesson;
@@ -457,10 +462,11 @@ class _LessonPageState extends State<LessonPage> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(
-          icon,
+        AyaPremiumIcon(
+          icon: icon,
           size: 16,
-          color: AyaColors.textPrimary60,
+          borderRadius: 8,
+          padding: const EdgeInsets.all(4),
         ),
         const SizedBox(width: 4),
         Text(
@@ -524,13 +530,15 @@ class _LessonPageState extends State<LessonPage> {
   IconData _getContentTypeIcon() {
     switch (widget.lesson.contentType) {
       case ContentType.video:
-        return Icons.play_circle_outline;
+        return Icons.videocam_outlined;
       case ContentType.audio:
-        return Icons.headphones_outlined;
+        return Icons.audiotrack_outlined;
       case ContentType.richText:
         return Icons.article_outlined;
       case ContentType.pdf:
         return Icons.picture_as_pdf_outlined;
+      default:
+        return Icons.article_outlined;
     }
   }
 
@@ -544,6 +552,8 @@ class _LessonPageState extends State<LessonPage> {
         return 'Artigo';
       case ContentType.pdf:
         return 'PDF';
+      default:
+        return 'Conteúdo';
     }
   }
 
@@ -579,15 +589,20 @@ class _LessonPageState extends State<LessonPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              color: isActive ? AyaColors.turquoise : AyaColors.textPrimary,
+            AyaPremiumIcon(
+              icon: icon,
+              isActive: isActive,
+              size: 22,
+              borderRadius: 8,
+              padding: const EdgeInsets.all(4),
             ),
             const SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(
-                color: isActive ? AyaColors.turquoise : AyaColors.textPrimary,
+                color: isActive
+                    ? AyaColors.lavenderVibrant
+                    : AyaColors.textPrimary,
                 fontSize: 12,
               ),
             ),

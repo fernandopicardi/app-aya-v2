@@ -3,6 +3,7 @@ import 'package:app_aya_v2/core/theme/app_theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
+import '../../../core/theme/aya_icons.dart';
 
 class UserDashboardPage extends StatefulWidget {
   const UserDashboardPage({super.key});
@@ -147,15 +148,15 @@ class _UserDashboardPageState extends State<UserDashboardPage> {
   IconData _getIconForType(CardType type) {
     switch (type) {
       case CardType.recommended:
-        return Icons.star;
+        return AyaIcons.star;
       case CardType.category:
-        return Icons.category;
+        return AyaIcons.category;
       case CardType.favorite:
-        return Icons.favorite;
+        return AyaIcons.favorite;
       case CardType.community:
-        return Icons.people;
+        return AyaIcons.community;
       case CardType.ia:
-        return Icons.psychology;
+        return AyaIcons.ai;
     }
   }
 

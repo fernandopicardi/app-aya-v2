@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:ui';
 
 class AyaColors {
   // Base Colors
@@ -61,6 +62,13 @@ class AyaColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
+
+  // Glassmorphism-specific colors
+  static const Color glassBackground = Color(0x1A474C72); // 10% opacity
+  static const Color glassBorder = Color(0x1AF8F8FF); // 10% opacity
+  static const Color glassHighlight = Color(0x1AFFFFFF); // 10% opacity
+  static const Color glassShadow = Color(0x40000000); // 25% opacity
+  static const Color glassInnerBorder = Color(0x0DFFFFFF); // 5% opacity
 }
 
 class AyaTypography {
@@ -110,6 +118,13 @@ class AyaTypography {
         height: _tightLineHeight,
         letterSpacing: _tightLetterSpacing,
         color: AyaColors.textPrimary,
+        shadows: [
+          Shadow(
+            color: AyaColors.black60,
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       displayMedium: TextStyle(
         fontSize: _getScaledFontSize(40, context),
@@ -236,13 +251,13 @@ class AyaTheme {
         onError: AyaColors.textPrimary,
       ),
 
-      // Scaffold
+      // Enhanced Scaffold
       scaffoldBackgroundColor: AyaColors.background,
 
-      // Typography
+      // Enhanced Typography
       textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
 
-      // AppBar Theme
+      // Enhanced AppBar Theme
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -252,15 +267,29 @@ class AyaTheme {
           fontSize: 20,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.15,
+          shadows: [
+            Shadow(
+              color: AyaColors.black60,
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
         iconTheme: IconThemeData(
           color: AyaColors.textPrimary,
+          shadows: [
+            Shadow(
+              color: AyaColors.black60,
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
       ),
 
-      // Card Theme
+      // Enhanced Card Theme
       cardTheme: ThemeData.dark().cardTheme.copyWith(
-            color: AyaColors.surface,
+            color: AyaColors.glassBackground,
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
@@ -268,10 +297,10 @@ class AyaTheme {
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           ),
 
-      // Button Theme
+      // Enhanced Button Theme
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AyaColors.turquoise,
+          backgroundColor: AyaColors.turquoise.withValues(alpha: 0.9),
           foregroundColor: AyaColors.textPrimary,
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -281,21 +310,28 @@ class AyaTheme {
           textStyle: GoogleFonts.roboto(
             fontSize: 16,
             fontWeight: FontWeight.w500,
+            shadows: [
+              Shadow(
+                color: AyaColors.black60,
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
         ),
       ),
 
-      // Input Decoration Theme
+      // Enhanced Input Decoration Theme
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AyaColors.backgroundGradientEnd,
+        fillColor: AyaColors.glassBackground,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AyaColors.lavenderSoft),
+          borderSide: BorderSide(color: AyaColors.glassBorder),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AyaColors.lavenderSoft),
+          borderSide: BorderSide(color: AyaColors.glassBorder),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -313,18 +349,18 @@ class AyaTheme {
         ),
       ),
 
-      // Bottom Navigation Bar Theme
+      // Enhanced Bottom Navigation Bar Theme
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: AyaColors.background,
+        backgroundColor: AyaColors.glassBackground,
         selectedItemColor: AyaColors.turquoise,
         unselectedItemColor: AyaColors.textPrimary50,
         type: BottomNavigationBarType.fixed,
-        elevation: 8,
+        elevation: 0,
       ),
 
-      // Dialog Theme
+      // Enhanced Dialog Theme
       dialogTheme: ThemeData.dark().dialogTheme.copyWith(
-            backgroundColor: AyaColors.surface,
+            backgroundColor: AyaColors.glassBackground,
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
@@ -333,18 +369,44 @@ class AyaTheme {
               color: AyaColors.textPrimary,
               fontSize: 20,
               fontWeight: FontWeight.w600,
+              shadows: [
+                Shadow(
+                  color: AyaColors.black60,
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
             contentTextStyle: GoogleFonts.inter(
               color: AyaColors.textPrimary,
               fontSize: 16,
+              shadows: [
+                Shadow(
+                  color: AyaColors.black60,
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
           ),
 
-      // Divider Theme
+      // Enhanced Divider Theme
       dividerTheme: DividerThemeData(
-        color: AyaColors.lavenderSoft30,
+        color: AyaColors.glassBorder,
         thickness: 1,
         space: 24,
+      ),
+
+      // Enhanced Icon Theme
+      iconTheme: IconThemeData(
+        color: AyaColors.textPrimary,
+        shadows: [
+          Shadow(
+            color: AyaColors.black60,
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
     );
   }

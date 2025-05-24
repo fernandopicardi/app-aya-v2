@@ -3,6 +3,7 @@ import '../../features/dashboard/screens/dashboard_screen.dart';
 import '../../features/lessons/screens/lessons_list_screen.dart';
 import '../../features/lessons/screens/lesson_page.dart';
 import '../../features/lessons/models/lesson.dart';
+import '../../features/auth/services/auth_service.dart';
 
 class AppRouter {
   static const String dashboard = '/dashboard';
@@ -13,7 +14,10 @@ class AppRouter {
     switch (settings.name) {
       case dashboard:
         return MaterialPageRoute(
-          builder: (_) => const DashboardScreen(),
+          builder: (_) => DashboardScreen(
+            authService: AuthService(),
+            child: const HomeTabWidget(),
+          ),
         );
       case lessons:
         return MaterialPageRoute(

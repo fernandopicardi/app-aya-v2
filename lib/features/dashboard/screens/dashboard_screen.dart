@@ -1,21 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// TODO: Implement system services
+// import 'package:flutter/services.dart';
 import 'dart:ui';
 import '../../../core/theme/app_theme.dart';
 import '../../../features/auth/services/auth_service.dart';
-import '../widgets/aya_app_bar.dart';
-import '../widgets/aya_bottom_nav.dart';
+// TODO: Implement app bar
+// import '../widgets/aya_app_bar.dart';
+// TODO: Implement bottom nav
+// import '../widgets/aya_bottom_nav.dart';
 import '../widgets/aya_drawer.dart';
 import '../../lessons/screens/lessons_list_screen.dart';
-import '../../../core/theme/app_constants.dart';
+// TODO: Implement app constants
 import 'package:shimmer/shimmer.dart';
-import '../../../widgets/aya_button.dart';
+// TODO: Implement custom button
+// import '../../../widgets/aya_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/rendering.dart';
-import '../../../core/widgets/aya_bottom_sheet.dart';
-import '../../../features/dashboard/services/dashboard_service.dart';
+// TODO: Implement rendering features
+// import 'package:flutter/rendering.dart';
+// TODO: Implement bottom sheet
+// import '../../../core/widgets/aya_bottom_sheet.dart';
+// TODO: Implement dashboard service
+// import '../../../features/dashboard/services/dashboard_service.dart';
 import 'package:go_router/go_router.dart';
 import '../../../widgets/aya_glass_container.dart';
+
+// TODO: Move to app_constants.dart
+class AppConstants {
+  static const double radius32 = 32.0;
+}
 
 class GlassmorphicAppBar extends StatelessWidget
     implements PreferredSizeWidget {
@@ -71,10 +83,12 @@ class GlassmorphicAppBar extends StatelessWidget
 
 class DashboardScreen extends StatefulWidget {
   final AuthService authService;
+  final Widget child;
 
   const DashboardScreen({
     super.key,
     required this.authService,
+    required this.child,
   });
 
   @override
@@ -111,6 +125,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
     },
   ];
 
+  void _onItemSelected(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    // Update URL based on selected index
+    switch (index) {
+      case 0:
+        context.go('/dashboard');
+        break;
+      case 1:
+        context.go('/dashboard/library');
+        break;
+      case 2:
+        context.go('/dashboard/community');
+        break;
+      case 3:
+        context.go('/dashboard/chat');
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,6 +177,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       drawer: AyaDrawer(
         authService: widget.authService,
+        selectedIndex: _selectedIndex,
+        onItemSelected: _onItemSelected,
       ),
       body: Stack(
         children: [
@@ -150,15 +188,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               borderRadius: 16,
               blurRadius: 10,
               padding: const EdgeInsets.all(16),
-              child: IndexedStack(
-                index: _selectedIndex,
-                children: const [
-                  HomeTabWidget(),
-                  LibraryTabWidget(),
-                  CommunityTabWidget(),
-                  ChatTabWidget(),
-                ],
-              ),
+              child: widget.child,
             ),
           ),
           Positioned(
@@ -171,15 +201,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
               padding: EdgeInsets.zero,
               child: BottomNavigationBar(
                 currentIndex: _selectedIndex,
-                onTap: (index) {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
-                },
+                onTap: _onItemSelected,
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 selectedItemColor: AyaColors.turquoise,
-                unselectedItemColor: AyaColors.textPrimary.withOpacity(0.5),
+                unselectedItemColor:
+                    AyaColors.textPrimary.withValues(alpha: 0.5),
                 items: const [
                   BottomNavigationBarItem(
                     icon: Icon(Icons.home_outlined),
@@ -274,8 +301,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   children: [
                     // Background Image with Blur
                     ClipRRect(
-                      borderRadius:
-                          BorderRadius.circular(AppConstants.radius32),
+                      borderRadius: BorderRadius.circular(32.0),
                       child: ImageFiltered(
                         imageFilter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                         child: CachedNetworkImage(
@@ -300,8 +326,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     // Glassy Overlay
                     Container(
                       decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(AppConstants.radius32),
+                        borderRadius: BorderRadius.circular(32.0),
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
@@ -368,14 +393,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
-                                  AyaColors.lavenderVibrant.withOpacity(0.8),
-                                  AyaColors.lavenderSoft.withOpacity(0.9),
+                                  AyaColors.lavenderVibrant
+                                      .withValues(alpha: 0.8),
+                                  AyaColors.lavenderSoft.withValues(alpha: 0.9),
                                 ],
                               ),
                               boxShadow: [
                                 BoxShadow(
                                   color: AyaColors.lavenderVibrant
-                                      .withOpacity(0.3),
+                                      .withValues(alpha: 0.3),
                                   blurRadius: 8,
                                   offset: const Offset(0, 4),
                                 ),
@@ -452,7 +478,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 boxShadow: selected
                     ? [
                         BoxShadow(
-                          color: AyaColors.lavenderVibrant.withOpacity(0.3),
+                          color:
+                              AyaColors.lavenderVibrant.withValues(alpha: 0.3),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
@@ -740,7 +767,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           color: AyaColors.lavenderVibrant30,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: AyaColors.lavenderVibrant.withOpacity(0.3),
+            color: AyaColors.lavenderVibrant.withValues(alpha: 0.3),
             width: 1,
           ),
         ),
@@ -769,7 +796,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           color: AyaColors.turquoise30,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: AyaColors.turquoise.withOpacity(0.3),
+            color: AyaColors.turquoise.withValues(alpha: 0.3),
             width: 1,
           ),
         ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:app_aya_v2/core/theme/app_theme.dart';
 import '../core/services/animations_service.dart';
+// TODO: Implement premium icon
+// import 'aya_premium_icon.dart';
 
 enum AyaInputVariant {
   text,

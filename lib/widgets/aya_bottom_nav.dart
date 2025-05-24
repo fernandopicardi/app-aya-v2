@@ -1,141 +1,103 @@
 import 'package:flutter/material.dart';
-import 'package:app_aya_v2/core/theme/app_theme.dart';
+import 'package:iconoir_flutter/iconoir_flutter.dart' as iconoir;
+import '../core/theme/app_theme.dart';
+import 'aya_premium_icon.dart';
+
+class AyaBottomNavItem {
+  final String label;
+  final Widget iconoirIcon;
+  final Widget selectedIconoirIcon;
+
+  const AyaBottomNavItem({
+    required this.label,
+    required this.iconoirIcon,
+    required this.selectedIconoirIcon,
+  });
+}
 
 class AyaBottomNav extends StatelessWidget {
   final int currentIndex;
   final List<AyaBottomNavItem> items;
-  final ValueChanged<int> onTap;
-  final bool showLabels;
+  final Function(int) onTap;
 
   const AyaBottomNav({
     super.key,
     required this.currentIndex,
     required this.items,
     required this.onTap,
-    this.showLabels = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AyaColors.background,
-            AyaColors.backgroundGradientEnd,
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: AyaColors.overlayDark,
-            blurRadius: 8,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: List.generate(
-              items.length,
-              (index) => _buildNavItem(index),
-            ),
+        color: AyaColors.surface.withValues(alpha: 0.8),
+        border: Border(
+          top: BorderSide(
+            color: AyaColors.lavenderVibrant.withValues(alpha: 0.1),
+            width: 1,
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildNavItem(int index) {
-    final item = items[index];
-    final isSelected = index == currentIndex;
-
-    return GestureDetector(
-      onTap: () => onTap(index),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          gradient: isSelected
-              ? LinearGradient(
-                  colors: [
-                    Color.fromRGBO(
-                        AyaColors.lavenderVibrant.r.round(),
-                        AyaColors.lavenderVibrant.g.round(),
-                        AyaColors.lavenderVibrant.b.round(),
-                        0.2),
-                    Color.fromRGBO(
-                        AyaColors.softBlue.r.round(),
-                        AyaColors.softBlue.g.round(),
-                        AyaColors.softBlue.b.round(),
-                        0.2),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                )
-              : null,
-          borderRadius: BorderRadius.circular(12),
+      child: BottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: onTap,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: AyaColors.lavenderVibrant,
+        unselectedItemColor: AyaColors.textPrimary,
+        selectedLabelStyle: const TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: 12,
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              isSelected ? item.selectedIcon : item.icon,
-              color: isSelected ? AyaColors.turquoise : AyaColors.textPrimary50,
+        unselectedLabelStyle: const TextStyle(
+          fontWeight: FontWeight.normal,
+          fontSize: 12,
+        ),
+        items: items.asMap().entries.map((entry) {
+          final i = entry.key;
+          final item = entry.value;
+          final isSelected = i == currentIndex;
+          return BottomNavigationBarItem(
+            icon: AyaPremiumIcon(
+              customIcon:
+                  isSelected ? item.selectedIconoirIcon : item.iconoirIcon,
+              isActive: isSelected,
               size: 24,
+              borderRadius: 12,
+              padding: const EdgeInsets.all(8),
             ),
-            if (showLabels) ...[
-              const SizedBox(height: 4),
-              Text(
-                item.label,
-                style: TextStyle(
-                  color: isSelected
-                      ? AyaColors.turquoise
-                      : AyaColors.textPrimary50,
-                  fontSize: 12,
-                  fontWeight: isSelected ? FontWeight.w500 : FontWeight.normal,
-                ),
-              ),
-            ],
-          ],
-        ),
+            label: item.label,
+          );
+        }).toList(),
       ),
     );
   }
-}
-
-class AyaBottomNavItem {
-  final String label;
-  final IconData icon;
-  final IconData selectedIcon;
-
-  const AyaBottomNavItem({
-    required this.label,
-    required this.icon,
-    required this.selectedIcon,
-  });
 }
 
 // Extension to make it easier to create common bottom nav layouts
 extension AyaBottomNavBuilder on AyaBottomNav {
   static List<AyaBottomNavItem> get defaultItems => [
-        const AyaBottomNavItem(
+        AyaBottomNavItem(
           label: 'Home',
-          icon: Icons.home_outlined,
-          selectedIcon: Icons.home,
+          iconoirIcon: const iconoir.Home(),
+          selectedIconoirIcon: const iconoir.Home(),
         ),
-        const AyaBottomNavItem(
-          label: 'Explore',
-          icon: Icons.explore_outlined,
-          selectedIcon: Icons.explore,
+        AyaBottomNavItem(
+          label: 'Biblioteca',
+          iconoirIcon: const iconoir.Book(),
+          selectedIconoirIcon: const iconoir.Book(),
         ),
-        const AyaBottomNavItem(
-          label: 'Profile',
-          icon: Icons.person_outline,
-          selectedIcon: Icons.person,
+        AyaBottomNavItem(
+          label: 'Comunidade',
+          iconoirIcon: const iconoir.Group(),
+          selectedIconoirIcon: const iconoir.Group(),
+        ),
+        AyaBottomNavItem(
+          label: 'Aya Chat',
+          iconoirIcon: const iconoir.ChatBubble(),
+          selectedIconoirIcon: const iconoir.ChatBubble(),
         ),
       ];
 }

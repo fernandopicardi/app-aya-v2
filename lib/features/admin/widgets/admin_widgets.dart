@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/admin_models.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/theme/aya_icons.dart';
+import '../../../widgets/aya_premium_icon.dart';
 
 class AdminStatsCard extends StatelessWidget {
   final AdminStats stats;
@@ -212,13 +215,15 @@ class AdminContentListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(
-        content.type == 'module'
-            ? Icons.folder
+      leading: AyaPremiumIcon(
+        icon: content.type == 'module'
+            ? AyaIcons.folder
             : content.type == 'folder'
-                ? Icons.folder_open
-                : Icons.article,
-        color: Theme.of(context).colorScheme.primary,
+                ? AyaIcons.folderOpen
+                : AyaIcons.article,
+        size: 22,
+        borderRadius: 8,
+        padding: const EdgeInsets.all(4),
       ),
       title: Text(content.title),
       subtitle: Text(
@@ -229,12 +234,20 @@ class AdminContentListTile extends StatelessWidget {
         children: [
           if (onEdit != null)
             IconButton(
-              icon: const Icon(Icons.edit),
+              icon: AyaPremiumIcon(
+                  icon: AyaIcons.edit,
+                  size: 20,
+                  borderRadius: 6,
+                  padding: EdgeInsets.all(2)),
               onPressed: onEdit,
             ),
           if (onDelete != null)
             IconButton(
-              icon: const Icon(Icons.delete),
+              icon: AyaPremiumIcon(
+                  icon: AyaIcons.delete,
+                  size: 20,
+                  borderRadius: 6,
+                  padding: EdgeInsets.all(2)),
               onPressed: onDelete,
             ),
         ],

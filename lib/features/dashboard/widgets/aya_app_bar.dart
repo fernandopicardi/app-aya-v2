@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
+import 'package:iconoir_flutter/iconoir_flutter.dart' as iconoir;
 import '../../../core/theme/app_theme.dart';
+import '../../../widgets/aya_premium_icon.dart';
 
 class AyaAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
@@ -45,9 +47,12 @@ class AyaAppBar extends StatelessWidget implements PreferredSizeWidget {
             elevation: 0,
             leading: showMenu
                 ? IconButton(
-                    icon: Icon(
-                      Icons.menu,
-                      color: AyaColors.textPrimary,
+                    icon: AyaPremiumIcon(
+                      customIcon: const iconoir.Menu(),
+                      isActive: false,
+                      size: 24,
+                      borderRadius: 12,
+                      padding: const EdgeInsets.all(8),
                     ),
                     onPressed: onMenuPressed,
                   )
@@ -64,9 +69,12 @@ class AyaAppBar extends StatelessWidget implements PreferredSizeWidget {
             centerTitle: true,
             actions: [
               IconButton(
-                icon: Icon(
-                  Icons.search,
-                  color: AyaColors.textPrimary,
+                icon: AyaPremiumIcon(
+                  customIcon: const iconoir.Search(),
+                  isActive: false,
+                  size: 24,
+                  borderRadius: 12,
+                  padding: const EdgeInsets.all(8),
                 ),
                 onPressed: () {
                   // TODO: Implement search
@@ -75,9 +83,12 @@ class AyaAppBar extends StatelessWidget implements PreferredSizeWidget {
               Stack(
                 children: [
                   IconButton(
-                    icon: Icon(
-                      Icons.notifications_outlined,
-                      color: AyaColors.textPrimary,
+                    icon: AyaPremiumIcon(
+                      customIcon: const iconoir.Bell(),
+                      isActive: false,
+                      size: 24,
+                      borderRadius: 12,
+                      padding: const EdgeInsets.all(8),
                     ),
                     onPressed: () {
                       // TODO: Implement notifications
@@ -94,7 +105,7 @@ class AyaAppBar extends StatelessWidget implements PreferredSizeWidget {
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                             colors: [
-                              AyaColors.lavenderVibrant,
+                              AyaColors.lavenderVibrant.withValues(alpha: 0.3),
                               AyaColors.turquoise,
                             ],
                           ),

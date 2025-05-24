@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app_aya_v2/core/theme/app_theme.dart';
 import '../core/services/animations_service.dart';
+import 'aya_premium_icon.dart';
 
 enum AyaSnackbarVariant {
   info,
@@ -80,10 +81,12 @@ class AyaSnackbar extends StatelessWidget {
                 if (showCloseIcon)
                   AnimationsService.fadeIn(
                     IconButton(
-                      icon: const Icon(
-                        Icons.close,
-                        color: AyaColors.textPrimary,
-                        size: 20,
+                      icon: AyaPremiumIcon(
+                        icon: Icons.close,
+                        isActive: true,
+                        size: 22,
+                        borderRadius: 8,
+                        padding: const EdgeInsets.all(4),
                       ),
                       onPressed: () {
                         ScaffoldMessenger.of(context).hideCurrentSnackBar();

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:app_aya_v2/core/theme/app_theme.dart';
 import '../core/services/animations_service.dart';
 import 'aya_button.dart';
+import 'aya_premium_icon.dart';
 
 enum AyaDialogVariant {
   info,
@@ -66,10 +67,12 @@ class AyaDialog extends StatelessWidget {
                   alignment: Alignment.topRight,
                   child: AnimationsService.fadeIn(
                     IconButton(
-                      icon: const Icon(
-                        Icons.close,
-                        color: AyaColors.textPrimary,
-                        size: 20,
+                      icon: AyaPremiumIcon(
+                        icon: Icons.close,
+                        isActive: true,
+                        size: 22,
+                        borderRadius: 8,
+                        padding: const EdgeInsets.all(4),
                       ),
                       onPressed: () => Navigator.of(context).pop(),
                     ),

@@ -4,6 +4,10 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/glassmorphism.dart';
 import '../models/lesson.dart';
 import 'lesson_page.dart';
+// TODO: Implement custom icons
+// import '../../../core/theme/aya_icons.dart';
+import '../../../widgets/aya_premium_icon.dart';
+import 'package:iconoir_flutter/iconoir_flutter.dart' as iconoir;
 
 class LessonsListScreen extends StatefulWidget {
   const LessonsListScreen({super.key});
@@ -90,6 +94,23 @@ class _LessonsListScreenState extends State<LessonsListScreen> {
 
   Widget _buildFilterChip(ContentType? type, String label) {
     final isSelected = _selectedFilter == type;
+    Widget iconoirIcon;
+    switch (type) {
+      case ContentType.video:
+        iconoirIcon = const iconoir.VideoCamera();
+        break;
+      case ContentType.audio:
+        iconoirIcon = const iconoir.MusicDoubleNote();
+        break;
+      case ContentType.richText:
+        iconoirIcon = const iconoir.Book();
+        break;
+      case ContentType.pdf:
+        iconoirIcon = const iconoir.PageSearch();
+        break;
+      default:
+        iconoirIcon = const iconoir.Filter();
+    }
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: GestureDetector(
@@ -103,30 +124,33 @@ class _LessonsListScreenState extends State<LessonsListScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
               color: isSelected
-                  ? AyaColors.turquoise.withOpacity(0.2)
+                  ? AyaColors.lavenderVibrant.withValues(alpha: 0.12)
                   : Colors.transparent,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: isSelected ? AyaColors.turquoise : AyaColors.glassBorder,
+                color: isSelected
+                    ? AyaColors.lavenderVibrant
+                    : AyaColors.textPrimary40,
+                width: 1.5,
               ),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  _getContentTypeIcon(type),
-                  size: 16,
-                  color: isSelected
-                      ? AyaColors.turquoise
-                      : AyaColors.textPrimary60,
+                AyaPremiumIcon(
+                  customIcon: iconoirIcon,
+                  isActive: isSelected,
+                  size: 18,
+                  borderRadius: 12,
+                  padding: const EdgeInsets.all(2),
                 ),
                 const SizedBox(width: 8),
                 Text(
                   label,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: isSelected
-                            ? AyaColors.turquoise
-                            : AyaColors.textPrimary60,
+                            ? AyaColors.lavenderVibrant
+                            : AyaColors.textPrimary,
                         fontWeight:
                             isSelected ? FontWeight.w600 : FontWeight.normal,
                       ),
@@ -140,10 +164,26 @@ class _LessonsListScreenState extends State<LessonsListScreen> {
   }
 
   Widget _buildLessonCard(Lesson lesson) {
+    Widget iconoirIcon;
+    switch (lesson.contentType) {
+      case ContentType.video:
+        iconoirIcon = const iconoir.VideoCamera();
+        break;
+      case ContentType.audio:
+        iconoirIcon = const iconoir.MusicDoubleNote();
+        break;
+      case ContentType.richText:
+        iconoirIcon = const iconoir.Book();
+        break;
+      case ContentType.pdf:
+        iconoirIcon = const iconoir.PageSearch();
+        break;
+      default:
+        iconoirIcon = const iconoir.Book();
+    }
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
+        Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => LessonPage(lesson: lesson),
           ),
@@ -167,17 +207,18 @@ class _LessonsListScreenState extends State<LessonsListScreen> {
                   color: AyaColors.lavenderSoft,
                   child: const Center(
                     child: CircularProgressIndicator(
-                      color: AyaColors.turquoise,
+                      color: AyaColors.lavenderVibrant,
                     ),
                   ),
                 ),
                 errorWidget: (context, url, error) => Container(
                   height: 200,
                   color: AyaColors.lavenderSoft,
-                  child: const Icon(
-                    Icons.image_not_supported,
-                    color: AyaColors.textPrimary,
+                  child: AyaPremiumIcon(
+                    customIcon: iconoir.Book(),
                     size: 48,
+                    borderRadius: 16,
+                    padding: const EdgeInsets.all(8),
                   ),
                 ),
               ),
@@ -190,10 +231,12 @@ class _LessonsListScreenState extends State<LessonsListScreen> {
                 children: [
                   Row(
                     children: [
-                      Icon(
-                        _getContentTypeIcon(lesson.contentType),
-                        size: 16,
-                        color: AyaColors.turquoise,
+                      AyaPremiumIcon(
+                        customIcon: iconoirIcon,
+                        isActive: lesson.isPremium,
+                        size: 18,
+                        borderRadius: 12,
+                        padding: const EdgeInsets.all(2),
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -210,16 +253,31 @@ class _LessonsListScreenState extends State<LessonsListScreen> {
                             vertical: 4,
                           ),
                           decoration: BoxDecoration(
-                            color: AyaColors.turquoise.withOpacity(0.2),
+                            color: AyaColors.lavenderVibrant
+                                .withValues(alpha: 0.15),
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: Text(
-                            'Premium',
-                            style:
-                                Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: AyaColors.turquoise,
+                          child: Row(
+                            children: [
+                              AyaPremiumIcon(
+                                customIcon: const iconoir.Crown(),
+                                isActive: true,
+                                size: 16,
+                                borderRadius: 8,
+                                padding: EdgeInsets.all(2),
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                'Premium',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                      color: AyaColors.lavenderVibrant,
                                       fontWeight: FontWeight.w600,
                                     ),
+                              ),
+                            ],
                           ),
                         ),
                     ],
@@ -245,19 +303,20 @@ class _LessonsListScreenState extends State<LessonsListScreen> {
                   Row(
                     children: [
                       _buildMetadataItem(
-                        icon: Icons.access_time,
+                        customIcon: const iconoir.Clock(),
                         text: lesson.duration,
                       ),
                       const SizedBox(width: 16),
                       _buildMetadataItem(
-                        icon: Icons.people,
+                        customIcon: const iconoir.User(),
                         text: '${lesson.studentsCount} alunos',
                       ),
                       const Spacer(),
-                      Icon(
-                        Icons.arrow_forward_ios,
+                      AyaPremiumIcon(
+                        customIcon: const iconoir.ArrowRight(),
                         size: 16,
-                        color: AyaColors.textPrimary60,
+                        borderRadius: 8,
+                        padding: EdgeInsets.all(2),
                       ),
                     ],
                   ),
@@ -271,16 +330,19 @@ class _LessonsListScreenState extends State<LessonsListScreen> {
   }
 
   Widget _buildMetadataItem({
-    required IconData icon,
+    IconData? icon,
+    Widget? customIcon,
     required String text,
   }) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(
-          icon,
+        AyaPremiumIcon(
+          icon: icon,
+          customIcon: customIcon,
           size: 16,
-          color: AyaColors.textPrimary60,
+          borderRadius: 8,
+          padding: EdgeInsets.all(2),
         ),
         const SizedBox(width: 4),
         Text(
@@ -291,21 +353,6 @@ class _LessonsListScreenState extends State<LessonsListScreen> {
         ),
       ],
     );
-  }
-
-  IconData _getContentTypeIcon(ContentType? type) {
-    switch (type) {
-      case ContentType.video:
-        return Icons.play_circle_outline;
-      case ContentType.audio:
-        return Icons.headphones;
-      case ContentType.richText:
-        return Icons.article;
-      case ContentType.pdf:
-        return Icons.picture_as_pdf;
-      default:
-        return Icons.library_books;
-    }
   }
 
   String _getContentTypeLabel(ContentType type) {

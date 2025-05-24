@@ -6,6 +6,9 @@ import 'package:app_aya_v2/widgets/aya_bottom_nav.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'admin_menu.dart';
 import 'package:app_aya_v2/features/auth/services/auth_service.dart';
+import 'package:app_aya_v2/widgets/aya_glass_container.dart';
+import 'package:app_aya_v2/widgets/aya_glass_dialog.dart';
+import 'package:iconoir_flutter/iconoir_flutter.dart' as iconoir;
 
 import 'sections/admin_dashboard_overview.dart';
 // TODO: Criar este componente/página
@@ -20,8 +23,57 @@ import 'sections/admin_content_section.dart';
 // import 'sections/admin_gamification_section.dart';
 // TODO: Criar este componente/página
 // import 'sections/admin_logs_section.dart';
-// TODO: Criar este componente/página
-// import 'sections/admin_settings_section.dart';
+import 'sections/admin_settings_section.dart';
+
+class GlassmorphicAppBar extends StatelessWidget
+    implements PreferredSizeWidget {
+  final String title;
+  final List<Widget>? actions;
+  final Widget? leading;
+  final bool centerTitle;
+  final double elevation;
+
+  const GlassmorphicAppBar({
+    super.key,
+    required this.title,
+    this.actions,
+    this.leading,
+    this.centerTitle = true,
+    this.elevation = 0,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AyaGlassContainer(
+      borderRadius: 0,
+      blurRadius: 15,
+      padding: EdgeInsets.zero,
+      child: AppBar(
+        title: Text(
+          title,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            color: AyaColors.textPrimary,
+            shadows: [
+              Shadow(
+                color: AyaColors.black60,
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+        ),
+        backgroundColor: Colors.transparent,
+        centerTitle: centerTitle,
+        leading: leading,
+        actions: actions,
+        elevation: elevation,
+      ),
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
 
 class AdminDashboardPage extends StatefulWidget {
   const AdminDashboardPage({super.key});
@@ -36,20 +88,20 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   int _selectedIndex = 0;
 
   final List<AyaBottomNavItem> _navItems = [
-    const AyaBottomNavItem(
+    AyaBottomNavItem(
       label: 'Dashboard',
-      icon: Icons.dashboard_outlined,
-      selectedIcon: Icons.dashboard,
+      iconoirIcon: const iconoir.Dashboard(),
+      selectedIconoirIcon: const iconoir.Dashboard(),
     ),
-    const AyaBottomNavItem(
+    AyaBottomNavItem(
       label: 'Users',
-      icon: Icons.people_outline,
-      selectedIcon: Icons.people,
+      iconoirIcon: const iconoir.Group(),
+      selectedIconoirIcon: const iconoir.Group(),
     ),
-    const AyaBottomNavItem(
+    AyaBottomNavItem(
       label: 'Settings',
-      icon: Icons.settings_outlined,
-      selectedIcon: Icons.settings,
+      iconoirIcon: const iconoir.Settings(),
+      selectedIconoirIcon: const iconoir.Settings(),
     ),
   ];
 
@@ -61,7 +113,6 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
 
   Future<void> _loadData() async {
     try {
-      // Simular carregamento
       await Future.delayed(const Duration(seconds: 1));
       if (mounted) {
         setState(() {
@@ -86,8 +137,12 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.toString())),
+        showDialog(
+          context: context,
+          builder: (context) => AyaGlassAlertDialog(
+            title: 'Erro',
+            message: e.toString(),
+          ),
         );
       }
     }
@@ -110,9 +165,8 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
       // TODO: Criar este componente/página
       // case 5:
       //   return const AdminLogsSection();
-      // TODO: Criar este componente/página
-      // case 6:
-      //   return const AdminSettingsSection();
+      case 6:
+        return const AdminSettingsSection();
       default:
         return const AdminDashboardOverview();
     }
@@ -121,54 +175,103 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
+      return Scaffold(
+        backgroundColor: AyaColors.background,
         body: Center(
-          child: CircularProgressIndicator(),
+          child: AyaGlassContainer(
+            borderRadius: 16,
+            blurRadius: 15,
+            padding: const EdgeInsets.all(24),
+            child: const CircularProgressIndicator(),
+          ),
         ),
       );
     }
+
     if (!_isAdmin) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Admin')),
-        body: const Center(
-            child: Text('Acesso restrito apenas para administradores.')),
+        backgroundColor: AyaColors.background,
+        appBar: GlassmorphicAppBar(title: 'Admin'),
+        body: Center(
+          child: AyaGlassContainer(
+            borderRadius: 16,
+            blurRadius: 15,
+            padding: const EdgeInsets.all(24),
+            child: const Text(
+              'Acesso restrito apenas para administradores.',
+              style: TextStyle(
+                color: AyaColors.textPrimary,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ),
       );
     }
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Painel de Administração'),
-        backgroundColor: AyaColors.turquoise,
+      backgroundColor: AyaColors.background,
+      appBar: GlassmorphicAppBar(
+        title: 'Painel de Administração',
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: _handleSignOut,
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AyaGlassConfirmDialog(
+                  title: 'Sair',
+                  message: 'Tem certeza que deseja sair?',
+                  onConfirm: _handleSignOut,
+                ),
+              );
+            },
           ),
         ],
       ),
-      drawer: AdminMenu(
-        selectedIndex: _selectedIndex,
-        onItemSelected: (i) => setState(() => _selectedIndex = i),
+      drawer: AyaGlassContainer(
+        borderRadius: 0,
+        blurRadius: 15,
+        padding: EdgeInsets.zero,
+        child: AdminMenu(
+          selectedIndex: _selectedIndex,
+          onItemSelected: (i) => setState(() => _selectedIndex = i),
+        ),
       ),
-      bottomNavigationBar: AyaBottomNav(
-        currentIndex: _selectedIndex,
-        items: _navItems,
-        onTap: (index) => setState(() => _selectedIndex = index),
+      bottomNavigationBar: AyaGlassContainer(
+        borderRadius: 0,
+        blurRadius: 15,
+        padding: EdgeInsets.zero,
+        child: AyaBottomNav(
+          currentIndex: _selectedIndex,
+          items: _navItems,
+          onTap: (index) => setState(() => _selectedIndex = index),
+        ),
       ),
-      backgroundColor: AyaColors.background,
       body: Row(
         children: [
           if (MediaQuery.of(context).size.width > 900)
             SizedBox(
               width: 240,
-              child: AdminMenu(
-                selectedIndex: _selectedIndex,
-                onItemSelected: (i) => setState(() => _selectedIndex = i),
+              child: AyaGlassContainer(
+                borderRadius: 0,
+                blurRadius: 15,
+                padding: EdgeInsets.zero,
+                child: AdminMenu(
+                  selectedIndex: _selectedIndex,
+                  onItemSelected: (i) => setState(() => _selectedIndex = i),
+                ),
               ),
             ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(24),
-              child: _getSection(_selectedIndex),
+              child: AyaGlassContainer(
+                borderRadius: 16,
+                blurRadius: 15,
+                padding: const EdgeInsets.all(24),
+                child: _getSection(_selectedIndex),
+              ),
             ),
           ),
         ],

@@ -76,6 +76,7 @@ dependencies:
   video_player: ^2.9.5
   syncfusion_flutter_pdfviewer: ^29.2.5
   flutter_html: ^3.0.0-beta.2
+  iconoir_flutter: ^7.11.0
 
 dev_dependencies:
   flutter_test:

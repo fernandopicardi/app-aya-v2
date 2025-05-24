@@ -147,7 +147,7 @@ class _LessonPageState extends State<LessonPage> {
               MediaQuery.of(context).size.width * 0.5625, // 16:9 aspect ratio
           width: double.infinity,
           decoration: BoxDecoration(
-            color: AyaColors.surface.withAlpha(128), // 50% opacity
+            color: AyaColors.surface.withValues(alpha: 0.5),
             borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(32),
               bottomRight: Radius.circular(32),
@@ -690,7 +690,7 @@ class _LessonPageState extends State<LessonPage> {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: AyaColors.primary.withAlpha(30),
+                        color: AyaColors.primary.withValues(alpha: 30),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: SizedBox(
@@ -727,7 +727,7 @@ class _LessonPageState extends State<LessonPage> {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: Colors.green.withAlpha(30),
+                        color: Colors.green.withValues(alpha: 30),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: IconButton(
@@ -749,7 +749,7 @@ class _LessonPageState extends State<LessonPage> {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: AyaColors.primary.withAlpha(30),
+                        color: AyaColors.primary.withValues(alpha: 30),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: IconButton(
@@ -777,7 +777,7 @@ class _LessonPageState extends State<LessonPage> {
         Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: AyaColors.primary.withAlpha(30),
+            color: AyaColors.primary.withValues(alpha: 30),
             borderRadius: BorderRadius.circular(12),
           ),
           child: IconButton(

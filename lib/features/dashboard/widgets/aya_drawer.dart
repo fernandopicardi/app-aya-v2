@@ -1,253 +1,160 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../features/auth/services/auth_service.dart';
+import 'package:iconoir_flutter/iconoir_flutter.dart' as iconoir;
 
-class AyaDrawer extends StatefulWidget {
+class AyaDrawer extends StatelessWidget {
   final AuthService authService;
-  final bool isAdmin;
+  final int selectedIndex;
+  final Function(int) onItemSelected;
 
   const AyaDrawer({
     super.key,
     required this.authService,
-    this.isAdmin = false,
+    required this.selectedIndex,
+    required this.onItemSelected,
   });
 
   @override
-  State<AyaDrawer> createState() => _AyaDrawerState();
-}
-
-class _AyaDrawerState extends State<AyaDrawer> {
-  @override
   Widget build(BuildContext context) {
-    final user = widget.authService.getCurrentUser();
-    final isAdmin = user?.userMetadata?['role'] == 'admin';
-
-    return ClipRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Drawer(
-          backgroundColor: AyaColors.surface.withValues(alpha: 0.8),
-          child: Container(
+    return Drawer(
+      backgroundColor: AyaColors.surface.withValues(alpha: 0.8),
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          DrawerHeader(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  AyaColors.surface.withValues(alpha: 0.9),
-                  AyaColors.surface.withValues(alpha: 0.7),
-                ],
-              ),
-              border: Border(
-                right: BorderSide(
-                  color: AyaColors.lavenderVibrant.withValues(alpha: 0.1),
-                  width: 1,
-                ),
-              ),
+              color: AyaColors.lavenderVibrant.withValues(alpha: 0.1),
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildHeader(user),
-                Expanded(
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    children: [
-                      _buildMenuItem(
-                        icon: Icons.home_outlined,
-                        selectedIcon: Icons.home,
-                        label: 'Home',
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      _buildMenuItem(
-                        icon: Icons.library_books_outlined,
-                        selectedIcon: Icons.library_books,
-                        label: 'Biblioteca',
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      _buildMenuItem(
-                        icon: Icons.people_outline,
-                        selectedIcon: Icons.people,
-                        label: 'Comunidade',
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      _buildMenuItem(
-                        icon: Icons.smart_toy_outlined,
-                        selectedIcon: Icons.smart_toy,
-                        label: 'Aya Chat',
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      const Divider(
-                        color: AyaColors.lavenderSoft,
-                        height: 32,
-                      ),
-                      if (isAdmin)
-                        _buildMenuItem(
-                          icon: Icons.admin_panel_settings_outlined,
-                          selectedIcon: Icons.admin_panel_settings,
-                          label: 'Admin',
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      _buildMenuItem(
-                        icon: Icons.settings_outlined,
-                        selectedIcon: Icons.settings,
-                        label: 'Configurações',
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      _buildMenuItem(
-                        icon: Icons.help_outline,
-                        selectedIcon: Icons.help,
-                        label: 'Ajuda',
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      _buildMenuItem(
-                        icon: Icons.logout,
-                        selectedIcon: Icons.logout,
-                        label: 'Sair',
-                        onTap: () async {
-                          final navigator = Navigator.of(context);
-                          await widget.authService.signOut();
-                          if (mounted) {
-                            navigator.pop();
-                          }
-                        },
-                      ),
-                    ],
+                CircleAvatar(
+                  radius: 30,
+                  backgroundColor:
+                      AyaColors.lavenderVibrant.withValues(alpha: 0.2),
+                  child: const iconoir.User(
+                    color: AyaColors.textPrimary,
                   ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  authService.getCurrentUser()?.email ?? 'Usuário',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: AyaColors.textPrimary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+                Text(
+                  'Premium',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: AyaColors.textPrimary.withValues(alpha: 0.6),
+                      ),
                 ),
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeader(User? user) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            AyaColors.lavenderVibrant.withValues(alpha: 0.2),
-            AyaColors.turquoise.withValues(alpha: 0.2),
-          ],
-        ),
-      ),
-      child: Column(
-        children: [
-          CircleAvatar(
-            radius: 40,
-            backgroundColor: AyaColors.lavenderVibrant.withValues(alpha: 0.2),
-            child: ClipOval(
-              child: CachedNetworkImage(
-                imageUrl: user?.userMetadata?['avatar_url'] ?? '',
-                width: 80,
-                height: 80,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => Container(
-                  color: AyaColors.lavenderSoft,
-                  child: const Icon(
-                    Icons.person,
-                    size: 40,
-                    color: AyaColors.textPrimary,
-                  ),
-                ),
-                errorWidget: (context, url, error) => Container(
-                  color: AyaColors.lavenderSoft,
-                  child: const Icon(
-                    Icons.person,
-                    size: 40,
-                    color: AyaColors.textPrimary,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            user?.userMetadata?['full_name'] ?? 'Usuário AYA',
-            style: const TextStyle(
+          _buildDrawerItem(
+            context,
+            icon: const iconoir.Home(
               color: AyaColors.textPrimary,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
             ),
+            title: 'Home',
+            index: 0,
           ),
-          const SizedBox(height: 4),
-          Text(
-            user?.email ?? '',
-            style: TextStyle(
-              color: AyaColors.textPrimary.withValues(alpha: 0.7),
-              fontSize: 14,
+          _buildDrawerItem(
+            context,
+            icon: const iconoir.Book(
+              color: AyaColors.textPrimary,
             ),
+            title: 'Biblioteca',
+            index: 1,
+          ),
+          _buildDrawerItem(
+            context,
+            icon: const iconoir.Group(
+              color: AyaColors.textPrimary,
+            ),
+            title: 'Comunidade',
+            index: 2,
+          ),
+          _buildDrawerItem(
+            context,
+            icon: const iconoir.ChatBubble(
+              color: AyaColors.textPrimary,
+            ),
+            title: 'Aya Chat',
+            index: 3,
+          ),
+          const Divider(color: AyaColors.textPrimary40),
+          _buildDrawerItem(
+            context,
+            icon: const iconoir.Settings(
+              color: AyaColors.textPrimary,
+            ),
+            title: 'Configurações',
+            onTap: () => context.go('/admin/settings'),
+          ),
+          _buildDrawerItem(
+            context,
+            icon: const iconoir.LogOut(
+              color: AyaColors.textPrimary,
+            ),
+            title: 'Sair',
+            onTap: () => context.go('/login'),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildMenuItem({
-    required IconData icon,
-    required IconData selectedIcon,
-    required String label,
-    required VoidCallback onTap,
+  Widget _buildDrawerItem(
+    BuildContext context, {
+    required Widget icon,
+    required String title,
+    int? index,
+    VoidCallback? onTap,
   }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      AyaColors.lavenderVibrant.withValues(alpha: 0.1),
-                      AyaColors.turquoise.withValues(alpha: 0.1),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  icon,
-                  color: AyaColors.textPrimary,
-                  size: 24,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Text(
-                label,
-                style: const TextStyle(
-                  color: AyaColors.textPrimary,
-                  fontSize: 16,
-                ),
-              ),
-            ],
+    final isSelected = index != null && index == selectedIndex;
+
+    return ListTile(
+      leading: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? AyaColors.lavenderVibrant.withValues(alpha: 0.1)
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isSelected
+                ? AyaColors.lavenderVibrant
+                : AyaColors.textPrimary40,
+            width: 1.5,
           ),
         ),
+        child: icon,
       ),
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: isSelected
+                  ? AyaColors.lavenderVibrant
+                  : AyaColors.textPrimary,
+              fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+            ),
+      ),
+      selected: isSelected,
+      selectedTileColor: AyaColors.lavenderVibrant.withValues(alpha: 0.1),
+      hoverColor: AyaColors.lavenderVibrant.withValues(alpha: 0.05),
+      onTap: () {
+        if (onTap != null) {
+          onTap();
+        } else if (index != null) {
+          onItemSelected(index);
+        }
+        Navigator.pop(context);
+      },
     );
   }
 }

@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'core/routes/app_router.dart';
+// TODO: Implement app theme
 import 'core/theme/app_theme.dart';
+// TODO: Implement routes
+import 'routes.dart';
+// TODO: Implement auth service
+import 'features/auth/services/auth_service.dart';
+// TODO: Implement dashboard service
+// import 'features/dashboard/services/dashboard_service.dart';
+// TODO: Implement lessons service
+// import 'features/lessons/services/lessons_service.dart';
+// TODO: Implement community service
+// import 'features/community/services/community_service.dart';
+// TODO: Implement chat service
+// import 'features/chat/services/chat_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,11 +31,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'AYA',
+    return MaterialApp.router(
+      title: 'Aya',
       theme: AyaTheme.theme,
-      onGenerateRoute: AppRouter.generateRoute,
-      initialRoute: AppRouter.dashboard,
+      themeMode: ThemeMode.system,
+      routerConfig: Routes.router,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
