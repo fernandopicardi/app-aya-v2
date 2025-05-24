@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../features/auth/services/auth_service.dart';
-import '../widgets/dashboard_widgets.dart';
 import '../widgets/aya_app_bar.dart';
 import '../widgets/aya_bottom_nav.dart';
 import '../widgets/aya_drawer.dart';
-import '../widgets/aya_cards.dart';
-import '../../../core/routes/app_router.dart';
 import '../../lessons/screens/lessons_list_screen.dart';
 import '../../../core/theme/app_constants.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../widgets/aya_button.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -116,19 +112,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildChatTab() {
-    return const Center(child: Text('Chat IA'));
+    return const Center(child: Text('Aya Chat'));
   }
 
   Widget _buildProfileTab() {
     return CustomScrollView(
       slivers: [
-        const SliverAppBar(
-          title: Text('Meu Perfil'),
-          floating: true,
-          snap: true,
-          backgroundColor: AyaColors.surface,
-          foregroundColor: AyaColors.textPrimary,
-        ),
         SliverPadding(
           padding: const EdgeInsets.all(16),
           sliver: SliverList(
@@ -163,11 +152,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ClipRRect(
                       borderRadius:
                           BorderRadius.circular(AppConstants.radius32),
-                      child: Image.network(
-                        slide['img']!,
+                      child: CachedNetworkImage(
+                        imageUrl: slide['img']!,
                         width: double.infinity,
                         height: double.infinity,
                         fit: BoxFit.cover,
+                        placeholder: (context, url) => Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[100]!,
+                          child: Container(
+                            color: Colors.white,
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          color: Colors.grey[300],
+                          child: const Icon(Icons.error),
+                        ),
                       ),
                     ),
                     Container(
@@ -175,10 +175,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         borderRadius:
                             BorderRadius.circular(AppConstants.radius32),
                         gradient: LinearGradient(
-                          colors: [
-                            Colors.black.withOpacity(0.6),
-                            Colors.transparent
-                          ],
+                          colors: [AyaColors.black60, Colors.transparent],
                           begin: Alignment.bottomCenter,
                           end: Alignment.topCenter,
                         ),
@@ -202,13 +199,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           const SizedBox(height: 8),
                           Text(
                             slide['desc']!,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.copyWith(
-                                  color:
-                                      AyaColors.textPrimary.withOpacity(0.85),
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                      color: AyaColors.white85,
+                                    ),
                           ),
                           const SizedBox(height: 16),
                           AyaButton(
@@ -294,7 +288,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(
-                      color: AyaColors.overlayDark.withOpacity(0.10),
+                      color: AyaColors.overlayDark,
                       blurRadius: 12,
                       offset: const Offset(0, 6),
                     ),
@@ -310,27 +304,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             topLeft: Radius.circular(24),
                             topRight: Radius.circular(24),
                           ),
-                          child: CachedNetworkImage(
-                            imageUrl: lesson['img']!,
+                          child: Image.network(
+                            lesson['img']!,
                             width: 160,
                             height: 110,
                             fit: BoxFit.cover,
-                            placeholder: (context, url) => Shimmer.fromColors(
-                              baseColor: AyaColors.lavenderSoft,
-                              highlightColor: AyaColors.lavenderVibrant,
-                              child: Container(
-                                width: 160,
-                                height: 110,
-                                color: AyaColors.lavenderSoft,
-                              ),
-                            ),
-                            errorWidget: (context, url, error) => Container(
-                              width: 160,
-                              height: 110,
-                              color: AyaColors.lavenderSoft,
-                              child: const Icon(Icons.broken_image,
-                                  color: Colors.white54),
-                            ),
                           ),
                         ),
                         Positioned(
@@ -348,8 +326,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            AyaColors.surface.withOpacity(0.7),
-                            AyaColors.surface.withOpacity(0.5),
+                            AyaColors.surface70,
+                            AyaColors.surface50,
                           ],
                         ),
                         borderRadius: const BorderRadius.only(
@@ -442,7 +420,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(
-                      color: AyaColors.overlayDark.withOpacity(0.10),
+                      color: AyaColors.overlayDark,
                       blurRadius: 12,
                       offset: const Offset(0, 6),
                     ),
@@ -458,27 +436,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             topLeft: Radius.circular(24),
                             topRight: Radius.circular(24),
                           ),
-                          child: CachedNetworkImage(
-                            imageUrl: lesson['img']!,
+                          child: Image.network(
+                            lesson['img']!,
                             width: 160,
                             height: 110,
                             fit: BoxFit.cover,
-                            placeholder: (context, url) => Shimmer.fromColors(
-                              baseColor: AyaColors.lavenderSoft,
-                              highlightColor: AyaColors.lavenderVibrant,
-                              child: Container(
-                                width: 160,
-                                height: 110,
-                                color: AyaColors.lavenderSoft,
-                              ),
-                            ),
-                            errorWidget: (context, url, error) => Container(
-                              width: 160,
-                              height: 110,
-                              color: AyaColors.lavenderSoft,
-                              child: const Icon(Icons.broken_image,
-                                  color: Colors.white54),
-                            ),
                           ),
                         ),
                         Positioned(
@@ -496,8 +458,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            AyaColors.surface.withOpacity(0.7),
-                            AyaColors.surface.withOpacity(0.5),
+                            AyaColors.surface70,
+                            AyaColors.surface50,
                           ],
                         ),
                         borderRadius: const BorderRadius.only(
@@ -548,7 +510,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          color: AyaColors.lavenderVibrant.withOpacity(0.3),
+          color: AyaColors.lavenderVibrant30,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
@@ -575,7 +537,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          color: AyaColors.turquoise.withOpacity(0.3),
+          color: AyaColors.turquoise30,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Text(

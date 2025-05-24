@@ -192,7 +192,7 @@ class Lesson {
         description:
             'Um guia abrangente sobre diferentes técnicas de meditação e como incorporá-las em sua rotina diária.',
         contentUrl:
-            'https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf',
+            'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
         thumbnailUrl: 'https://picsum.photos/seed/lesson6/800/450',
         duration: '60 min',
         contentType: ContentType.pdf,
@@ -212,7 +212,7 @@ class Lesson {
         description:
             'Um manual detalhado com práticas espirituais para diferentes níveis de experiência.',
         contentUrl:
-            'https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf',
+            'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
         thumbnailUrl: 'https://picsum.photos/seed/lesson7/800/450',
         duration: '90 min',
         contentType: ContentType.pdf,

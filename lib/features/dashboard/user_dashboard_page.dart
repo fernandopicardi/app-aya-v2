@@ -201,7 +201,7 @@ class _WebSidebar extends StatelessWidget {
       {'icon': Icons.home, 'label': 'Dashboard'},
       {'icon': Icons.library_books, 'label': 'Biblioteca'},
       {'icon': Icons.forum, 'label': 'Comunidade'},
-      {'icon': Icons.smart_toy, 'label': 'Chat IA'},
+      {'icon': Icons.smart_toy, 'label': 'Aya Chat'},
       {'icon': Icons.person, 'label': 'Perfil'},
     ];
     return Container(
@@ -253,7 +253,7 @@ class _AyaBottomNavBar extends StatelessWidget {
       {'icon': Icons.home, 'label': 'Dashboard'},
       {'icon': Icons.library_books, 'label': 'Biblioteca'},
       {'icon': Icons.forum, 'label': 'Comunidade'},
-      {'icon': Icons.smart_toy, 'label': 'Chat IA'},
+      {'icon': Icons.smart_toy, 'label': 'Aya Chat'},
       {'icon': Icons.person, 'label': 'Perfil'},
     ];
     return BottomNavigationBar(

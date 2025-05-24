@@ -21,7 +21,7 @@ class AyaButton extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
 
   const AyaButton({
-    Key? key,
+    super.key,
     required this.text,
     this.onPressed,
     this.variant = AyaButtonVariant.primary,
@@ -31,7 +31,7 @@ class AyaButton extends StatefulWidget {
     this.width,
     this.height = 48,
     this.padding,
-  }) : super(key: key);
+  });
 
   @override
   State<AyaButton> createState() => _AyaButtonState();

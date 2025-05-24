@@ -29,7 +29,7 @@ class AyaBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AyaColors.surface,
+        color: AyaColors.surface.withAlpha(230),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(

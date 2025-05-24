@@ -15,12 +15,12 @@ class AyaLoading extends StatelessWidget {
   final String? message;
 
   const AyaLoading({
-    Key? key,
+    super.key,
     this.variant = AyaLoadingVariant.spinner,
     this.size = 24,
     this.color,
     this.message,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

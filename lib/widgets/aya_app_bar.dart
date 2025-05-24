@@ -18,7 +18,7 @@ class AyaAppBar extends StatelessWidget implements PreferredSizeWidget {
   final PreferredSizeWidget? bottom;
 
   const AyaAppBar({
-    Key? key,
+    super.key,
     required this.title,
     this.actions,
     this.leading,
@@ -26,7 +26,7 @@ class AyaAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.variant = AyaAppBarVariant.primary,
     this.elevation = 0,
     this.bottom,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

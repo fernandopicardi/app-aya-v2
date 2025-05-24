@@ -8,12 +8,12 @@ class AyaBottomNav extends StatelessWidget {
   final bool showLabels;
 
   const AyaBottomNav({
-    Key? key,
+    super.key,
     required this.currentIndex,
     required this.items,
     required this.onTap,
     this.showLabels = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

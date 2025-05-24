@@ -11,7 +11,7 @@ class AuthService extends ChangeNotifier {
   // ignore: unused_field
   final _googleSignIn = GoogleSignIn();
   User? _user;
-  bool _isLoading = false;
+  final bool _isLoading = false;
   String? _error;
 
   AuthService() {

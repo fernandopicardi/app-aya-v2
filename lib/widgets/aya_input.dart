@@ -34,7 +34,7 @@ class AyaInput extends StatefulWidget {
   final EdgeInsetsGeometry? contentPadding;
 
   const AyaInput({
-    Key? key,
+    super.key,
     this.label,
     this.hint,
     this.error,
@@ -55,7 +55,7 @@ class AyaInput extends StatefulWidget {
     this.textAlign = TextAlign.start,
     this.focusNode,
     this.contentPadding,
-  }) : super(key: key);
+  });
 
   @override
   State<AyaInput> createState() => _AyaInputState();

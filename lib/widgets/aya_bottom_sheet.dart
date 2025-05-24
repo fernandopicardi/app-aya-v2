@@ -50,7 +50,6 @@ class AyaBottomSheet extends StatelessWidget {
           backgroundColor: Colors.transparent,
           isScrollControlled: true,
           builder: (context) => AyaBottomSheet(
-            child: child,
             title: title,
             actions: actions,
             showDragHandle: showDragHandle,
@@ -58,6 +57,7 @@ class AyaBottomSheet extends StatelessWidget {
             maxHeight: maxHeight,
             padding: padding,
             variant: variant,
+            child: child,
           ),
         );
 
@@ -68,13 +68,13 @@ class AyaBottomSheet extends StatelessWidget {
           enableDrag: enableDrag,
           backgroundColor: Colors.transparent,
           builder: (context) => AyaBottomSheet(
-            child: child,
             title: title,
             actions: actions,
             showDragHandle: showDragHandle,
             backgroundColor: backgroundColor,
             maxHeight: maxHeight,
             padding: padding,
+            child: child,
           ),
         );
     }

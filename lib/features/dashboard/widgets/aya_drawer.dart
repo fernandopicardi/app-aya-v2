@@ -4,17 +4,24 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../features/auth/services/auth_service.dart';
 
-class AyaDrawer extends StatelessWidget {
+class AyaDrawer extends StatefulWidget {
   final AuthService authService;
+  final bool isAdmin;
 
   const AyaDrawer({
     super.key,
     required this.authService,
+    this.isAdmin = false,
   });
 
   @override
+  State<AyaDrawer> createState() => _AyaDrawerState();
+}
+
+class _AyaDrawerState extends State<AyaDrawer> {
+  @override
   Widget build(BuildContext context) {
-    final user = authService.getCurrentUser();
+    final user = widget.authService.getCurrentUser();
     final isAdmin = user?.userMetadata?['role'] == 'admin';
 
     return Drawer(
@@ -89,10 +96,9 @@ class AyaDrawer extends StatelessWidget {
                   icon: Icons.logout,
                   title: 'Sair',
                   onTap: () async {
-                    await authService.signOut();
-                    if (context.mounted) {
-                      Navigator.pushReplacementNamed(context, '/login');
-                    }
+                    await widget.authService.signOut();
+                    if (!mounted) return;
+                    Navigator.pushReplacementNamed(context, '/login');
                   },
                 ),
               ],

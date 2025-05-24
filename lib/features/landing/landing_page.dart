@@ -266,9 +266,10 @@ class _LandingPageState extends State<LandingPage> {
                                                           'Exception: ', '');
                                                 });
                                               } finally {
-                                                if (mounted)
+                                                if (mounted) {
                                                   setState(
                                                       () => _isLoading = false);
+                                                }
                                               }
                                             },
                                       icon: const Icon(Icons.g_mobiledata,
@@ -312,9 +313,10 @@ class _LandingPageState extends State<LandingPage> {
                                                           'Exception: ', '');
                                                 });
                                               } finally {
-                                                if (mounted)
+                                                if (mounted) {
                                                   setState(
                                                       () => _isLoading = false);
+                                                }
                                               }
                                             },
                                       icon: const Icon(Icons.apple,
@@ -539,9 +541,10 @@ class _LandingPageState extends State<LandingPage> {
                                                       'Exception: ', '');
                                             });
                                           } finally {
-                                            if (mounted)
+                                            if (mounted) {
                                               setState(
                                                   () => _isLoading = false);
+                                            }
                                           }
                                         },
                                   icon: const Icon(Icons.g_mobiledata,
@@ -583,9 +586,10 @@ class _LandingPageState extends State<LandingPage> {
                                                       'Exception: ', '');
                                             });
                                           } finally {
-                                            if (mounted)
+                                            if (mounted) {
                                               setState(
                                                   () => _isLoading = false);
+                                            }
                                           }
                                         },
                                   icon: const Icon(Icons.apple,

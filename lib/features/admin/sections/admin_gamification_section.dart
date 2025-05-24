@@ -368,7 +368,7 @@ class _AdminGamificationSectionState extends State<AdminGamificationSection>
       builder: (context) => AlertDialog(
         title:
             Text('Confirmar Exclusão de ${isChallenge ? "Desafio" : "Badge"}'),
-        content: Text('Tem certeza que deseja excluir "${title}"?'),
+        content: Text('Tem certeza que deseja excluir "$title"?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),

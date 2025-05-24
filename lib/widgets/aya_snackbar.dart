@@ -18,14 +18,14 @@ class AyaSnackbar extends StatelessWidget {
   final bool showCloseIcon;
 
   const AyaSnackbar({
-    Key? key,
+    super.key,
     required this.message,
     this.variant = AyaSnackbarVariant.info,
     this.actionLabel,
     this.onAction,
     this.duration = const Duration(seconds: 4),
     this.showCloseIcon = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

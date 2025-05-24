@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:ui' as ui;
 import 'package:app_aya_v2/core/theme/app_theme.dart';
 import 'package:app_aya_v2/features/content/services/lesson_service.dart';
 import 'package:app_aya_v2/core/widgets/aya_bottom_sheet.dart';
@@ -148,7 +147,7 @@ class _LessonPageState extends State<LessonPage> {
               MediaQuery.of(context).size.width * 0.5625, // 16:9 aspect ratio
           width: double.infinity,
           decoration: BoxDecoration(
-            color: AyaColors.surface,
+            color: AyaColors.surface.withAlpha(128), // 50% opacity
             borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(32),
               bottomRight: Radius.circular(32),
@@ -176,7 +175,7 @@ class _LessonPageState extends State<LessonPage> {
                     end: Alignment.bottomCenter,
                     colors: [
                       Colors.transparent,
-                      Colors.black.withOpacity(0.7),
+                      AyaColors.black70,
                     ],
                   ),
                 ),
@@ -214,7 +213,7 @@ class _LessonPageState extends State<LessonPage> {
                             min: 0,
                             max: playbackState.duration.inSeconds.toDouble(),
                             activeColor: AyaColors.primary,
-                            inactiveColor: Colors.white.withOpacity(0.3),
+                            inactiveColor: AyaColors.white30,
                             onChanged: (value) {
                               _lessonService.seekTo(
                                 widget.lessonId,
@@ -473,7 +472,7 @@ class _LessonPageState extends State<LessonPage> {
                   margin:
                       const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF474C72),
+                    color: AyaColors.black50,
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(32),
                       bottomRight: Radius.circular(32),
@@ -533,7 +532,7 @@ class _LessonPageState extends State<LessonPage> {
                                     max: playbackState.duration.inSeconds
                                         .toDouble(),
                                     activeColor: const Color(0xFFACA1EF),
-                                    inactiveColor: Colors.white.withAlpha(40),
+                                    inactiveColor: AyaColors.white40,
                                     onChanged: (value) {
                                       _lessonService.seekTo(
                                         widget.lessonId,

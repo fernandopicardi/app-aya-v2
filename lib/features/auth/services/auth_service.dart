@@ -44,19 +44,17 @@ class AuthService {
   User? getCurrentUser() {
     _logger.debug('AuthService: getCurrentUser called');
     if (_mockIsAuthenticated) {
-      if (_mockUser == null) {
-        _mockUser = User(
-          id: 'default_mock_user_id',
-          appMetadata: {'provider': 'email'},
-          userMetadata: {
-            'username': 'mockUser',
-            'role': 'user',
-            'email': 'mock@example.com',
-          },
-          aud: 'authenticated',
-          createdAt: DateTime.now().toIso8601String(),
-        );
-      }
+      _mockUser ??= User(
+        id: 'default_mock_user_id',
+        appMetadata: {'provider': 'email'},
+        userMetadata: {
+          'username': 'mockUser',
+          'role': 'user',
+          'email': 'mock@example.com',
+        },
+        aud: 'authenticated',
+        createdAt: DateTime.now().toIso8601String(),
+      );
       return _mockUser;
     }
     return _auth.currentUser;
@@ -241,6 +239,7 @@ class AuthService {
           OAuthProvider.google,
           redirectTo: redirectUrl,
         );
+        return null; // OAuth flow will handle the redirect
       } else {
         // TODO: Reativar e utilizar para implementação OAuth
         // final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
@@ -263,6 +262,7 @@ class AuthService {
         // );
 
         // return response.user;
+        return null; // Temporary return for mocked implementation
       }
     } on AuthException catch (e) {
       _logger.error('AuthService signInWithGoogle Error', e);
@@ -304,6 +304,7 @@ class AuthService {
           OAuthProvider.apple,
           redirectTo: redirectUrl,
         );
+        return null; // OAuth flow will handle the redirect
       } else {
         final credential = await SignInWithApple.getAppleIDCredential(
           scopes: [

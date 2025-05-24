@@ -36,7 +36,7 @@ class AyaBottomNav extends StatelessWidget {
           _buildNavItem(
               Icons.library_books_outlined, Icons.library_books, 'Biblioteca'),
           _buildNavItem(Icons.people_outline, Icons.people, 'Comunidade'),
-          _buildNavItem(Icons.smart_toy_outlined, Icons.smart_toy, 'Chat IA'),
+          _buildNavItem(Icons.smart_toy_outlined, Icons.smart_toy, 'Aya Chat'),
           _buildNavItem(Icons.person_outline, Icons.person, 'Perfil'),
         ],
       ),

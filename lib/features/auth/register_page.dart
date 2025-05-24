@@ -41,23 +41,22 @@ class _RegisterPageState extends State<RegisterPage> {
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
-        if (mounted) {
-          GoRouter.of(context).go(AppRouter.login);
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text('Registro realizado com sucesso! Faça o login.')),
-          );
-        }
+        if (!mounted) return;
+        GoRouter.of(context).go(AppRouter.login);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('Registro realizado com sucesso! Faça o login.')),
+        );
       } catch (e) {
+        if (!mounted) return;
         setState(() {
           _errorMessage = e.toString().replaceFirst('Exception: ', '');
         });
       } finally {
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
-        }
+        if (!mounted) return;
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }
@@ -108,7 +107,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     const SizedBox(height: 32),
                     // Name field (Optional, can be added)
                     // TextField(
-                    //   style: const TextStyle(color: AppTheme.textPrimary),
+                    //   style: const TextStyle(color: AyaColors.textPrimary),
                     //   decoration: InputDecoration(
                     //     hintText: 'Seu nome',
                     //     hintStyle: TextStyle(color: AyaColors.textPrimary60),

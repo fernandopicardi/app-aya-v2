@@ -19,14 +19,14 @@ class AyaDialog extends StatelessWidget {
   final double? maxWidth;
 
   const AyaDialog({
-    Key? key,
+    super.key,
     required this.title,
     required this.content,
     this.actions,
     this.showCloseButton = true,
     this.width,
     this.maxWidth,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

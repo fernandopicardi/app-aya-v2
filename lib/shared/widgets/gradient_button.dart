@@ -13,7 +13,7 @@ class GradientButton extends StatelessWidget {
   final EdgeInsetsGeometry padding;
 
   const GradientButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.onPressed,
     this.isLoading = false,
@@ -22,7 +22,7 @@ class GradientButton extends StatelessWidget {
     this.height = 48,
     this.borderRadius = 12,
     this.padding = const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -22,7 +22,7 @@ class AyaCard extends StatelessWidget {
   final List<BoxShadow>? boxShadow;
 
   const AyaCard({
-    Key? key,
+    super.key,
     required this.child,
     this.variant = AyaCardVariant.ui,
     this.padding,
@@ -34,7 +34,7 @@ class AyaCard extends StatelessWidget {
     this.borderOpacity = 0.20,
     this.borderRadius = 16.0,
     this.boxShadow,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

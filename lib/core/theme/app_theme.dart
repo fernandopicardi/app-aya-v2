@@ -36,6 +36,19 @@ class AyaColors {
   static const Color overlayDark = Color(0x66000000); // 40% opacity
   static const Color overlayLight = Color(0x66FFFFFF); // 40% opacity
 
+  // New Colors with Opacity
+  static const Color surface70 = Color(0xB3474C72); // 70% opacity
+  static const Color surface50 = Color(0x80474C72); // 50% opacity
+  static const Color surface20 = Color(0x33474C72); // 20% opacity
+  static const Color lavenderVibrant30 = Color(0x4DACA1EF); // 30% opacity
+  static const Color turquoise30 = Color(0x4D78C7B4); // 30% opacity
+  static const Color black60 = Color(0x99000000); // 60% opacity
+  static const Color black70 = Color(0xB3000000); // 70% opacity
+  static const Color black50 = Color(0x80000000);
+  static const Color white30 = Color(0x4DFFFFFF); // 30% opacity
+  static const Color white85 = Color(0xD9FFFFFF); // 85% opacity
+  static const Color white40 = Color(0x66FFFFFF);
+
   // Gradients
   static const LinearGradient backgroundGradient = LinearGradient(
     colors: [background, backgroundGradientEnd],

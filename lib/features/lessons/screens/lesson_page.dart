@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../../../core/theme/app_theme.dart';
 import '../widgets/aya_video_player.dart';
 import '../widgets/aya_audio_player.dart';
@@ -326,7 +325,7 @@ class _LessonPageState extends State<LessonPage> {
                               ),
                             ),
                           );
-                        }).toList(),
+                        }),
                       ],
 
                       // Next Lesson

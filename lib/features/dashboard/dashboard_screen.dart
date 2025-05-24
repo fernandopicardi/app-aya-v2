@@ -76,35 +76,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: ListView(
                 padding: const EdgeInsets.all(16),
                 children: [
-                  WelcomeCard(
-                    userName: _data.userName,
-                    tipOfTheDay: _data.tipOfTheDay,
-                  ),
                   const SizedBox(height: 24),
                   ContinueJourneyCard(
-                    lastLesson: _data.lastLesson,
-                  ),
+                      // lastLesson: _data.lastLesson,
+                      ),
                   const SizedBox(height: 24),
                   RecommendedLessonsCard(
                     lessons: _data.recommendedLessons,
                   ),
                   const SizedBox(height: 24),
-                  ExploreModulesCard(
-                    modules: _data.exploreModules,
-                  ),
-                  const SizedBox(height: 24),
-                  if (_data.favoriteLessons.isNotEmpty) ...[
-                    FavoriteLessonsCard(
-                      lessons: _data.favoriteLessons,
-                    ),
-                    const SizedBox(height: 24),
-                  ],
-                  if (_data.activeChallenge != null) ...[
-                    ActiveChallengeCard(
-                      challenge: _data.activeChallenge!,
-                    ),
-                    const SizedBox(height: 24),
-                  ],
                   ConnectWithAyaCard(),
                 ],
               ),

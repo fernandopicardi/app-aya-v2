@@ -10,7 +10,7 @@ class ForgotPasswordPage extends StatefulWidget {
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _emailController = TextEditingController();
-  bool _sent = false;
+  final bool _sent = false;
   bool _isLoading = false;
   String? _errorMessage;
   final AuthService _authService = AuthService();
@@ -45,9 +45,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         ),
       );
     } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
+      if (!mounted) return;
+      setState(() => _isLoading = false);
     }
   }
 

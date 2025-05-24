@@ -52,19 +52,18 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
             'name': _nameController.text.trim(),
           },
         );
-        if (mounted) {
-          context.go(AppRouter.dashboard);
-        }
+        if (!mounted) return;
+        context.go(AppRouter.dashboard);
       } catch (e) {
+        if (!mounted) return;
         setState(() {
           _errorMessage = e.toString().replaceFirst('Exception: ', '');
         });
       } finally {
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
-        }
+        if (!mounted) return;
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }

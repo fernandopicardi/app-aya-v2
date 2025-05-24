@@ -28,22 +28,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
         password: _password,
         name: _name,
       );
-      if (mounted) {
-        Navigator.pushReplacementNamed(context, '/dashboard');
-      }
+      if (!mounted) return;
+      Navigator.pushReplacementNamed(context, '/dashboard');
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Erro ao registrar: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao registrar: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
     } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
+      if (!mounted) return;
+      setState(() => _isLoading = false);
     }
   }
 

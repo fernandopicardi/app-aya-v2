@@ -23,7 +23,7 @@ class AyaAvatar extends StatelessWidget {
   final Widget? badge;
 
   const AyaAvatar({
-    Key? key,
+    super.key,
     this.imageUrl,
     this.initials,
     this.icon,
@@ -37,11 +37,10 @@ class AyaAvatar extends StatelessWidget {
     this.showBadge = false,
     this.badgeColor,
     this.badge,
-  })  : assert(
+  }) : assert(
           imageUrl != null || initials != null || icon != null,
           'Either imageUrl, initials, or icon must be provided',
-        ),
-        super(key: key);
+        );
 
   @override
   Widget build(BuildContext context) {

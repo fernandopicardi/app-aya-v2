@@ -93,21 +93,19 @@ class DailyTip {
 }
 
 class DashboardData {
-  final String userName;
-  final String tipOfTheDay;
-  final Lesson? lastLesson;
+  final List<Lesson> continueLearning;
   final List<Lesson> recommendedLessons;
-  final List<Module> exploreModules;
-  final List<Lesson> favoriteLessons;
-  final Challenge? activeChallenge;
+  final List<Module> modules;
+  final List<Challenge> challenges;
+  final DailyTip dailyTip;
+  final UserProgress userProgress;
 
   const DashboardData({
-    required this.userName,
-    required this.tipOfTheDay,
-    this.lastLesson,
+    required this.continueLearning,
     required this.recommendedLessons,
-    required this.exploreModules,
-    required this.favoriteLessons,
-    this.activeChallenge,
+    required this.modules,
+    required this.challenges,
+    required this.dailyTip,
+    required this.userProgress,
   });
 }
