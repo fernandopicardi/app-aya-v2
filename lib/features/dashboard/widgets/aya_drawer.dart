@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/theme/app_theme.dart';
@@ -24,101 +25,128 @@ class _AyaDrawerState extends State<AyaDrawer> {
     final user = widget.authService.getCurrentUser();
     final isAdmin = user?.userMetadata?['role'] == 'admin';
 
-    return Drawer(
-      backgroundColor: AyaColors.surface,
-      child: Column(
-        children: [
-          _buildDrawerHeader(context, user),
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.zero,
+    return ClipRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Drawer(
+          backgroundColor: AyaColors.surface.withOpacity(0.8),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  AyaColors.surface.withOpacity(0.9),
+                  AyaColors.surface.withOpacity(0.7),
+                ],
+              ),
+              border: Border(
+                right: BorderSide(
+                  color: AyaColors.lavenderVibrant.withOpacity(0.1),
+                  width: 1,
+                ),
+              ),
+            ),
+            child: Column(
               children: [
-                _buildDrawerItem(
-                  context,
-                  icon: Icons.person_outline,
-                  title: 'Meu Perfil',
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/profile');
-                  },
-                ),
-                _buildDrawerItem(
-                  context,
-                  icon: Icons.favorite_border,
-                  title: 'Curtidas',
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/favorites');
-                  },
-                ),
-                _buildDrawerItem(
-                  context,
-                  icon: Icons.note_alt_outlined,
-                  title: 'Anotações',
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/notes');
-                  },
-                ),
-                _buildDrawerItem(
-                  context,
-                  icon: Icons.card_membership,
-                  title: 'Planos & Assinaturas',
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/subscription');
-                  },
-                ),
-                _buildDrawerItem(
-                  context,
-                  icon: Icons.settings_outlined,
-                  title: 'Configurações do App',
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/settings');
-                  },
-                ),
-                if (isAdmin)
-                  _buildDrawerItem(
-                    context,
-                    icon: Icons.bolt_outlined,
-                    title: 'Painel do Admin',
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.pushNamed(context, '/admin');
-                    },
+                _buildHeader(user),
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: [
+                      _buildMenuItem(
+                        icon: Icons.home_outlined,
+                        selectedIcon: Icons.home,
+                        label: 'Home',
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      _buildMenuItem(
+                        icon: Icons.library_books_outlined,
+                        selectedIcon: Icons.library_books,
+                        label: 'Biblioteca',
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      _buildMenuItem(
+                        icon: Icons.people_outline,
+                        selectedIcon: Icons.people,
+                        label: 'Comunidade',
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      _buildMenuItem(
+                        icon: Icons.smart_toy_outlined,
+                        selectedIcon: Icons.smart_toy,
+                        label: 'Aya Chat',
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      const Divider(
+                        color: AyaColors.lavenderSoft,
+                        height: 32,
+                      ),
+                      if (isAdmin)
+                        _buildMenuItem(
+                          icon: Icons.admin_panel_settings_outlined,
+                          selectedIcon: Icons.admin_panel_settings,
+                          label: 'Admin',
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      _buildMenuItem(
+                        icon: Icons.settings_outlined,
+                        selectedIcon: Icons.settings,
+                        label: 'Configurações',
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      _buildMenuItem(
+                        icon: Icons.help_outline,
+                        selectedIcon: Icons.help,
+                        label: 'Ajuda',
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      _buildMenuItem(
+                        icon: Icons.logout,
+                        selectedIcon: Icons.logout,
+                        label: 'Sair',
+                        onTap: () async {
+                          await widget.authService.signOut();
+                          if (mounted) {
+                            Navigator.pop(context);
+                          }
+                        },
+                      ),
+                    ],
                   ),
-                const Divider(color: AyaColors.lavenderSoft30),
-                _buildContinueFromWhereYouLeftOff(context),
-                const Divider(color: AyaColors.lavenderSoft30),
-                _buildDrawerItem(
-                  context,
-                  icon: Icons.logout,
-                  title: 'Sair',
-                  onTap: () async {
-                    await widget.authService.signOut();
-                    if (!mounted) return;
-                    Navigator.pushReplacementNamed(context, '/login');
-                  },
                 ),
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildDrawerHeader(BuildContext context, User? user) {
+  Widget _buildHeader(User? user) {
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
           colors: [
-            AyaColors.background,
-            AyaColors.surface,
+            AyaColors.lavenderVibrant.withOpacity(0.2),
+            AyaColors.turquoise.withOpacity(0.2),
           ],
         ),
       ),
@@ -126,137 +154,98 @@ class _AyaDrawerState extends State<AyaDrawer> {
         children: [
           CircleAvatar(
             radius: 40,
-            backgroundColor: AyaColors.lavenderSoft,
-            child: user?.userMetadata?['avatar_url'] != null
-                ? ClipOval(
-                    child: CachedNetworkImage(
-                      imageUrl: user!.userMetadata!['avatar_url'],
-                      fit: BoxFit.cover,
-                      width: 80,
-                      height: 80,
-                      placeholder: (context, url) => const Icon(
-                        Icons.person,
-                        size: 40,
-                        color: AyaColors.textPrimary,
-                      ),
-                      errorWidget: (context, url, error) => const Icon(
-                        Icons.person,
-                        size: 40,
-                        color: AyaColors.textPrimary,
-                      ),
-                    ),
-                  )
-                : const Icon(
+            backgroundColor: AyaColors.lavenderVibrant.withOpacity(0.2),
+            child: ClipOval(
+              child: CachedNetworkImage(
+                imageUrl: user?.userMetadata?['avatar_url'] ?? '',
+                width: 80,
+                height: 80,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Container(
+                  color: AyaColors.lavenderSoft,
+                  child: const Icon(
                     Icons.person,
                     size: 40,
                     color: AyaColors.textPrimary,
                   ),
+                ),
+                errorWidget: (context, url, error) => Container(
+                  color: AyaColors.lavenderSoft,
+                  child: const Icon(
+                    Icons.person,
+                    size: 40,
+                    color: AyaColors.textPrimary,
+                  ),
+                ),
+              ),
+            ),
           ),
           const SizedBox(height: 16),
           Text(
-            user?.userMetadata?['name'] ?? 'Usuário',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: AyaColors.textPrimary,
-                  fontWeight: FontWeight.bold,
-                ),
+            user?.userMetadata?['full_name'] ?? 'Usuário AYA',
+            style: const TextStyle(
+              color: AyaColors.textPrimary,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
-            user?.userMetadata?['email'] ?? '',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AyaColors.textPrimary60,
-                ),
+            user?.email ?? '',
+            style: TextStyle(
+              color: AyaColors.textPrimary.withOpacity(0.7),
+              fontSize: 14,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildDrawerItem(
-    BuildContext context, {
+  Widget _buildMenuItem({
     required IconData icon,
-    required String title,
+    required IconData selectedIcon,
+    required String label,
     required VoidCallback onTap,
   }) {
-    return ListTile(
-      leading: Icon(
-        icon,
-        color: AyaColors.lavenderVibrant,
-      ),
-      title: Text(
-        title,
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: AyaColors.textPrimary,
-            ),
-      ),
-      onTap: onTap,
-    );
-  }
-
-  Widget _buildContinueFromWhereYouLeftOff(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Continue de onde parou',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      AyaColors.lavenderVibrant.withOpacity(0.1),
+                      AyaColors.turquoise.withOpacity(0.1),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  icon,
                   color: AyaColors.textPrimary,
-                  fontWeight: FontWeight.w500,
-                ),
-          ),
-          const SizedBox(height: 12),
-          Container(
-            decoration: BoxDecoration(
-              color: AyaColors.lavenderSoft,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: ListTile(
-              contentPadding: const EdgeInsets.all(12),
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: CachedNetworkImage(
-                  imageUrl: 'https://picsum.photos/200',
-                  width: 48,
-                  height: 48,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => Container(
-                    color: AyaColors.lavenderSoft,
-                    child: const Icon(
-                      Icons.play_circle_outline,
-                      color: AyaColors.textPrimary,
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => Container(
-                    color: AyaColors.lavenderSoft,
-                    child: const Icon(
-                      Icons.play_circle_outline,
-                      color: AyaColors.textPrimary,
-                    ),
-                  ),
+                  size: 24,
                 ),
               ),
-              title: Text(
-                'Introdução à Meditação',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: AyaColors.textPrimary,
-                      fontWeight: FontWeight.w500,
-                    ),
+              const SizedBox(width: 16),
+              Text(
+                label,
+                style: const TextStyle(
+                  color: AyaColors.textPrimary,
+                  fontSize: 16,
+                ),
               ),
-              subtitle: Text(
-                'Módulo: Mindfulness • Aula 1',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AyaColors.textPrimary60,
-                    ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/lesson/1');
-              },
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

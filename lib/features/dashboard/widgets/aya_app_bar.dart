@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import '../../../core/theme/app_theme.dart';
 
 class AyaAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -19,80 +20,114 @@ class AyaAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AyaColors.surface.withAlpha(26), // 0.1 opacity
-      child: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: showMenu
-            ? IconButton(
-                icon: const Icon(
-                  Icons.menu,
-                  color: AyaColors.textPrimary,
-                ),
-                onPressed: onMenuPressed,
-              )
-            : null,
-        title: title != null
-            ? Text(
-                title!,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: AyaColors.textPrimary,
-                      fontWeight: FontWeight.w600,
-                    ),
-              )
-            : null,
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.search,
-              color: AyaColors.textPrimary,
+    return ClipRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                AyaColors.surface.withOpacity(0.8),
+                AyaColors.surface.withOpacity(0.6),
+              ],
             ),
-            onPressed: () {
-              // TODO: Implement search
-            },
+            border: Border(
+              bottom: BorderSide(
+                color: AyaColors.lavenderVibrant.withOpacity(0.1),
+                width: 1,
+              ),
+            ),
           ),
-          Stack(
-            children: [
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: showMenu
+                ? IconButton(
+                    icon: Icon(
+                      Icons.menu,
+                      color: AyaColors.textPrimary,
+                    ),
+                    onPressed: onMenuPressed,
+                  )
+                : null,
+            title: title != null
+                ? Text(
+                    title!,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: AyaColors.textPrimary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  )
+                : null,
+            centerTitle: true,
+            actions: [
               IconButton(
-                icon: const Icon(
-                  Icons.notifications_outlined,
+                icon: Icon(
+                  Icons.search,
                   color: AyaColors.textPrimary,
                 ),
                 onPressed: () {
-                  // TODO: Implement notifications
+                  // TODO: Implement search
                 },
               ),
-              if (notificationCount > 0)
-                Positioned(
-                  right: 8,
-                  top: 8,
-                  child: Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(8),
+              Stack(
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.notifications_outlined,
+                      color: AyaColors.textPrimary,
                     ),
-                    constraints: const BoxConstraints(
-                      minWidth: 16,
-                      minHeight: 16,
-                    ),
-                    child: Text(
-                      notificationCount.toString(),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
+                    onPressed: () {
+                      // TODO: Implement notifications
+                    },
                   ),
-                ),
+                  if (notificationCount > 0)
+                    Positioned(
+                      right: 8,
+                      top: 8,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              AyaColors.lavenderVibrant,
+                              AyaColors.turquoise,
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AyaColors.lavenderVibrant.withOpacity(0.3),
+                              blurRadius: 4,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 16,
+                          minHeight: 16,
+                        ),
+                        child: Text(
+                          notificationCount.toString(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+              if (actions != null) ...actions!,
             ],
           ),
-          if (actions != null) ...actions!,
-        ],
+        ),
       ),
     );
   }
