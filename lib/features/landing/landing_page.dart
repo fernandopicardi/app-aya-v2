@@ -50,6 +50,48 @@ class _LandingPageState extends State<LandingPage> {
     }
   }
 
+  Future<void> _handleGoogleSignIn() async {
+    setState(() => _isLoading = true);
+    try {
+      final navigator = Navigator.of(context);
+      await AuthService().signInWithGoogle();
+      if (mounted) {
+        navigator.pushReplacementNamed('/dashboard');
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _errorMessage = e.toString().replaceFirst('Exception: ', '');
+        });
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  Future<void> _handleAppleSignIn() async {
+    setState(() => _isLoading = true);
+    try {
+      final navigator = Navigator.of(context);
+      await AuthService().signInWithApple();
+      if (mounted) {
+        navigator.pushReplacementNamed('/dashboard');
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _errorMessage = e.toString().replaceFirst('Exception: ', '');
+        });
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isWide = MediaQuery.of(context).size.width > 900;
@@ -247,31 +289,7 @@ class _LandingPageState extends State<LandingPage> {
                                     child: OutlinedButton.icon(
                                       onPressed: _isLoading
                                           ? null
-                                          : () async {
-                                              try {
-                                                setState(
-                                                    () => _isLoading = true);
-                                                await AuthService()
-                                                    .signInWithGoogle();
-                                                if (!mounted) return;
-                                                Navigator.of(context)
-                                                    .pushReplacementNamed(
-                                                        '/dashboard');
-                                              } catch (e) {
-                                                if (!mounted) return;
-                                                setState(() {
-                                                  _errorMessage = e
-                                                      .toString()
-                                                      .replaceFirst(
-                                                          'Exception: ', '');
-                                                });
-                                              } finally {
-                                                if (mounted) {
-                                                  setState(
-                                                      () => _isLoading = false);
-                                                }
-                                              }
-                                            },
+                                          : _handleGoogleSignIn,
                                       icon: const Icon(Icons.g_mobiledata,
                                           color: Color(0xFF78C7B4)),
                                       label: const Text('Entrar com Google',
@@ -294,31 +312,7 @@ class _LandingPageState extends State<LandingPage> {
                                     child: OutlinedButton.icon(
                                       onPressed: _isLoading
                                           ? null
-                                          : () async {
-                                              try {
-                                                setState(
-                                                    () => _isLoading = true);
-                                                await AuthService()
-                                                    .signInWithApple();
-                                                if (!mounted) return;
-                                                Navigator.of(context)
-                                                    .pushReplacementNamed(
-                                                        '/dashboard');
-                                              } catch (e) {
-                                                if (!mounted) return;
-                                                setState(() {
-                                                  _errorMessage = e
-                                                      .toString()
-                                                      .replaceFirst(
-                                                          'Exception: ', '');
-                                                });
-                                              } finally {
-                                                if (mounted) {
-                                                  setState(
-                                                      () => _isLoading = false);
-                                                }
-                                              }
-                                            },
+                                          : _handleAppleSignIn,
                                       icon: const Icon(Icons.apple,
                                           color: Colors.white),
                                       label: const Text('Apple',
@@ -521,32 +515,8 @@ class _LandingPageState extends State<LandingPage> {
                             children: [
                               Expanded(
                                 child: OutlinedButton.icon(
-                                  onPressed: _isLoading
-                                      ? null
-                                      : () async {
-                                          try {
-                                            setState(() => _isLoading = true);
-                                            await AuthService()
-                                                .signInWithGoogle();
-                                            if (!mounted) return;
-                                            Navigator.of(context)
-                                                .pushReplacementNamed(
-                                                    '/dashboard');
-                                          } catch (e) {
-                                            if (!mounted) return;
-                                            setState(() {
-                                              _errorMessage = e
-                                                  .toString()
-                                                  .replaceFirst(
-                                                      'Exception: ', '');
-                                            });
-                                          } finally {
-                                            if (mounted) {
-                                              setState(
-                                                  () => _isLoading = false);
-                                            }
-                                          }
-                                        },
+                                  onPressed:
+                                      _isLoading ? null : _handleGoogleSignIn,
                                   icon: const Icon(Icons.g_mobiledata,
                                       color: Color(0xFF78C7B4)),
                                   label: const Text('Entrar com Google',
@@ -566,32 +536,8 @@ class _LandingPageState extends State<LandingPage> {
                               const SizedBox(width: 12),
                               Expanded(
                                 child: OutlinedButton.icon(
-                                  onPressed: _isLoading
-                                      ? null
-                                      : () async {
-                                          try {
-                                            setState(() => _isLoading = true);
-                                            await AuthService()
-                                                .signInWithApple();
-                                            if (!mounted) return;
-                                            Navigator.of(context)
-                                                .pushReplacementNamed(
-                                                    '/dashboard');
-                                          } catch (e) {
-                                            if (!mounted) return;
-                                            setState(() {
-                                              _errorMessage = e
-                                                  .toString()
-                                                  .replaceFirst(
-                                                      'Exception: ', '');
-                                            });
-                                          } finally {
-                                            if (mounted) {
-                                              setState(
-                                                  () => _isLoading = false);
-                                            }
-                                          }
-                                        },
+                                  onPressed:
+                                      _isLoading ? null : _handleAppleSignIn,
                                   icon: const Icon(Icons.apple,
                                       color: Colors.white),
                                   label: const Text('Apple',

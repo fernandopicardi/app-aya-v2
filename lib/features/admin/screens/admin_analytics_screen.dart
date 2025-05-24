@@ -196,10 +196,16 @@ class _AdminAnalyticsScreenState extends State<AdminAnalyticsScreen> {
                       belowBarData: BarAreaData(
                         show: true,
                         color: Color.fromRGBO(
-                          Theme.of(context).colorScheme.primary.red,
-                          Theme.of(context).colorScheme.primary.green,
-                          Theme.of(context).colorScheme.primary.blue,
-                          0.1,
+                          (Theme.of(context).colorScheme.primary.r * 255.0)
+                                  .round() &
+                              0xff,
+                          (Theme.of(context).colorScheme.primary.g * 255.0)
+                                  .round() &
+                              0xff,
+                          (Theme.of(context).colorScheme.primary.b * 255.0)
+                                  .round() &
+                              0xff,
+                          Theme.of(context).colorScheme.primary.a,
                         ),
                       ),
                     ),

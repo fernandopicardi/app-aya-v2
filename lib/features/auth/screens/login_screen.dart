@@ -3,13 +3,22 @@ import 'package:flutter/foundation.dart'
     show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import '../services/auth_service.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final authService = AuthService();
+  State<LoginScreen> createState() => _LoginScreenState();
+}
 
+class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _authService = AuthService();
+  bool _isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(
@@ -17,19 +26,7 @@ class LoginScreen extends StatelessWidget {
           children: [
             // Google Sign In Button
             ElevatedButton(
-              onPressed: () async {
-                try {
-                  final user = await authService.signInWithGoogle();
-                  if (user != null) {
-                    // Navigate to dashboard or home screen
-                    Navigator.pushReplacementNamed(context, '/dashboard');
-                  }
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Erro no login: $e')),
-                  );
-                }
-              },
+              onPressed: _handleGoogleSignIn,
               child: const Text('Entrar com Google'),
             ),
             const SizedBox(height: 16),
@@ -40,7 +37,7 @@ class LoginScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () async {
                   try {
-                    final user = await authService.signInWithApple();
+                    final user = await _authService.signInWithApple();
                     if (user != null) {
                       // Navigate to dashboard or home screen
                       Navigator.pushReplacementNamed(context, '/dashboard');
@@ -56,9 +53,9 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 16),
             // Show current user ID if logged in
             StreamBuilder(
-              stream: authService.authStateChanges,
+              stream: _authService.authStateChanges,
               builder: (context, snapshot) {
-                final user = authService.getCurrentUser();
+                final user = _authService.getCurrentUser();
                 if (user != null) {
                   return Text('Usuário logado: ${user.id}');
                 }
@@ -69,5 +66,52 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _handleLogin() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      setState(() => _isLoading = true);
+      try {
+        final navigator = Navigator.of(context);
+        await _authService.signInWithEmailAndPassword(
+          email: _emailController.text,
+          password: _passwordController.text,
+        );
+        if (mounted) {
+          navigator.pushReplacementNamed('/home');
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(e.toString())),
+          );
+        }
+      } finally {
+        if (mounted) {
+          setState(() => _isLoading = false);
+        }
+      }
+    }
+  }
+
+  Future<void> _handleGoogleSignIn() async {
+    setState(() => _isLoading = true);
+    try {
+      final navigator = Navigator.of(context);
+      await _authService.signInWithGoogle();
+      if (mounted) {
+        navigator.pushReplacementNamed('/dashboard');
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.toString())),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 }

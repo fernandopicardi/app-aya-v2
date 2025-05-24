@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:ui';
 import '../../../core/theme/app_theme.dart';
 import '../../../features/auth/services/auth_service.dart';
@@ -11,6 +12,8 @@ import 'package:shimmer/shimmer.dart';
 import '../../../widgets/aya_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/rendering.dart';
+import '../../../core/widgets/aya_bottom_sheet.dart';
+import '../../../features/dashboard/services/dashboard_service.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -117,10 +120,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildCommunityTab() {
+    // TODO: Criar componente de feed da comunidade
     return const Center(child: Text('Comunidade'));
   }
 
   Widget _buildChatTab() {
+    // TODO: Criar componente de chat
     return const Center(child: Text('Aya Chat'));
   }
 
@@ -192,8 +197,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Colors.black.withOpacity(0.4),
-                            Colors.black.withOpacity(0.8),
+                            Colors.black.withValues(alpha: 0.4),
+                            Colors.black.withValues(alpha: 0.8),
                           ],
                           stops: const [0.3, 1.0],
                         ),
@@ -433,8 +438,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            AyaColors.black50,
-                            AyaColors.black70,
+                            Colors.black.withValues(alpha: 0.4),
+                            Colors.black.withValues(alpha: 0.8),
                           ],
                           stops: const [0.4, 1.0],
                         ),
@@ -566,8 +571,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            AyaColors.black50,
-                            AyaColors.black70,
+                            Colors.black.withValues(alpha: 0.4),
+                            Colors.black.withValues(alpha: 0.8),
                           ],
                           stops: const [0.4, 1.0],
                         ),
@@ -708,6 +713,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildDownloadsSection() {
+    // TODO: Implementar lista de downloads reais
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -735,6 +741,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildSettingsSection() {
+    // TODO: Implementar tela de configurações completa
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

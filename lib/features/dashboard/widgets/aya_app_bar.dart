@@ -29,13 +29,13 @@ class AyaAppBar extends StatelessWidget implements PreferredSizeWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                AyaColors.surface.withOpacity(0.8),
-                AyaColors.surface.withOpacity(0.6),
+                AyaColors.surface.withValues(alpha: 0.8),
+                AyaColors.surface.withValues(alpha: 0.6),
               ],
             ),
             border: Border(
               bottom: BorderSide(
-                color: AyaColors.lavenderVibrant.withOpacity(0.1),
+                color: AyaColors.lavenderVibrant.withValues(alpha: 0.1),
                 width: 1,
               ),
             ),
@@ -101,7 +101,8 @@ class AyaAppBar extends StatelessWidget implements PreferredSizeWidget {
                           borderRadius: BorderRadius.circular(8),
                           boxShadow: [
                             BoxShadow(
-                              color: AyaColors.lavenderVibrant.withOpacity(0.3),
+                              color: AyaColors.lavenderVibrant
+                                  .withValues(alpha: 0.3),
                               blurRadius: 4,
                               offset: const Offset(0, 2),
                             ),

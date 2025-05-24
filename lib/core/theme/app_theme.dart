@@ -63,6 +63,164 @@ class AyaColors {
   );
 }
 
+class AyaTypography {
+  // Scale factors for different screen sizes
+  static const double _mobileScale = 1.0;
+  static const double _tabletScale = 1.2;
+  static const double _desktopScale = 1.4;
+
+  // Line Heights
+  static const double _tightLineHeight = 1.2;
+  static const double _normalLineHeight = 1.5;
+  static const double _relaxedLineHeight = 1.75;
+
+  // Letter Spacing
+  static const double _tightLetterSpacing = -0.5;
+  static const double _normalLetterSpacing = 0.0;
+  static const double _wideLetterSpacing = 0.5;
+
+  // Font Weights
+  static const FontWeight _regular = FontWeight.w400;
+  static const FontWeight _medium = FontWeight.w500;
+  static const FontWeight _semibold = FontWeight.w600;
+  static const FontWeight _bold = FontWeight.w700;
+
+  static double _getScaledFontSize(double size, BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    double scale = _mobileScale;
+
+    if (width >= 1200) {
+      scale = _desktopScale;
+    } else if (width >= 768) {
+      scale = _tabletScale;
+    }
+
+    return size * scale;
+  }
+
+  static TextTheme getTextTheme(BuildContext context) {
+    final baseTextTheme =
+        GoogleFonts.interTextTheme(ThemeData.dark().textTheme);
+
+    return baseTextTheme.copyWith(
+      // Display styles (largest text, used for hero sections)
+      displayLarge: TextStyle(
+        fontSize: _getScaledFontSize(48, context),
+        fontWeight: _bold,
+        height: _tightLineHeight,
+        letterSpacing: _tightLetterSpacing,
+        color: AyaColors.textPrimary,
+      ),
+      displayMedium: TextStyle(
+        fontSize: _getScaledFontSize(40, context),
+        fontWeight: _bold,
+        height: _tightLineHeight,
+        letterSpacing: _tightLetterSpacing,
+        color: AyaColors.textPrimary,
+      ),
+      displaySmall: TextStyle(
+        fontSize: _getScaledFontSize(36, context),
+        fontWeight: _semibold,
+        height: _tightLineHeight,
+        letterSpacing: _tightLetterSpacing,
+        color: AyaColors.textPrimary,
+      ),
+
+      // Headline styles (used for section titles)
+      headlineLarge: TextStyle(
+        fontSize: _getScaledFontSize(32, context),
+        fontWeight: _semibold,
+        height: _tightLineHeight,
+        letterSpacing: _normalLetterSpacing,
+        color: AyaColors.textPrimary,
+      ),
+      headlineMedium: TextStyle(
+        fontSize: _getScaledFontSize(28, context),
+        fontWeight: _semibold,
+        height: _tightLineHeight,
+        letterSpacing: _normalLetterSpacing,
+        color: AyaColors.textPrimary,
+      ),
+      headlineSmall: TextStyle(
+        fontSize: _getScaledFontSize(24, context),
+        fontWeight: _semibold,
+        height: _tightLineHeight,
+        letterSpacing: _normalLetterSpacing,
+        color: AyaColors.textPrimary,
+      ),
+
+      // Title styles (used for card titles, list items)
+      titleLarge: TextStyle(
+        fontSize: _getScaledFontSize(20, context),
+        fontWeight: _semibold,
+        height: _normalLineHeight,
+        letterSpacing: _normalLetterSpacing,
+        color: AyaColors.textPrimary,
+      ),
+      titleMedium: TextStyle(
+        fontSize: _getScaledFontSize(18, context),
+        fontWeight: _medium,
+        height: _normalLineHeight,
+        letterSpacing: _normalLetterSpacing,
+        color: AyaColors.textPrimary,
+      ),
+      titleSmall: TextStyle(
+        fontSize: _getScaledFontSize(16, context),
+        fontWeight: _medium,
+        height: _normalLineHeight,
+        letterSpacing: _normalLetterSpacing,
+        color: AyaColors.textPrimary,
+      ),
+
+      // Body styles (used for main content)
+      bodyLarge: TextStyle(
+        fontSize: _getScaledFontSize(16, context),
+        fontWeight: _regular,
+        height: _relaxedLineHeight,
+        letterSpacing: _normalLetterSpacing,
+        color: AyaColors.textPrimary,
+      ),
+      bodyMedium: TextStyle(
+        fontSize: _getScaledFontSize(14, context),
+        fontWeight: _regular,
+        height: _relaxedLineHeight,
+        letterSpacing: _normalLetterSpacing,
+        color: AyaColors.textPrimary80,
+      ),
+      bodySmall: TextStyle(
+        fontSize: _getScaledFontSize(12, context),
+        fontWeight: _regular,
+        height: _relaxedLineHeight,
+        letterSpacing: _normalLetterSpacing,
+        color: AyaColors.textPrimary60,
+      ),
+
+      // Label styles (used for buttons, form fields)
+      labelLarge: TextStyle(
+        fontSize: _getScaledFontSize(16, context),
+        fontWeight: _medium,
+        height: _normalLineHeight,
+        letterSpacing: _wideLetterSpacing,
+        color: AyaColors.textPrimary,
+      ),
+      labelMedium: TextStyle(
+        fontSize: _getScaledFontSize(14, context),
+        fontWeight: _medium,
+        height: _normalLineHeight,
+        letterSpacing: _wideLetterSpacing,
+        color: AyaColors.textPrimary,
+      ),
+      labelSmall: TextStyle(
+        fontSize: _getScaledFontSize(12, context),
+        fontWeight: _medium,
+        height: _normalLineHeight,
+        letterSpacing: _wideLetterSpacing,
+        color: AyaColors.textPrimary60,
+      ),
+    );
+  }
+}
+
 class AyaTheme {
   static ThemeData get theme {
     return ThemeData(
@@ -82,63 +240,18 @@ class AyaTheme {
       scaffoldBackgroundColor: AyaColors.background,
 
       // Typography
-      textTheme: TextTheme(
-        displayLarge: GoogleFonts.playfairDisplay(
-          color: AyaColors.textPrimary,
-          fontSize: 32,
-          fontWeight: FontWeight.bold,
-        ),
-        displayMedium: GoogleFonts.playfairDisplay(
-          color: AyaColors.textPrimary,
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-        ),
-        headlineLarge: GoogleFonts.roboto(
-          color: AyaColors.textPrimary,
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-        ),
-        headlineMedium: GoogleFonts.roboto(
-          color: AyaColors.textPrimary,
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-        ),
-        titleLarge: GoogleFonts.roboto(
-          color: AyaColors.textPrimary,
-          fontSize: 18,
-          fontWeight: FontWeight.w500,
-        ),
-        bodyLarge: GoogleFonts.roboto(
-          color: AyaColors.textPrimary,
-          fontSize: 16,
-          fontWeight: FontWeight.normal,
-        ),
-        bodyMedium: GoogleFonts.roboto(
-          color: AyaColors.textPrimary80,
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-        ),
-        labelLarge: GoogleFonts.roboto(
-          color: AyaColors.textPrimary,
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-        ),
-        labelMedium: GoogleFonts.roboto(
-          color: AyaColors.textPrimary60,
-          fontSize: 12,
-          fontWeight: FontWeight.normal,
-        ),
-      ),
+      textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
 
       // AppBar Theme
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        titleTextStyle: GoogleFonts.roboto(
+        titleTextStyle: GoogleFonts.inter(
           color: AyaColors.textPrimary,
           fontSize: 20,
           fontWeight: FontWeight.w600,
+          letterSpacing: 0.15,
         ),
         iconTheme: IconThemeData(
           color: AyaColors.textPrimary,
@@ -146,14 +259,14 @@ class AyaTheme {
       ),
 
       // Card Theme
-      cardTheme: CardTheme(
-        color: AyaColors.lavenderSoft,
-        elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      ),
+      cardTheme: ThemeData.dark().cardTheme.copyWith(
+            color: AyaColors.surface,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          ),
 
       // Button Theme
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -210,21 +323,22 @@ class AyaTheme {
       ),
 
       // Dialog Theme
-      dialogTheme: DialogTheme(
-        backgroundColor: AyaColors.backgroundGradientEnd,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        titleTextStyle: GoogleFonts.roboto(
-          color: AyaColors.textPrimary,
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-        ),
-        contentTextStyle: GoogleFonts.roboto(
-          color: AyaColors.textPrimary,
-          fontSize: 16,
-        ),
-      ),
+      dialogTheme: ThemeData.dark().dialogTheme.copyWith(
+            backgroundColor: AyaColors.surface,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            titleTextStyle: GoogleFonts.inter(
+              color: AyaColors.textPrimary,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+            contentTextStyle: GoogleFonts.inter(
+              color: AyaColors.textPrimary,
+              fontSize: 16,
+            ),
+          ),
 
       // Divider Theme
       dividerTheme: DividerThemeData(

@@ -23,13 +23,13 @@ class AyaBottomNav extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                AyaColors.surface.withOpacity(0.8),
-                AyaColors.surface.withOpacity(0.6),
+                AyaColors.surface.withValues(alpha: 0.8),
+                AyaColors.surface.withValues(alpha: 0.6),
               ],
             ),
             border: Border(
               top: BorderSide(
-                color: AyaColors.lavenderVibrant.withOpacity(0.1),
+                color: AyaColors.lavenderVibrant.withValues(alpha: 0.1),
                 width: 1,
               ),
             ),
@@ -76,8 +76,8 @@ class AyaBottomNav extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AyaColors.lavenderVibrant.withOpacity(0.1),
-              AyaColors.turquoise.withOpacity(0.1),
+              AyaColors.lavenderVibrant.withValues(alpha: 0.1),
+              AyaColors.turquoise.withValues(alpha: 0.1),
             ],
           ),
           borderRadius: BorderRadius.circular(12),
@@ -94,14 +94,14 @@ class AyaBottomNav extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AyaColors.lavenderVibrant.withOpacity(0.2),
-              AyaColors.turquoise.withOpacity(0.2),
+              AyaColors.lavenderVibrant.withValues(alpha: 0.2),
+              AyaColors.turquoise.withValues(alpha: 0.2),
             ],
           ),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: AyaColors.lavenderVibrant.withOpacity(0.2),
+              color: AyaColors.lavenderVibrant.withValues(alpha: 0.2),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),

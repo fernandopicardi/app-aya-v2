@@ -29,20 +29,20 @@ class _AyaDrawerState extends State<AyaDrawer> {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Drawer(
-          backgroundColor: AyaColors.surface.withOpacity(0.8),
+          backgroundColor: AyaColors.surface.withValues(alpha: 0.8),
           child: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  AyaColors.surface.withOpacity(0.9),
-                  AyaColors.surface.withOpacity(0.7),
+                  AyaColors.surface.withValues(alpha: 0.9),
+                  AyaColors.surface.withValues(alpha: 0.7),
                 ],
               ),
               border: Border(
                 right: BorderSide(
-                  color: AyaColors.lavenderVibrant.withOpacity(0.1),
+                  color: AyaColors.lavenderVibrant.withValues(alpha: 0.1),
                   width: 1,
                 ),
               ),
@@ -120,9 +120,10 @@ class _AyaDrawerState extends State<AyaDrawer> {
                         selectedIcon: Icons.logout,
                         label: 'Sair',
                         onTap: () async {
+                          final navigator = Navigator.of(context);
                           await widget.authService.signOut();
                           if (mounted) {
-                            Navigator.pop(context);
+                            navigator.pop();
                           }
                         },
                       ),
@@ -145,8 +146,8 @@ class _AyaDrawerState extends State<AyaDrawer> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AyaColors.lavenderVibrant.withOpacity(0.2),
-            AyaColors.turquoise.withOpacity(0.2),
+            AyaColors.lavenderVibrant.withValues(alpha: 0.2),
+            AyaColors.turquoise.withValues(alpha: 0.2),
           ],
         ),
       ),
@@ -154,7 +155,7 @@ class _AyaDrawerState extends State<AyaDrawer> {
         children: [
           CircleAvatar(
             radius: 40,
-            backgroundColor: AyaColors.lavenderVibrant.withOpacity(0.2),
+            backgroundColor: AyaColors.lavenderVibrant.withValues(alpha: 0.2),
             child: ClipOval(
               child: CachedNetworkImage(
                 imageUrl: user?.userMetadata?['avatar_url'] ?? '',
@@ -193,7 +194,7 @@ class _AyaDrawerState extends State<AyaDrawer> {
           Text(
             user?.email ?? '',
             style: TextStyle(
-              color: AyaColors.textPrimary.withOpacity(0.7),
+              color: AyaColors.textPrimary.withValues(alpha: 0.7),
               fontSize: 14,
             ),
           ),
@@ -223,8 +224,8 @@ class _AyaDrawerState extends State<AyaDrawer> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      AyaColors.lavenderVibrant.withOpacity(0.1),
-                      AyaColors.turquoise.withOpacity(0.1),
+                      AyaColors.lavenderVibrant.withValues(alpha: 0.1),
+                      AyaColors.turquoise.withValues(alpha: 0.1),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(12),

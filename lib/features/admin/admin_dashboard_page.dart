@@ -5,14 +5,23 @@ import 'package:app_aya_v2/config/routes.dart';
 import 'package:app_aya_v2/widgets/aya_bottom_nav.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'admin_menu.dart';
+import 'package:app_aya_v2/features/auth/services/auth_service.dart';
 
 import 'sections/admin_dashboard_overview.dart';
+// TODO: Criar este componente/página
+// import 'sections/admin_analytics_screen.dart';
+// TODO: Criar este componente/página
+// import 'sections/admin_settings_screen.dart';
 import 'sections/admin_users_section.dart';
 import 'sections/admin_content_section.dart';
-import 'sections/admin_moderation_section.dart';
-import 'sections/admin_gamification_section.dart';
-import 'sections/admin_logs_section.dart';
-import 'sections/admin_settings_section.dart';
+// TODO: Criar este componente/página
+// import 'sections/admin_moderation_section.dart';
+// TODO: Criar este componente/página
+// import 'sections/admin_gamification_section.dart';
+// TODO: Criar este componente/página
+// import 'sections/admin_logs_section.dart';
+// TODO: Criar este componente/página
+// import 'sections/admin_settings_section.dart';
 
 class AdminDashboardPage extends StatefulWidget {
   const AdminDashboardPage({super.key});
@@ -68,6 +77,22 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
     }
   }
 
+  Future<void> _handleSignOut() async {
+    try {
+      final navigator = Navigator.of(context);
+      await Supabase.instance.client.auth.signOut();
+      if (mounted) {
+        navigator.pushReplacementNamed('/login');
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.toString())),
+        );
+      }
+    }
+  }
+
   Widget _getSection(int index) {
     switch (index) {
       case 0:
@@ -76,14 +101,18 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
         return const AdminUsersSection();
       case 2:
         return const AdminContentSection();
-      case 3:
-        return const AdminModerationSection();
-      case 4:
-        return const AdminGamificationSection();
-      case 5:
-        return const AdminLogsSection();
-      case 6:
-        return const AdminSettingsSection();
+      // TODO: Criar este componente/página
+      // case 3:
+      //   return const AdminModerationSection();
+      // TODO: Criar este componente/página
+      // case 4:
+      //   return const AdminGamificationSection();
+      // TODO: Criar este componente/página
+      // case 5:
+      //   return const AdminLogsSection();
+      // TODO: Criar este componente/página
+      // case 6:
+      //   return const AdminSettingsSection();
       default:
         return const AdminDashboardOverview();
     }
@@ -112,12 +141,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () async {
-              await Supabase.instance.client.auth.signOut();
-              if (mounted) {
-                context.go(AppRouter.login);
-              }
-            },
+            onPressed: _handleSignOut,
           ),
         ],
       ),

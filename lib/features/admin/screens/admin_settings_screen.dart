@@ -77,6 +77,29 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
     }
   }
 
+  Future<void> _handleSave() async {
+    setState(() => _isLoading = true);
+    try {
+      await _saveSettings();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Configurações salvas com sucesso!')),
+        );
+        return;
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao salvar configurações: $e')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,7 +108,7 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.save),
-            onPressed: _saveSettings,
+            onPressed: _handleSave,
           ),
         ],
       ),

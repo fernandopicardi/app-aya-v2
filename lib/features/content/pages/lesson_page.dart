@@ -380,7 +380,7 @@ class _LessonPageState extends State<LessonPage> {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AyaColors.surface.withOpacity(0.5),
+            color: AyaColors.surface.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(16),
           ),
           child: const Center(
@@ -488,7 +488,7 @@ class _LessonPageState extends State<LessonPage> {
                       Positioned.fill(
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.black.withAlpha(80),
+                            color: Colors.black.withValues(alpha: 0.5),
                             borderRadius: const BorderRadius.only(
                               bottomLeft: Radius.circular(32),
                               bottomRight: Radius.circular(32),

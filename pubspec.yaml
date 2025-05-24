@@ -43,7 +43,7 @@ dependencies:
   flutter_riverpod: ^2.4.9
   
   # Navegação
-  go_router: ^13.2.0
+  go_router: ^15.1.2
   
   # UI e Widgets
   flutter_svg: ^2.0.9
@@ -52,7 +52,7 @@ dependencies:
   cached_network_image: ^3.3.1
   
   # Utilitários
-  intl: ^0.19.0
+  intl: ^0.20.2
   shared_preferences: ^2.2.2
   url_launcher: ^6.2.4
   path_provider: ^2.1.5
@@ -60,7 +60,7 @@ dependencies:
   
   # Áudio (para meditações)
   just_audio: ^0.10.3
-  audio_session: ^0.1.18
+  audio_session: ^0.2.2
   shimmer: ^3.0.0
   google_sign_in: ^6.3.0
   sign_in_with_apple: ^7.0.1
@@ -71,10 +71,10 @@ dependencies:
   flutter_secure_storage: ^4.2.1
   sqflite: ^2.4.1
   image_picker: ^1.1.2
-  fl_chart: ^0.65.0
+  fl_chart: ^1.0.0
   uni_links: ^0.5.1
   video_player: ^2.9.5
-  syncfusion_flutter_pdfviewer: ^24.2.8
+  syncfusion_flutter_pdfviewer: ^29.2.5
   flutter_html: ^3.0.0-beta.2
 
 dev_dependencies:

@@ -29,7 +29,7 @@ class AyaBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AyaColors.surface.withAlpha(230),
+        color: AyaColors.surface.withValues(alpha: 0.5),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
@@ -40,7 +40,7 @@ class AyaBottomSheet extends StatelessWidget {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: AyaColors.textSecondary.withOpacity(0.3),
+              color: AyaColors.textSecondary.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -89,3 +89,6 @@ class AyaBottomSheet extends StatelessWidget {
     );
   }
 }
+
+// TODO: Criar este componente/página futuramente
+// import '../../features/content/widgets/bottom_sheet_custom.dart';
