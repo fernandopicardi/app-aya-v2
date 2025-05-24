@@ -4,8 +4,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/theme/app_theme.dart';
 // TODO: Implement routes
 import 'routes.dart';
-// TODO: Implement auth service
-import 'features/auth/services/auth_service.dart';
 // TODO: Implement dashboard service
 // import 'features/dashboard/services/dashboard_service.dart';
 // TODO: Implement lessons service

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
 enum ContentType {
   video,
@@ -11,6 +11,17 @@ enum LessonDifficulty {
   beginner,
   intermediate,
   advanced,
+}
+
+enum LessonCategory {
+  meditation,
+  nutrition,
+  healing,
+  ayurveda,
+  mindfulness,
+  spirituality,
+  yoga,
+  wellness,
 }
 
 class ComplementaryMaterial {
@@ -36,6 +47,8 @@ class Lesson {
   final String duration;
   final ContentType contentType;
   final LessonDifficulty? difficulty;
+  final LessonCategory category;
+  final int points;
   final bool isPremium;
   final int studentsCount;
   final List<ComplementaryMaterial> complementaryMaterials;
@@ -50,6 +63,8 @@ class Lesson {
     required this.duration,
     required this.contentType,
     this.difficulty,
+    required this.category,
+    required this.points,
     this.isPremium = false,
     this.studentsCount = 0,
     this.complementaryMaterials = const [],
@@ -70,6 +85,8 @@ class Lesson {
         contentType: ContentType.video,
         duration: '45 min',
         difficulty: LessonDifficulty.beginner,
+        category: LessonCategory.meditation,
+        points: 20,
         isPremium: false,
         studentsCount: 1234,
         complementaryMaterials: [
@@ -91,6 +108,8 @@ class Lesson {
           duration: '30 min',
           contentType: ContentType.video,
           difficulty: LessonDifficulty.beginner,
+          category: LessonCategory.spirituality,
+          points: 15,
           isPremium: false,
           studentsCount: 0,
         ),
@@ -107,6 +126,8 @@ class Lesson {
         contentType: ContentType.audio,
         duration: '30 min',
         difficulty: LessonDifficulty.advanced,
+        category: LessonCategory.mindfulness,
+        points: 25,
         isPremium: true,
         studentsCount: 567,
         complementaryMaterials: [
@@ -129,6 +150,8 @@ class Lesson {
         duration: '20 min',
         contentType: ContentType.audio,
         difficulty: LessonDifficulty.beginner,
+        category: LessonCategory.healing,
+        points: 10,
         isPremium: false,
         studentsCount: 0,
       ),
@@ -144,6 +167,8 @@ class Lesson {
         contentType: ContentType.richText,
         duration: '20 min',
         difficulty: LessonDifficulty.intermediate,
+        category: LessonCategory.ayurveda,
+        points: 15,
         isPremium: false,
         studentsCount: 432,
         complementaryMaterials: [
@@ -167,6 +192,8 @@ class Lesson {
         contentType: ContentType.pdf,
         duration: '40 min',
         difficulty: LessonDifficulty.advanced,
+        category: LessonCategory.yoga,
+        points: 30,
         isPremium: true,
         studentsCount: 321,
         complementaryMaterials: [
@@ -189,6 +216,8 @@ class Lesson {
         duration: '90 min',
         contentType: ContentType.pdf,
         difficulty: LessonDifficulty.advanced,
+        category: LessonCategory.spirituality,
+        points: 40,
         isPremium: false,
         studentsCount: 0,
         complementaryMaterials: [

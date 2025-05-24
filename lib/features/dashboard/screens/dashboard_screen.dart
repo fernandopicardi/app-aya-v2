@@ -203,7 +203,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: BottomNavigationBar(
                   currentIndex: _selectedIndex,
                   onTap: _onItemSelected,
-                  backgroundColor: AyaColors.textPrimary.withOpacity(0.1),
+                  backgroundColor: AyaColors.textPrimary.withValues(alpha: 0.1),
                   elevation: 0,
                   selectedItemColor: AyaColors.turquoise,
                   unselectedItemColor: AyaColors.textPrimary,
@@ -215,8 +215,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ? Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color:
-                                    AyaColors.lavenderVibrant.withOpacity(0.12),
+                                color: AyaColors.lavenderVibrant
+                                    .withValues(alpha: 0.12),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
                                   color: AyaColors.lavenderVibrant,
@@ -225,7 +225,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 boxShadow: [
                                   BoxShadow(
                                     color: AyaColors.lavenderVibrant
-                                        .withOpacity(0.18),
+                                        .withValues(alpha: 0.18),
                                     blurRadius: 8,
                                     offset: const Offset(0, 2),
                                   ),
@@ -245,8 +245,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ? Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color:
-                                    AyaColors.lavenderVibrant.withOpacity(0.12),
+                                color: AyaColors.lavenderVibrant
+                                    .withValues(alpha: 0.12),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
                                   color: AyaColors.lavenderVibrant,
@@ -255,7 +255,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 boxShadow: [
                                   BoxShadow(
                                     color: AyaColors.lavenderVibrant
-                                        .withOpacity(0.18),
+                                        .withValues(alpha: 0.18),
                                     blurRadius: 8,
                                     offset: const Offset(0, 2),
                                   ),
@@ -275,8 +275,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ? Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color:
-                                    AyaColors.lavenderVibrant.withOpacity(0.12),
+                                color: AyaColors.lavenderVibrant
+                                    .withValues(alpha: 0.12),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
                                   color: AyaColors.lavenderVibrant,
@@ -285,7 +285,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 boxShadow: [
                                   BoxShadow(
                                     color: AyaColors.lavenderVibrant
-                                        .withOpacity(0.18),
+                                        .withValues(alpha: 0.18),
                                     blurRadius: 8,
                                     offset: const Offset(0, 2),
                                   ),
@@ -305,8 +305,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ? Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color:
-                                    AyaColors.lavenderVibrant.withOpacity(0.12),
+                                color: AyaColors.lavenderVibrant
+                                    .withValues(alpha: 0.12),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
                                   color: AyaColors.lavenderVibrant,
@@ -315,7 +315,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 boxShadow: [
                                   BoxShadow(
                                     color: AyaColors.lavenderVibrant
-                                        .withOpacity(0.18),
+                                        .withValues(alpha: 0.18),
                                     blurRadius: 8,
                                     offset: const Offset(0, 2),
                                   ),

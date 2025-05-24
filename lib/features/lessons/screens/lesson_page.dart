@@ -538,8 +538,6 @@ class _LessonPageState extends State<LessonPage> {
         return Icons.article_outlined;
       case ContentType.pdf:
         return Icons.picture_as_pdf_outlined;
-      default:
-        return Icons.article_outlined;
     }
   }
 
@@ -553,8 +551,6 @@ class _LessonPageState extends State<LessonPage> {
         return 'Artigo';
       case ContentType.pdf:
         return 'PDF';
-      default:
-        return 'Conteúdo';
     }
   }
 

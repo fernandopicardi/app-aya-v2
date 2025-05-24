@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../core/theme/app_theme.dart';
 import 'aya_premium_icon.dart';
-import 'package:iconoir_flutter/iconoir_flutter.dart' as iconoir;
 
 class AyaDrawer extends StatelessWidget {
   final Widget? header;
@@ -66,7 +65,7 @@ class AyaDrawerItem extends StatelessWidget {
   final Color? selectedColor;
   final Color? unselectedColor;
   final TextStyle? titleStyle;
-  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? contentPadding;
   final bool showDivider;
   final bool isHeader;
   final bool isFooter;
@@ -80,7 +79,7 @@ class AyaDrawerItem extends StatelessWidget {
     this.selectedColor,
     this.unselectedColor,
     this.titleStyle,
-    this.padding,
+    this.contentPadding,
     this.showDivider = false,
     this.isHeader = false,
     this.isFooter = false,
@@ -100,6 +99,11 @@ class AyaDrawerItem extends StatelessWidget {
           onTap: onTap,
           selected: isSelected,
           selectedTileColor: AyaColors.surface.withValues(alpha: 0.1),
+          contentPadding: contentPadding ??
+              EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: isHeader || isFooter ? 8 : 4,
+              ),
           leading: icon != null
               ? AyaPremiumIcon(
                   customIcon: icon!,
@@ -132,7 +136,7 @@ extension AyaDrawerItemBuilder on AyaDrawerItem {
   static AyaDrawerItem header({
     required String title,
     TextStyle? titleStyle,
-    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry? contentPadding,
   }) {
     return AyaDrawerItem(
       title: title,
@@ -142,7 +146,7 @@ extension AyaDrawerItemBuilder on AyaDrawerItem {
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),
-      padding: padding,
+      contentPadding: contentPadding,
       isHeader: true,
     );
   }
@@ -155,7 +159,7 @@ extension AyaDrawerItemBuilder on AyaDrawerItem {
     Color? selectedColor,
     Color? unselectedColor,
     TextStyle? titleStyle,
-    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry? contentPadding,
   }) {
     return AyaDrawerItem(
       title: title,
@@ -165,7 +169,7 @@ extension AyaDrawerItemBuilder on AyaDrawerItem {
       selectedColor: selectedColor,
       unselectedColor: unselectedColor,
       titleStyle: titleStyle,
-      padding: padding,
+      contentPadding: contentPadding,
     );
   }
 
@@ -183,7 +187,7 @@ extension AyaDrawerItemBuilder on AyaDrawerItem {
     Color? selectedColor,
     Color? unselectedColor,
     TextStyle? titleStyle,
-    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry? contentPadding,
   }) {
     return AyaDrawerItem(
       title: title,
@@ -193,7 +197,7 @@ extension AyaDrawerItemBuilder on AyaDrawerItem {
       selectedColor: selectedColor,
       unselectedColor: unselectedColor,
       titleStyle: titleStyle,
-      padding: padding,
+      contentPadding: contentPadding,
       isFooter: true,
     );
   }

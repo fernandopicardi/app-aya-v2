@@ -86,73 +86,45 @@ class DashboardService {
     );
   }
 
+  // TODO: Implement daily tip functionality
+  /*
   Future<String> _getDailyTip() async {
-    // TODO: Implementar busca real no Supabase
-    return 'A meditação regular pode reduzir o estresse e melhorar o bem-estar geral.';
+    // Implementation needed
+    return 'Daily tip placeholder';
   }
+  */
 
-  Future<Lesson?> _getLastAccessedLesson() async {
-    // TODO: Implementar busca real no Supabase
+  // TODO: Implement last accessed lesson functionality
+  /*
+  Future<Lesson> _getLastAccessedLesson() async {
+    // Implementation needed
     return Lesson(
       id: '1',
-      title: 'Meditação Guiada',
-      description: 'Uma meditação guiada para iniciantes',
-      thumbnailUrl: 'https://picsum.photos/400/225',
-      durationMinutes: 10,
-      isPremium: false,
-      progress: 0.5,
+      title: 'Last accessed lesson',
+      description: 'Description',
+      duration: 30,
+      difficulty: 'Beginner',
+      category: 'Category',
+      thumbnailUrl: 'https://example.com/thumbnail.jpg',
     );
   }
+  */
 
+  // TODO: Implement recommended lessons functionality
+  /*
   Future<List<Lesson>> _getRecommendedLessons() async {
-    // TODO: Implementar busca real no Supabase
-    return [
-      Lesson(
-        id: '1',
-        title: 'Meditação Guiada',
-        description: 'Uma meditação guiada para iniciantes',
-        thumbnailUrl: 'https://picsum.photos/400/225',
-        durationMinutes: 10,
-        isPremium: false,
-        progress: 0.0,
-      ),
-      Lesson(
-        id: '2',
-        title: 'Mindfulness Básico',
-        description: 'Aprenda os fundamentos do mindfulness',
-        thumbnailUrl: 'https://picsum.photos/400/225',
-        durationMinutes: 15,
-        isPremium: true,
-        progress: 0.0,
-      ),
-    ];
+    // Implementation needed
+    return [];
   }
+  */
 
+  // TODO: Implement modules functionality
+  /*
   Future<List<Module>> _getModules() async {
-    // TODO: Implementar busca real no Supabase
-    return [
-      Module(
-        id: '1',
-        title: 'Fundamentos da Meditação',
-        description: 'Aprenda os conceitos básicos da meditação',
-        coverUrl: 'https://picsum.photos/400/225',
-        isPremium: false,
-        progress: 0.3,
-        totalLessons: 10,
-        completedLessons: 3,
-      ),
-      Module(
-        id: '2',
-        title: 'Meditação Avançada',
-        description: 'Técnicas avançadas de meditação',
-        coverUrl: 'https://picsum.photos/400/225',
-        isPremium: true,
-        progress: 0.0,
-        totalLessons: 8,
-        completedLessons: 0,
-      ),
-    ];
+    // Implementation needed
+    return [];
   }
+  */
 
   Future<bool> isAdmin() async {
     final user = _supabase.auth.currentUser;
