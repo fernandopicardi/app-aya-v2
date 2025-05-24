@@ -120,11 +120,6 @@ class AyaDrawerItem extends StatelessWidget {
                       ),
                 )
               : null,
-          padding: padding ??
-              EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: isHeader || isFooter ? 8 : 4,
-              ),
         ),
         if (showDivider) const Divider(),
       ],
