@@ -14,16 +14,74 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/rendering.dart';
 import '../../../core/widgets/aya_bottom_sheet.dart';
 import '../../../features/dashboard/services/dashboard_service.dart';
+import 'package:go_router/go_router.dart';
+import '../../../widgets/aya_glass_container.dart';
+
+class GlassmorphicAppBar extends StatelessWidget
+    implements PreferredSizeWidget {
+  final String title;
+  final List<Widget>? actions;
+  final Widget? leading;
+  final bool centerTitle;
+  final double elevation;
+
+  const GlassmorphicAppBar({
+    super.key,
+    required this.title,
+    this.actions,
+    this.leading,
+    this.centerTitle = true,
+    this.elevation = 0,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AyaGlassContainer(
+      borderRadius: 0,
+      blurRadius: 15,
+      padding: EdgeInsets.zero,
+      child: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: elevation,
+        title: Text(
+          title,
+          style: const TextStyle(
+            color: AyaColors.textPrimary,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            shadows: [
+              Shadow(
+                color: AyaColors.black60,
+                blurRadius: 4,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+        ),
+        centerTitle: centerTitle,
+        actions: actions,
+        leading: leading,
+      ),
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+  final AuthService authService;
+
+  const DashboardScreen({
+    super.key,
+    required this.authService,
+  });
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  final _authService = AuthService();
   int _selectedIndex = 0;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   int _heroPage = 0;
@@ -56,96 +114,147 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AyaColors.background,
       extendBody: true,
       extendBodyBehindAppBar: true,
       key: _scaffoldKey,
-      appBar: AyaAppBar(
-        onMenuPressed: () => _scaffoldKey.currentState?.openDrawer(),
-        notificationCount: 3, // TODO: Get from notification service
-      ),
-      drawer: AyaDrawer(authService: _authService),
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: [
-          _buildHomeTab(),
-          _buildLibraryTab(),
-          _buildCommunityTab(),
-          _buildChatTab(),
-          _buildProfileTab(),
+      appBar: GlassmorphicAppBar(
+        title: 'Aya',
+        leading: IconButton(
+          icon: const Icon(
+            Icons.menu,
+            color: AyaColors.textPrimary,
+          ),
+          onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.notifications_outlined,
+              color: AyaColors.textPrimary,
+            ),
+            onPressed: () {
+              context.go('/notifications');
+            },
+          ),
         ],
       ),
-      bottomNavigationBar: AyaBottomNav(
-        selectedIndex: _selectedIndex,
-        onDestinationSelected: (index) {
-          setState(() => _selectedIndex = index);
-        },
+      drawer: AyaDrawer(
+        authService: widget.authService,
+      ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(4),
+            child: AyaGlassContainer(
+              borderRadius: 16,
+              blurRadius: 10,
+              padding: const EdgeInsets.all(16),
+              child: IndexedStack(
+                index: _selectedIndex,
+                children: const [
+                  HomeTabWidget(),
+                  LibraryTabWidget(),
+                  CommunityTabWidget(),
+                  ChatTabWidget(),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: AyaGlassContainer(
+              borderRadius: 0,
+              blurRadius: 15,
+              padding: EdgeInsets.zero,
+              child: BottomNavigationBar(
+                currentIndex: _selectedIndex,
+                onTap: (index) {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                },
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                selectedItemColor: AyaColors.turquoise,
+                unselectedItemColor: AyaColors.textPrimary.withOpacity(0.5),
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home_outlined),
+                    activeIcon: Icon(Icons.home),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.library_books_outlined),
+                    activeIcon: Icon(Icons.library_books),
+                    label: 'Biblioteca',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.people_outline),
+                    activeIcon: Icon(Icons.people),
+                    label: 'Comunidade',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.smart_toy_outlined),
+                    activeIcon: Icon(Icons.smart_toy),
+                    label: 'Aya Chat',
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildHomeTab() {
-    return ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        SizedBox(
-          height: MediaQuery.of(context).padding.top + kToolbarHeight + 12,
-        ),
-        _buildHeroSection(),
-        const SizedBox(height: 24),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: _buildContinueLearningSection(),
-        ),
-        const SizedBox(height: 24),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: _buildRecommendedSection(),
-        ),
-        const SizedBox(height: 24),
-      ],
-    );
+  List<Widget> _buildHomeTab() {
+    return [
+      SizedBox(
+        height: MediaQuery.of(context).padding.top + kToolbarHeight + 12,
+      ),
+      _buildHeroSection(),
+      const SizedBox(height: 24),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: _buildContinueLearningSection(),
+      ),
+      const SizedBox(height: 24),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: _buildRecommendedSection(),
+      ),
+      const SizedBox(height: 24),
+    ];
   }
 
-  Widget _buildLibraryTab() {
-    return Navigator(
-      onGenerateRoute: (settings) {
-        if (settings.name == '/') {
-          return MaterialPageRoute(
-            builder: (_) => const LessonsListScreen(),
-          );
-        }
-        return null;
-      },
-    );
+  List<Widget> _buildLibraryTab() {
+    return [
+      Navigator(
+        onGenerateRoute: (settings) {
+          if (settings.name == '/') {
+            return MaterialPageRoute(
+              builder: (_) => const LessonsListScreen(),
+            );
+          }
+          return null;
+        },
+      ),
+    ];
   }
 
-  Widget _buildCommunityTab() {
-    // TODO: Criar componente de feed da comunidade
-    return const Center(child: Text('Comunidade'));
+  List<Widget> _buildCommunityTab() {
+    return [
+      const Center(child: Text('Comunidade')),
+    ];
   }
 
-  Widget _buildChatTab() {
-    // TODO: Criar componente de chat
-    return const Center(child: Text('Aya Chat'));
-  }
-
-  Widget _buildProfileTab() {
-    return CustomScrollView(
-      slivers: [
-        SliverPadding(
-          padding: const EdgeInsets.all(16),
-          sliver: SliverList(
-            delegate: SliverChildListDelegate([
-              _buildProfileCard(),
-              const SizedBox(height: 24),
-              _buildDownloadsSection(),
-              const SizedBox(height: 24),
-              _buildSettingsSection(),
-            ]),
-          ),
-        ),
-      ],
-    );
+  List<Widget> _buildChatTab() {
+    return [
+      const Center(child: Text('Aya Chat')),
+    ];
   }
 
   Widget _buildHeroSection() {
@@ -221,8 +330,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 shadows: [
                                   Shadow(
                                     color: AyaColors.black60,
-                                    offset: const Offset(0, 2),
                                     blurRadius: 4,
+                                    offset: Offset(0, 2),
                                   ),
                                 ],
                               ),
@@ -673,122 +782,77 @@ class _DashboardScreenState extends State<DashboardScreen> {
       );
     }
   }
+}
 
-  Widget _buildProfileCard() {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: AyaColors.lavenderSoft,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        children: [
-          const CircleAvatar(
-            radius: 48,
-            backgroundColor: AyaColors.turquoise,
-            child: Icon(
-              Icons.person,
-              size: 48,
-              color: AyaColors.surface,
-            ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'Usuário AYA',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: AyaColors.textPrimary,
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'usuario@aya.com',
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: AyaColors.textPrimary60,
-                ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDownloadsSection() {
-    // TODO: Implementar lista de downloads reais
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+class HomeTabWidget extends StatelessWidget {
+  const HomeTabWidget({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: EdgeInsets.zero,
       children: [
-        Text(
-          'Downloads',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: AyaColors.textPrimary,
-                fontWeight: FontWeight.bold,
-              ),
+        SizedBox(
+          height: MediaQuery.of(context).padding.top + kToolbarHeight + 12,
         ),
-        const SizedBox(height: 16),
-        // TODO: Implementar lista de downloads
-        Container(
-          height: 200,
-          decoration: BoxDecoration(
-            color: AyaColors.lavenderSoft,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: const Center(
-            child: Text('Nenhum download disponível'),
-          ),
-        ),
+        _HomeTabSections(),
       ],
     );
   }
+}
 
-  Widget _buildSettingsSection() {
-    // TODO: Implementar tela de configurações completa
+class _HomeTabSections extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final dashboard = context.findAncestorStateOfType<_DashboardScreenState>();
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          'Configurações',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: AyaColors.textPrimary,
-                fontWeight: FontWeight.bold,
-              ),
+        dashboard!._buildHeroSection(),
+        const SizedBox(height: 24),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: dashboard._buildContinueLearningSection(),
         ),
-        const SizedBox(height: 16),
-        Container(
-          decoration: BoxDecoration(
-            color: AyaColors.lavenderSoft,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            children: [
-              ListTile(
-                leading: const Icon(Icons.notifications_outlined),
-                title: const Text('Notificações'),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () {
-                  // TODO: Implementar configurações de notificações
-                },
-              ),
-              const Divider(height: 1),
-              ListTile(
-                leading: const Icon(Icons.dark_mode_outlined),
-                title: const Text('Tema'),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () {
-                  // TODO: Implementar configurações de tema
-                },
-              ),
-              const Divider(height: 1),
-              ListTile(
-                leading: const Icon(Icons.logout),
-                title: const Text('Sair'),
-                onTap: () {
-                  // TODO: Implementar logout
-                },
-              ),
-            ],
-          ),
+        const SizedBox(height: 24),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: dashboard._buildRecommendedSection(),
         ),
+        const SizedBox(height: 24),
       ],
     );
+  }
+}
+
+class LibraryTabWidget extends StatelessWidget {
+  const LibraryTabWidget({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      onGenerateRoute: (settings) {
+        if (settings.name == '/') {
+          return MaterialPageRoute(
+            builder: (_) => const LessonsListScreen(),
+          );
+        }
+        return null;
+      },
+    );
+  }
+}
+
+class CommunityTabWidget extends StatelessWidget {
+  const CommunityTabWidget({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const Center(child: Text('Comunidade'));
+  }
+}
+
+class ChatTabWidget extends StatelessWidget {
+  const ChatTabWidget({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const Center(child: Text('Aya Chat'));
   }
 }
