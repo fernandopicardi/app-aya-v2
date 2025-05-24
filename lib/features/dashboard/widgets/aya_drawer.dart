@@ -24,7 +24,12 @@ class AyaDrawer extends StatelessWidget {
       child: AyaGlassContainer(
         borderRadius: 0,
         blurRadius: 15,
-        backgroundColor: AyaColors.textPrimary.withOpacity(0.10),
+        backgroundColor: Color.fromRGBO(
+          (AyaColors.textPrimary.value >> 16 & 0xff),
+          (AyaColors.textPrimary.value >> 8 & 0xff),
+          (AyaColors.textPrimary.value & 0xff),
+          0.10,
+        ),
         borderColor: AyaColors.lavenderSoft30,
         padding: EdgeInsets.zero,
         child: ListView(

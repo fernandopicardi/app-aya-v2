@@ -59,12 +59,11 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
         setState(() {
           _errorMessage = e.toString().replaceFirst('Exception: ', '');
         });
-      } finally {
-        if (!mounted) return;
-        setState(() {
-          _isLoading = false;
-        });
       }
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -267,12 +266,6 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
                                       .replaceFirst('Exception: ', '');
                                 });
                               }
-                            } finally {
-                              if (mounted) {
-                                setState(() {
-                                  _isLoading = false;
-                                });
-                              }
                             }
                           },
                   ),
@@ -296,12 +289,6 @@ class _SimpleRegisterPageState extends State<SimpleRegisterPage> {
                                   _errorMessage = e
                                       .toString()
                                       .replaceFirst('Exception: ', '');
-                                });
-                              }
-                            } finally {
-                              if (mounted) {
-                                setState(() {
-                                  _isLoading = false;
                                 });
                               }
                             }

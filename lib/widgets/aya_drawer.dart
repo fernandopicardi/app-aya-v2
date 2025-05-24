@@ -40,10 +40,12 @@ class AyaDrawer extends StatelessWidget {
           ],
           Expanded(
             child: ListView.separated(
-              padding: const EdgeInsets.symmetric(vertical: 8),
+              padding: EdgeInsets.symmetric(vertical: 8),
               itemCount: items.length,
-              separatorBuilder: (context, index) =>
-                  showDivider ? const Divider() : const SizedBox.shrink(),
+              separatorBuilder: (context, index) {
+                if (!showDivider) return SizedBox.shrink();
+                return Divider();
+              },
               itemBuilder: (context, index) => items[index],
             ),
           ),
@@ -174,7 +176,8 @@ extension AyaDrawerItemBuilder on AyaDrawerItem {
   }
 
   static AyaDrawerItem divider() {
-    return const AyaDrawerItem(
+    return AyaDrawerItem(
+      title: '',
       showDivider: true,
     );
   }

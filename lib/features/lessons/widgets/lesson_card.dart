@@ -153,10 +153,20 @@ class LessonCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: _getCategoryColor(category).withOpacity(0.1),
+        color: Color.fromRGBO(
+          (_getCategoryColor(category).value >> 16 & 0xff),
+          (_getCategoryColor(category).value >> 8 & 0xff),
+          (_getCategoryColor(category).value & 0xff),
+          0.1,
+        ),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: _getCategoryColor(category).withOpacity(0.3),
+          color: Color.fromRGBO(
+            (_getCategoryColor(category).value >> 16 & 0xff),
+            (_getCategoryColor(category).value >> 8 & 0xff),
+            (_getCategoryColor(category).value & 0xff),
+            0.3,
+          ),
           width: 1,
         ),
       ),
@@ -175,10 +185,20 @@ class LessonCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: AyaColors.turquoise.withOpacity(0.1),
+        color: Color.fromRGBO(
+          (AyaColors.turquoise.value >> 16 & 0xff),
+          (AyaColors.turquoise.value >> 8 & 0xff),
+          (AyaColors.turquoise.value & 0xff),
+          0.1,
+        ),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AyaColors.turquoise.withOpacity(0.3),
+          color: Color.fromRGBO(
+            (AyaColors.turquoise.value >> 16 & 0xff),
+            (AyaColors.turquoise.value >> 8 & 0xff),
+            (AyaColors.turquoise.value & 0xff),
+            0.3,
+          ),
           width: 1,
         ),
       ),
