@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../features/auth/services/auth_service.dart';
 import 'package:iconoir_flutter/iconoir_flutter.dart' as iconoir;
+import 'package:app_aya_v2/widgets/aya_glass_container.dart';
 
 class AyaDrawer extends StatelessWidget {
   final AuthService authService;
@@ -19,92 +20,107 @@ class AyaDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: AyaColors.surface.withValues(alpha: 0.8),
-      child: ListView(
+      backgroundColor: Colors.transparent,
+      child: AyaGlassContainer(
+        borderRadius: 0,
+        blurRadius: 15,
+        backgroundColor: AyaColors.textPrimary.withOpacity(0.10),
+        borderColor: AyaColors.lavenderSoft30,
         padding: EdgeInsets.zero,
-        children: [
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: AyaColors.lavenderVibrant.withValues(alpha: 0.1),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CircleAvatar(
-                  radius: 30,
-                  backgroundColor:
-                      AyaColors.lavenderVibrant.withValues(alpha: 0.2),
-                  child: const iconoir.User(
-                    color: AyaColors.textPrimary,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: AyaColors.lavenderVibrant.withValues(alpha: 0.1),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundColor:
+                        AyaColors.lavenderVibrant.withValues(alpha: 0.2),
+                    child: const iconoir.User(
+                      color: AyaColors.textPrimary,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  authService.getCurrentUser()?.email ?? 'Usuário',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: AyaColors.textPrimary,
-                        fontWeight: FontWeight.w600,
-                      ),
-                ),
-                Text(
-                  'Premium',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AyaColors.textPrimary.withValues(alpha: 0.6),
-                      ),
-                ),
-              ],
+                  const SizedBox(height: 12),
+                  Text(
+                    authService.getCurrentUser()?.email ?? 'Usuário',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: AyaColors.textPrimary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                  Text(
+                    'Premium',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AyaColors.textPrimary.withValues(alpha: 0.6),
+                        ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          _buildDrawerItem(
-            context,
-            icon: const iconoir.Home(
-              color: AyaColors.textPrimary,
+            _buildDrawerItem(
+              context,
+              icon: const iconoir.Home(
+                color: AyaColors.textPrimary,
+              ),
+              title: 'Home',
+              index: 0,
             ),
-            title: 'Home',
-            index: 0,
-          ),
-          _buildDrawerItem(
-            context,
-            icon: const iconoir.Book(
-              color: AyaColors.textPrimary,
+            _buildDrawerItem(
+              context,
+              icon: const iconoir.Book(
+                color: AyaColors.textPrimary,
+              ),
+              title: 'Biblioteca',
+              index: 1,
             ),
-            title: 'Biblioteca',
-            index: 1,
-          ),
-          _buildDrawerItem(
-            context,
-            icon: const iconoir.Group(
-              color: AyaColors.textPrimary,
+            _buildDrawerItem(
+              context,
+              icon: const iconoir.Group(
+                color: AyaColors.textPrimary,
+              ),
+              title: 'Comunidade',
+              index: 2,
             ),
-            title: 'Comunidade',
-            index: 2,
-          ),
-          _buildDrawerItem(
-            context,
-            icon: const iconoir.ChatBubble(
-              color: AyaColors.textPrimary,
+            _buildDrawerItem(
+              context,
+              icon: const iconoir.ChatBubble(
+                color: AyaColors.textPrimary,
+              ),
+              title: 'Aya Chat',
+              index: 3,
             ),
-            title: 'Aya Chat',
-            index: 3,
-          ),
-          const Divider(color: AyaColors.textPrimary40),
-          _buildDrawerItem(
-            context,
-            icon: const iconoir.Settings(
-              color: AyaColors.textPrimary,
+            _buildDrawerItem(
+              context,
+              icon: const iconoir.UserCircle(
+                color: AyaColors.textPrimary,
+              ),
+              title: 'Perfil',
+              index: 4,
             ),
-            title: 'Configurações',
-            onTap: () => context.go('/admin/settings'),
-          ),
-          _buildDrawerItem(
-            context,
-            icon: const iconoir.LogOut(
-              color: AyaColors.textPrimary,
+            const Divider(color: AyaColors.textPrimary40),
+            _buildDrawerItem(
+              context,
+              icon: const iconoir.Settings(
+                color: AyaColors.textPrimary,
+              ),
+              title: 'Configurações',
+              onTap: () => context.go('/admin/settings'),
             ),
-            title: 'Sair',
-            onTap: () => context.go('/login'),
-          ),
-        ],
+            _buildDrawerItem(
+              context,
+              icon: const iconoir.LogOut(
+                color: AyaColors.textPrimary,
+              ),
+              title: 'Sair',
+              onTap: () => context.go('/login'),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -129,7 +145,7 @@ class AyaDrawer extends StatelessWidget {
           border: Border.all(
             color: isSelected
                 ? AyaColors.lavenderVibrant
-                : AyaColors.textPrimary40,
+                : AyaColors.lavenderSoft30,
             width: 1.5,
           ),
         ),

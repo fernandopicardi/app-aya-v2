@@ -23,6 +23,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 // import '../../../features/dashboard/services/dashboard_service.dart';
 import 'package:go_router/go_router.dart';
 import '../../../widgets/aya_glass_container.dart';
+import 'package:iconoir_flutter/iconoir_flutter.dart' as iconoir;
 
 // TODO: Move to app_constants.dart
 class AppConstants {
@@ -157,17 +158,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
       appBar: GlassmorphicAppBar(
         title: 'Aya',
         leading: IconButton(
-          icon: const Icon(
-            Icons.menu,
-            color: AyaColors.textPrimary,
+          icon: const iconoir.Menu(
+            color: AyaColors.lavenderVibrant,
           ),
           onPressed: () => _scaffoldKey.currentState?.openDrawer(),
         ),
         actions: [
           IconButton(
-            icon: const Icon(
-              Icons.notifications_outlined,
-              color: AyaColors.textPrimary,
+            icon: const iconoir.Bell(
+              color: AyaColors.lavenderVibrant,
             ),
             onPressed: () {
               context.go('/notifications');
@@ -199,36 +198,140 @@ class _DashboardScreenState extends State<DashboardScreen> {
               borderRadius: 0,
               blurRadius: 15,
               padding: EdgeInsets.zero,
-              child: BottomNavigationBar(
-                currentIndex: _selectedIndex,
-                onTap: _onItemSelected,
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                selectedItemColor: AyaColors.turquoise,
-                unselectedItemColor:
-                    AyaColors.textPrimary.withValues(alpha: 0.5),
-                items: const [
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home_outlined),
-                    activeIcon: Icon(Icons.home),
-                    label: 'Home',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.library_books_outlined),
-                    activeIcon: Icon(Icons.library_books),
-                    label: 'Biblioteca',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.people_outline),
-                    activeIcon: Icon(Icons.people),
-                    label: 'Comunidade',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.smart_toy_outlined),
-                    activeIcon: Icon(Icons.smart_toy),
-                    label: 'Aya Chat',
-                  ),
-                ],
+              child: SizedBox(
+                height: kToolbarHeight + 8,
+                child: BottomNavigationBar(
+                  currentIndex: _selectedIndex,
+                  onTap: _onItemSelected,
+                  backgroundColor: AyaColors.textPrimary.withOpacity(0.1),
+                  elevation: 0,
+                  selectedItemColor: AyaColors.turquoise,
+                  unselectedItemColor: AyaColors.textPrimary,
+                  showSelectedLabels: false,
+                  showUnselectedLabels: false,
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: _selectedIndex == 0
+                          ? Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color:
+                                    AyaColors.lavenderVibrant.withOpacity(0.12),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: AyaColors.lavenderVibrant,
+                                  width: 2,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AyaColors.lavenderVibrant
+                                        .withOpacity(0.18),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: iconoir.Home(
+                                color: AyaColors.lavenderVibrant,
+                              ),
+                            )
+                          : iconoir.Home(
+                              color: AyaColors.textPrimary,
+                            ),
+                      label: '',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: _selectedIndex == 1
+                          ? Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color:
+                                    AyaColors.lavenderVibrant.withOpacity(0.12),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: AyaColors.lavenderVibrant,
+                                  width: 2,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AyaColors.lavenderVibrant
+                                        .withOpacity(0.18),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: iconoir.Book(
+                                color: AyaColors.lavenderVibrant,
+                              ),
+                            )
+                          : iconoir.Book(
+                              color: AyaColors.textPrimary,
+                            ),
+                      label: '',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: _selectedIndex == 2
+                          ? Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color:
+                                    AyaColors.lavenderVibrant.withOpacity(0.12),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: AyaColors.lavenderVibrant,
+                                  width: 2,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AyaColors.lavenderVibrant
+                                        .withOpacity(0.18),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: iconoir.Group(
+                                color: AyaColors.lavenderVibrant,
+                              ),
+                            )
+                          : iconoir.Group(
+                              color: AyaColors.textPrimary,
+                            ),
+                      label: '',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: _selectedIndex == 3
+                          ? Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color:
+                                    AyaColors.lavenderVibrant.withOpacity(0.12),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: AyaColors.lavenderVibrant,
+                                  width: 2,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AyaColors.lavenderVibrant
+                                        .withOpacity(0.18),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: iconoir.ChatBubble(
+                                color: AyaColors.lavenderVibrant,
+                              ),
+                            )
+                          : iconoir.ChatBubble(
+                              color: AyaColors.textPrimary,
+                            ),
+                      label: '',
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
