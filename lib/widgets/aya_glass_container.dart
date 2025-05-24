@@ -1,11 +1,9 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:app_aya_v2/core/theme/glassmorphism.dart';
 import 'package:app_aya_v2/core/theme/app_theme.dart';
-import 'package:app_aya_v2/core/theme/app_constants.dart';
+import 'dart:ui';
 
-/// A simplified Glassmorphism widget that will be refined later.
-/// Currently provides a basic frosted glass effect using the Aya theme colors.
-class Glassmorphism extends StatelessWidget {
+class AyaGlassContainer extends StatelessWidget {
   final Widget child;
   final double borderRadius;
   final double blurRadius;
@@ -14,12 +12,14 @@ class Glassmorphism extends StatelessWidget {
   final Color? backgroundColor;
   final bool showInnerBorder;
   final bool showTopHighlight;
+  final BoxConstraints? constraints;
+  final Alignment alignment;
   final bool animate;
   final Duration animationDuration;
   final Curve animationCurve;
   final Color? borderColor;
 
-  const Glassmorphism({
+  const AyaGlassContainer({
     super.key,
     required this.child,
     this.borderRadius = 16,
@@ -29,7 +29,9 @@ class Glassmorphism extends StatelessWidget {
     this.backgroundColor,
     this.showInnerBorder = true,
     this.showTopHighlight = true,
-    this.animate = false,
+    this.constraints,
+    this.alignment = Alignment.center,
+    this.animate = true,
     this.animationDuration = const Duration(milliseconds: 300),
     this.animationCurve = Curves.easeInOut,
     this.borderColor,
@@ -42,7 +44,6 @@ class Glassmorphism extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blurRadius, sigmaY: blurRadius),
         child: Container(
-          margin: margin,
           decoration: BoxDecoration(
             color: backgroundColor ?? AyaColors.glassBackground,
             borderRadius: BorderRadius.circular(borderRadius),
@@ -57,63 +58,50 @@ class Glassmorphism extends StatelessWidget {
               ),
             ],
           ),
-          child: Stack(
-            children: [
-              if (showTopHighlight)
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    height: 1,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          AyaColors.glassHighlight.withOpacity(0.5),
-                          AyaColors.glassHighlight.withOpacity(0.0),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              if (showInnerBorder)
-                Positioned.fill(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(borderRadius),
-                      border: Border.all(
-                        color: AyaColors.glassInnerBorder,
-                      ),
-                    ),
-                  ),
-                ),
-              padding != null
-                  ? Padding(
-                      padding: padding!,
-                      child: child,
-                    )
-                  : child,
-            ],
-          ),
+          child: padding != null
+              ? Padding(
+                  padding: padding!,
+                  child: child,
+                )
+              : child,
         ),
       ),
     );
 
-    if (animate) {
-      return AnimatedContainer(
-        duration: animationDuration,
-        curve: animationCurve,
+    if (!animate) {
+      return Container(
+        margin: margin,
+        constraints: constraints,
+        alignment: alignment,
         child: container,
       );
     }
 
-    return container;
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: animationDuration,
+      curve: animationCurve,
+      builder: (context, value, child) {
+        return Transform.scale(
+          scale: 0.95 + (value * 0.05),
+          child: Opacity(
+            opacity: value,
+            child: Container(
+              margin: margin,
+              constraints: constraints,
+              alignment: alignment,
+              child: container,
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 
-class GlassmorphicButton extends StatelessWidget {
+class AyaGlassButton extends StatelessWidget {
+  final VoidCallback onPressed;
   final Widget child;
-  final VoidCallback? onPressed;
   final double borderRadius;
   final double blurRadius;
   final EdgeInsetsGeometry padding;
@@ -125,25 +113,25 @@ class GlassmorphicButton extends StatelessWidget {
   final Duration animationDuration;
   final Curve animationCurve;
 
-  const GlassmorphicButton({
+  const AyaGlassButton({
     super.key,
+    required this.onPressed,
     required this.child,
-    this.onPressed,
-    this.borderRadius = 16,
-    this.blurRadius = 10,
+    this.borderRadius = 12.0,
+    this.blurRadius = 10.0,
     this.padding = const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
     this.margin = EdgeInsets.zero,
     this.backgroundColor,
     this.showInnerBorder = true,
     this.showTopHighlight = true,
-    this.animate = false,
+    this.animate = true,
     this.animationDuration = const Duration(milliseconds: 300),
     this.animationCurve = Curves.easeInOut,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Glassmorphism(
+    return AyaGlassContainer(
       borderRadius: borderRadius,
       blurRadius: blurRadius,
       padding: padding,
@@ -166,7 +154,7 @@ class GlassmorphicButton extends StatelessWidget {
   }
 }
 
-class GlassmorphicCard extends StatelessWidget {
+class AyaGlassCard extends StatelessWidget {
   final Widget child;
   final double borderRadius;
   final double blurRadius;
@@ -175,28 +163,32 @@ class GlassmorphicCard extends StatelessWidget {
   final Color? backgroundColor;
   final bool showInnerBorder;
   final bool showTopHighlight;
+  final BoxConstraints? constraints;
+  final Alignment alignment;
   final bool animate;
   final Duration animationDuration;
   final Curve animationCurve;
 
-  const GlassmorphicCard({
+  const AyaGlassCard({
     super.key,
     required this.child,
-    this.borderRadius = 16,
-    this.blurRadius = 10,
-    this.padding = const EdgeInsets.all(16),
-    this.margin = EdgeInsets.zero,
+    this.borderRadius = 16.0,
+    this.blurRadius = 10.0,
+    this.padding = const EdgeInsets.all(16.0),
+    this.margin = const EdgeInsets.all(8.0),
     this.backgroundColor,
     this.showInnerBorder = true,
     this.showTopHighlight = true,
-    this.animate = false,
+    this.constraints,
+    this.alignment = Alignment.center,
+    this.animate = true,
     this.animationDuration = const Duration(milliseconds: 300),
     this.animationCurve = Curves.easeInOut,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Glassmorphism(
+    return AyaGlassContainer(
       borderRadius: borderRadius,
       blurRadius: blurRadius,
       padding: padding,
@@ -204,6 +196,8 @@ class GlassmorphicCard extends StatelessWidget {
       backgroundColor: backgroundColor,
       showInnerBorder: showInnerBorder,
       showTopHighlight: showTopHighlight,
+      constraints: constraints,
+      alignment: alignment,
       animate: animate,
       animationDuration: animationDuration,
       animationCurve: animationCurve,
@@ -211,7 +205,3 @@ class GlassmorphicCard extends StatelessWidget {
     );
   }
 }
-
-// TODO: Reimplement with proper glassmorphism effect using BackdropFilter
-// The current implementation is a simplified version that will be enhanced later
-// with proper blur effects and more sophisticated styling.
