@@ -1,167 +1,796 @@
-# Guia de Estilo e Documentação Técnica
+# Guia de Estilo e Design Técnico - App Aya
 
 ## Índice
-1. [Visão Geral](#visão-geral)
-2. [Sistema de Cores](#sistema-de-cores)
-3. [Tipografia](#tipografia)
-4. [Espaçamento e Layout](#espaçamento-e-layout)
-5. [Componentes](#componentes)
-6. [Responsividade](#responsividade)
-7. [Animações](#animações)
-8. [Acessibilidade](#acessibilidade)
+1. [Introdução](#1-introdução)
+2. [Identidade Visual "AYA"](#2-identidade-visual-aya)
+3. [Layout e Espaçamento](#3-layout-e-espaçamento)
+4. [Componentes de UI (Core)](#4-componentes-de-ui-core)
+5. [Responsividade](#5-responsividade)
+6. [Animação e Transições](#6-animação-e-transições)
+7. [Acessibilidade (WCAG)](#7-acessibilidade-wcag)
+8. [Tom de Voz e Estilo de Escrita](#8-tom-de-voz-e-estilo-de-escrita)
+9. [Convenções de Código Flutter & Dart](#9-convenções-de-código-flutter--dart)
+10. [Estrutura de Arquivos e Pastas](#10-estrutura-de-arquivos-e-pastas)
+11. [Testes](#11-testes)
+12. [Apêndice](#12-apêndice)
 
-## Visão Geral
+## 1. Introdução
 
-Este documento estabelece os padrões de design e desenvolvimento para o projeto, garantindo consistência visual e comportamental em toda a aplicação.
+### 1.1. Propósito deste Guia
+Este guia estabelece os padrões de design e desenvolvimento para o App Aya, garantindo consistência visual e comportamental em toda a aplicação. Ele serve como referência central para designers e desenvolvedores.
 
-### Princípios Fundamentais
-- Consistência visual e comportamental
-- Experiência de usuário intuitiva
-- Performance e otimização
-- Acessibilidade universal
-- Manutenibilidade do código
+### 1.2. Princípios Fundamentais de Design
+- **Serenidade**: Design calmo e acolhedor que promove bem-estar
+- **Intuitividade**: Interface clara e fácil de navegar
+- **Acessibilidade**: Experiência inclusiva para todos os usuários
+- **Performance**: Otimização para uma experiência fluida
 
-## Sistema de Cores
+### 1.3. Como Usar Este Guia
+Este guia deve ser consultado durante todo o processo de desenvolvimento, desde o design inicial até a implementação. Mantenha-o atualizado conforme o projeto evolui.
 
-### Cores Primárias
+### 1.4. Referências
+Para uma visão geral do projeto, consulte o [README.md](README.md).
+
+## 2. Identidade Visual "AYA"
+
+### 2.1. Conceito Central
+O App Aya é caracterizado por uma estética feminina, moderna e serena, com foco em bem-estar e autoconhecimento. O design busca transmitir calma e acolhimento através de elementos visuais suaves e harmoniosos.
+
+### 2.2. Logo
+(Se aplicável: versões, uso correto, espaçamento)
+
+### 2.3. Paleta de Cores
+
+#### 2.3.1. Cores Primárias
 ```dart
-static const Color primary = Color(0xFF1E88E5);  // Azul principal
-static const Color secondary = Color(0xFF26A69A); // Verde água
-static const Color accent = Color(0xFFFFA726);    // Laranja
+static const Color deepPurple = Color(0xFF2A2939);  // Roxo profundo
+static const Color lavender = Color(0xFFACA1EF);    // Lavanda
 ```
 
-### Cores de Estado
+#### 2.3.2. Cores Secundárias e de Acento
 ```dart
-static const Color success = Color(0xFF4CAF50);   // Verde
-static const Color error = Color(0xFFE53935);     // Vermelho
-static const Color warning = Color(0xFFFFB300);   // Amarelo
-static const Color info = Color(0xFF2196F3);      // Azul info
+static const Color turquoise = Color(0xFF78C7B4);   // Verde água
+static const Color softLavender = Color(0xFF575C84); // Lavanda suave
 ```
 
-### Cores de Fundo
+#### 2.3.3. Cores Neutras
 ```dart
-static const Color background = Color(0xFFF5F5F5);    // Fundo principal
-static const Color surface = Color(0xFFFFFFFF);       // Superfícies
-static const Color cardBackground = Color(0xFFFFFFFF); // Fundo de cards
+static const Color surface = Color(0xFFF8F8FF);     // Fundo claro
+static const Color textPrimary = Color(0xFF2A2939); // Texto principal
+static const Color textSecondary = Color(0xFF575C84); // Texto secundário
 ```
 
-### Cores de Texto
+#### 2.3.4. Cores de Estado
 ```dart
-static const Color textPrimary = Color(0xFF212121);   // Texto principal
-static const Color textSecondary = Color(0xFF757575); // Texto secundário
-static const Color textHint = Color(0xFF9E9E9E);      // Texto de dica
+static const Color success = Color(0xFF4CAF50);     // Verde sucesso
+static const Color error = Color(0xFFE53935);       // Vermelho erro
+static const Color warning = Color(0xFFFFB300);     // Amarelo aviso
+static const Color info = Color(0xFF2196F3);        // Azul informação
 ```
 
-## Tipografia
+#### 2.3.5. Exemplos de Uso e Harmonia de Cores
+- Fundos escuros com acentos em lavanda
+- Textos claros sobre fundos escuros
+- Elementos interativos em turquoise
+- Estados e feedback em cores semânticas
 
-### Famílias de Fonte
+### 2.4. Tipografia
+
+#### 2.4.1. Fonte Principal para Títulos
 ```dart
-static const String fontFamily = 'Poppins';
-static const String fontFamilySecondary = 'Roboto';
+static const String titleFontFamily = 'Open Sans';
+static const FontWeight titleFontWeight = FontWeight.w600;
 ```
 
-### Tamanhos de Fonte
+#### 2.4.2. Fonte Principal para Corpo de Texto
 ```dart
-static const double fontSizeXs = 12.0;    // Textos muito pequenos
-static const double fontSizeSm = 14.0;    // Textos pequenos
-static const double fontSizeMd = 16.0;    // Textos médios
-static const double fontSizeLg = 18.0;    // Textos grandes
-static const double fontSizeXl = 20.0;    // Textos muito grandes
-static const double fontSize2xl = 24.0;   // Títulos pequenos
-static const double fontSize3xl = 30.0;   // Títulos médios
-static const double fontSize4xl = 36.0;   // Títulos grandes
+static const String bodyFontFamily = 'Inter';
+static const FontWeight bodyFontWeight = FontWeight.w400;
 ```
 
-### Pesos de Fonte
+#### 2.4.3. Fonte de Fallback
 ```dart
-static const FontWeight light = FontWeight.w300;
-static const FontWeight regular = FontWeight.w400;
-static const FontWeight medium = FontWeight.w500;
-static const FontWeight semiBold = FontWeight.w600;
-static const FontWeight bold = FontWeight.w700;
+static const String fallbackFontFamily = 'Roboto';
 ```
 
-## Espaçamento e Layout
-
-### Sistema de Grid
-- Baseado em múltiplos de 8px
-- Breakpoints responsivos:
-  - Mobile: < 600px
-  - Tablet: 600px - 1024px
-  - Desktop: > 1024px
-
-### Espaçamento
+#### 2.4.4. Hierarquia de Texto
 ```dart
-static const double spacingXs = 4.0;    // Espaçamento muito pequeno
-static const double spacingSm = 8.0;    // Espaçamento pequeno
-static const double spacingMd = 16.0;   // Espaçamento médio
-static const double spacingLg = 24.0;   // Espaçamento grande
-static const double spacingXl = 32.0;   // Espaçamento muito grande
-static const double spacing2xl = 48.0;  // Espaçamento extra grande
+// Títulos
+static const double fontSizeH1 = 32.0;
+static const double fontSizeH2 = 24.0;
+static const double fontSizeH3 = 20.0;
+
+// Corpo
+static const double fontSizeBody = 16.0;
+static const double fontSizeSmall = 14.0;
+static const double fontSizeCaption = 12.0;
 ```
 
-### Bordas e Raios
+#### 2.4.5. Estilos de Parágrafo
 ```dart
-static const double borderRadiusSm = 4.0;   // Bordas pequenas
-static const double borderRadiusMd = 8.0;   // Bordas médias
-static const double borderRadiusLg = 12.0;  // Bordas grandes
-static const double borderRadiusXl = 16.0;  // Bordas muito grandes
+static const double lineHeightBody = 1.5;
+static const double lineHeightTitle = 1.2;
+static const double paragraphSpacing = 16.0;
 ```
 
-## Componentes
+### 2.5. Iconografia
+- Biblioteca: Iconoir Flutter
+- Estilo: Linear, minimalista
+- Tamanhos padrão: 16px, 24px, 32px
+- Cores: Seguir paleta principal
 
-### Botões
+#### 2.5.1. Estados dos Ícones
+```dart
+// Estado Normal
+static const Color iconNormal = Color(0xFF575C84);  // softLavender
 
-#### Botão Primário
-- Altura: 48px
-- Padding horizontal: 24px
-- Borda: 8px
-- Cor de fundo: primary
-- Cor do texto: branco
-- Estado hover: 10% mais escuro
-- Estado disabled: 50% de opacidade
+// Estado Ativo
+static const Color iconActive = Color(0xFFACA1EF);  // lavender
 
-#### Botão Secundário
-- Altura: 48px
-- Padding horizontal: 24px
-- Borda: 8px
-- Cor de fundo: transparente
-- Cor da borda: primary
-- Cor do texto: primary
-- Estado hover: 10% de opacidade do primary
+// Estado Desabilitado
+static const Color iconDisabled = Color(0xFF575C84).withOpacity(0.5);
 
-### Campos de Texto
-- Altura: 56px
-- Padding horizontal: 16px
-- Borda: 8px
-- Cor de fundo: surface
-- Cor da borda: textHint
-- Cor do texto: textPrimary
-- Estado focado: borda primary
-- Estado erro: borda error
+// Estado Hover
+static const Color iconHover = Color(0xFF78C7B4);   // turquoise
+```
 
-### Cards
-- Padding: 16px
-- Borda: 8px
-- Sombra: 0 2px 4px rgba(0,0,0,0.1)
-- Cor de fundo: cardBackground
-- Espaçamento entre cards: 16px
+#### 2.5.2. Efeitos e Transições
+```dart
+// Animação de Hover
+static const Duration iconHoverDuration = Duration(milliseconds: 200);
+static const Curve iconHoverCurve = Curves.easeInOut;
 
-### Listas
-- Altura do item: 72px
-- Padding: 16px
-- Divisor: 1px solid textHint
-- Espaçamento entre itens: 0px
+// Efeito de Brilho (Glow)
+static const List<BoxShadow> iconGlow = [
+  BoxShadow(
+    color: Color(0xFFACA1EF),
+    blurRadius: 8,
+    spreadRadius: 2,
+  ),
+];
+```
 
-## Responsividade
+#### 2.5.3. Implementação de Ícones
+```dart
+class AyaIcon extends StatelessWidget {
+  final Iconoir icon;
+  final bool isActive;
+  final bool isDisabled;
+  final VoidCallback? onTap;
 
-### Breakpoints
+  const AyaIcon({
+    required this.icon,
+    this.isActive = false,
+    this.isDisabled = false,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: isDisabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: isDisabled ? null : onTap,
+        child: AnimatedContainer(
+          duration: iconHoverDuration,
+          curve: iconHoverCurve,
+          child: Iconoir(
+            icon: icon,
+            color: isDisabled 
+                ? iconDisabled 
+                : isActive 
+                    ? iconActive 
+                    : iconNormal,
+            size: 24,
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+### 2.6. Imagens e Ilustrações
+- Estilo: Suave, orgânico
+- Tom: Calmo, acolhedor
+- Foco em natureza e bem-estar
+
+## 3. Layout e Espaçamento
+
+### 3.1. Sistema de Grid
+- Base: 8px
+- Colunas: 12 (desktop), 8 (tablet), 4 (mobile)
+- Gutter: 16px
+- Margin: 16px (mobile), 24px (tablet), 32px (desktop)
+
+### 3.2. Unidades de Espaçamento
+```dart
+static const double spacingXs = 4.0;    // 0.5x
+static const double spacingSm = 8.0;    // 1x
+static const double spacingMd = 16.0;   // 2x
+static const double spacingLg = 24.0;   // 3x
+static const double spacingXl = 32.0;   // 4x
+static const double spacing2xl = 48.0;  // 6x
+```
+
+### 3.3. Raios de Borda
+```dart
+static const double borderRadiusSm = 4.0;   // 0.5x
+static const double borderRadiusMd = 8.0;   // 1x
+static const double borderRadiusLg = 12.0;  // 1.5x
+static const double borderRadiusXl = 16.0;  // 2x
+```
+
+### 3.4. Elevação e Sombras
+```dart
+static const List<BoxShadow> shadowSmall = [
+  BoxShadow(
+    color: Color.fromRGBO(0, 0, 0, 0.1),
+    offset: Offset(0, 2),
+    blurRadius: 4,
+  ),
+];
+
+static const List<BoxShadow> shadowMedium = [
+  BoxShadow(
+    color: Color.fromRGBO(0, 0, 0, 0.15),
+    offset: Offset(0, 4),
+    blurRadius: 8,
+  ),
+];
+
+static const List<BoxShadow> shadowLarge = [
+  BoxShadow(
+    color: Color.fromRGBO(0, 0, 0, 0.2),
+    offset: Offset(0, 8),
+    blurRadius: 16,
+  ),
+];
+```
+
+## 4. Componentes de UI (Core)
+
+### 4.1. Princípios de Design Glassy
+- Efeito de vidro fosco (frosted glass)
+- Gradientes sutis
+- Sombras suaves
+- Transparências controladas
+- Bordas suaves e arredondadas
+
+#### 4.1.1. Implementação do Efeito Glassy
+```dart
+class GlassyContainer extends StatelessWidget {
+  final Widget child;
+  final double opacity;
+  final double blurRadius;
+  final Color? color;
+
+  const GlassyContainer({
+    required this.child,
+    this.opacity = 0.1,
+    this.blurRadius = 10,
+    this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: (color ?? Colors.white).withOpacity(opacity),
+        borderRadius: BorderRadius.circular(borderRadiusLg),
+        border: Border.all(
+          color: Colors.white.withOpacity(0.2),
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: blurRadius,
+            spreadRadius: 0,
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(borderRadiusLg),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: blurRadius,
+            sigmaY: blurRadius,
+          ),
+          child: child,
+        ),
+      ),
+    );
+  }
+}
+```
+
+### 4.2. Drawer (Menu Lateral)
+```dart
+class AyaDrawer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GlassyContainer(
+      child: Container(
+        width: 280,
+        child: Column(
+          children: [
+            // Header com Logo
+            Container(
+              padding: EdgeInsets.all(spacingLg),
+              child: Image.asset('assets/images/logo.png'),
+            ),
+            
+            // Menu Items
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.symmetric(vertical: spacingMd),
+                children: [
+                  _buildMenuItem(
+                    icon: Iconoir.home,
+                    title: 'Início',
+                    isActive: true,
+                  ),
+                  _buildMenuItem(
+                    icon: Iconoir.book,
+                    title: 'Aulas',
+                  ),
+                  // ... outros itens
+                ],
+              ),
+            ),
+            
+            // Footer
+            Container(
+              padding: EdgeInsets.all(spacingLg),
+              child: Column(
+                children: [
+                  Divider(color: Colors.white.withOpacity(0.1)),
+                  _buildUserProfile(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMenuItem({
+    required Iconoir icon,
+    required String title,
+    bool isActive = false,
+  }) {
+    return Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: spacingMd,
+        vertical: spacingXs,
+      ),
+      decoration: BoxDecoration(
+        color: isActive 
+            ? lavender.withOpacity(0.1)
+            : Colors.transparent,
+        borderRadius: BorderRadius.circular(borderRadiusMd),
+      ),
+      child: ListTile(
+        leading: AyaIcon(
+          icon: icon,
+          isActive: isActive,
+        ),
+        title: Text(
+          title,
+          style: TextStyle(
+            color: isActive ? lavender : textSecondary,
+            fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
+          ),
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadiusMd),
+        ),
+      ),
+    );
+  }
+}
+```
+
+### 4.3. Aplicação da Paleta de Cores
+
+#### 4.3.1. Gradientes
+```dart
+// Gradiente Principal
+static const LinearGradient primaryGradient = LinearGradient(
+  colors: [
+    Color(0xFF2A2939),  // deepPurple
+    Color(0xFF575C84),  // softLavender
+  ],
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+);
+
+// Gradiente de Acento
+static const LinearGradient accentGradient = LinearGradient(
+  colors: [
+    Color(0xFF78C7B4),  // turquoise
+    Color(0xFFACA1EF),  // lavender
+  ],
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+);
+```
+
+#### 4.3.2. Overlays e Transparências
+```dart
+// Overlay Escuro
+static Color darkOverlay = Colors.black.withOpacity(0.3);
+
+// Overlay Claro
+static Color lightOverlay = Colors.white.withOpacity(0.1);
+
+// Transparência para Efeitos Glassy
+static Color glassyOverlay = Colors.white.withOpacity(0.05);
+```
+
+#### 4.3.3. Implementação em Componentes
+```dart
+class AyaCard extends StatelessWidget {
+  final Widget child;
+  final bool isGlassy;
+  final bool hasGradient;
+
+  const AyaCard({
+    required this.child,
+    this.isGlassy = true,
+    this.hasGradient = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: hasGradient ? primaryGradient : null,
+        color: hasGradient ? null : surface.withOpacity(0.8),
+        borderRadius: BorderRadius.circular(borderRadiusLg),
+        border: Border.all(
+          color: Colors.white.withOpacity(0.1),
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            spreadRadius: 0,
+          ),
+        ],
+      ),
+      child: isGlassy
+          ? ClipRRect(
+              borderRadius: BorderRadius.circular(borderRadiusLg),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: child,
+              ),
+            )
+          : child,
+    );
+  }
+}
+```
+
+### 4.4. Cards de Conteúdo da Biblioteca
+
+#### 4.4.1. Card de Conteúdo
+```dart
+class LibraryContentCard extends StatelessWidget {
+  final String title;
+  final String description;
+  final String thumbnailUrl;
+  final String contentType; // 'video', 'audio', 'pdf', 'article'
+  final String duration;
+  final VoidCallback onTap;
+  final bool isNew;
+  final bool isPremium;
+
+  const LibraryContentCard({
+    required this.title,
+    required this.description,
+    required this.thumbnailUrl,
+    required this.contentType,
+    required this.duration,
+    required this.onTap,
+    this.isNew = false,
+    this.isPremium = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AyaCard(
+      isGlassy: true,
+      hasGradient: false,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(borderRadiusLg),
+        child: Container(
+          padding: EdgeInsets.all(spacingMd),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Thumbnail com Overlay
+              Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(borderRadiusMd),
+                    child: Image.network(
+                      thumbnailUrl,
+                      height: 180,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  // Overlay Gradiente
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            Colors.black.withOpacity(0.7),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Badges
+                  Positioned(
+                    top: spacingSm,
+                    right: spacingSm,
+                    child: Row(
+                      children: [
+                        if (isNew)
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: spacingSm,
+                              vertical: spacingXs,
+                            ),
+                            decoration: BoxDecoration(
+                              color: turquoise,
+                              borderRadius: BorderRadius.circular(borderRadiusSm),
+                            ),
+                            child: Text(
+                              'Novo',
+                              style: TextStyle(
+                                color: surface,
+                                fontSize: fontSizeSmall,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        if (isPremium)
+                          Container(
+                            margin: EdgeInsets.only(left: spacingXs),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: spacingSm,
+                              vertical: spacingXs,
+                            ),
+                            decoration: BoxDecoration(
+                              color: lavender,
+                              borderRadius: BorderRadius.circular(borderRadiusSm),
+                            ),
+                            child: Text(
+                              'Premium',
+                              style: TextStyle(
+                                color: surface,
+                                fontSize: fontSizeSmall,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  // Tipo de Conteúdo e Duração
+                  Positioned(
+                    bottom: spacingSm,
+                    left: spacingSm,
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: spacingSm,
+                            vertical: spacingXs,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.6),
+                            borderRadius: BorderRadius.circular(borderRadiusSm),
+                          ),
+                          child: Row(
+                            children: [
+                              AyaIcon(
+                                icon: _getContentTypeIcon(contentType),
+                                color: surface,
+                                size: 16,
+                              ),
+                              SizedBox(width: spacingXs),
+                              Text(
+                                _getContentTypeLabel(contentType),
+                                style: TextStyle(
+                                  color: surface,
+                                  fontSize: fontSizeSmall,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: spacingSm),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: spacingSm,
+                            vertical: spacingXs,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.6),
+                            borderRadius: BorderRadius.circular(borderRadiusSm),
+                          ),
+                          child: Text(
+                            duration,
+                            style: TextStyle(
+                              color: surface,
+                              fontSize: fontSizeSmall,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: spacingMd),
+              // Título
+              Text(
+                title,
+                style: TextStyle(
+                  fontFamily: titleFontFamily,
+                  fontSize: fontSizeH3,
+                  fontWeight: titleFontWeight,
+                  color: textPrimary,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              SizedBox(height: spacingSm),
+              // Descrição
+              Text(
+                description,
+                style: TextStyle(
+                  fontFamily: bodyFontFamily,
+                  fontSize: fontSizeBody,
+                  color: textSecondary,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Iconoir _getContentTypeIcon(String type) {
+    switch (type) {
+      case 'video':
+        return Iconoir.play;
+      case 'audio':
+        return Iconoir.music;
+      case 'pdf':
+        return Iconoir.file;
+      case 'article':
+        return Iconoir.document;
+      default:
+        return Iconoir.file;
+    }
+  }
+
+  String _getContentTypeLabel(String type) {
+    switch (type) {
+      case 'video':
+        return 'Vídeo';
+      case 'audio':
+        return 'Áudio';
+      case 'pdf':
+        return 'PDF';
+      case 'article':
+        return 'Artigo';
+      default:
+        return 'Conteúdo';
+    }
+  }
+}
+```
+
+#### 4.4.2. Grid de Cards
+```dart
+class LibraryContentGrid extends StatelessWidget {
+  final List<ContentItem> items;
+  final Function(ContentItem) onItemTap;
+
+  const LibraryContentGrid({
+    required this.items,
+    required this.onItemTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      padding: EdgeInsets.all(spacingMd),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: _getCrossAxisCount(context),
+        childAspectRatio: 0.75,
+        crossAxisSpacing: spacingMd,
+        mainAxisSpacing: spacingMd,
+      ),
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        final item = items[index];
+        return LibraryContentCard(
+          title: item.title,
+          description: item.description,
+          thumbnailUrl: item.thumbnailUrl,
+          contentType: item.type,
+          duration: item.duration,
+          isNew: item.isNew,
+          isPremium: item.isPremium,
+          onTap: () => onItemTap(item),
+        );
+      },
+    );
+  }
+
+  int _getCrossAxisCount(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    if (width > 1200) return 4;
+    if (width > 800) return 3;
+    if (width > 600) return 2;
+    return 1;
+  }
+}
+```
+
+#### 4.4.3. Modelo de Dados
+```dart
+class ContentItem {
+  final String id;
+  final String title;
+  final String description;
+  final String thumbnailUrl;
+  final String type;
+  final String duration;
+  final bool isNew;
+  final bool isPremium;
+
+  const ContentItem({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.thumbnailUrl,
+    required this.type,
+    required this.duration,
+    this.isNew = false,
+    this.isPremium = false,
+  });
+}
+```
+
+## 5. Responsividade
+
+### 5.1. Breakpoints
 ```dart
 static const double mobileBreakpoint = 600.0;
 static const double tabletBreakpoint = 1024.0;
 ```
 
-### Comportamentos Responsivos
+### 5.2. Comportamentos Responsivos
 - Mobile (< 600px):
   - Layout em coluna única
   - Fontes reduzidas em 20%
@@ -178,693 +807,161 @@ static const double tabletBreakpoint = 1024.0;
   - Fontes e espaçamentos aumentados em 20%
   - Cards ocupam 33% da largura
 
-## Animações
+## 6. Animação e Transições
 
-### Durações
+### 6.1. Filosofia de Animação
+- Sutis e naturais
+- Com propósito claro
+- Fluidas e responsivas
+
+### 6.2. Durações Padrão
 ```dart
 static const Duration durationFast = Duration(milliseconds: 150);
 static const Duration durationNormal = Duration(milliseconds: 300);
 static const Duration durationSlow = Duration(milliseconds: 500);
 ```
 
-### Curvas
+### 6.3. Curvas de Animação
 ```dart
 static const Curve curveDefault = Curves.easeInOut;
-static const Curve curveFast = Curves.easeOut;
-static const Curve curveSlow = Curves.easeIn;
+static const Curve curveLinear = Curves.linear;
+static const Curve curveEaseIn = Curves.easeIn;
+static const Curve curveEaseOut = Curves.easeOut;
 ```
 
-### Transições
-- Fade: 300ms
-- Slide: 300ms
-- Scale: 300ms
-- Rotate: 300ms
+### 6.4. Tipos de Transição Comuns
+- Fade: Para mudanças de conteúdo
+- Slide: Para navegação entre telas
+- Scale: Para elementos interativos
 
-## Acessibilidade
+## 7. Acessibilidade (WCAG)
 
-### Tamanhos Mínimos
+### 7.1. Contraste de Cores
+- Texto: Mínimo 4.5:1
+- Ícones: Mínimo 3:1
+- Elementos interativos: Mínimo 3:1
+
+### 7.2. Tamanhos Mínimos
 - Área de toque: 48x48px
-- Texto: mínimo 12sp
-- Ícones: mínimo 24x24px
+- Texto: 16px (14px com peso maior)
 
-### Contraste
-- Texto sobre fundo claro: mínimo 4.5:1
-- Texto sobre fundo escuro: mínimo 3:1
-- Elementos interativos: mínimo 3:1
+### 7.3. Navegação
+- Suporte a teclado
+- Foco visível
+- Ordem lógica de tabulação
 
-### Navegação
-- Suporte a navegação por teclado
-- Ordem de foco lógica
-- Indicadores de foco visíveis
-
-### Semântica
+### 7.4. Semântica
 - Labels apropriados
 - Roles ARIA quando necessário
-- Descrições alternativas para imagens
+- Estrutura semântica
 
-## Boas Práticas
+### 7.5. Alternativas para Mídia
+- Texto alternativo para imagens
+- Legendas para vídeos
+- Transcrições para áudio
 
-### Performance
-- Evitar rebuilds desnecessários
-- Usar construtores const quando possível
-- Implementar lazy loading para listas longas
-- Otimizar imagens e assets
+## 8. Tom de Voz e Estilo de Escrita
 
-### Manutenibilidade
-- Seguir princípios SOLID
-- Documentar componentes complexos
-- Manter consistência na nomenclatura
-- Usar widgets reutilizáveis
+### 8.1. Persona da Marca
+- Acolhedora
+- Encorajadora
+- Calma e serena
 
-### Testes
-- Testes unitários para lógica de negócio
-- Testes de widget para componentes UI
-- Testes de integração para fluxos críticos
-- Cobertura mínima de 80%
+### 8.2. Diretrizes para Textos
+- Clareza e concisão
+- Tom pessoal e direto
+- Linguagem inclusiva
 
-## Sistema de Nomenclatura
+## 9. Convenções de Código Flutter & Dart
 
-### Estrutura de Diretórios
-```
-lib/
-├── core/                    # Funcionalidades core da aplicação
-│   ├── constants/          # Constantes globais
-│   ├── theme/             # Configurações de tema
-│   └── utils/             # Utilitários globais
-├── features/              # Funcionalidades da aplicação
-│   ├── auth/             # Autenticação
-│   ├── home/             # Tela inicial
-│   └── profile/          # Perfil do usuário
-├── shared/               # Componentes e widgets compartilhados
-│   ├── widgets/         # Widgets reutilizáveis
-│   └── models/          # Modelos de dados compartilhados
-└── main.dart            # Ponto de entrada da aplicação
-```
+### 9.1. Nomenclatura
+- Arquivos: snake_case.dart
+- Classes: PascalCase
+- Variáveis: camelCase
+- Constantes: SCREAMING_SNAKE_CASE
+- Enums: PascalCase
 
-### Convenções de Nomenclatura
+### 9.2. Formatação
+- Usar dart format
+- Linha máxima: 80 caracteres
+- Indentação: 2 espaços
 
-#### Arquivos
-- **Páginas**: `feature_name_page.dart`
-  - Exemplo: `home_page.dart`, `profile_page.dart`
-- **Widgets**: `widget_name_widget.dart`
-  - Exemplo: `custom_button_widget.dart`, `user_card_widget.dart`
-- **Modelos**: `model_name_model.dart`
-  - Exemplo: `user_model.dart`, `product_model.dart`
-- **Serviços**: `service_name_service.dart`
-  - Exemplo: `auth_service.dart`, `api_service.dart`
-- **Controladores**: `controller_name_controller.dart`
-  - Exemplo: `home_controller.dart`, `auth_controller.dart`
-- **Estados**: `state_name_state.dart`
-  - Exemplo: `auth_state.dart`, `home_state.dart`
+### 9.3. Organização de Código
+1. Imports
+2. Constantes
+3. Enums
+4. Classes
+5. Métodos
+6. Build
 
-#### Classes
-- **Páginas**: `FeatureNamePage`
-  - Exemplo: `HomePage`, `ProfilePage`
-- **Widgets**: `WidgetNameWidget`
-  - Exemplo: `CustomButtonWidget`, `UserCardWidget`
-- **Modelos**: `ModelNameModel`
-  - Exemplo: `UserModel`, `ProductModel`
-- **Serviços**: `ServiceNameService`
-  - Exemplo: `AuthService`, `ApiService`
-- **Controladores**: `ControllerNameController`
-  - Exemplo: `HomeController`, `AuthController`
-- **Estados**: `StateNameState`
-  - Exemplo: `AuthState`, `HomeState`
+### 9.4. Imports
+1. Dart SDK
+2. Flutter
+3. Pacotes externos
+4. Arquivos locais
 
-#### Variáveis e Funções
-- **Variáveis**: camelCase
-  - Exemplo: `userName`, `isLoading`, `selectedIndex`
-- **Funções**: camelCase
-  - Exemplo: `getUserData()`, `handleSubmit()`, `updateProfile()`
-- **Constantes**: SCREAMING_SNAKE_CASE
-  - Exemplo: `MAX_RETRY_COUNT`, `API_BASE_URL`
-- **Enums**: PascalCase
-  - Exemplo: `UserRole`, `AuthStatus`
-
-#### IDs e Keys
-- **IDs de Widgets**: `widget_name_id`
-  - Exemplo: `submit_button_id`, `user_list_id`
-- **Keys**: `widgetNameKey`
-  - Exemplo: `submitButtonKey`, `userListKey`
-
-#### Estilos e Temas
-- **Estilos de Texto**: `text_style_name`
-  - Exemplo: `heading_text_style`, `body_text_style`
-- **Cores**: `color_name`
-  - Exemplo: `primary_color`, `error_color`
-- **Espaçamentos**: `spacing_name`
-  - Exemplo: `small_spacing`, `large_spacing`
-
-### Organização de Código
-
-#### Ordem dos Membros em Classes
-1. Constantes estáticas
-2. Variáveis de instância
-3. Construtor
-4. Getters e Setters
-5. Métodos públicos
-6. Métodos privados
-
-#### Ordem dos Imports
-1. Imports do Flutter/Dart
-2. Imports de pacotes externos
-3. Imports de arquivos do projeto (relativos)
-4. Imports de arquivos do projeto (absolutos)
-
-### Documentação
-
-#### Comentários de Classe
+### 9.5. Comentários
 ```dart
 /// Descrição da classe
-/// 
-/// Exemplo de uso:
-/// ```dart
-/// final widget = WidgetName();
-/// ```
-class WidgetName extends StatelessWidget {
-  // ...
-}
-```
-
-#### Comentários de Método
-```dart
-/// Descrição do método
-/// 
-/// [param1] Descrição do primeiro parâmetro
-/// [param2] Descrição do segundo parâmetro
-/// 
-/// Retorna [Tipo] Descrição do retorno
-Future<Tipo> methodName(Tipo param1, Tipo param2) async {
-  // ...
-}
-```
-
-### Exemplos de Uso
-
-#### Página
-```dart
-// lib/features/home/presentation/pages/home_page.dart
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
-  
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      // ...
-    );
+class MyClass {
+  /// Descrição do método
+  void myMethod() {
+    // Comentário de linha
   }
 }
 ```
 
-#### Widget
-```dart
-// lib/shared/widgets/custom_button_widget.dart
-class CustomButtonWidget extends StatelessWidget {
-  final String text;
-  final VoidCallback onPressed;
-  
-  const CustomButtonWidget({
-    Key? key,
-    required this.text,
-    required this.onPressed,
-  }) : super(key: key);
-  
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      // ...
-    );
-  }
-}
-```
+### 9.6. Gerenciamento de Estado
+- Usar Riverpod
+- Separar lógica de UI
+- Manter estado mínimo
 
-#### Modelo
-```dart
-// lib/features/user/data/models/user_model.dart
-class UserModel {
-  final String id;
-  final String name;
-  final String email;
-  
-  const UserModel({
-    required this.id,
-    required this.name,
-    required this.email,
-  });
-  
-  // ...
-}
-```
+### 9.7. Widgets
+- Preferir stateless
+- Usar const quando possível
+- Componentizar
 
-### Regras Gerais
-1. Use nomes descritivos e autoexplicativos
-2. Evite abreviações, exceto para termos muito comuns (id, url, etc.)
-3. Mantenha consistência com o padrão escolhido
-4. Documente classes e métodos públicos
-5. Use o mesmo padrão em todo o projeto
-6. Siga as convenções do Flutter/Dart
-7. Mantenha os arquivos organizados em diretórios lógicos
-8. Use o sistema de nomenclatura para refletir a hierarquia do projeto 
+### 9.8. Padrões de Componentização
+- Extrair widgets reutilizáveis
+- Manter componentes pequenos e focados
+- Usar composição ao invés de herança
+- Implementar interfaces consistentes
+- Documentar props e comportamentos
 
-### Nomenclatura de Componentes Aninhados e Layout
+### 9.9. Performance e Otimização
+- Usar const constructors
+- Implementar shouldRebuild
+- Otimizar rebuilds
+- Lazy loading de imagens
+- Cache de widgets
 
-#### Estrutura de Layout
-```dart
-// Exemplo de estrutura bem nomeada
-class UserProfilePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        key: const Key('user_profile_main_column'),
-        children: [
-          // Header Section
-          Container(
-            key: const Key('user_profile_header_container'),
-            child: Row(
-              key: const Key('user_profile_header_row'),
-              children: [
-                // ... header content
-              ],
-            ),
-          ),
-          
-          // Content Section
-          Expanded(
-            key: const Key('user_profile_content_expanded'),
-            child: Column(
-              key: const Key('user_profile_content_column'),
-              children: [
-                // ... content
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-```
+## 10. Estrutura de Arquivos e Pastas
+Consulte o [README.md](README.md) para a estrutura completa do projeto.
 
-#### Padrões de Nomenclatura para Containers
+## 11. Testes
 
-1. **Containers de Seção**
-   - Nome: `section_name_container`
-   - Exemplo: `profile_header_container`, `settings_list_container`
-   - Uso: Para containers que agrupam uma seção específica
+### 11.1. Estratégia de Testes
+- Unitários: Lógica de negócio
+- Widget: Componentes UI
+- Integração: Fluxos completos
 
-2. **Containers de Conteúdo**
-   - Nome: `content_type_container`
-   - Exemplo: `user_info_container`, `product_details_container`
-   - Uso: Para containers que envolvem um tipo específico de conteúdo
+### 11.2. Cobertura Mínima
+- 80% para código crítico
+- 60% para código geral
 
-3. **Containers de Layout**
-   - Nome: `layout_purpose_container`
-   - Exemplo: `centered_content_container`, `padded_section_container`
-   - Uso: Para containers que servem propósitos específicos de layout
+### 11.3. Ferramentas
+- flutter_test
+- mockito
+- integration_test
 
-#### Padrões de Nomenclatura para Rows e Columns
+## 12. Apêndice
 
-1. **Rows Principais**
-   - Nome: `section_name_row`
-   - Exemplo: `header_actions_row`, `product_info_row`
-   - Uso: Para rows que organizam elementos principais
+### Glossário
+- **UI**: Interface do Usuário
+- **UX**: Experiência do Usuário
+- **WCAG**: Web Content Accessibility Guidelines
 
-2. **Columns Principais**
-   - Nome: `section_name_column`
-   - Exemplo: `main_content_column`, `settings_options_column`
-   - Uso: Para columns que organizam seções principais
-
-3. **Rows e Columns Aninhados**
-   - Nome: `parent_section_child_section_row/column`
-   - Exemplo: `header_actions_buttons_row`, `profile_info_details_column`
-   - Uso: Para estruturas aninhadas, indicando a hierarquia
-
-#### Padrões de Nomenclatura para Expanded e Flexible
-
-1. **Expanded**
-   - Nome: `section_name_expanded`
-   - Exemplo: `content_area_expanded`, `list_view_expanded`
-   - Uso: Para widgets Expanded que ocupam espaço flexível
-
-2. **Flexible**
-   - Nome: `section_name_flexible`
-   - Exemplo: `header_flexible`, `footer_flexible`
-   - Uso: Para widgets Flexible com flexibilidade específica
-
-#### Padrões de Nomenclatura para Stack e Positioned
-
-1. **Stack**
-   - Nome: `section_name_stack`
-   - Exemplo: `overlay_content_stack`, `floating_elements_stack`
-   - Uso: Para Stacks que organizam elementos sobrepostos
-
-2. **Positioned**
-   - Nome: `element_name_positioned`
-   - Exemplo: `floating_button_positioned`, `overlay_text_positioned`
-   - Uso: Para elementos posicionados dentro de um Stack
-
-#### Exemplo de Implementação
-
-```dart
-class ProductCardWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      key: const Key('product_card_main_container'),
-      child: Column(
-        key: const Key('product_card_main_column'),
-        children: [
-          // Header Section
-          Container(
-            key: const Key('product_card_header_container'),
-            child: Row(
-              key: const Key('product_card_header_row'),
-              children: [
-                // Product Image
-                Container(
-                  key: const Key('product_card_image_container'),
-                  child: Image.network(...),
-                ),
-                // Product Title
-                Expanded(
-                  key: const Key('product_card_title_expanded'),
-                  child: Column(
-                    key: const Key('product_card_title_column'),
-                    children: [
-                      Text('Product Name'),
-                      Text('Product Price'),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          
-          // Details Section
-          Container(
-            key: const Key('product_card_details_container'),
-            child: Column(
-              key: const Key('product_card_details_column'),
-              children: [
-                // Product Description
-                Container(
-                  key: const Key('product_card_description_container'),
-                  child: Text('Description'),
-                ),
-                // Product Actions
-                Row(
-                  key: const Key('product_card_actions_row'),
-                  children: [
-                    // Action Buttons
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-```
-
-#### Regras para Keys
-
-1. **Keys de Container**
-   - Formato: `section_name_container_key`
-   - Exemplo: `user_profile_header_container_key`
-
-2. **Keys de Row/Column**
-   - Formato: `section_name_row/column_key`
-   - Exemplo: `user_profile_header_row_key`
-
-3. **Keys de Expanded/Flexible**
-   - Formato: `section_name_expanded/flexible_key`
-   - Exemplo: `user_profile_content_expanded_key`
-
-4. **Keys de Stack/Positioned**
-   - Formato: `section_name_stack/positioned_key`
-   - Exemplo: `user_profile_overlay_stack_key`
-
-#### Boas Práticas para Componentes Aninhados
-
-1. **Limite de Aninhamento**
-   - Evite mais de 3 níveis de aninhamento
-   - Extraia componentes complexos para widgets separados
-   - Use constantes para valores repetidos
-
-2. **Organização de Código**
-   - Agrupe widgets relacionados
-   - Comente seções complexas
-   - Use espaçamento consistente
-
-3. **Performance**
-   - Use const quando possível
-   - Evite rebuilds desnecessários
-   - Implemente keys apropriadamente
-
-4. **Manutenibilidade**
-   - Mantenha nomes descritivos
-   - Documente estruturas complexas
-   - Siga o padrão de nomenclatura consistentemente
-
-#### Exemplo de Extração de Componentes
-
-```dart
-// Componente Principal
-class UserProfilePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        key: const Key('user_profile_main_column'),
-        children: [
-          const UserProfileHeaderWidget(),
-          const UserProfileContentWidget(),
-          const UserProfileFooterWidget(),
-        ],
-      ),
-    );
-  }
-}
-
-// Componente Extraído
-class UserProfileHeaderWidget extends StatelessWidget {
-  const UserProfileHeaderWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      key: const Key('user_profile_header_container'),
-      child: Row(
-        key: const Key('user_profile_header_row'),
-        children: [
-          const UserProfileAvatarWidget(),
-          const UserProfileInfoWidget(),
-        ],
-      ),
-    );
-  }
-}
-```
-
-Esta estrutura detalhada de nomenclatura ajudará a:
-1. Localizar rapidamente componentes específicos
-2. Manter a consistência do código
-3. Facilitar a manutenção
-4. Melhorar a legibilidade
-5. Otimizar a performance
-6. Facilitar o debugging 
-
-## Componentes Existentes no App
-
-### Componentes de Layout Base
-1. **AyaGlassContainer**
-   - Localização: `lib/widgets/aya_glass_container.dart`
-   - Função: Container base com efeito de vidro
-   - Variações: 
-     - `AyaGlassButton`
-     - `AyaGlassCard`
-
-2. **AyaAppBar**
-   - Localização: `lib/widgets/aya_app_bar.dart`
-   - Função: Barra de navegação superior
-   - Variações:
-     - `primary`
-     - `transparent`
-     - `elevated`
-     - `GlassmorphicAppBar`
-
-3. **AyaBottomSheet**
-   - Localização: `lib/widgets/aya_bottom_sheet.dart`
-   - Função: Painel deslizante inferior
-   - Variações:
-     - `standard`
-     - `modal`
-
-### Componentes de Entrada
-1. **AyaInput**
-   - Localização: `lib/widgets/aya_input.dart`
-   - Função: Campo de entrada de texto base
-   - Variações:
-     - `text`
-     - `password`
-     - `email`
-     - `number`
-     - `multiline`
-
-2. **AyaGlassInput**
-   - Localização: `lib/widgets/aya_glass_input.dart`
-   - Função: Campo de entrada com efeito de vidro
-   - Variações:
-     - `AyaGlassPasswordInput`
-
-### Componentes de Navegação
-1. **AyaDrawer**
-   - Localização: `lib/widgets/aya_drawer.dart`
-   - Função: Menu lateral
-   - Subcomponentes:
-     - `AyaDrawerItem`
-
-2. **AyaBottomNav**
-   - Localização: `lib/widgets/aya_bottom_nav.dart`
-   - Função: Navegação inferior
-
-### Componentes de Ação
-1. **AyaButton**
-   - Localização: `lib/widgets/aya_button.dart`
-   - Função: Botão base
-   - Variações:
-     - `primary`
-     - `secondary`
-     - `outline`
-     - `text`
-
-### Componentes de Diálogo
-1. **AyaGlassDialog**
-   - Localização: `lib/widgets/aya_glass_dialog.dart`
-   - Função: Diálogo com efeito de vidro
-   - Variações:
-     - `AyaGlassAlertDialog`
-
-### Componentes de Mídia
-1. **AyaVideoPlayer**
-   - Localização: `lib/features/lessons/widgets/aya_video_player.dart`
-   - Função: Reprodutor de vídeo
-
-2. **AyaAudioPlayer**
-   - Localização: `lib/features/lessons/widgets/aya_audio_player.dart`
-   - Função: Reprodutor de áudio
-
-### Componentes de Visualização
-1. **AyaRichTextViewer**
-   - Localização: `lib/features/lessons/widgets/aya_rich_text_viewer.dart`
-   - Função: Visualizador de texto formatado
-
-2. **AyaPdfViewer**
-   - Localização: `lib/features/lessons/widgets/aya_pdf_viewer.dart`
-   - Função: Visualizador de PDF
-
-### Páginas Principais
-1. **LandingPage**
-   - Localização: `lib/features/landing/landing_page.dart`
-   - Função: Página inicial de autenticação
-
-2. **DashboardScreen**
-   - Localização: `lib/features/dashboard/screens/dashboard_screen.dart`
-   - Função: Tela principal do dashboard
-
-3. **AdminDashboardPage**
-   - Localização: `lib/features/admin/admin_dashboard_page.dart`
-   - Função: Dashboard administrativo
-
-4. **LessonPage**
-   - Localização: `lib/features/lessons/screens/lesson_page.dart`
-   - Função: Página de lição
-
-### Serviços de Animação
-1. **AnimationsService**
-   - Localização: `lib/core/services/animations_service.dart`
-   - Funções:
-     - `fadeThrough`
-     - `slideUp`
-     - `slideRight`
-     - `fadeIn`
-     - `scaleIn`
-     - `slideInUp`
-
-### Padrões de Nomenclatura Atuais
-1. **Prefixo "Aya"**
-   - Todos os componentes base começam com "Aya"
-   - Exemplo: `AyaButton`, `AyaInput`
-
-2. **Sufixos Específicos**
-   - `Page`: Para páginas completas
-   - `Screen`: Para telas principais
-   - `Widget`: Para componentes reutilizáveis
-   - `Service`: Para serviços
-   - `Container`: Para containers base
-   - `Dialog`: Para diálogos
-   - `Input`: Para campos de entrada
-
-3. **Variações**
-   - Usam sufixos descritivos
-   - Exemplo: `AyaGlassInput`, `AyaGlassButton`
-
-### Estrutura de Diretórios Atual
-```
-lib/
-├── core/
-│   ├── services/
-│   │   └── animations_service.dart
-│   └── theme/
-│       └── app_theme.dart
-├── features/
-│   ├── admin/
-│   │   └── admin_dashboard_page.dart
-│   ├── dashboard/
-│   │   └── screens/
-│   │       └── dashboard_screen.dart
-│   ├── landing/
-│   │   └── landing_page.dart
-│   └── lessons/
-│       ├── screens/
-│       │   └── lesson_page.dart
-│       └── widgets/
-│           ├── aya_audio_player.dart
-│           ├── aya_pdf_viewer.dart
-│           ├── aya_rich_text_viewer.dart
-│           └── aya_video_player.dart
-└── widgets/
-    ├── aya_app_bar.dart
-    ├── aya_bottom_nav.dart
-    ├── aya_bottom_sheet.dart
-    ├── aya_button.dart
-    ├── aya_drawer.dart
-    ├── aya_glass_container.dart
-    ├── aya_glass_dialog.dart
-    ├── aya_glass_input.dart
-    └── aya_input.dart
-```
-
-### Próximos Passos para Padronização
-1. **Reorganização de Componentes**
-   - Mover componentes para diretórios apropriados
-   - Separar componentes base de componentes específicos
-   - Criar estrutura de diretórios mais organizada
-
-2. **Padronização de Nomes**
-   - Aplicar o novo sistema de nomenclatura
-   - Atualizar nomes de arquivos e classes
-   - Manter consistência com o guia de estilo
-
-3. **Documentação**
-   - Adicionar documentação aos componentes
-   - Criar exemplos de uso
-   - Manter o guia atualizado
-
-4. **Refatoração**
-   - Extrair componentes aninhados
-   - Implementar keys apropriadas
-   - Otimizar performance 
+### Links Úteis
+- [Flutter Documentation](https://flutter.dev/docs)
+- [Material Design](https://material.io/design)
+- [WCAG Guidelines](https://www.w3.org/WAI/standards-guidelines/wcag/) 
