@@ -340,53 +340,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  List<Widget> _buildHomeTab() {
-    return [
-      SizedBox(
-        height: MediaQuery.of(context).padding.top + kToolbarHeight + 12,
-      ),
-      _buildHeroSection(),
-      const SizedBox(height: 24),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: _buildContinueLearningSection(),
-      ),
-      const SizedBox(height: 24),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: _buildRecommendedSection(),
-      ),
-      const SizedBox(height: 24),
-    ];
-  }
-
-  List<Widget> _buildLibraryTab() {
-    return [
-      Navigator(
-        onGenerateRoute: (settings) {
-          if (settings.name == '/') {
-            return MaterialPageRoute(
-              builder: (_) => const LessonsListScreen(),
-            );
-          }
-          return null;
-        },
-      ),
-    ];
-  }
-
-  List<Widget> _buildCommunityTab() {
-    return [
-      const Center(child: Text('Comunidade')),
-    ];
-  }
-
-  List<Widget> _buildChatTab() {
-    return [
-      const Center(child: Text('Aya Chat')),
-    ];
-  }
-
   Widget _buildHeroSection() {
     final height = MediaQuery.of(context).size.height * 0.28;
     return Column(

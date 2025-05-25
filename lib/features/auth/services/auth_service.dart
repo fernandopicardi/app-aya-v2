@@ -1,13 +1,17 @@
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter/foundation.dart' show kIsWeb, kDebugMode;
+// Flutter/Dart imports
 import 'dart:async';
+import 'package:flutter/foundation.dart' show kIsWeb, kDebugMode, debugPrint;
+
+// External package imports
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+
 // TODO: Reativar para implementação OAuth
 // import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-// import 'dart:io' show Platform; // Não utilizado atualmente
+
+// Project imports
 import '../../../core/services/logging_service.dart';
-import 'package:flutter/foundation.dart' show debugPrint;
 
 class AuthService {
   static final AuthService _instance = AuthService._internal();
@@ -17,7 +21,6 @@ class AuthService {
   final _supabase = Supabase.instance.client;
   final _auth = Supabase.instance.client.auth;
   final _logger = LoggingService();
-  StreamSubscription? _linkSubscription;
   // TODO: Reativar e utilizar para implementação OAuth
   // final _googleSignIn = GoogleSignIn(
   //   clientId: kIsWeb ? dotenv.env['GOOGLE_CLIENT_ID_WEB'] : null,
@@ -33,7 +36,7 @@ class AuthService {
   // Stream para o estado de autenticação
   Stream<AuthState> get authStateChanges {
     _logger.debug('AuthService: authStateChanges called');
-    if (_mockIsAuthenticated && _mockSession != null) {
+    if (_mockIsAuthenticated) {
       return Stream.value(
           AuthState(AuthChangeEvent.initialSession, _mockSession));
     }
@@ -223,18 +226,24 @@ class AuthService {
           aud: 'authenticated',
           createdAt: DateTime.now().toIso8601String(),
         );
-        _mockSession = Session(
-          accessToken: 'mock_access_token',
-          refreshToken: 'mock_refresh_token',
-          tokenType: 'bearer',
-          user: _mockUser!,
-        );
-        _authController.add(AuthState(AuthChangeEvent.signedIn, _mockSession));
+        if (_mockUser != null) {
+          _mockSession = Session(
+            accessToken: 'mock_access_token',
+            refreshToken: 'mock_refresh_token',
+            tokenType: 'bearer',
+            user: _mockUser!,
+          );
+          _authController
+              .add(AuthState(AuthChangeEvent.signedIn, _mockSession));
+        }
         return _mockUser;
       }
 
       if (kIsWeb) {
         final redirectUrl = dotenv.env['REDIRECT_URI_WEB'];
+        if (redirectUrl == null) {
+          throw Exception('REDIRECT_URI_WEB not configured');
+        }
         await _auth.signInWithOAuth(
           OAuthProvider.google,
           redirectTo: redirectUrl,
@@ -288,18 +297,24 @@ class AuthService {
           aud: 'authenticated',
           createdAt: DateTime.now().toIso8601String(),
         );
-        _mockSession = Session(
-          accessToken: 'mock_access_token',
-          refreshToken: 'mock_refresh_token',
-          tokenType: 'bearer',
-          user: _mockUser!,
-        );
-        _authController.add(AuthState(AuthChangeEvent.signedIn, _mockSession));
+        if (_mockUser != null) {
+          _mockSession = Session(
+            accessToken: 'mock_access_token',
+            refreshToken: 'mock_refresh_token',
+            tokenType: 'bearer',
+            user: _mockUser!,
+          );
+          _authController
+              .add(AuthState(AuthChangeEvent.signedIn, _mockSession));
+        }
         return _mockUser;
       }
 
       if (kIsWeb) {
         final redirectUrl = dotenv.env['REDIRECT_URI_WEB'];
+        if (redirectUrl == null) {
+          throw Exception('REDIRECT_URI_WEB not configured');
+        }
         await _auth.signInWithOAuth(
           OAuthProvider.apple,
           redirectTo: redirectUrl,
@@ -313,10 +328,18 @@ class AuthService {
           ],
         );
 
+        if (credential.identityToken == null) {
+          throw Exception('No identity token found');
+        }
+
+        if (credential.authorizationCode == null) {
+          throw Exception('No authorization code found');
+        }
+
         final AuthResponse response = await _auth.signInWithIdToken(
           provider: OAuthProvider.apple,
           idToken: credential.identityToken!,
-          accessToken: credential.authorizationCode,
+          accessToken: credential.authorizationCode!,
         );
 
         return response.user;
@@ -351,7 +374,6 @@ class AuthService {
 
       final response =
           await _supabase.from('profiles').select().eq('id', user.id).single();
-
       return response;
     } catch (e) {
       _logger.error('AuthService getCurrentUserProfile Error', e);
@@ -399,7 +421,8 @@ class AuthService {
 
   // Método para limpar recursos
   void dispose() {
-    _linkSubscription?.cancel();
+    // TODO: Reativar e utilizar para implementação OAuth
+    // _googleSignIn.dispose();
     _authController.close();
   }
 

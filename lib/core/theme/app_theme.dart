@@ -307,7 +307,7 @@ class AyaTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: GoogleFonts.roboto(
+          textStyle: GoogleFonts.inter(
             fontSize: 16,
             fontWeight: FontWeight.w500,
             shadows: [
@@ -343,7 +343,7 @@ class AyaTheme {
         ),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        hintStyle: GoogleFonts.roboto(
+        hintStyle: GoogleFonts.inter(
           color: AyaColors.textPrimary50,
           fontSize: 16,
         ),

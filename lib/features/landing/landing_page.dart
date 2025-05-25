@@ -121,7 +121,7 @@ class _LandingPageState extends State<LandingPage> {
                               const Text(
                                 'Sua Jornada Começa Agora.',
                                 style: TextStyle(
-                                  fontFamily: 'Serif',
+                                  fontFamily: 'Inter',
                                   fontSize: 38,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -163,8 +163,8 @@ class _LandingPageState extends State<LandingPage> {
                               const Text(
                                 'Transforme sua rotina com meditações, jornadas de autoconhecimento e uma comunidade acolhedora.',
                                 style: TextStyle(
-                                  fontFamily: 'Sans',
-                                  fontSize: 20,
+                                  fontFamily: 'Inter',
+                                  fontSize: 16,
                                   color: Colors.white,
                                 ),
                               ),
@@ -195,7 +195,7 @@ class _LandingPageState extends State<LandingPage> {
                                   child: Text(
                                     'Logo',
                                     style: TextStyle(
-                                      fontFamily: 'Serif',
+                                      fontFamily: 'Inter',
                                       fontSize: 28,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
@@ -207,7 +207,7 @@ class _LandingPageState extends State<LandingPage> {
                               const Text(
                                 'Acesse sua Conta',
                                 style: TextStyle(
-                                  fontFamily: 'Serif',
+                                  fontFamily: 'Inter',
                                   fontSize: 28,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -385,7 +385,7 @@ class _LandingPageState extends State<LandingPage> {
                               child: Text(
                                 'Logo',
                                 style: TextStyle(
-                                  fontFamily: 'Serif',
+                                  fontFamily: 'Inter',
                                   fontSize: 28,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -397,7 +397,7 @@ class _LandingPageState extends State<LandingPage> {
                           const Text(
                             'Sua Jornada Começa Agora.',
                             style: TextStyle(
-                              fontFamily: 'Serif',
+                              fontFamily: 'Inter',
                               fontSize: 28,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -440,8 +440,8 @@ class _LandingPageState extends State<LandingPage> {
                           const Text(
                             'Transforme sua rotina com meditações, jornadas de autoconhecimento e uma comunidade acolhedora.',
                             style: TextStyle(
-                              fontFamily: 'Sans',
-                              fontSize: 18,
+                              fontFamily: 'Inter',
+                              fontSize: 16,
                               color: Colors.white,
                             ),
                             textAlign: TextAlign.center,

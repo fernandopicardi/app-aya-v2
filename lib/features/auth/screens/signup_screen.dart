@@ -131,7 +131,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     child: Text(
                       'Logo',
                       style: TextStyle(
-                        fontFamily: 'Serif',
+                        fontFamily: 'Inter',
                         fontSize: 28,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -143,7 +143,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 const Text(
                   'Criar Conta',
                   style: TextStyle(
-                    fontFamily: 'Serif',
+                    fontFamily: 'Inter',
                     fontSize: 28,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

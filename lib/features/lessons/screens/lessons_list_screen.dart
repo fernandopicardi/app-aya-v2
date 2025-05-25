@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../../core/theme/glassmorphism.dart';
 import '../models/lesson.dart';
 import '../widgets/lesson_card.dart';
-import 'lesson_page.dart';
 import 'package:iconoir_flutter/iconoir_flutter.dart' as iconoir;
 import '../../../widgets/aya_premium_icon.dart';
 

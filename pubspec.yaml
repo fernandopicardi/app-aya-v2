@@ -58,9 +58,11 @@ dependencies:
   path_provider: ^2.1.5
   dio: ^5.4.1
   
-  # Áudio (para meditações)
-  just_audio: ^0.10.3
-  audio_session: ^0.2.2
+  # Áudio e Vídeo
+  just_audio: ^0.9.36
+  just_audio_background: ^0.0.1-beta.11
+  video_player: ^2.8.2
+  audio_session: ^0.1.18
   shimmer: ^3.0.0
   google_sign_in: ^6.3.0
   sign_in_with_apple: ^7.0.1
@@ -73,7 +75,6 @@ dependencies:
   image_picker: ^1.1.2
   fl_chart: ^1.0.0
   uni_links: ^0.5.1
-  video_player: ^2.9.5
   syncfusion_flutter_pdfviewer: ^29.2.5
   flutter_html: ^3.0.0-beta.2
   iconoir_flutter: ^7.11.0

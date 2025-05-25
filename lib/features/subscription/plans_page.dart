@@ -22,7 +22,7 @@ class PlansPage extends StatelessWidget {
               const Text(
                 'Escolha seu Plano',
                 style: TextStyle(
-                  fontFamily: 'Serif',
+                  fontFamily: 'Inter',
                   fontSize: 28,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -94,7 +94,7 @@ class _PlanCard extends StatelessWidget {
           Text(
             title,
             style: const TextStyle(
-              fontFamily: 'Serif',
+              fontFamily: 'Inter',
               fontSize: 22,
               color: Colors.white,
               fontWeight: FontWeight.bold,

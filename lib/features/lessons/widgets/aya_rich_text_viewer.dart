@@ -73,36 +73,36 @@ class AyaRichTextViewer extends StatelessWidget {
                           'body': Style(
                             color: AyaColors.textPrimary,
                             fontSize: FontSize(16),
-                            fontFamily: 'Roboto',
+                            fontFamily: 'Inter, Roboto, sans-serif',
                           ),
                           'h1': Style(
                             color: AyaColors.textPrimary,
                             fontSize: FontSize(32),
                             fontWeight: FontWeight.bold,
-                            fontFamily: 'Playfair Display',
+                            fontFamily: 'Inter, Roboto, sans-serif',
                           ),
                           'h2': Style(
                             color: AyaColors.textPrimary,
                             fontSize: FontSize(28),
                             fontWeight: FontWeight.bold,
-                            fontFamily: 'Playfair Display',
+                            fontFamily: 'Inter, Roboto, sans-serif',
                           ),
                           'h3': Style(
                             color: AyaColors.textPrimary,
                             fontSize: FontSize(24),
                             fontWeight: FontWeight.bold,
-                            fontFamily: 'Roboto',
+                            fontFamily: 'Inter, Roboto, sans-serif',
                           ),
                           'p': Style(
                             color: AyaColors.textPrimary,
                             fontSize: FontSize(16),
-                            fontFamily: 'Roboto',
+                            fontFamily: 'Inter, Roboto, sans-serif',
                           ),
                           'blockquote': Style(
                             color: AyaColors.textPrimary40,
                             fontStyle: FontStyle.italic,
                             fontSize: FontSize(16),
-                            fontFamily: 'Roboto',
+                            fontFamily: 'Inter, Roboto, sans-serif',
                           ),
                           'code': Style(
                             color: AyaColors.turquoise,
@@ -117,12 +117,12 @@ class AyaRichTextViewer extends StatelessWidget {
                           'ul': Style(
                             color: AyaColors.textPrimary,
                             fontSize: FontSize(16),
-                            fontFamily: 'Roboto',
+                            fontFamily: 'Inter, Roboto, sans-serif',
                           ),
                           'ol': Style(
                             color: AyaColors.textPrimary,
                             fontSize: FontSize(16),
-                            fontFamily: 'Roboto',
+                            fontFamily: 'Inter, Roboto, sans-serif',
                           ),
                           'table': Style(
                             border: Border.all(color: AyaColors.textPrimary40),
@@ -132,7 +132,7 @@ class AyaRichTextViewer extends StatelessWidget {
                             color: AyaColors.textPrimary,
                             fontSize: FontSize(18),
                             fontWeight: FontWeight.bold,
-                            fontFamily: 'Roboto',
+                            fontFamily: 'Inter, Roboto, sans-serif',
                           ),
                           'td': Style(
                             color: AyaColors.textPrimary,

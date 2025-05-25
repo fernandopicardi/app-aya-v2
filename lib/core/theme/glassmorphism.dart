@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:app_aya_v2/core/theme/app_theme.dart';
-import 'package:app_aya_v2/core/theme/app_constants.dart';
 
 /// A simplified Glassmorphism widget that will be refined later.
 /// Currently provides a basic frosted glass effect using the Aya theme colors.

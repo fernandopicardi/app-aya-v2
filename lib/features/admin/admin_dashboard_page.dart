@@ -1,31 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:app_aya_v2/core/theme/app_theme.dart';
-import 'package:app_aya_v2/config/routes.dart';
 import 'package:app_aya_v2/widgets/aya_bottom_nav.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'admin_menu.dart';
-import 'package:app_aya_v2/features/auth/services/auth_service.dart';
 import 'package:app_aya_v2/widgets/aya_glass_container.dart';
 import 'package:app_aya_v2/widgets/aya_glass_dialog.dart';
 import 'package:iconoir_flutter/iconoir_flutter.dart' as iconoir;
-import 'package:app_aya_v2/features/admin/screens/admin_settings_screen.dart';
-import 'package:app_aya_v2/features/admin/widgets/admin_widgets.dart';
 
 import 'sections/admin_dashboard_overview.dart';
-// TODO: Criar este componente/página
-// import 'sections/admin_analytics_screen.dart';
-// TODO: Criar este componente/página
-// import 'sections/admin_settings_screen.dart';
 import 'sections/admin_users_section.dart';
 import 'sections/admin_content_section.dart';
-// TODO: Criar este componente/página
-// import 'sections/admin_moderation_section.dart';
-// TODO: Criar este componente/página
-// import 'sections/admin_gamification_section.dart';
-// TODO: Criar este componente/página
-// import 'sections/admin_logs_section.dart';
 import 'sections/admin_settings_section.dart';
+
+// TODO: Criar estes componentes/páginas
+// import 'sections/admin_analytics_screen.dart';
+// import 'sections/admin_moderation_section.dart';
+// import 'sections/admin_gamification_section.dart';
+// import 'sections/admin_logs_section.dart';
 
 class GlassmorphicAppBar extends StatelessWidget
     implements PreferredSizeWidget {

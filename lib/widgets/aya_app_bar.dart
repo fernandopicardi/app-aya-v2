@@ -38,7 +38,7 @@ class AyaAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: AppBar(
         title: Text(
           title,
-          style: GoogleFonts.roboto(
+          style: GoogleFonts.inter(
             color: AyaColors.textPrimary,
             fontSize: 20,
             fontWeight: FontWeight.w600,

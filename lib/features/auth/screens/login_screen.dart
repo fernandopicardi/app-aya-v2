@@ -11,11 +11,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
   final _authService = AuthService();
-  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,14 +34,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () async {
                   try {
                     final user = await _authService.signInWithApple();
-                    if (user != null) {
+                    if (user != null && mounted) {
                       // Navigate to dashboard or home screen
                       Navigator.pushReplacementNamed(context, '/dashboard');
                     }
                   } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Erro no login: $e')),
-                    );
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Erro no login: $e')),
+                      );
+                    }
                   }
                 },
                 child: const Text('Entrar com Apple'),
@@ -68,41 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<void> _handleLogin(BuildContext context) async {
-    if (_formKey.currentState?.validate() ?? false) {
-      setState(() {
-        _isLoading = true;
-      });
-
-      try {
-        // Store context before async operation
-        final navigator = Navigator.of(context);
-        final messenger = ScaffoldMessenger.of(context);
-
-        // Perform login
-        await Future.delayed(const Duration(seconds: 2)); // Simulated login
-
-        // Use stored context references
-        navigator.pushReplacementNamed('/home');
-      } catch (e) {
-        // Use stored context reference
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error: ${e.toString()}')),
-          );
-        }
-      } finally {
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
-        }
-      }
-    }
-  }
-
   Future<void> _handleGoogleSignIn() async {
-    setState(() => _isLoading = true);
     try {
       final navigator = Navigator.of(context);
       await _authService.signInWithGoogle();
@@ -114,10 +78,6 @@ class _LoginScreenState extends State<LoginScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(e.toString())),
         );
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
       }
     }
   }

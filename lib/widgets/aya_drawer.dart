@@ -36,7 +36,7 @@ class AyaDrawer extends StatelessWidget {
         children: [
           if (header != null) ...[
             header!,
-            if (showHeaderDivider) const Divider(),
+            if (showHeaderDivider) Divider(),
           ],
           Expanded(
             child: ListView.separated(
@@ -50,7 +50,7 @@ class AyaDrawer extends StatelessWidget {
             ),
           ),
           if (footerItems != null && footerItems!.isNotEmpty) ...[
-            if (showFooterDivider) const Divider(),
+            if (showFooterDivider) Divider(),
             ...footerItems!.map((item) => item),
           ],
         ],
@@ -127,7 +127,7 @@ class AyaDrawerItem extends StatelessWidget {
                 )
               : null,
         ),
-        if (showDivider) const Divider(),
+        if (showDivider) Divider(),
       ],
     );
   }
