@@ -78,3 +78,6 @@ coverage/
 
 # Windows
 Thumbs.db
+
+# Environment variables
+.env
