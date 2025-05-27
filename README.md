@@ -6,7 +6,7 @@ Bem-vindo ao repositório oficial do App Aya! Este documento serve como o guia c
 
 [![Status da Build](URL_DO_SEU_STATUS_DE_BUILD_AQUI_SE_TIVER_CI_CD)](URL_DO_SEU_PIPELINE_DE_CI_CD)
 [![Licença: MIT](https://img.shields.io/badge/Licença-MIT-lavender.svg)](https://opensource.org/licenses/MIT)
-[![Flutter Version](https://img.shields.io/badge/Flutter-3.19.x-blueviolet)](https://flutter.dev)
+[![Flutter Version](https://img.shields.io/badge/Flutter-3.32.0-blueviolet)](https://flutter.dev)
 [![Supabase](https://img.shields.io/badge/Backend-Supabase-green)](https://supabase.io)
 
 ## 🌟 1. Visão Geral do Projeto
@@ -97,7 +97,7 @@ A navegação pelo conteúdo é hierárquica, promovendo uma jornada de descober
 
 ## 🚀 5. Configuração do Ambiente de Desenvolvimento
 
-1.  **Pré-requisitos:** Flutter SDK 3.19.x+, Node.js (para o Painel Admin Next.js), Editor, Conta Supabase, etc.
+1.  **Pré-requisitos:** Flutter SDK 3.32.0+, Node.js (para o Painel Admin Next.js), Editor, Conta Supabase, etc.
 2.  **Clonar Repositório.**
 3.  **Instalar Dependências (`flutter pub get` para o app, `npm install` ou `yarn install` para o painel admin).**
 4.  **Configurar Variáveis de Ambiente (`.env` para o app Flutter e para o painel Next.js):**
