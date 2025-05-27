@@ -1,0 +1,45 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+
+description: This rule guides the Cursor Agent on how to interact with the existing codebase during code generation or modification. It emphasizes understanding the project context, searching for and reusing existing components or logic, and preferring to update relevant files instead of creating unnecessary duplicates. This rule should be applied whenever the agent performs tasks involving code addition or modification in the project.
+globs: \["**/\*.dart", "**/pubspec.yaml"]
+alwaysApply: false
+------------------
+
+# Codebase Awareness and Avoiding Duplication
+
+## Critical Rules
+
+* **ALWAYS** examine the existing codebase to identify widgets, functions, classes, services, or data structures that can be reused before creating new ones.
+* **ALWAYS** prefer updating or refactoring existing code when possible instead of creating duplicate files or code snippets for similar functionality.
+* When adding new functionality, **INTEGRATE IT** into the existing directory structure and architecture layers (e.g., `lib/features/[feature_name]/`, `core/`, `shared/`) as defined in `app-aya-architecture-structure.mdc`.
+* Use **Agent Mode** and multi-file edits to apply consistent changes across the project when appropriate.
+* When adding dependencies (pub packages), use the proper commands (`flutter pub add [package]`) or edit `pubspec.yaml` and run `flutter pub get` via the integrated terminal. **NEVER** duplicate entries in `pubspec.yaml`.
+* Consult project documentation files (`README.md`, `STYLE_GUIDE.md`, and other `.mdc` rule files) using `@` references to understand structure, conventions, and patterns before generating code.
+* Ensure generated code complies with the project architecture and standards (Clean Architecture, Feature-first, Repository Pattern, etc.).
+* If a relevant file for the modification already exists (e.g., a `user_repository.dart` when adding a user-related function), modify that file instead of creating a new similarly named one.
+
+## Examples
+
+<example>
+// User requests to create a login button.
+// Agent checks and finds an `AyaPrimaryButton` in `lib/shared/widgets/`.
+// Creates a `LoginButton` widget that uses `AyaPrimaryButton` internally and adds logic to call `AuthService` or authentication provider.
+// The `LoginButton` can be placed in `lib/features/auth/presentation/widgets/`.
+// Avoids duplicating the primary button’s visual code.
+</example>
+<example type="invalid">
+// User requests a function to validate email.
+// Agent creates a new `isValidEmail` function inside a login screen widget.
+// Invalid: Should check if an email validator already exists in `lib/core/utils/validators.dart` (or similar) and reuse it, or add it there if missing.
+</example>
+<example type="invalid">
+// User requests fetching profile data.
+// Agent creates a new file `profile_service_fetch.dart` and calls Supabase directly.
+// Invalid: Should identify the existing `ProfileRepository` (or create it if it's the first profile function) and add the method there, following the Repository Pattern.
+</example>
+

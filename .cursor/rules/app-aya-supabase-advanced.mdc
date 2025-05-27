@@ -1,0 +1,134 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+
+description: Guides the agent in generating SQL snippets for migrations, RLS policies, and Edge Function stubs for advanced Supabase interactions, always under Human Guide supervision.
+globs: \["**/\*.dart", "**/*.sql", "\*\*/*.ts"] # Applies to Dart, SQL, and TypeScript (Edge Functions) files
+alwaysApply: false
+------------------
+
+# Advanced Supabase Interactions in App Aya
+
+## SQL Migrations Generation (for Human Guide to apply)
+
+* **CONTEXT:** When new tables, columns, or schema changes are needed based on data model or feature evolution.
+* **TASK:** When requested to define a new data structure impacting database schema:
+
+  1. Generate the corresponding Dart model code (per `app-aya-data-access.mdc`).
+  2. Generate necessary SQL DDL commands (`CREATE TABLE`, `ALTER TABLE ADD COLUMN`, `CREATE TYPE enum_name AS ENUM (...)`, etc.) for PostgreSQL in Supabase.
+  3. Include appropriate PostgreSQL data types (e.g., `uuid`, `timestamp with time zone` / `timestamptz`, `text`, `boolean`, `jsonb`, `integer`, `bigint`, `varchar(n)`).
+  4. Specify `PRIMARY KEY`, `FOREIGN KEY` constraints (with `ON DELETE` and `ON UPDATE` if applicable), `UNIQUE` constraints, `NOT NULL`, and `DEFAULT` values.
+  5. **OUTPUT EXAMPLE:**
+
+     ```sql
+     -- Migration to create content_lessons table
+     CREATE TABLE IF NOT EXISTS public.content_lessons (
+         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+         module_id UUID REFERENCES public.content_modules(id) ON DELETE SET NULL,
+         folder_id UUID REFERENCES public.content_folders(id) ON DELETE SET NULL, -- Nullable if lesson is directly under module
+         subfolder_id UUID REFERENCES public.content_subfolders(id) ON DELETE SET NULL, -- Nullable
+         title TEXT NOT NULL,
+         description TEXT,
+         lesson_type TEXT NOT NULL, -- e.g., 'video', 'audio', 'pdf', 'rich_text'
+         source_url TEXT, -- URL for video/audio/pdf
+         rich_text_content JSONB, -- For articles
+         duration_seconds INTEGER,
+         thumbnail_url TEXT,
+         required_subscription_level TEXT DEFAULT 'free', -- e.g., 'free', 'premium_monthly', 'premium_annual'
+         tags TEXT[], -- Array of tags for search and AI
+         created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
+         updated_at TIMESTAMPTZ DEFAULT now() NOT NULL
+     );
+
+     -- Trigger to auto-update updated_at
+     CREATE TRIGGER handle_updated_at BEFORE UPDATE ON public.content_lessons
+       FOR EACH ROW EXECUTE PROCEDURE moddatetime (updated_at);
+     ```
+  6. The Human Guide will apply this SQL via Supabase CLI migration commands.
+
+## RLS (Row Level Security) Policies Generation (for Human Guide to apply)
+
+* **CONTEXT:** To protect data and ensure users access or modify only what is allowed.
+* **TASK:** When discussing access rules for a specific table:
+
+  1. Ask about access rules: Who can select? Insert? Update? Delete? Based on what (`auth.uid()`, roles, etc.)?
+  2. Generate SQL policy examples: `CREATE POLICY ... ON table_name ...`
+  3. **OUTPUT EXAMPLE (for `profiles`):**
+
+     ```sql
+     -- Allow users to read their own profiles
+     CREATE POLICY "Allow individual user read access"
+     ON public.profiles FOR SELECT
+     USING (auth.uid() = id);
+
+     -- Allow users to update their own profiles
+     CREATE POLICY "Allow individual user update access"
+     ON public.profiles FOR UPDATE
+     USING (auth.uid() = id)
+     WITH CHECK (auth.uid() = id);
+     ```
+  4. **REMEMBER:** RLS must be enabled on the table in Supabase.
+  5. The Human Guide will review and apply these policies.
+
+## Supabase Edge Functions Stubs Generation (TypeScript)
+
+* **CONTEXT:** For custom backend logic, secure integrations, or compute-intensive tasks that must not run on the client.
+* **TASK:** When an Edge Function is needed:
+
+  1. Define the function purpose and expected input parameters (payload) and success/error response structure.
+  2. Generate a TypeScript stub file (e.g., `functions/function-name/index.ts`) with the basic structure.
+  3. **OUTPUT EXAMPLE (stub for `process-chat-message` function):**
+
+     ```typescript
+     // functions/process-chat-message/index.ts
+     import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+     import { corsHeaders } from "../_shared/cors.ts";
+
+     interface ChatMessagePayload {
+       userId: string;
+       message: string;
+       conversationId?: string;
+     }
+
+     serve(async (req: Request) => {
+       // Handle CORS preflight requests
+       if (req.method === "OPTIONS") {
+         return new Response("ok", { headers: corsHeaders });
+       }
+
+       try {
+         const payload = (await req.json()) as ChatMessagePayload;
+         console.log("Received payload:", payload);
+
+         // TODO: Implement message processing logic
+         // - Call AI API (n8n or direct)
+         // - Query Supabase for context if needed
+         // - Format response
+
+         const assistantResponse = {
+           text: `You said: "${payload.message}". Processing...`,
+           // ...other response data
+         };
+
+         return new Response(JSON.stringify(assistantResponse), {
+           headers: { ...corsHeaders, "Content-Type": "application/json" },
+           status: 200,
+         });
+       } catch (error) {
+         console.error("Error processing chat message:", error);
+         return new Response(JSON.stringify({ error: error.message }), {
+           headers: { ...corsHeaders, "Content-Type": "application/json" },
+           status: 500,
+         });
+       }
+     });
+     ```
+  4. The Human Guide will implement the detailed function logic and deploy via Supabase CLI.
+
+## Secure Client Calls
+
+* **ALWAYS:** When generating Dart code calling Edge Functions (`supabase.functions.invoke(...)`) or interacting with RLS-protected tables, ensure the Supabase Flutter client is authenticated and the user JWT is sent automatically. This is the default behavior of `supabase_flutter` when the user is logged in.
+

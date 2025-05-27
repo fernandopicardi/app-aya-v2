@@ -1,0 +1,51 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+
+description: Defines guidelines for proper dependency management of the App Aya project, including adding, removing, and versioning packages to maintain a sane development environment.
+globs: \["\*\*/pubspec.yaml"]
+alwaysApply: true
+-----------------
+
+# Dependency Management and Environment Sanity in App Aya
+
+## Handling `pubspec.yaml` and Packages
+
+* **Adding Packages:**
+
+  * **PREFER:** When instructed to add a new package, use the command: `flutter pub add package_name`.
+  * If a specific version is required: `flutter pub add package_name:^version.x.y`.
+  * If editing `pubspec.yaml` directly to add a dependency, **REMIND** the Human Guide to run `flutter pub get`.
+  * **ALWAYS** add packages in the correct section (`dependencies` or `dev_dependencies`). Build and lint packages (e.g., `build_runner`, `json_serializable`) go under `dev_dependencies`.
+* **Package Versioning:**
+
+  * **DEFAULT:** If no specific version is provided, use caret notation (`^`) to allow compatible patch and minor updates, e.g., `some_package: ^1.2.3`.
+  * This fetches the latest compatible stable version.
+  * Follow specific version requirements if given.
+* **Version Conflict Resolution:**
+
+  * If `flutter pub get` or `flutter pub add` results in version conflicts, report detailed information about the conflict to the Human Guide.
+  * You may suggest possible resolutions if obvious (e.g., update a conflicting package), but final decision is with the Human Guide.
+* **`pubspec.lock`:**
+
+  * **UNDERSTAND:** This file records exact dependency versions used and is crucial for consistent reproducible builds. Do not edit manually. Managed by `flutter pub get`.
+* **Removing Packages:**
+
+  * If a package is no longer needed, suggest removal to keep project clean.
+  * **PREFER:** Use `flutter pub remove package_name`.
+  * If edited manually, remind the Human Guide to run `flutter pub get`.
+* **Package Updates:**
+
+  * The Human Guide may request package upgrades (`flutter pub upgrade`). Follow instructions.
+* **Environment Cleanup (`flutter clean`):**
+
+  * If persistent or unexpected build issues occur, especially after dependency changes or Flutter SDK updates, suggest: "Encountered unusual build issue; running `flutter clean` followed by `flutter pub get` might help resolve."
+
+## General Sanity
+
+* **DO NOT DUPLICATE:** Never add the same dependency multiple times in `pubspec.yaml`.
+* **ORGANIZATION:** Keep `dependencies` and `dev_dependencies` sections alphabetically organized if possible for better readability (usually handled by `flutter pub add`).
+

@@ -1,0 +1,97 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+
+description: This file is crucial to guide the AI in organizing the code. It specifies the Clean Architecture (Feature-first) and expected directory structure. This prevents the AI from generating disorganized code or mixing responsibilities and helps maintain scalability and maintainability.
+globs: \["\*\*/\*.dart"]
+alwaysApply: true
+-----------------
+
+# App Aya Project Architecture and Structure
+
+## Architectural Principles and Structure
+
+* **Main Architecture:** Rigorously implement **Clean Architecture** with a **Feature-first** approach.
+* **Code Principles:** Adhere to SOLID, DRY (Don't Repeat Yourself), and KISS (Keep It Simple, Stupid).
+* **Layer Structure by Feature:** Inside each feature directory (e.g., `lib/features/auth/`):
+
+  * **`presentation/`**: Contains UI and presentation logic.
+
+    * `providers/` or `notifiers/`: State management for the feature (Riverpod).
+    * `screens/` or `pages/`: Full-screen widgets representing routes.
+    * `widgets/`: Reusable widgets specific to this feature.
+  * **`domain/`**: Contains pure business logic, framework-independent.
+
+    * `entities/`: Core business objects of the feature.
+    * `repositories/`: Interfaces (contracts) for data repositories (`i_feature_repository.dart`).
+    * `usecases/`: Feature-specific use cases orchestrating repository calls.
+  * **`data/`**: Contains data layer implementation.
+
+    * `models/`: Data models (DTOs) for serialization/deserialization (e.g., for Supabase), with `fromJson`, `toJson` methods.
+    * `repositories/`: Concrete implementations of repository interfaces defined in `domain/` (e.g., `feature_repository_impl.dart`).
+    * `datasources/`: Abstractions and implementations for data sources (e.g., `auth_supabase_datasource.dart`).
+* **Shared Root Directories in `lib/`:**
+
+  * **`core/`**: Central logic and utilities, feature-agnostic.
+
+    * `config/`: Global configurations (e.g., API URLs if not in `.env`).
+    * `constants/`: Application constants (route names, storage keys, etc.).
+    * `supabase/`: Supabase client configuration and initialization.
+    * `theme/`: Application theme definitions (`app_theme.dart` with `ThemeData`, `AyaColors`, `app_constants_design.dart` for paddings, radius, etc., per `STYLE_GUIDE.md`).
+    * `utils/`: Global utility functions (formatters, validators, etc.).
+    * `errors/`: Failure classes and custom exceptions.
+    * `network/`: HTTP client configuration (Dio), interceptors, etc.
+  * **`features/`**: Contains all functional modules of the app (e.g., `auth`, `dashboard`, `content_library`, `community`, `chat_ia`).
+  * **`shared/`**: Widgets and logic shared across multiple features.
+
+    * `widgets/`: Reusable widgets used in multiple features (e.g., `AyaButtonWidget`, `AyaCardWidget`).
+    * `models/`: Global or shared data models used across features (e.g., `LessonModel`, `ModuleModel`, `FolderModel`), if not specific to one feature.
+  * **`main.dart`**: Application entry point.
+  * **`app_widget.dart`**: Root widget of the `MaterialApp`, global theme setup, and global Riverpod providers.
+  * **`routes.dart`**: Centralized GoRouter configuration.
+
+## File and Directory Naming Conventions
+
+* **ALWAYS** use `snake_case` for file and directory names.
+
+  * Example: `login_screen.dart`, `auth_repository.dart`, `user_profile/`
+
+## Dart Code Naming Conventions
+
+* **Classes, Enums, Extensions, Typedefs:** `PascalCase`.
+
+  * Examples: `AuthService`, `UserProfileScreen`, `LoadingState`.
+* **Methods, Functions, Variables, Parameters:** `camelCase`.
+
+  * Examples: `fetchUserData`, `userName`, `isLoading`.
+* **Constants (top-level, static const):** `UPPER_SNAKE_CASE` or `kPrefixedCamelCase` for compile-time constants. `camelCase` for `static const` inside classes if more idiomatic.
+
+  * Examples: `MAX_RETRIES`, `kDefaultPadding`, `static const double defaultTimeout = 10.0;`.
+* **Private Variables:** Prefix with underscore `_`.
+
+  * Examples: `_internalCounter`, `_fetchData()`.
+
+## Code Organization Inside Dart Files
+
+* **ALWAYS** follow this order:
+
+  1. License/copyright declaration (if applicable).
+  2. `part` and `part of` directives (if applicable).
+  3. `import` statements.
+  4. `export` statements (if applicable).
+  5. File body (classes, functions, constants, etc.).
+
+## Imports Organization
+
+* **ALWAYS** follow this order, separating groups by a blank line:
+
+  1. Dart SDK imports (`dart:*`).
+  2. Flutter imports (`package:flutter/*`).
+  3. Third-party package imports (`package:some_package/some_package.dart`).
+  4. Imports from other project packages (if multiple packages in a monorepo).
+  5. Relative imports from project files (`../`, `./`).
+* **ALWAYS** alphabetize imports within each group.
+

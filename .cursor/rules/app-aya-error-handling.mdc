@@ -1,0 +1,87 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+
+description: Provides consistent patterns to identify, handle, and display errors and manage edge cases (like empty or loading states) throughout the application. Improves resilience and user experience.
+globs: \["\*\*/\*.dart"]
+alwaysApply: true
+------------------
+
+# Error Handling and Edge Cases in App Aya
+
+## Error Handling Patterns
+
+* **`Either<Failure, SuccessType>`:** Use the `Either` type from `dartz` for function returns that may fail (mainly in UseCases and Repositories).
+
+  * `Left(Failure)`: Represents an error/failure.
+  * `Right(SuccessType)`: Represents a successful result.
+* **`Failure` Classes:** Define a hierarchy of `Failure` classes in `lib/core/errors/failures.dart`.
+
+  * `abstract class Failure { final String message; ... }`
+  * Examples: `ServerFailure(message)`, `CacheFailure(message)`, `NetworkFailure(message)`, `InvalidInputFailure(message)`, `PermissionFailure(message)`.
+* **Propagation:**
+
+  * Data Layer (Repositories, DataSources): Catch specific exceptions (e.g., `PostgrestException`, `SocketException`) and map them to `Failure`s.
+  * Domain Layer (UseCases): Receive `Either` from repositories, propagate or perform business logic and return a new `Either`.
+  * Presentation Layer (Providers/Notifiers): Receive `Either` from UseCases and update UI state reflecting success, error, or loading.
+
+## Error Display in UI
+
+* **Dedicated Components:** Use a reusable widget `AyaErrorWidget(message: String, onRetry: VoidCallback?)` in `lib/shared/widgets/` to consistently display errors.
+* **Snackbars/Toasts:** For non-blocking errors or quick feedback (e.g., "Item added to favorites"). Use `ScaffoldMessenger.of(context).showSnackBar()`. Style snackbars per Aya theme.
+* **Dialogs:** For critical errors needing user attention.
+* **Friendly Messages:** Show clear, concise, and actionable messages if possible. Avoid technical jargon.
+
+## Network Error Handling
+
+* **Common Exceptions:** `SocketException` (no connection), `TimeoutException` (request timeout).
+* **Mapping:** Map these exceptions to `NetworkFailure` or `ServerFailure` with appropriate messages.
+* **Retry:** Offer a "Try Again" (`onRetry`) option when suitable.
+
+## Input Validation
+
+* **Frontend:** Use `Form` widgets with `validator` functions on `TextFormField`s. Display validation errors inline.
+* **Backend:** Validation must also occur backend-side (Supabase constraints, Edge Functions).
+* **`InvalidInputFailure`:** Use to represent validation errors returned by backend.
+
+## Error Logging
+
+* **Packages:** Consider using a logging package like `logger` or `logging`.
+* **What to Log:** Log caught exceptions and `Failure`s, including stack traces when available, especially in catch blocks in repositories and services.
+* **Log Levels:** Use appropriate levels (error, warning, info, debug).
+* **Production:** Integrate with error monitoring services (e.g., Sentry, Firebase Crashlytics).
+
+## Loading and Empty State Management
+
+* **Loading Indicators:**
+
+  * Use `AyaLoadingIndicator` (a styled `CircularProgressIndicator` or custom Lottie animation) to indicate ongoing operations.
+  * Show on buttons, screen overlays, or where content is loading.
+* **Empty States:**
+
+  * Use reusable widget `AyaEmptyStateWidget(message: String, icon: IconData?)` in `lib/shared/widgets/` to indicate no data available.
+  * Message should be informative (e.g., "You have no favorites yet", "No results found").
+* **State Management with Riverpod:**
+
+  * Providers (Notifiers) should expose states representing `loading`, `error(Failure)`, `loaded(Data)`, and `empty`.
+  * UI reacts to these states by displaying the appropriate widget.
+
+    ```dart
+    // Example of state in a Notifier
+    // sealed class MyState {}
+    // class MyLoading extends MyState {}
+    // class MyLoaded extends MyState { final Data data; }
+    // class MyError extends MyState { final Failure failure; }
+    // class MyEmpty extends MyState {}
+    ```
+
+## Permissions and Access
+
+* **Protected Content:** If user attempts to access content without permission (e.g., premium content without subscription, RLS denied):
+
+  * Backend (Supabase RLS or RevenueCat) must block access.
+  * Frontend should handle the error (e.g., `PermissionFailure` or HTTP 403/401 status) and show an appropriate message, possibly directing to subscription page.
+

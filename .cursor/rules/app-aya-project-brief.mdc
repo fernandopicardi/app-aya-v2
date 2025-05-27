@@ -1,0 +1,72 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+
+description: This file provides the agent with a high-level understanding of the vision, goals, target audience, and overall scope of the App Aya. It serves as an executive summary for the AI, ensuring alignment of generated code with the project’s value proposition.
+globs: \["**/\*.dart", "**/\*.md", "**/pubspec.yaml", "**/.env"]
+alwaysApply: true
+-----------------
+
+# App Aya Project Brief
+
+## Core Project Information
+
+* **Vision and Mission:** Understand that App Aya aims to be a digital sanctuary for self-knowledge, emotional balance, meditation, spiritual development, and mental health practices.
+* **Target Audience:** The app is aimed at users seeking a deep care journey for their existence, interested in well-being and self-awareness.
+* **Main Value Proposition:**
+
+  * **Transformative and Curated Content:** Meditations, thematic journeys, videos, audios, articles (Rich Text), and PDFs.
+  * **Intelligent Personalization:** Virtual assistant (AI) for questions, suggestions, and playlist creation.
+  * **Welcoming Community:** Forums and group challenges.
+  * **Motivating Gamification:** Levels, points, and badges.
+  * **Premium and Intuitive Design:** Modern, elegant interface with feminine and serene aesthetics.
+  * **Flexible Access:** Subscription plans (Free, Monthly, Annual).
+  * **Interactive Live Events:** In-app live events.
+  * **Widgets:** (Functionality to be considered as mentioned).
+* **Main Technology Stack:**
+
+  * **Frontend (App):** Flutter (iOS, Android, Web)
+  * **State Management (App):** Riverpod
+  * **Routing (App):** Go Router
+  * **HTTP Client (App):** Dio (for calls beyond Supabase SDK, e.g., n8n)
+  * **Backend (App & Admin Panel):** Supabase (PostgreSQL, Auth, Storage, Edge Functions, Realtime)
+  * **Frontend (Admin Panel):** React (Next.js) — **External to Flutter app**
+  * **Monetization:** RevenueCat
+  * **Automation/AI:** n8n
+  * **Iconography:** Iconoir
+* **Key Features of the Aya Ecosystem:**
+
+  * **Flutter App:**
+
+    * Full Authentication (Email/Password, Google, Apple)
+    * Personalized Dashboard
+    * Content Library (Modules, Folders, Subfolders, Lessons)
+    * Media Players (Advanced Audio with spectrum, Advanced Video) and Viewers (PDF, Rich-Text/HTML)
+    * Content Interactions (Likes, Favorites, Comments, Notes)
+    * Gamification System (Points, Levels, Badges, Challenges)
+    * User Profile (Data, Progress, Downloads, Settings)
+    * Subscription Management (RevenueCat integration)
+    * Community (Forums, Leaderboards, Group Challenges)
+    * AI Chatbot (via n8n)
+    * Livestream Viewing
+  * **External Admin Panel (Next.js):**
+
+    * Content Management (Full CMS for Modules, Folders, Lessons - Video, Audio, PDF, Rich-Text)
+    * User and Roles Management
+    * Community Moderation
+    * Gamification Management (Challenges, Points, Badges)
+    * Subscription Viewing (via RevenueCat)
+    * App Settings (feature flags, etc.)
+    * Live Events Management (Scheduling)
+* **Development Roadmap (Overview):**
+
+  1. **Phase 1:** Stabilization and Base Structure (Flutter App)
+  2. **Phase 2:** Functional Layouts and Full Navigation (Flutter App)
+  3. **Phase 3:** Backend Integration and Advanced Features (Flutter App and Admin Panel Start)
+  4. **Phase 4:** Real Authentication, Monetization, and Premium Refinement (Flutter App and Admin Panel Completion)
+  5. **Phase 5:** Testing and Production (Flutter App and Admin Panel)
+* **Primary Reference Documents:** `README.md` and `STYLE_GUIDE.md`. Consult frequently using `@README.md` and `@STYLE_GUIDE.md`.
+

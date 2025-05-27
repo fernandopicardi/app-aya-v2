@@ -1,0 +1,116 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+
+description: Reinforces Riverpod best practices for state management in App Aya, covering provider choice, modifiers, immutability, and provider communication.
+globs: \["lib/\*\*/\*.dart"] # Applies to all Dart files
+alwaysApply: false
+------------------
+
+# Robust State Management with Riverpod in App Aya (Deep Dive)
+
+## Correct Provider Choice (Riverpod)
+
+* **`Provider<T>`:**
+
+  * **Use:** To expose a rarely changing value like a service instance (e.g., `AuthRepository`), configuration, or a simple computed value from other providers.
+  * **Example:** `Provider<AuthService>((ref) => AuthService(ref.watch(dioProvider)))`.
+* **`FutureProvider<T>`:**
+
+  * **Use:** For async operations returning a `Future` whose result rarely changes after first computation (unless invalidated or dependencies change). Ideal for initial data fetches.
+  * **Example:** `FutureProvider<UserProfile>((ref) async => ref.watch(userRepositoryProvider).fetchUserProfile())`.
+  * Exposes an `AsyncValue<T>` (`loading`, `data`, `error` states).
+* **`StreamProvider<T>`:**
+
+  * **Use:** For async operations returning a `Stream` (e.g., Supabase Realtime listener, Firebase Firestore streams).
+  * **Example:** `StreamProvider<List<Message>>((ref) => ref.watch(chatServiceProvider).getMessagesStream())`.
+  * Exposes an `AsyncValue<T>`.
+* **`StateProvider<T>`:**
+
+  * **Use:** For simple mutable states (e.g., a boolean toggle, filter string) changed directly by UI or other providers.
+  * **Avoid:** For complex state logic or when state depends on multiple sources or async logic. Prefer `StateNotifierProvider` then.
+  * **Example:** `StateProvider<bool>((ref) => false)`. UI modifies via `ref.read(myStateProvider.notifier).state = newValue`.
+* **`StateNotifierProvider<MyNotifier extends StateNotifier<MyState>, MyState>`:**
+
+  * **Use:** For complex states or states involving business logic. `MyNotifier` encapsulates logic to modify `MyState`.
+  * **Preferred:** Main choice for most feature states.
+  * **Example:**
+
+    ```dart
+    // auth_state.dart
+    sealed class AuthState {}
+    class AuthInitial extends AuthState {}
+    class AuthLoading extends AuthState {}
+    class Authenticated extends AuthState { final User user; /* ... */ }
+    class Unauthenticated extends AuthState {}
+    class AuthError extends AuthState { final String message; /* ... */ }
+
+    // auth_notifier.dart
+    class AuthNotifier extends StateNotifier<AuthState> {
+      final AuthRepository _authRepository;
+      AuthNotifier(this._authRepository) : super(AuthInitial());
+
+      Future<void> signIn(String email, String password) async {
+        state = AuthLoading();
+        final result = await _authRepository.signInWithEmail(email, password);
+        result.fold(
+          (failure) => state = AuthError(failure.message),
+          (user) => state = Authenticated(user),
+        );
+      }
+      // ... other methods
+    }
+
+    // providers.dart
+    final authNotifierProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
+      return AuthNotifier(ref.watch(authRepositoryProvider));
+    });
+    ```
+* **`ChangeNotifierProvider<T extends ChangeNotifier>`:**
+
+  * **Use:** When integrating with logic based on `ChangeNotifier` (common in legacy code or some packages).
+  * **Generally Avoid:** For new App Aya code; prefer immutable `StateNotifierProvider` for better predictability and performance.
+
+## Provider Modifiers
+
+* **`.autoDispose`:**
+
+  * **Use:** **ALWAYS** consider adding `.autoDispose` to most providers (especially `FutureProvider`, `StreamProvider`, `StateNotifierProvider`) unless state must be preserved globally even if no widgets listen.
+  * Helps free resources and state when provider is no longer used, preventing memory leaks.
+  * **Example:** `final userProfileProvider = FutureProvider.autoDispose<UserProfile>(...)`.
+* **`.family<Result, Argument>`:**
+
+  * **Use:** To create multiple "instances" of a provider each with its own state, based on a parameter.
+  * **Example:** `final lessonDetailsProvider = FutureProvider.autoDispose.family<Lesson, String>((ref, lessonId) async => ...)` where `lessonId` is the parameter.
+  * UI accesses with `ref.watch(lessonDetailsProvider('some-lesson-id'))`.
+
+## State Immutability
+
+* **ALWAYS:** State managed by `StateNotifier` (or exposed by other providers) MUST be immutable.
+* When updating state in a `StateNotifier`, create a NEW instance of the state object instead of mutating the existing one.
+
+  * **Correct (class state):** `state = CurrentState(value: newValue, otherValue: state.otherValue);` or `state = state.copyWith(value: newValue);` (if `copyWith` exists).
+  * **Incorrect:** `state.value = newValue; notifyListeners();` (ChangeNotifier pattern, not `StateNotifier`).
+* Immutability helps Riverpod and Flutter efficiently detect state changes and prevents subtle bugs.
+
+## Provider Communication and Dependencies
+
+* **`ref.watch(otherProvider)`:** Used inside a provider factory or `ConsumerWidget`’s `build` to listen to another provider. Dependent provider/widget rebuilds/recomputes on changes.
+* **`ref.read(otherProvider)`:** Used to get current value once without subscribing. Use in callbacks (e.g., button `onPressed`) or within `StateNotifier` methods to interact with services/repositories.
+* **Dependency Cycles:** Avoid direct dependency cycles between providers (A depends on B and B depends on A); usually indicates design issues.
+
+## Business Logic and Use Cases
+
+* **ENCAPSULATE:** Core business logic (e.g., complex validations, orchestrating multiple repository calls, data transformations) should reside in Use Cases (`domain` layer) or directly in `StateNotifier`s if specific to that state.
+* `StateNotifier`s call Use Case or Repository methods and update state accordingly.
+* **DO NOT PLACE BUSINESS LOGIC DIRECTLY IN WIDGETS.**
+
+## Testability
+
+* Providers, especially `StateNotifier`s, should be easily testable.
+* Inject dependencies (like repositories) via constructor in `StateNotifier`. Mocks can be used in tests.
+* Use `ProviderContainer` to test providers in isolation (see `app-aya-testing-quality.mdc`).
+

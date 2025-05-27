@@ -1,0 +1,106 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+
+description: Enables the agent to generate Flutter code that adapts or behaves differently on iOS, Android, and Web when necessary, using platform checks and appropriate widgets.
+globs: \["\*\*/\*.dart"]
+alwaysApply: false
+------------------
+
+# Platform Awareness and Conditional UI/Logic in App Aya
+
+## Platform Checks
+
+* **Imports:**
+  `import 'dart:io' show Platform;` (for mobile) and `import 'package:flutter/foundation.dart' show kIsWeb;`
+* **Usage:**
+
+  * `if (kIsWeb) { ... }`
+  * `else if (Platform.isAndroid) { ... }`
+  * `else if (Platform.isIOS) { ... }`
+  * `else if (Platform.isMacOS) { ... }` // If relevant
+  * `else if (Platform.isWindows) { ... }` // If relevant
+  * `else if (Platform.isLinux) { ... }` // If relevant
+* **CAUTION:** `Platform.is...` throws an exception if called in an environment where `dart:io` is unavailable (like Web). **ALWAYS check `kIsWeb` first.**
+
+  ```dart
+  String getPlatformSpecificValue() {
+    if (kIsWeb) {
+      return "Web Value";
+    } else { // dart:io is available
+      if (Platform.isAndroid) return "Android Value";
+      if (Platform.isIOS) return "iOS Value";
+      return "Mobile Fallback";
+    }
+  }
+  ```
+
+## Platform-Specific Widgets and UI
+
+* **Adaptive Style:**
+
+  * **Material Design (Android/Default):** Use Material widgets (`ElevatedButton`, `TextField`, `AppBar`, `Scaffold`, etc.) as base.
+  * **Cupertino (iOS):** For a more native iOS look, consider using Cupertino widgets (`CupertinoButton`, `CupertinoTextField`, `CupertinoNavigationBar`, `CupertinoPageScaffold`, etc.) when `Platform.isIOS` condition is true.
+  * **Adaptive Packages:** Explore packages like `flutter_platform_widgets` that provide widgets adapting automatically to platform style. If used, add to `pubspec.yaml`.
+* **Simple Adaptive Button Example:**
+
+  ```dart
+  Widget buildAdaptiveButton(BuildContext context, {required VoidCallback onPressed, required Widget child}) {
+    if (kIsWeb) { // Web can use Material or custom style
+      return ElevatedButton(onPressed: onPressed, child: child);
+    } else if (Platform.isIOS) {
+      return CupertinoButton(onPressed: onPressed, child: child);
+    } else { // Android and other mobile
+      return ElevatedButton(onPressed: onPressed, child: child);
+    }
+  }
+  ```
+
+## Platform-Specific Conditional Logic
+
+* Beyond UI, business logic or how certain APIs are called may need to vary.
+* **Example: Social Login Setup:**
+
+  * Client IDs for Google/Apple Sign-In differ for Web, Android, iOS and come from `.env`. Logic initializing social login may need to use the correct ID based on platform.
+  * `README.md` specifies environment variables like `GOOGLE_CLIENT_ID_WEB`, `GOOGLE_CLIENT_ID_ANDROID`, etc.
+
+## Device Permissions (Mobile)
+
+* **Package:** Use `permission_handler` to request and check runtime permissions on Android and iOS.
+* **Common Flow:**
+
+  1. Check permission status.
+  2. If not granted, request permission.
+  3. Handle result (granted, denied, permanently denied).
+* **Example (request notification permission):**
+
+  ```dart
+  Future<void> requestNotificationPermission() async {
+    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+      var status = await Permission.notification.status;
+      if (status.isDenied) {
+        status = await Permission.notification.request();
+      }
+      if (status.isPermanentlyDenied) {
+        // User permanently denied, consider showing dialog to open app settings
+        openAppSettings();
+      }
+      // Handle granted status
+    }
+  }
+  ```
+
+## Platform-Specific Build Configurations
+
+* **`AndroidManifest.xml` (Android), `Info.plist` (iOS), `index.html` (Web):**
+
+  * Certain features (deep linking, permissions, social login setup, app icons, splash screens) require configuration in these platform-specific files.
+  * While the agent does not modify these files directly, be aware that the Human Guide will need to edit them and you may be asked to provide snippets or info (e.g., "What intent filter is needed for Android deep linking?").
+
+## Testing on Different Platforms
+
+* **REMEMBER:** The Human Guide is responsible for testing the app on different platforms (emulators, real devices, web browsers) to ensure conditional logic and adaptive UI work as expected.
+

@@ -1,0 +1,96 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+
+description: Define the standards for interacting with the Supabase backend and other APIs. Essential to ensure correct, secure communication and error handling. Helps the AI properly use the Supabase Flutter client and other networking packages.
+globs: \["lib/features/**/data/**/*.dart", "lib/features/**/domain/**/*.dart", "lib/core/supabase/**/\*.dart", "lib/shared/models/**/\*.dart"]
+alwaysApply: true
+------------------
+
+# Data Access and Backend of App Aya (Supabase)
+
+## Overview of Supabase Schema (Main Tables - See `README.md` for details)
+
+* **`profiles`**: User data (extends `auth.users`).
+* **`content_modules`**: Main content modules.
+* **`content_folders`**: Folders inside modules.
+* **`content_subfolders`**: Subfolders inside folders (optional).
+* **`content_lessons`**: Lessons/content (video, audio, PDF, rich-text) with fields like `type`, `source_url`, `rich_text_content`, `pdf_url`, `materials_url`, `required_subscription_level`.
+* **`lesson_interactions`**: User interactions with lessons (likes, favorites, progress, private notes).
+* **`forum_categories`, `forum_threads`, `forum_posts`**: For community.
+* **`gamification_levels`, `gamification_badges`, `user_badges`, `user_points`, `group_challenges`, `user_challenge_progress`**: For gamification.
+* **`user_ai_playlists`**: AI-generated playlists.
+* **Common Fields:** Expect `id (uuid)`, `created_at`, `updated_at`. `is_deleted` for soft deletes if applicable.
+
+## Data Modeling (Frontend)
+
+* **Location:** `lib/features/[feature_name]/data/models/` or `lib/shared/models/` for shared models.
+* **Structure:** Create immutable Dart classes representing Supabase table data.
+
+  * Must have `const` constructors.
+  * Must include `fromJson(Map<String, dynamic> json)` and `toJson() Map<String, dynamic>` methods.
+  * May have a `copyWith()` method.
+  * Use `json_serializable` package to generate boilerplate (`flutter pub run build_runner build`).
+* **Inheritance/Composition:** Models may inherit from domain layer Entities or be mapped to/from Entities.
+* **Naming:** Use `TableNameModel.dart` (e.g., `LessonModel.dart`).
+
+## Data Access Patterns with Supabase
+
+* **Supabase Client:** Use `Supabase.instance.client` configured in `lib/core/supabase/`.
+* **Repository Pattern:**
+
+  * **Interface (Domain):** `lib/features/[feature_name]/domain/repositories/i_feature_repository.dart` defines the contract.
+  * **Implementation (Data):** `lib/features/[feature_name]/data/repositories/feature_repository_impl.dart` implements the interface using Supabase client.
+  * **Datasources (Data):** Optionally, repository implementation may delegate to `DataSource` classes (e.g., `LessonRemoteDataSource`) that interact directly with Supabase.
+* **Queries (SELECT):**
+
+  * Use `.from('table_name').select('column1, column2, related_table(columnA)')`.
+  * Apply filters with `.eq()`, `.neq()`, `.gt()`, `.lt()`, `.like()`, `.ilike()`, `.in()`, etc.
+  * Use `.order()` for sorting and `.limit()`/`.range()` for pagination.
+* **Mutations (INSERT, UPDATE, DELETE):**
+
+  * `.insert(List<Map<String, dynamic>> values)`
+  * `.update(Map<String, dynamic> values).eq('id', value)`
+  * `.delete().eq('id', value)`
+* **Calling Functions (Edge Functions):**
+
+  * `Supabase.instance.client.functions.invoke('function-name', body: {'key': 'value'})`
+
+## Error Handling (Supabase/API)
+
+* **Return Structure:** Repositories and UseCases should return `Future<Either<Failure, SuccessType>>` (using the `dartz` package).
+
+  * `Failure`: A custom class (e.g., `ServerFailure`, `NetworkFailure`, `CacheFailure`) encapsulating error message or original error.
+  * `SuccessType`: The expected data type on success.
+* **Exception Capture:** In repository/datasource implementations, wrap Supabase/API calls in `try-catch`.
+
+  * Capture `PostgrestException`, `SocketException`, `TimeoutException`, etc.
+  * Map exceptions to specific `Failure`s.
+* **Logging:** Log errors for debugging (see `app-aya-error-handling.mdc`).
+
+## Row Level Security (RLS)
+
+* **Awareness:** Data access security logic (who can view/modify what) is primarily enforced by Supabase RLS.
+* **Frontend:** The frontend must assume Supabase enforces RLS. Do not attempt to replicate complex security logic on the client that should be on the backend. The frontend handles permission errors returned by Supabase (e.g., `401 Unauthorized`, `403 Forbidden`).
+
+## Realtime (Subscriptions)
+
+* Use `Supabase.instance.client.from('table:id=eq.some_id').on(SupabaseEventTypes.all, (payload) {...}).subscribe()` to listen for realtime changes.
+* Manage subscription lifecycle (unsubscribe when the widget is disposed).
+* Use Riverpod to propagate realtime data to the UI.
+
+## Integration with External APIs (n8n, RevenueCat)
+
+* **HTTP Client:** Use the `Dio` package (configured in `lib/core/network/`) for requests to APIs other than Supabase.
+* **Patterns:** Follow the same Repository patterns, `Either<Failure, SuccessType>`, and error handling.
+* **Authentication:** Handle API keys and tokens securely (via `.env` environment variables).
+* **RevenueCat:** Use the official `purchases_flutter` SDK. Create a `RevenueCatService` to encapsulate subscription logic.
+
+## Mocking for Tests
+
+* When testing UseCases, mock repository interfaces.
+* When testing Repositories, mock the Supabase client or datasources.
+

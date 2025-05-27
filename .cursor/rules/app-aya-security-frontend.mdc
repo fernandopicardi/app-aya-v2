@@ -1,0 +1,95 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+
+description: Defines best security practices to be applied in App Aya frontend code, including secure storage, input validation, and secure communication.
+globs: \["**/\*.dart", "lib/core/services/**/\*.dart"]
+alwaysApply: false
+------------------
+
+# Security Best Practices in App Aya Frontend
+
+## Secure Storage of Sensitive Data
+
+* **Tokens (JWT, Refresh Tokens), User Secret API Keys:**
+
+  * **ALWAYS:** Use `flutter_secure_storage` package to store such data.
+  * **NEVER:** Do not store session tokens or sensitive credentials in `shared_preferences` or plain text in code.
+  * Create a service (e.g., `SecureStorageService`) to abstract usage of `flutter_secure_storage`.
+* **Usage Example (abstracted):**
+
+  ```dart
+  // secure_storage_service.dart
+  // ...
+  Future<void> saveToken(String token) async {
+    await _storage.write(key: 'auth_token', value: token);
+  }
+  Future<String?> getToken() async {
+    return await _storage.read(key: 'auth_token');
+  }
+  Future<void> deleteToken() async {
+    await _storage.delete(key: 'auth_token');
+  }
+  // ...
+  ```
+
+## Input Validation (Defensive on Frontend)
+
+* **IMPORTANT:** Primary and authoritative validation MUST occur on backend (Supabase constraints, Edge Functions).
+* **Frontend:** Implement validations client-side to:
+
+  * Improve user experience (immediate feedback).
+  * Reduce invalid requests to backend.
+  * Serve as a first line of defense.
+* **Where:** Use `validator` functions in `TextFormField`s, validation logic in Notifiers/Providers before sending data.
+* **Validation Types:** Format (email, URL), length, presence, numeric type, etc.
+
+## Secure Communication (HTTPS)
+
+* **ALWAYS:** All communications with backend (Supabase) and third-party APIs (n8n, RevenueCat SDKs) MUST use HTTPS.
+
+  * `supabase_flutter` client and `dio` use HTTPS by default if URL is `https://...`.
+  * Verify all configured URLs (e.g., in `.env`) use `https://`.
+* **Certificates:** Do not disable SSL/TLS certificate validation unless in strictly controlled local development with justification.
+
+## Exposure of Keys and Secrets
+
+* **Public API Keys (Supabase Anon Key):**
+
+  * The Supabase anonymous key (`SUPABASE_ANON_KEY`) is designed to be public and can be in client code (usually loaded from `.env`). RLS protects data.
+* **Secret API Keys (Other APIs):**
+
+  * **NEVER:** Embed secret API keys (e.g., server keys for n8n if not public webhook, other third-party service keys) directly in Flutter code.
+  * **BEST PRACTICE:** If an API requires a secret key not safe to expose client-side, calls must be proxied via a secure backend (e.g., Supabase Edge Function). Flutter client calls the Edge Function, which calls third-party API securely.
+  * Client SDK keys (like RevenueCat) are usually safe to include if designated by provider.
+
+## XSS Prevention in Rich-Text/HTML
+
+* When using `flutter_html` to render HTML content (e.g., articles):
+
+  * The package sanitizes HTML by default to remove scripts and dangerous elements; keep this behavior.
+  * Exercise extra caution if HTML source is not fully trusted.
+
+## Logging Sensitive Information
+
+* **CAUTION:** Do not log sensitive info (passwords, full tokens, detailed personal data) in logs exposed or sent to logging services in production without masking or care.
+* Log only what is necessary for debugging.
+
+## Session Management
+
+* **Secure Logout:** On logout:
+
+  * Call Supabase logout method (`Supabase.instance.client.auth.signOut()`).
+  * Clear tokens stored in `flutter_secure_storage`.
+  * Clear user-related provider states.
+  * Redirect to login screen.
+* **Token Expiry:** Handle JWT token expiration. Supabase SDK usually handles refresh tokens automatically if properly configured.
+
+## Avoid Unnecessary Code Obfuscation
+
+* Dart/Flutter code obfuscation (`--obfuscate --split-debug-info`) deters reverse engineering but does not guarantee security.
+* Focus on backend security (RLS, Edge Functions) and frontend best practices.
+

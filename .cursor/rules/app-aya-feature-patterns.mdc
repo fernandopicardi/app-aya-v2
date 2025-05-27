@@ -1,0 +1,102 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+
+description: Provides detailed guidelines for implementing complex or unique features in App Aya that may require specific patterns not fully covered by general or architectural rules.
+globs: \["lib/features/\*\*/\*.dart"]
+alwaysApply: true
+------------------
+
+# Specific Feature Implementation Patterns in App Aya
+
+## Interactive Forms (e.g., Notes, Feedback, Profile Fields)
+
+* **Dynamic Rendering (If Applicable):** For JSON-defined forms (`form_definition_json`), consider packages like `flutter_form_builder`.
+* **Validation:** Implement client-side validation (`Form` and `TextFormField` with `validator`) and backend validation (Supabase Edge Functions or table constraints).
+* **Submission:**
+
+  * Simple: Send data directly to a Supabase table.
+  * Complex/Secure: Send data to a Supabase Edge Function that performs additional validation before inserting.
+* **State:** Manage form state with Riverpod Notifiers or `FormKey`.
+
+## Media Players (Audio/Video)
+
+* **Recommended Packages:**
+
+  * Audio: `just_audio` and `just_audio_background` for background playback and notification controls.
+  * Video: `video_player` (official), or alternatives like `chewie` (ready UI) or `flick_video_player`.
+* **Advanced Features:**
+
+  * **Offline Download:**
+
+    * Store downloaded files in app support directory (`path_provider`).
+    * Track downloads in Supabase or locally (`sqflite`, `isar`, `hive`).
+    * Allow users to manage downloads (view, delete).
+  * **Dynamic Audio Spectrum:**
+
+    * With `just_audio`, access amplitude or FFT data.
+    * Use packages like `audio_visualizer` or custom `CustomPainter` visualizations reacting to audio in real time.
+    * Refer to `README.md` mentioning `audio_visualizer`.
+  * **Controls:** Implement standard controls (play/pause, volume, seek, playback speed, next/previous).
+  * **Video Quality:** Support quality selection if multiple sources available.
+* **Integration:** Encapsulate player logic in a Riverpod Provider to manage state and control UI parts.
+
+## Rich-Text Rendering (HTML)
+
+* **Recommended Package:** `flutter_html`.
+* **Security:** Ensure rendered HTML is sanitized to prevent XSS, especially from untrusted sources; `flutter_html` generally handles this well.
+* **Styling:** Use `Html` widget’s `style` property to customize HTML tag appearances (p, h1, a, etc.) per `STYLE_GUIDE.md`.
+* **Interactivity:** Handle `onLinkTap` for navigation or other actions.
+
+## AI Chatbot Integration (via n8n)
+
+* **Chat Interface:** Build a standard chat UI (message list, input field).
+* **Communication with n8n:**
+
+  * App sends user prompt to n8n webhook (`N8N_WEBHOOK_URL_CHATBOT` in `.env`) via POST using Dio.
+  * n8n processes prompt (possibly calling LLM), queries Supabase for lesson tags or metadata if needed, returns AI response/suggestions.
+  * App displays AI response in UI.
+* **Playlist Creation:** If AI suggests a playlist, it returns list of `content_lessons` IDs. App fetches lessons and presents them; user can save playlist (stored in `user_ai_playlists`).
+
+## Gamification System
+
+* **Supabase Table Interactions:**
+
+  * Update `user_points` when users complete actions.
+  * Insert into `user_badges` when users earn badges.
+  * Query `gamification_levels` to determine user level by points.
+  * Manage progress in `group_challenges` and `user_challenge_progress`.
+* **Logic:** Complex gamification logic may reside in Supabase Edge Functions (e.g., automatically awarding badges).
+* **UI:** Display progress, points, levels, and badges in user profiles and relevant places.
+
+## Subscription System (RevenueCat)
+
+* **Package:** `purchases_flutter`.
+* **Initialization:** Configure RevenueCat SDK with API keys from `.env` in `main.dart`.
+* **Flows:**
+
+  * Fetch and display available subscription plans (`Offerings`).
+  * Initiate purchase flow (`purchasePackage`).
+  * Restore previous purchases.
+  * Check subscription status (`CustomerInfo`) for active entitlements.
+* **Content Access Control:**
+
+  * `content_lessons` table includes `required_subscription_level` (e.g., 'free', 'monthly\_premium', 'annual\_premium').
+  * Before granting lesson access, verify user’s `CustomerInfo` against required level.
+  * Check can be client-side or, for greater security, via an Edge Function.
+* **Sync with Supabase (Optional but Recommended):**
+
+  * Use RevenueCat webhooks to trigger a Supabase Edge Function updating user subscription status in `profiles` or a dedicated subscriptions table, enabling RLS based on subscription.
+
+## Livestream Viewing
+
+* **Source:** `README.md` references "Content LiveStream (in-app viewing)" likely meaning integration of a player supporting HLS, DASH, or RTMP streams.
+* **Implementation:**
+
+  * Similar to video players but using live stream URL.
+  * `video_player` may support some stream formats; specialized packages may be needed depending on protocol.
+  * UI should indicate live broadcast status; may include chat if interactive.
+

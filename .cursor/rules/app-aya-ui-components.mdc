@@ -1,0 +1,75 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+
+description: Focus on building reusable UI blocks following Flutter’s componentization principles and design guidelines. Helps the AI build consistent and maintainable widgets.
+globs: \["lib/shared/widgets/**/\*.dart", "lib/features/**/widgets/\*\*/\*.dart"]
+alwaysApply: true
+------------------
+
+# Reusable UI Components of App Aya
+
+## Componentization Principles
+
+* **Stateless by Default:** Prefer `StatelessWidget`. Use `ConsumerWidget` (Riverpod) for widgets that read providers, or `StatefulWidget` / `ConsumerStatefulWidget` only when complex local state not belonging to a provider is needed.
+* **`const` Constructors:** **ALWAYS** use `const` constructors for widgets that can be constant to optimize performance.
+* **Composition over Inheritance:** Favor composing smaller widgets to build complex components.
+* **Single Responsibility:** Keep components small and focused on a single visual or functional responsibility.
+* **Reusability:** Create generic reusable widgets placed in `lib/shared/widgets/`. Feature-specific widgets go in `lib/features/[feature_name]/presentation/widgets/`.
+
+## Component Structure and Documentation
+
+* **Parameters (Props):**
+
+  * Use named and required parameters whenever it makes sense.
+  * Provide default values for optional parameters when appropriate.
+  * **ALWAYS** document public parameters using Dart comments (`///`).
+* **Clarity:** Widget names should clearly indicate their purpose (e.g., `AyaPrimaryButton`, `ContentCard`).
+
+## Applying Design Guidelines (from `app-aya-design-system.mdc`)
+
+* **Colors:** Use colors defined in `AyaColors` (via `Theme.of(context)` or directly if the widget has a specific theme).
+* **Typography:** Apply `TextStyle`s from `Theme.of(context).textTheme` or create custom styles based on the fonts and weights defined.
+* **Spacing:** Use constants from `AppSpacing` (e.g., `AppSpacing.md`) for `Padding`, `Margin` (via `SizedBox`), and inner spacing.
+* **Border Radius:** Use constants from `AppBorderRadius` (e.g., `AppBorderRadius.lg`).
+* **Iconography:** Integrate `Iconoir` icons according to guidelines, allowing color and size customization via props if needed.
+* **Glassmorphism:** Create a reusable `GlassmorphicContainer` widget in `shared/widgets/` that applies the frosted glass effect, allowing `child` and customization of `blurRadius` and `opacity`.
+
+## Key Components to Develop (Examples)
+
+* **`AyaPrimaryButton`, `AyaSecondaryButton`, `AyaTextButton`:**
+
+  * Must follow the button theme, with correct colors, typography, and padding.
+  * Can include an optional icon.
+* **`AyaTextField`:**
+
+  * Custom wrapper for `TextField` with Aya styling (borders, colors, hints, optional icons).
+* **`AyaCard`:**
+
+  * Base widget for cards, applying `borderRadius`, subtle `boxShadow`, and theme background color. May have a glassmorphism variant.
+* **`ContentItemCard` (for Modules, Folders, Lessons):**
+
+  * Displays thumbnail, title, subtitle/content type.
+  * Should be responsive and visually appealing.
+  * Will follow the “premium and serene” aesthetic.
+  * See `README.md` (Section 3.2) for the content navigation structure that uses these cards.
+* **`AyaAppBar`:**
+
+  * A custom `AppBar` that can include the app logo or name, common actions, and follow Aya’s visual style.
+* **`AyaLoadingIndicator`, `AyaEmptyState`, `AyaErrorWidget`:**
+
+  * Standardized components to display these UI states.
+
+## Interactivity
+
+* **Visual Feedback:** Use `InkWell` or `GestureDetector` with appropriate visual feedback (e.g., splash, highlight) for interactive elements.
+* **States:** Implement visual states for \:hover (if web), \:disabled, \:pressed.
+
+## Verification
+
+* Before creating a new component, check if a similar one already exists in `lib/shared/widgets/` or in the current feature.
+* Widgets should be testable. Consider how you would write a `WidgetTest` for the component.
+

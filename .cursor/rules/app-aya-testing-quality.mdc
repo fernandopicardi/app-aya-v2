@@ -1,0 +1,87 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+
+description: Establishes testing guidelines and code quality assurance crucial for app stability and store approval. Helps AI generate testable code and write tests.
+globs: \["**/\*.dart", "test/**/\*.dart"]
+alwaysApply: true
+------------------
+
+# Testing and Code Quality in App Aya
+
+## Testing Strategy
+
+* **Unit Tests (`test/features/..._test.dart`):**
+
+  * **Focus:** Isolated business logic. Classes in `domain/` (UseCases), `data/` (Repositories, Models, DataSources), and Riverpod Notifiers/Providers.
+  * **Mocking:** Use `mockito` or `mocktail` to mock external dependencies (e.g., a repository when testing a UseCase, Supabase client when testing a repository).
+* **Widget Tests (`test/features/..._widget_test.dart`):**
+
+  * **Focus:** Verify widgets render correctly, respond to user interaction, and display correct states (loading, error, data). Test widgets in `presentation/widgets/` and `presentation/screens/`.
+  * **Mocking:** Mock Riverpod providers to supply controlled data to widgets.
+  * **Tools:** Use `flutter_test` (`testWidgets`, `tester.pumpWidget`, `find`, `expect`).
+* **Integration Tests (`integration_test/..._test.dart`):**
+
+  * **Focus:** Test complete user flows across multiple screens and layers, including interactions with real services (or high-level mocks), e.g., full login flow.
+  * **Tools:** Use the `integration_test` package.
+
+## Code Coverage
+
+* **Targets:**
+
+  * Minimum 70-80% for critical business logic (domain, data layers, providers).
+  * Minimum 50-60% for widgets.
+* **Tool:** Use `flutter test --coverage` and generate LCOV report.
+
+## Testing Tools
+
+* **`flutter_test`:** Standard framework for unit and widget tests.
+* **`mockito` or `mocktail`:** For creating mock classes of dependencies.
+
+  * `mocktail` is preferred for null safety and simpler API.
+  * Generate mocks with `build_runner` if using annotations (e.g., `@GenerateMocks([MyRepository])`).
+* **`integration_test`:** For end-to-end UI tests.
+* **`riverpod` (testing):** Provides utilities to test providers. Use `ProviderContainer` for isolated provider tests or `ProviderScope` with overrides in widget tests.
+
+## Mocking Patterns
+
+* **Interfaces:** Always program to interfaces in `domain` layer (e.g., `IAuthRepository`), easing mocking implementations in `data` layer during tests.
+* **Riverpod Providers:** In widget tests, use `ProviderScope` with `overrides` to replace real providers with mocks or fixed-data providers.
+
+  ```dart
+  await tester.pumpWidget(
+    ProviderScope(
+      overrides: [
+        myProvider.overrideWithValue(MockMyNotifier())
+      ],
+      child: MyWidget(),
+    ),
+  );
+  ```
+* **Mock Setup (`when`):** Use `when(mockedObject.method(any)).thenAnswer((_) async => ...);` or `thenReturn(...)`.
+
+## How to Write Tests
+
+* **Arrange, Act, Assert (AAA):**
+
+  * **Arrange:** Setup initial state, create mocks, define test data.
+  * **Act:** Execute the function or interact with the widget under test.
+  * **Assert:** Verify the result or UI state matches expectations using `expect()`.
+* **Test Naming:** Descriptive, indicating what is tested and expected result (e.g., `test('should return user when login is successful', ...)`).
+* **Widget Tests:**
+
+  * Use `tester.pumpWidget()` to render widget.
+  * Use `find.byType()`, `find.byKey()`, `find.text()` to locate widgets.
+  * Use `tester.tap()`, `tester.enterText()` to simulate interactions.
+  * Use `tester.pump()` or `tester.pumpAndSettle()` to advance frames.
+
+## Quality Checks
+
+* **`flutter analyze`:** **ALWAYS** ensure `flutter analyze` reports no errors or warnings. Configure `analysis_options.yaml` with strict lint rules (e.g., `flutter_lints` or `lints`).
+* **Performance:** Be aware of code performance implications. Add performance tests if bottlenecks identified.
+* **Accessibility:** Though not exhaustively auto-tested, develop with accessibility in mind (contrast, labels, touch sizes). Use `debugCheckSemanticsWidgetBuilder` to inspect semantics tree.
+* **Code Review:** All code must undergo review (including self-review guided by these rules) before merging.
+

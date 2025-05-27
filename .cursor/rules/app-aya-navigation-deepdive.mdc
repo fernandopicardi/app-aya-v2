@@ -1,0 +1,180 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+
+description: Details handling complex navigation scenarios using GoRouter in App Aya, including typed routes, nested navigation, route guards, and error handling.
+globs: \["lib/routes.dart", "lib/features/**/presentation/screens/**/\*.dart", "lib/main.dart", "lib/app\_widget.dart"]
+alwaysApply: false
+------------------
+
+# Complex Navigation with GoRouter in App Aya
+
+## Main Reference
+
+* Use the `go_router` package. Centralized route configuration is in `lib/routes.dart`.
+
+## Route Configuration Structure (`lib/routes.dart`)
+
+* **`GoRouter` instance:** Create a global instance or a Riverpod provider for `GoRouter`.
+
+  ```dart
+  // Example provider (can be simpler if no ref needed)
+  final goRouterProvider = Provider<GoRouter>((ref) {
+    // final authState = ref.watch(authNotifierProvider); // For redirect
+    return GoRouter(
+      // initialLocation: '/dashboard', // or '/login' if unauthenticated
+      // refreshListenable: // A Listenable to re-evaluate redirects
+      // redirect: (BuildContext context, GoRouterState state) { ... }
+      routes: appRoutes, // List of GoRoute
+      errorBuilder: (context, state) => ErrorScreen(error: state.error),
+    );
+  });
+
+  // Main route list
+  final List<RouteBase> appRoutes = [
+    GoRoute(
+      path: '/login',
+      name: AppRouteNames.login,
+      builder: (context, state) => const LoginScreen(),
+    ),
+    GoRoute(
+      path: '/dashboard',
+      name: AppRouteNames.dashboard,
+      builder: (context, state) => const DashboardScreen(),
+      // routes: [ // Subroutes if needed
+      //   GoRoute(path: 'details', builder: ...),
+      // ],
+    ),
+    // ... other routes
+  ];
+
+  // Route name constants (in core/constants/routes.dart)
+  class AppRouteNames {
+    static const String login = 'login';
+    static const String dashboard = 'dashboard';
+    // ...
+  }
+  ```
+* **Integration with `MaterialApp.router`:**
+
+  ```dart
+  // In app_widget.dart
+  class AppWidget extends ConsumerWidget {
+    @override
+    Widget build(BuildContext context, WidgetRef ref) {
+      final goRouter = ref.watch(goRouterProvider);
+      return MaterialApp.router(
+        routerConfig: goRouter,
+        theme: AppTheme.darkTheme(), // or appropriate theme
+        // ...
+      );
+    }
+  }
+  ```
+
+## Typed Routes and Parameters
+
+* **Path parameters:**
+
+  * Define: `GoRoute(path: '/lessons/:lessonId', builder: ...)`
+  * Access: `final lessonId = state.pathParameters['lessonId']!;`
+* **Query parameters:**
+
+  * Navigate: `context.go('/search?query=meditation')`
+  * Access: `final query = state.uri.queryParameters['query'];`
+* **Extra (Complex objects as parameters):**
+
+  * Pass: `context.go('/lesson-details', extra: myLessonObject)`
+  * Access: `final lesson = state.extra as Lesson;`
+  * **CAUTION:** `extra` is not part of URL and does not survive deep linking or web reloads. Use for transient data only. Use path or query params for persistent URL data and fetch objects accordingly.
+
+## Nested Navigation (`ShellRoute`)
+
+* **Use:** For layouts with persistent UI across child routes, e.g., a `BottomNavigationBar` or `Drawer` visible while navigating between sections.
+* **Implementation:**
+
+  ```dart
+  final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>();
+
+  ShellRoute(
+    navigatorKey: _shellNavigatorKey,
+    builder: (context, state, child) {
+      // 'child' is the current child route screen
+      return MainScaffoldWithBottomNav(child: child); // Your scaffold widget with BottomNav
+    },
+    routes: [
+      GoRoute(
+        path: '/home', // Route for first tab
+        name: AppRouteNames.home,
+        pageBuilder: (context, state) => NoTransitionPage(child: HomeScreen()),
+      ),
+      GoRoute(
+        path: '/library', // Route for second tab
+        name: AppRouteNames.library,
+        pageBuilder: (context, state) => NoTransitionPage(child: LibraryScreen()),
+      ),
+      // ... other routes for BottomNavigationBar tabs
+    ],
+  )
+  ```
+* `NoTransitionPage` avoids transition animations between `ShellRoute` tabs if desired.
+* Use `context.go('/library')` to navigate between `ShellRoute` tabs, **not** `context.push()`.
+
+## Route Guards (Redirects)
+
+* **Use:** To protect routes needing authentication or other conditions.
+* **Implement in `GoRouter` via `redirect`:**
+
+  ```dart
+  // inside GoRouter config
+  redirect: (BuildContext context, GoRouterState state) {
+    final bool isLoggedIn = ref.read(authNotifierProvider).isAuthenticated; // Example
+    final bool isLoggingIn = state.matchedLocation == '/login'; // or state.name == AppRouteNames.login
+
+    if (!isLoggedIn && !isLoggingIn) {
+      return '/login'; // Redirect to login if not authenticated and not on login page
+    }
+    if (isLoggedIn && isLoggingIn) {
+      return '/dashboard'; // Redirect to dashboard if authenticated and trying to access login
+    }
+    return null; // No redirect, proceed as requested
+  },
+  refreshListenable: GoRouterRefreshStream(ref.watch(authNotifierProvider.notifier).stream), // Reevaluate redirect on auth changes
+  ```
+
+  * `GoRouterRefreshStream` converts a `Stream` to a `Listenable`.
+* Each `GoRoute` can also have its own `redirect` logic.
+
+## Route Error Handling
+
+* **`errorBuilder` in `GoRouter`:** Provide a widget to show when route not found or other routing errors occur.
+
+  ```dart
+  // inside GoRouter config
+  errorBuilder: (context, state) => ErrorScreen(
+      title: 'Page Not Found',
+      message: 'Route ${state.uri} was not found.',
+      error: state.error, // may be null
+  ),
+  ```
+
+  * `ErrorScreen` is a custom widget.
+
+## Programmatic Navigation
+
+* **`context.go(path, extra: ...)`:** Navigates to a new route replacing current stack if not a sub-route on the same level. Used for main navigation (e.g., BottomNav tabs, Drawer items).
+* **`context.push(path, extra: ...)`:** Pushes a new route on top of current. Used for detail navigation (e.g., open lesson page from list).
+* **`context.pop()`:** Pops current route.
+* **`context.canPop()`:** Checks if pop is possible.
+* **Named navigation:**
+  `context.goNamed(AppRouteNames.dashboard, pathParameters: {'id': '123'}, queryParameters: {'filter': 'all'})`.
+
+## Deep Linking
+
+* GoRouter handles deep linking automatically based on route configuration.
+* Ensure `AndroidManifest.xml` (Android) and `Info.plist` (iOS) are correctly configured for your app’s URL schemes.
+* Web URLs work directly in browser.
+

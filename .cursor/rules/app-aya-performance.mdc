@@ -1,0 +1,84 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+
+description: Consolidates and details performance optimization guidelines specific to a Flutter app, ensuring a smooth and responsive user experience.
+globs: \["\*\*/\*.dart"]
+alwaysApply: true
+------------------
+
+# Performance and Optimization in App Aya
+
+## Widget Builds and Rebuilds Optimization
+
+* **`const` Constructors:** **ALWAYS** use `const` for widget constructors and objects that can be `const`. This lets Flutter skip unnecessary rebuilds.
+* **Keys (`Key`):** Use keys (especially `ValueKey` or `ObjectKey`) in widget lists, especially if item order or content can change, helping Flutter identify and update elements correctly.
+* **Riverpod Granularity:**
+
+  * Use `ref.watch` only in widgets that need rebuilding on that specific state change.
+  * Use `ref.read` in callbacks (e.g., `onPressed`) to read state without triggering rebuilds.
+  * Split large providers into smaller, focused providers.
+  * Use `select` (`ref.watch(myProvider.select((state) => state.someValue))`) to listen only to specific parts of provider state.
+* **Avoid Unnecessary Rebuilds:**
+
+  * Do not call side-effect causing methods (like network requests) directly in `build`. Use `initState` (`StatefulWidget`), Notifier constructors (Riverpod), or user-triggered methods.
+  * Use `setState` in `StatefulWidget`s judiciously; ensure only necessary subtrees rebuild.
+* **Specialized Widgets:**
+
+  * Use `AnimatedBuilder` or `ValueListenableBuilder` for animations or localized UI updates without rebuilding whole widget tree.
+  * For lists, **ALWAYS** use builders (`ListView.builder`, `GridView.builder`, etc.) so items build only when visible (widget lazy loading).
+
+## Lazy Loading Data and Content
+
+* **Images:**
+
+  * Use `cached_network_image` package to load, cache, and efficiently display network images, with placeholders and error indicators.
+* **Long Lists and Pagination:**
+
+  * Implement pagination (infinite scrolling) for potentially long data lists (e.g., lessons history, community posts).
+  * Load initial batch and fetch more as user scrolls; Riverpod can manage pagination state.
+* **Tab/Page Content:** Load tab or page content only when visible if loading is expensive.
+
+## Efficient State Management (Riverpod)
+
+* **Keep Minimal State in UI:** Providers manage complex state logic; widgets should be as "dumb" (stateless) as possible, only reflecting provider state.
+* **Immutability:** Use immutable states in Notifiers. When updating state, create new instances instead of mutating existing ones. This helps Riverpod detect changes efficiently.
+* **Dispose Resources:** Ensure Notifiers/Providers holding resources (subscriptions, timers, controllers) properly release them (e.g., in `dispose` or via `ref.onDispose`).
+
+## Specific Optimizations
+
+* **Media Players:**
+
+  * Dispose player resources (`dispose()`) when no longer needed.
+  * Avoid multiple simultaneous players unless necessary.
+* **Rich-Text Rendering (`flutter_html`):**
+
+  * Rendering complex or long HTML can be costly; test performance on slower devices.
+  * Avoid unnecessary rebuilds of `Html` widget if content unchanged.
+* **Animations:**
+
+  * Use purposeful, smooth animations.
+  * Avoid overly complex or continuously running animations that tax CPU/GPU.
+  * Use `AnimatedSwitcher` for smooth widget transitions.
+* **Shader Compilations (Jank):**
+
+  * On mobile devices, first use of complex animation or shader may cause jank (stutter) due to shader compilation. Test and prewarm shaders if needed (`PaintingBinding.instance.shaderWarmUp`).
+
+## Profiling Tools Awareness
+
+* AI agent does not directly use these tools, but generated code should be profileable.
+* **Flutter DevTools:** Encourage use for:
+
+  * **Performance View:** Identify CPU/GPU bottlenecks.
+  * **Flutter Inspector:** Understand widget tree and rebuilds.
+  * **Memory View:** Detect memory leaks.
+* **Minimize UI Thread Work:** Heavy operations (network, heavy data processing) should be asynchronous (`async/await`, `Isolates` if CPU intensive) to avoid UI thread blocking.
+
+## Miscellaneous
+
+* **Opacity and Clipping:** Excessive use of `Opacity` (especially with opacity between 0 and 1) and `ClipRRect`/`ClipPath` can be costly. Use moderately and test impact.
+* **App Size:** Be mindful of asset and dependency sizes to keep final app size reasonable.
+

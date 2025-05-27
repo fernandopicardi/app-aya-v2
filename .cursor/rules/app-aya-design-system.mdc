@@ -1,0 +1,130 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+
+description: Translates the visual identity defined in STYLE\_GUIDE.md into Flutter implementation guidelines. Ensures a "clean, premium, modern, feminine, and serene" aesthetic. Helps the AI correctly apply colors, typography, spacing, etc.
+globs: \["\*\*/\*.dart"]
+alwaysApply: true
+-----------------
+
+# App Aya Design System (Flutter Implementation)
+
+## Main Reference
+
+* **ALWAYS** consult `STYLE_GUIDE.md` (via `@STYLE_GUIDE.md`) for all visual design decisions. This file translates those guidelines into Flutter implementation.
+* The aesthetic is: **clean, premium, modern, feminine, and serene.** The main theme is **dark**.
+
+## Color Palette (`AyaColors` in `core/theme/`)
+
+* **Primary Colors:**
+
+  * `deepPurple`: `Color(0xFF2A2939)` (Deep Purple) — Use for main backgrounds, dark surfaces.
+  * `lavender`: `Color(0xFFACA1EF)` (Lavender) — Use for accents, interactive elements, highlights.
+* **Secondary and Accent Colors:**
+
+  * `turquoise`: `Color(0xFF78C7B4)` (Turquoise) — Use for secondary accents, positive indicators, subtle call-to-action elements.
+  * `softLavender`: `Color(0xFF575C84)` (Soft Lavender) — Use for secondary text, inactive icons, subtle borders.
+* **Neutral Colors:**
+
+  * `surface`: `Color(0xFFF8F8FF)` (or similar for text on dark backgrounds or light backgrounds in future light mode). In dark theme, primary texts are light (e.g., `Colors.white` or off-white with a lavender tint).
+  * `textPrimaryOnDark`: `Colors.white` or a slightly grayish/light lavender tone for readability on `deepPurple`.
+  * `textSecondaryOnDark`: `softLavender` or `lavender.withOpacity(0.7)`.
+* **State (Semantic) Colors:**
+
+  * `success`: `Color(0xFF4CAF50)` (Green for success)
+  * `error`: `Color(0xFFE53935)` (Red for errors)
+  * `warning`: `Color(0xFFFFB300)` (Yellow for warnings)
+* **Gradients:** Use gradients defined in `STYLE_GUIDE.md` (e.g., `primaryGradient` with `deepPurple` and `softLavender`).
+* **Application:** Use these colors consistently via `ThemeData` and custom widgets.
+
+## Typography (`app_theme.dart` and `TextStyles` in `core/theme/`)
+
+* **Main font for body text and general UI:** **Inter**.
+
+  * Fallbacks: `ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`.
+  * Use the `google_fonts` package: `GoogleFonts.inter()`.
+* **Serif font for impactful titles:** Use a Serif font (e.g., 'Lora', 'Playfair Display', or one specified in `STYLE_GUIDE.md` if provided; otherwise use Inter with higher weight for H1/H2). Configure via `GoogleFonts` if available.
+
+  * If `STYLE_GUIDE.md` specifies "Open Sans" for titles, use `GoogleFonts.openSans()`. **VERIFY `STYLE_GUIDE.md`:** Section 2.4.1 indicates 'Open Sans' for titles, section 2.4.2 indicates 'Inter' for body.
+* **Text Hierarchy (`TextTheme`):**
+
+  * Define styles for `displayLarge`, `displayMedium`, `displaySmall`, `headlineLarge`, `headlineMedium`, `headlineSmall`, `titleLarge`, `titleMedium`, `titleSmall`, `bodyLarge`, `bodyMedium`, `bodySmall`, `labelLarge`, `labelMedium`, `labelSmall`.
+  * Apply correct `fontFamily` (Serif/Open Sans for titles, Inter for body) and `fontWeight` as per `STYLE_GUIDE.md`.
+  * Text colors must have good contrast with backgrounds.
+
+## Spacing and Layout (`app_constants_design.dart` in `core/theme/`)
+
+* **Base Unit:** `8.0` pixels.
+* **Standard Spacing Values:**
+
+  * `spacingXs = 4.0`
+  * `spacingSm = 8.0`
+  * `spacingMd = 16.0`
+  * `spacingLg = 24.0`
+  * `spacingXl = 32.0`
+  * `spacing2xl = 48.0`
+* **Usage:** Use `SizedBox` for spacing between widgets, `Padding` for internal spacing. Use spacing constants.
+
+## Border Radius (`app_constants_design.dart`)
+
+* **Standard Values:**
+
+  * `borderRadiusSm = 4.0`
+  * `borderRadiusMd = 8.0`
+  * `borderRadiusLg = 12.0`
+  * `borderRadiusXl = 16.0` (or more for cards with a soft aesthetic)
+* **Application:** Use in `BorderRadius.circular()` for `Container`, `Card`, `ClipRRect`, etc.
+
+## Iconography
+
+* **Main Library:** **Iconoir**. Use `iconoir_flutter` package or similar.
+* **Style:** Linear, minimalist, per `STYLE_GUIDE.md`.
+* **Standard Sizes:** 16px, 24px, 32px. Most common size is 24px.
+* **Colors:**
+
+  * Active/selected icons: `AyaColors.lavender`.
+  * Inactive/normal icons: `AyaColors.softLavender` or `AyaColors.lavender.withOpacity(0.7)`.
+  * Action button icons may use `AyaColors.turquoise` or the button text color.
+
+## Visual Effects
+
+* **Glassmorphism:** Implement using `BackdropFilter` with `ImageFilter.blur` and a `Container` with translucent color and subtle border.
+
+  * `blurRadius`: as specified (e.g., 10.0).
+  * `opacity`: low (e.g., 0.1 to 0.25).
+  * `borderColor`: `Colors.white.withOpacity(0.1)` or similar.
+* **Shadows (`shadows`):** Use subtle shadows as defined in `STYLE_GUIDE.md` (e.g., `shadowSmall`, `shadowMedium`).
+
+## Application Theme (`AppTheme` in `core/theme/app_theme.dart`)
+
+* Create a class `AppTheme` with static method `darkTheme()` returning `ThemeData`.
+* Set `brightness: Brightness.dark`.
+* `primaryColor: AyaColors.deepPurple` (or `AyaColors.lavender` if the main accent color).
+* `scaffoldBackgroundColor: AyaColors.deepPurple`.
+* Define a custom `ColorScheme.dark()` with Aya colors:
+
+  * `primary: AyaColors.lavender`
+  * `secondary: AyaColors.turquoise`
+  * `surface: AyaColors.deepPurple` (or a slightly lighter/darker shade for surface differentiation)
+  * `background: AyaColors.deepPurple`
+  * `error: AyaColors.error`
+  * Other scheme colors as needed.
+* `textTheme`: Configure with `GoogleFonts.interTextTheme()` then customize title styles with Serif/Open Sans font.
+* `iconTheme`: `IconThemeData(color: AyaColors.softLavender, size: 24.0)`.
+* `appBarTheme`: `AppBarTheme(backgroundColor: AyaColors.deepPurple, elevation: 0)`.
+* `cardTheme`: `CardTheme(elevation: 2, shadowColor: Colors.black.withOpacity(0.1), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusLg)))`.
+* Style `elevatedButtonTheme`, `textButtonTheme`, `outlinedButtonTheme`, `inputDecorationTheme`, etc., to match visual identity.
+
+## Animations and Transitions
+
+* Animations should be smooth, serene, and purposeful.
+* Standard duration: `Duration(milliseconds: 300)`.
+* Curves: `Curves.easeInOut`.
+
+## Responsiveness
+
+* Build layouts adaptive to different screen sizes using `LayoutBuilder`, `MediaQuery`, `FittedBox`, `FractionallySizedBox`, and responsive `Wrap` or `GridView`.
+

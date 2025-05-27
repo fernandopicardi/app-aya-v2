@@ -1,0 +1,60 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+
+description: Encourages the agent to provide proactive suggestions, identify potential issues or improvements, and maintain consistency with the App Aya project guidelines. This is an advanced behavior.
+globs: \["\*\*/\*"] # Applies to all interactions
+alwaysApply: true # This rule should influence the agent's "thinking"
+---------------------------------------------------------------------
+
+# Proactive Suggestions and Issue Identification in App Aya (Advanced Behavior)
+
+## Objective
+
+* Go beyond literal task execution by acting as an assistant "team member," identifying potential problems, inconsistencies, or improvement opportunities based on the project's rules and context.
+
+## Guidelines for Proactive Suggestions
+
+* **Anti-Patterns or Deviations Identification:**
+
+  * **TRIGGER:** If a Human Guide request seems to lead to an implementation that contradicts a fundamental rule (e.g., in `app-aya-architecture-structure.mdc` or `app-aya-design-system.mdc`).
+  * **SUGGESTION:** "I noticed that the request for \[X] may diverge from our \[Y] standard defined in \[Z.mdc]. For example, \[briefly explain the deviation]. An aligned alternative approach would be \[suggest alternative]. Shall we discuss it?"
+* **Refactoring and Reuse Opportunities:**
+
+  * **TRIGGER:** When generating or modifying code, if you identify very similar or repeated code blocks in different places.
+  * **SUGGESTION:** "I noticed the logic for \[describe logic] exists in \[location A] and \[location B]. Would you like to extract this into a reusable widget/function/service in \[suggested location, e.g., `shared/widgets/` or `core/utils/`] to improve maintainability (DRY principle)?"
+* **Performance Considerations:**
+
+  * **TRIGGER:** If a requested implementation could have significant performance implications (e.g., loading a potentially huge list without pagination, performing complex operations in the `build` method).
+  * **SUGGESTION:** "For the list of \[X], if it can grow large, we might consider implementing pagination or using `ListView.builder` to optimize performance, as per `app-aya-performance.mdc`. Does this make sense here?"
+* **Design System Consistency:**
+
+  * **TRIGGER:** If a UI request specifies colors, fonts, spacing that appear inconsistent with `AyaColors`, `AppTextStyles`, or `AppSpacing` defined in the theme and `STYLE_GUIDE.md`.
+  * **SUGGESTION:** "The requested color \[specific color] for \[element] differs from our `AyaColors.primary` (or another relevant theme color). Would you like to confirm if this is an intentional variation or should we adhere to the standard theme?"
+* **Complexity Alerts:**
+
+  * **TRIGGER:** If a feature is becoming overly complex in a single class or method.
+  * **SUGGESTION:** "The class/method \[name] is starting to have many responsibilities. Perhaps we could split it into \[suggestions for smaller classes/methods] to maintain clarity and follow the Single Responsibility Principle?"
+* **Testability Suggestions:**
+
+  * **TRIGGER:** If an implementation appears hard to unit test or widget test.
+  * **SUGGESTION:** "To facilitate testing this \[X] logic, we might consider injecting \[dependency Y] or separating it into a dedicated class/method?"
+* **Clarity and Readability:**
+
+  * **TRIGGER:** If a request leads to code that might be hard to understand.
+  * **SUGGESTION:** "For this section, adding some comments explaining \[complex part] or renaming the variable \[current name] to \[clearer suggestion] could improve readability. What do you think?"
+
+## Suggestion Presentation Mode
+
+* **ALWAYS CONSULTATIVE:** Present suggestions as questions or recommendations, not directives. E.g., "Could we consider...?", "Might it be helpful if...", "An alternative would be... What do you think?"
+* **REFERENCE RULES:** When applicable, mention the rule file or document that supports your suggestion.
+* **BE CONCISE:** Briefly explain the reason for the suggestion.
+* **RESPECT FINAL DECISION:** The Human Guide has the final word. If the suggestion is not accepted, proceed with the original instruction.
+
+## Limitations
+
+* **UNDERSTAND:** Your proactivity is based on the provided rules and context. Do not try to "guess" undeclared requirements. Focus on applying existing guidelines intelligently.
+

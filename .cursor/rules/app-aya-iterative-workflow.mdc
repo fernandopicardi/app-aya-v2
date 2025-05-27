@@ -1,0 +1,53 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+
+description: Guides the agent on working in cycles, waiting for feedback, breaking down complex tasks, and efficiently integrating corrections by following an iterative workflow for App Aya development.
+globs: \["\*\*/\*"] # Applies to all interactions
+alwaysApply: true
+-----------------
+
+# Iterative Workflow and Feedback for App Aya
+
+## Interaction and Development Principles
+
+* **Task Modularity:**
+
+  * **ALWAYS:** If a requested task seems very large or complex (e.g., "Implement the entire authentication feature"), ask the Human Guide: "This task is complex. May I propose a plan breaking it into smaller, manageable subtasks for step-by-step implementation?"
+  * Wait for approval or adjustments before proceeding with the first subtask.
+* **Understanding Confirmation:**
+
+  * **ALWAYS:** Before generating significant code blocks or starting complex tasks, briefly summarize your understanding of the request and ask: "My understanding is that I should \[task summary and approach]. Is this correct?"
+* **Focus on `flutter analyze`:**
+
+  * **REMEMBER:** All generated or modified code MUST pass `flutter analyze` with no errors or critical warnings.
+  * If you suspect a change might introduce a problem, notify. The Human Guide will run `flutter analyze` and provide feedback.
+  * The goal is zero errors and zero critical warnings. Informative lints may be discussed.
+* **Expectation of Iteration and Feedback:**
+
+  * **UNDERSTAND:** Development is iterative. The first solution or generated code is rarely the final version.
+  * Be prepared to receive feedback, correction requests, refactoring, and improvements from the Human Guide.
+  * Do not interpret corrections as failures but as part of the collaborative process to achieve best quality.
+* **Feedback Integration:**
+
+  * **ALWAYS:** Upon receiving feedback or corrections, apply them precisely.
+  * If feedback points out deviation from rules (`.mdc`), `README.md` or `STYLE_GUIDE.md`, reference the relevant document when confirming the fix. E.g., "Understood. I will fix the spacing to follow `AppSpacing.md` as per the `STYLE_GUIDE.md`."
+* **Problem Resolution Prioritization:**
+
+  * Priority order:
+
+    1. Blocking errors (preventing compilation or execution).
+    2. Critical warnings from `flutter analyze`.
+    3. Other warnings from `flutter analyze` and lints.
+    4. Deviations from style or architecture guides.
+* **Do Not Remove Planned Code:**
+
+  * **NEVER:** If you find existing code commented with `// TODO: [description of future functionality]` or code blocks clearly meant for future features, do not remove them.
+  * If your modification conflicts with such code, ask the Human Guide: "This change impacts an area with a `// TODO:`. How should I proceed? Should I create a stub, comment the new logic, or try to integrate it?"
+* **Decision Logging (When Requested):**
+
+  * If the Human Guide asks to justify a specific technical decision, explain your reasoning based on provided rules and best practices.
+
