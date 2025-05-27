@@ -1,0 +1,130 @@
+app-aya-v2
+|-- .cursor
+|   L-- rules
+|       |-- app-aya-architecture-structure.mdc
+|       |-- app-aya-data-access.mdc
+|       |-- app-aya-dependency-management.mdc
+|       |-- app-aya-design-system.mdc
+|       |-- app-aya-error-handling.mdc
+|       |-- app-aya-feature-patterns.mdc
+|       |-- app-aya-iterative-workflow.mdc
+|       |-- app-aya-navigation-deepdive.mdc
+|       |-- app-aya-performance.mdc
+|       |-- app-aya-platform-awareness.mdc
+|       |-- app-aya-proactive-suggestions.mdc
+|       |-- app-aya-project-brief.mdc
+|       |-- app-aya-security-frontend.mdc
+|       |-- app-aya-state-management-deepdive.mdc
+|       |-- app-aya-supabase-advanced.mdc
+|       |-- app-aya-testing-quality.mdc
+|       |-- app-aya-ui-components.mdc
+|       L-- codebase-awareness-agent.mdc
+|-- .git
+|   |-- hooks
+|   |   |-- applypatch-msg.sample
+|   |   |-- commit-msg.sample
+|   |   |-- fsmonitor-watchman.sample
+|   |   |-- post-update.sample
+|   |   |-- pre-applypatch.sample
+|   |   |-- pre-commit.sample
+|   |   |-- pre-merge-commit.sample
+|   |   |-- pre-push.sample
+|   |   |-- pre-rebase.sample
+|   |   |-- pre-receive.sample
+|   |   |-- prepare-commit-msg.sample
+|   |   |-- push-to-checkout.sample
+|   |   |-- sendemail-validate.sample
+|   |   L-- update.sample
+|   |-- info
+|   |   L-- exclude
+|   |-- logs
+|   |   |-- refs
+|   |   |   |-- heads
+|   |   |   |   L-- master
+|   |   |   L-- remotes
+|   |   |       L-- origin
+|   |   |           |-- HEAD
+|   |   |           |-- main
+|   |   |           L-- versao-antiga
+|   |   L-- HEAD
+|   |-- objects
+|   |   |-- 11
+|   |   |   L-- cae54a79077afef09a6224093e836cd89f521c
+|   |   |-- 12
+|   |   |   L-- 1a16293078568d27bcac10f0eb93fc0a7ed5dd
+|   |   |-- 25
+|   |   |   L-- 4c0bd15c3d7f3cc9779f376f118079d9de6556
+|   |   |-- 3a
+|   |   |   L-- 32ea6ca0d93cb3c4654a428e3bbf24ad72f525
+|   |   |-- 46
+|   |   |   L-- 8f7a99ad62fd7c60cd17f09276cf7a432bd407
+|   |   |-- 52
+|   |   |   L-- bea9604fd3cb4327e1ef9ac6b156ccce50ba0c
+|   |   |-- 53
+|   |   |   L-- 7264aeb046af0287d95becc589a50adee1d65e
+|   |   |-- 60
+|   |   |   L-- d8cf32581c0e40509ec848ca0e78838b614c8c
+|   |   |-- 64
+|   |   |   L-- 78b2634904515a6e1f33e404266be0a6ff4dd4
+|   |   |-- 67
+|   |   |   L-- d17f3d6fca7e6501f08b1d853b96055c9eabf5
+|   |   |-- 75
+|   |   |   L-- 0268b3484c2e4886e2006b7e73ca14b325afe7
+|   |   |-- 79
+|   |   |   L-- 72b75f787915c79a645c92ef1fc64678785a8c
+|   |   |-- 89
+|   |   |   L-- 576a22559e0d0105b1dc6d69b7929fadd696a2
+|   |   |-- 93
+|   |   |   L-- 34d4cc62e7d3def2b79d160c64401a53a2b4c4
+|   |   |-- 94
+|   |   |   L-- 9da2daab1770ba656d6ca1b60c93e1023a37c2
+|   |   |-- 96
+|   |   |   L-- 9f8eceecd6de10c1afc503b19d19253567138a
+|   |   |-- bb
+|   |   |   L-- 178b6150f86d07f35f06ff9c0dcf70f745d3df
+|   |   |-- bf
+|   |   |   L-- c97ce48cc18284386be5c856e5e2064e8823ca
+|   |   |-- c5
+|   |   |   L-- 1230c0caa57ad75b0b724e58348b3833a84e0b
+|   |   |-- cb
+|   |   |   L-- 64055f0fbd4441a14371faf782f687918437c4
+|   |   |-- d9
+|   |   |   L-- 819f544bf647b1392d00f39fe07f9906db5ef1
+|   |   |-- da
+|   |   |   |-- cd86e465698744052a4b4eb8e1c8af3ce18393
+|   |   |   L-- f430a68b191128a5a24bc43199c27699dca092
+|   |   |-- dc
+|   |   |   L-- 0b4d344850a51c68703733c0d8f234333996c9
+|   |   |-- de
+|   |   |   L-- 36dddbe611a9300ebc05b13916eb22d39f85ab
+|   |   |-- e1
+|   |   |   L-- 4da437ba5b4e41d13cae702341f51a61b6a523
+|   |   |-- ec
+|   |   |   L-- c160114334016943127e242716c0a6fe6add79
+|   |   |-- fa
+|   |   |   L-- ee269ce7c3ebe80769c9387702d3540b4745a5
+|   |   |-- info
+|   |   L-- pack
+|   |       |-- pack-1d322107f87d796b258e4d10bcaa44a273c569ac.idx
+|   |       |-- pack-1d322107f87d796b258e4d10bcaa44a273c569ac.pack
+|   |       L-- pack-1d322107f87d796b258e4d10bcaa44a273c569ac.rev
+|   |-- refs
+|   |   |-- heads
+|   |   |   L-- master
+|   |   |-- remotes
+|   |   |   L-- origin
+|   |   |       |-- HEAD
+|   |   |       |-- main
+|   |   |       L-- versao-antiga
+|   |   L-- tags
+|   |-- COMMIT_EDITMSG
+|   |-- FETCH_HEAD
+|   |-- HEAD
+|   |-- ORIG_HEAD
+|   |-- config
+|   |-- description
+|   L-- index
+|-- .env
+|-- README.md
+|-- STYLE_GUIDE.md
+L-- app-aya-v2_structure.txt
