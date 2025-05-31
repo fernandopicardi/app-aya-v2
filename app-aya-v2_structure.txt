@@ -19,6 +19,204 @@ app-aya-v2
 |       |-- app-aya-testing-quality.mdc
 |       |-- app-aya-ui-components.mdc
 |       L-- codebase-awareness-agent.mdc
+|-- .dart_tool
+|   |-- chrome-device
+|   |   L-- Default
+|   |       |-- AutofillStrikeDatabase
+|   |       |   |-- LOCK
+|   |       |   L-- LOG
+|   |       |-- BudgetDatabase
+|   |       |   |-- LOCK
+|   |       |   L-- LOG
+|   |       |-- ClientCertificates
+|   |       |   |-- LOCK
+|   |       |   L-- LOG
+|   |       |-- Download Service
+|   |       |   |-- EntryDB
+|   |       |   |   |-- LOCK
+|   |       |   |   L-- LOG
+|   |       |   L-- Files
+|   |       |-- Extension Rules
+|   |       |   |-- 000003.log
+|   |       |   |-- CURRENT
+|   |       |   |-- LOCK
+|   |       |   |-- LOG
+|   |       |   L-- MANIFEST-000001
+|   |       |-- Extension Scripts
+|   |       |   |-- 000003.log
+|   |       |   |-- CURRENT
+|   |       |   |-- LOCK
+|   |       |   |-- LOG
+|   |       |   L-- MANIFEST-000001
+|   |       |-- Extension State
+|   |       |   |-- 000003.log
+|   |       |   |-- CURRENT
+|   |       |   |-- LOCK
+|   |       |   |-- LOG
+|   |       |   L-- MANIFEST-000001
+|   |       |-- Feature Engagement Tracker
+|   |       |   |-- AvailabilityDB
+|   |       |   |   |-- LOCK
+|   |       |   |   L-- LOG
+|   |       |   L-- EventDB
+|   |       |       |-- LOCK
+|   |       |       L-- LOG
+|   |       |-- GCM Store
+|   |       |   L-- Encryption
+|   |       |       |-- 000003.log
+|   |       |       |-- CURRENT
+|   |       |       |-- LOCK
+|   |       |       |-- LOG
+|   |       |       L-- MANIFEST-000001
+|   |       |-- Local Storage
+|   |       |   L-- leveldb
+|   |       |       |-- 000003.log
+|   |       |       |-- CURRENT
+|   |       |       |-- LOCK
+|   |       |       |-- LOG
+|   |       |       L-- MANIFEST-000001
+|   |       |-- Network
+|   |       |   |-- Cookies
+|   |       |   |-- Cookies-journal
+|   |       |   |-- Network Persistent State
+|   |       |   |-- NetworkDataMigrated
+|   |       |   |-- Reporting and NEL
+|   |       |   |-- Reporting and NEL-journal
+|   |       |   |-- TransportSecurity
+|   |       |   |-- Trust Tokens
+|   |       |   L-- Trust Tokens-journal
+|   |       |-- PersistentOriginTrials
+|   |       |   |-- LOCK
+|   |       |   L-- LOG
+|   |       |-- Safe Browsing Network
+|   |       |   |-- NetworkDataMigrated
+|   |       |   |-- Safe Browsing Cookies
+|   |       |   L-- Safe Browsing Cookies-journal
+|   |       |-- Segmentation Platform
+|   |       |   |-- SegmentInfoDB
+|   |       |   |   |-- LOCK
+|   |       |   |   L-- LOG
+|   |       |   |-- SignalDB
+|   |       |   |   |-- LOCK
+|   |       |   |   L-- LOG
+|   |       |   L-- SignalStorageConfigDB
+|   |       |       |-- LOCK
+|   |       |       L-- LOG
+|   |       |-- Service Worker
+|   |       |   |-- Database
+|   |       |   |   |-- 000003.log
+|   |       |   |   |-- CURRENT
+|   |       |   |   |-- LOCK
+|   |       |   |   |-- LOG
+|   |       |   |   L-- MANIFEST-000001
+|   |       |   L-- ScriptCache
+|   |       |       |-- index-dir
+|   |       |       |   L-- the-real-index
+|   |       |       |-- 2cc80dabc69f58b6_0
+|   |       |       L-- index
+|   |       |-- Session Storage
+|   |       |   |-- 000003.log
+|   |       |   |-- CURRENT
+|   |       |   |-- LOCK
+|   |       |   |-- LOG
+|   |       |   L-- MANIFEST-000001
+|   |       |-- Sessions
+|   |       |   |-- Session_13393195029183512
+|   |       |   L-- Tabs_13393195046604382
+|   |       |-- Shared Dictionary
+|   |       |   |-- cache
+|   |       |   |   |-- index-dir
+|   |       |   |   |   L-- the-real-index
+|   |       |   |   L-- index
+|   |       |   |-- db
+|   |       |   L-- db-journal
+|   |       |-- Site Characteristics Database
+|   |       |   |-- 000003.log
+|   |       |   |-- CURRENT
+|   |       |   |-- LOCK
+|   |       |   |-- LOG
+|   |       |   L-- MANIFEST-000001
+|   |       |-- Sync Data
+|   |       |   L-- LevelDB
+|   |       |       |-- 000003.log
+|   |       |       |-- CURRENT
+|   |       |       |-- LOCK
+|   |       |       |-- LOG
+|   |       |       L-- MANIFEST-000001
+|   |       |-- WebStorage
+|   |       |   |-- QuotaManager
+|   |       |   L-- QuotaManager-journal
+|   |       |-- blob_storage
+|   |       |   L-- d16e6dd3-978e-4057-997b-d6bdc5554c3c
+|   |       |-- chrome_cart_db
+|   |       |   |-- LOCK
+|   |       |   L-- LOG
+|   |       |-- commerce_subscription_db
+|   |       |   |-- LOCK
+|   |       |   L-- LOG
+|   |       |-- discounts_db
+|   |       |   |-- LOCK
+|   |       |   L-- LOG
+|   |       |-- optimization_guide_hint_cache_store
+|   |       |   |-- LOCK
+|   |       |   L-- LOG
+|   |       |-- parcel_tracking_db
+|   |       |   |-- LOCK
+|   |       |   L-- LOG
+|   |       |-- shared_proto_db
+|   |       |   |-- metadata
+|   |       |   |   |-- 000003.log
+|   |       |   |   |-- CURRENT
+|   |       |   |   |-- LOCK
+|   |       |   |   |-- LOG
+|   |       |   |   L-- MANIFEST-000001
+|   |       |   |-- 000003.log
+|   |       |   |-- CURRENT
+|   |       |   |-- LOCK
+|   |       |   |-- LOG
+|   |       |   L-- MANIFEST-000001
+|   |       |-- Account Web Data
+|   |       |-- Account Web Data-journal
+|   |       |-- Affiliation Database
+|   |       |-- Affiliation Database-journal
+|   |       |-- BrowsingTopicsSiteData
+|   |       |-- BrowsingTopicsSiteData-journal
+|   |       |-- BrowsingTopicsState
+|   |       |-- DIPS
+|   |       |-- Favicons
+|   |       |-- Favicons-journal
+|   |       |-- History
+|   |       |-- History-journal
+|   |       |-- LOCK
+|   |       |-- LOG
+|   |       |-- Login Data
+|   |       |-- Login Data For Account
+|   |       |-- Login Data For Account-journal
+|   |       |-- Login Data-journal
+|   |       |-- Network Action Predictor
+|   |       |-- Network Action Predictor-journal
+|   |       |-- Preferences
+|   |       |-- PreferredApps
+|   |       |-- README
+|   |       |-- Secure Preferences
+|   |       |-- SharedStorage
+|   |       |-- Shortcuts
+|   |       |-- Shortcuts-journal
+|   |       |-- Top Sites
+|   |       |-- Top Sites-journal
+|   |       |-- Web Data
+|   |       |-- Web Data-journal
+|   |       |-- heavy_ad_intervention_opt_out.db
+|   |       |-- heavy_ad_intervention_opt_out.db-journal
+|   |       L-- trusted_vault.pb
+|   |-- dartpad
+|   |   L-- web_plugin_registrant.dart
+|   |-- extension_discovery
+|   |   L-- vs_code.json
+|   |-- package_config.json
+|   |-- package_config_subset
+|   |-- package_graph.json
+|   L-- version
 |-- .git
 |   |-- hooks
 |   |   |-- applypatch-msg.sample
@@ -45,49 +243,165 @@ app-aya-v2
 |   |   |       L-- origin
 |   |   |           |-- HEAD
 |   |   |           |-- main
+|   |   |           |-- master
 |   |   |           L-- versao-antiga
 |   |   L-- HEAD
 |   |-- objects
+|   |   |-- 06
+|   |   |   L-- 196b662110f1717a24aee90ed25f491f695e7f
 |   |   |-- 11
 |   |   |   L-- cae54a79077afef09a6224093e836cd89f521c
 |   |   |-- 12
+|   |   |   |-- 0394d2cc3a7ba3b942399980bc3781bed76ea0
 |   |   |   L-- 1a16293078568d27bcac10f0eb93fc0a7ed5dd
+|   |   |-- 16
+|   |   |   L-- ac2a684b2af8cec6529e4dd93451d24a92b051
+|   |   |-- 17
+|   |   |   L-- b0adf7a09472c2769db4c5abcd32da073ba27b
+|   |   |-- 18
+|   |   |   L-- 101c35978c9e7b568fe0eadb3aa3471956e1c6
+|   |   |-- 19
+|   |   |   L-- c9efd2c07f681245f01ff8a51387d769379d21
+|   |   |-- 23
+|   |   |   L-- 41e964003fedeb90d6b737d908ac62ca280c18
+|   |   |-- 24
+|   |   |   L-- 0168288f6c32f49f69731243579e9a09d2ad2b
 |   |   |-- 25
 |   |   |   L-- 4c0bd15c3d7f3cc9779f376f118079d9de6556
+|   |   |-- 29
+|   |   |   L-- 36ba58955be4eb94bd6862adc6a345324be539
+|   |   |-- 2b
+|   |   |   L-- f11ab7802cb588f97f5598fcb56e3c6c93b617
+|   |   |-- 2e
+|   |   |   |-- 1de87a7eb61e17463f7406106f6c413533cecf
+|   |   |   L-- 74fcf58d3a5a2453ccb0d85dc5ba3b0f8310ba
+|   |   |-- 30
+|   |   |   L-- 4920978879ee0dd8feabfc422f86cd6659e0e6
+|   |   |-- 33
+|   |   |   L-- 0c0e77f6aed142d8e6f321f269e814c3ce97e1
 |   |   |-- 3a
-|   |   |   L-- 32ea6ca0d93cb3c4654a428e3bbf24ad72f525
+|   |   |   |-- 32ea6ca0d93cb3c4654a428e3bbf24ad72f525
+|   |   |   L-- f14525c0fa1094604ba1f08f95023dad94be40
+|   |   |-- 3b
+|   |   |   L-- 92176483c7a9efb68f9ea76a17eb1e0ecd8f4f
+|   |   |-- 3f
+|   |   |   L-- 639740e5d3f36aaf32e4c2441c9b466e24ed35
+|   |   |-- 41
+|   |   |   L-- dffd916c819ce639f0636e55bb4082214acca3
+|   |   |-- 42
+|   |   |   L-- 86f74acc41ef7af3430b12054ccc8be3f38e0a
+|   |   |-- 45
+|   |   |   L-- 8f7549bb7436cfd9751d425903e4d7bc444456
 |   |   |-- 46
 |   |   |   L-- 8f7a99ad62fd7c60cd17f09276cf7a432bd407
+|   |   |-- 47
+|   |   |   L-- 31f17c289c432ebf45b5da4a255653f99ee886
+|   |   |-- 49
+|   |   |   |-- 168fe2cc846c8b92391567c7372c8a2749d73a
+|   |   |   L-- ce4227953ca26af7d4fced0b209481d30b3880
+|   |   |-- 4a
+|   |   |   L-- 97280b664dd67f7a033bea6810d39cef378f1b
+|   |   |-- 4b
+|   |   |   L-- 86086d1ce94301cdbc289800e1d35504bfbe53
+|   |   |-- 4c
+|   |   |   L-- 17a04613ea891ed606cb3cfe14cd93a59824be
+|   |   |-- 4e
+|   |   |   L-- 2a713e053d80e7a96e9d35257d0a22c08b3c7a
+|   |   |-- 4f
+|   |   |   L-- fbff575783234620883a200ec63d15e73b80f0
 |   |   |-- 52
+|   |   |   |-- 564b039780d8062fed6e59c31c83d952bc6b8d
 |   |   |   L-- bea9604fd3cb4327e1ef9ac6b156ccce50ba0c
 |   |   |-- 53
 |   |   |   L-- 7264aeb046af0287d95becc589a50adee1d65e
+|   |   |-- 55
+|   |   |   L-- 0d5011c7278b6c4986a2c2b472ed72798ed617
+|   |   |-- 56
+|   |   |   L-- 20a335abd44b3925fc9fcd77aaedce77abf47d
 |   |   |-- 60
 |   |   |   L-- d8cf32581c0e40509ec848ca0e78838b614c8c
+|   |   |-- 62
+|   |   |   L-- 94fee65172468decbb56931c7270e58f3706df
 |   |   |-- 64
 |   |   |   L-- 78b2634904515a6e1f33e404266be0a6ff4dd4
 |   |   |-- 67
 |   |   |   L-- d17f3d6fca7e6501f08b1d853b96055c9eabf5
+|   |   |-- 6e
+|   |   |   L-- e3df00cf168ce40911031495f2124971523cd2
+|   |   |-- 74
+|   |   |   |-- 3736af91a5230b291c10fa01581b002140f4a4
+|   |   |   L-- 67ece0ec2c96756f0ccf71d5c390b8fb6b7db6
 |   |   |-- 75
 |   |   |   L-- 0268b3484c2e4886e2006b7e73ca14b325afe7
+|   |   |-- 76
+|   |   |   L-- a6474d2df7659629b5dbe6420b16cb9d158346
 |   |   |-- 79
-|   |   |   L-- 72b75f787915c79a645c92ef1fc64678785a8c
+|   |   |   |-- 72b75f787915c79a645c92ef1fc64678785a8c
+|   |   |   L-- 7a16509645e02f25549c084b04eb77f8963813
+|   |   |-- 7e
+|   |   |   L-- f4da012f44775bfc2541feec7e9eaeaf4f8ed4
+|   |   |-- 80
+|   |   |   L-- 21dc1cf615190e7eeba65ff4e707e7398bae02
+|   |   |-- 84
+|   |   |   L-- 923d8a1ecd93e559cff917ce3e9d4919d0c527
 |   |   |-- 89
 |   |   |   L-- 576a22559e0d0105b1dc6d69b7929fadd696a2
+|   |   |-- 8a
+|   |   |   L-- 693c2bf78e6bdd8004ae5bce033b66b4a44cc9
+|   |   |-- 8b
+|   |   |   |-- 137891791fe96927ad78e64b0aad7bded08bdc
+|   |   |   L-- 6d4680af388f28db8742ef7fb8246e2bb1fffb
+|   |   |-- 8c
+|   |   |   L-- 3e0bcc8ef45a2d70ea267d1c89d5a0089fd84a
+|   |   |-- 90
+|   |   |   L-- 445dadcdfeeb3c87a2560f56d6d7dcddea6afd
 |   |   |-- 93
 |   |   |   L-- 34d4cc62e7d3def2b79d160c64401a53a2b4c4
 |   |   |-- 94
 |   |   |   L-- 9da2daab1770ba656d6ca1b60c93e1023a37c2
 |   |   |-- 96
 |   |   |   L-- 9f8eceecd6de10c1afc503b19d19253567138a
+|   |   |-- 9a
+|   |   |   L-- c2645053149a09311c5bb05dabf488c2e8daa9
+|   |   |-- a1
+|   |   |   L-- b7d0f24a6fbd6873af57b8ab7759542ea01491
+|   |   |-- a6
+|   |   |   L-- 28c4223d7e3bb3f75dc2c0c5972119b861f007
+|   |   |-- a8
+|   |   |   L-- e64fdfeb26c1371bc1169043e31175cea36ef3
+|   |   |-- aa
+|   |   |   L-- 79f989c0192e058f5b9fe81107de3579198950
+|   |   |-- ae
+|   |   |   L-- 1a9a30d3cfb770316edba2ef5420f768477fd3
+|   |   |-- af
+|   |   |   L-- 7cf380a5e383804f9c94000aee8d8ccafbd502
+|   |   |-- b1
+|   |   |   L-- 410b20ba5f48ef6e4c8cf3431e917039a5495f
+|   |   |-- b6
+|   |   |   L-- 8f5dfa1981f66b8c84804f99fbef1642996971
+|   |   |-- b9
+|   |   |   L-- 3c4c30c16703f640bc38523e56204ade09399e
+|   |   |-- ba
+|   |   |   L-- a29ea1e5098ef062dcee349f7d50253cc96bfb
 |   |   |-- bb
 |   |   |   L-- 178b6150f86d07f35f06ff9c0dcf70f745d3df
+|   |   |-- bc
+|   |   |   L-- 9bfa319027426361854fb3c80ffae660585959
 |   |   |-- bf
+|   |   |   |-- 2ff82fd3212bcecb9c7ebd7f94c9e18c93f084
 |   |   |   L-- c97ce48cc18284386be5c856e5e2064e8823ca
+|   |   |-- c2
+|   |   |   L-- e05c5280b21cb6a95a16d8432fab2c12b4d7b2
 |   |   |-- c5
 |   |   |   L-- 1230c0caa57ad75b0b724e58348b3833a84e0b
 |   |   |-- cb
 |   |   |   L-- 64055f0fbd4441a14371faf782f687918437c4
+|   |   |-- cc
+|   |   |   L-- cf817a52206e8a8eef501faed292993ff21a31
+|   |   |-- d4
+|   |   |   L-- 9766c66797314e129f288be56c56d4c23dbfd7
+|   |   |-- d7
+|   |   |   L-- 1535623abbac771707c00c1cecf848e6c5dcfe
 |   |   |-- d9
 |   |   |   L-- 819f544bf647b1392d00f39fe07f9906db5ef1
 |   |   |-- da
@@ -97,12 +411,27 @@ app-aya-v2
 |   |   |   L-- 0b4d344850a51c68703733c0d8f234333996c9
 |   |   |-- de
 |   |   |   L-- 36dddbe611a9300ebc05b13916eb22d39f85ab
+|   |   |-- e0
+|   |   |   L-- 7978c801f2b19fb51b9f6b773959682bcaeebc
 |   |   |-- e1
 |   |   |   L-- 4da437ba5b4e41d13cae702341f51a61b6a523
+|   |   |-- e7
+|   |   |   L-- 1a16d23d05881b554326e645083799ab9bfc5e
+|   |   |-- e8
+|   |   |   L-- 559da228a9e37880360f0516f18b63e06ec3ce
 |   |   |-- ec
 |   |   |   L-- c160114334016943127e242716c0a6fe6add79
+|   |   |-- f1
+|   |   |   L-- 6d0873be94edfbbf2003caed1b10cb331da52c
+|   |   |-- f3
+|   |   |   L-- 726a33300066dfa8e7214f0690d06756aa4e26
+|   |   |-- f5
+|   |   |   L-- 8bb76100e82ec653e9b32a02d18d9232922d51
 |   |   |-- fa
+|   |   |   |-- aececbd647ec8187867b9de8cd2a2e2267e57f
 |   |   |   L-- ee269ce7c3ebe80769c9387702d3540b4745a5
+|   |   |-- ff
+|   |   |   L-- da6c83be29139791309ff0056dbd3f7e64814f
 |   |   |-- info
 |   |   L-- pack
 |   |       |-- pack-1d322107f87d796b258e4d10bcaa44a273c569ac.idx
@@ -115,6 +444,7 @@ app-aya-v2
 |   |   |   L-- origin
 |   |   |       |-- HEAD
 |   |   |       |-- main
+|   |   |       |-- master
 |   |   |       L-- versao-antiga
 |   |   L-- tags
 |   |-- COMMIT_EDITMSG
@@ -124,7 +454,355 @@ app-aya-v2
 |   |-- config
 |   |-- description
 |   L-- index
+|-- .idea
+|   |-- libraries
+|   |   |-- Dart_SDK.xml
+|   |   L-- KotlinJavaRuntime.xml
+|   |-- runConfigurations
+|   |   L-- main_dart.xml
+|   |-- modules.xml
+|   L-- workspace.xml
+|-- android
+|   |-- app
+|   |   |-- src
+|   |   |   |-- debug
+|   |   |   |   L-- AndroidManifest.xml
+|   |   |   |-- main
+|   |   |   |   |-- java
+|   |   |   |   |   L-- io
+|   |   |   |   |       L-- flutter
+|   |   |   |   |           L-- plugins
+|   |   |   |   |               L-- GeneratedPluginRegistrant.java
+|   |   |   |   |-- kotlin
+|   |   |   |   |   L-- com
+|   |   |   |   |       L-- caminhoaya
+|   |   |   |   |           L-- app
+|   |   |   |   |               L-- MainActivity.kt
+|   |   |   |   |-- res
+|   |   |   |   |   |-- drawable
+|   |   |   |   |   |   L-- launch_background.xml
+|   |   |   |   |   |-- drawable-v21
+|   |   |   |   |   |   L-- launch_background.xml
+|   |   |   |   |   |-- mipmap-hdpi
+|   |   |   |   |   |   L-- ic_launcher.png
+|   |   |   |   |   |-- mipmap-mdpi
+|   |   |   |   |   |   L-- ic_launcher.png
+|   |   |   |   |   |-- mipmap-xhdpi
+|   |   |   |   |   |   L-- ic_launcher.png
+|   |   |   |   |   |-- mipmap-xxhdpi
+|   |   |   |   |   |   L-- ic_launcher.png
+|   |   |   |   |   |-- mipmap-xxxhdpi
+|   |   |   |   |   |   L-- ic_launcher.png
+|   |   |   |   |   |-- values
+|   |   |   |   |   |   L-- styles.xml
+|   |   |   |   |   L-- values-night
+|   |   |   |   |       L-- styles.xml
+|   |   |   |   L-- AndroidManifest.xml
+|   |   |   L-- profile
+|   |   |       L-- AndroidManifest.xml
+|   |   L-- build.gradle.kts
+|   |-- gradle
+|   |   L-- wrapper
+|   |       |-- gradle-wrapper.jar
+|   |       L-- gradle-wrapper.properties
+|   |-- .gitignore
+|   |-- app_android.iml
+|   |-- build.gradle.kts
+|   |-- gradle.properties
+|   |-- gradlew
+|   |-- gradlew.bat
+|   |-- local.properties
+|   L-- settings.gradle.kts
+|-- build
+|   |-- 96570be4a464c36cc8714ad3443fe338
+|   |   |-- _composite.stamp
+|   |   |-- gen_dart_plugin_registrant.stamp
+|   |   L-- gen_localizations.stamp
+|   |-- flutter_assets
+|   |   |-- fonts
+|   |   |   L-- MaterialIcons-Regular.otf
+|   |   |-- packages
+|   |   |   L-- cupertino_icons
+|   |   |       L-- assets
+|   |   |           L-- CupertinoIcons.ttf
+|   |   |-- shaders
+|   |   |   L-- ink_sparkle.frag
+|   |   |-- AssetManifest.bin
+|   |   |-- AssetManifest.bin.json
+|   |   |-- AssetManifest.json
+|   |   |-- FontManifest.json
+|   |   L-- NOTICES
+|   L-- b6862f53c5db0dffd80a6274ce6c73bd.cache.dill.track.dill
+|-- ios
+|   |-- Flutter
+|   |   |-- ephemeral
+|   |   |   |-- flutter_lldb_helper.py
+|   |   |   L-- flutter_lldbinit
+|   |   |-- AppFrameworkInfo.plist
+|   |   |-- Debug.xcconfig
+|   |   |-- Generated.xcconfig
+|   |   |-- Release.xcconfig
+|   |   L-- flutter_export_environment.sh
+|   |-- Runner
+|   |   |-- Assets.xcassets
+|   |   |   |-- AppIcon.appiconset
+|   |   |   |   |-- Contents.json
+|   |   |   |   |-- Icon-App-1024x1024@1x.png
+|   |   |   |   |-- Icon-App-20x20@1x.png
+|   |   |   |   |-- Icon-App-20x20@2x.png
+|   |   |   |   |-- Icon-App-20x20@3x.png
+|   |   |   |   |-- Icon-App-29x29@1x.png
+|   |   |   |   |-- Icon-App-29x29@2x.png
+|   |   |   |   |-- Icon-App-29x29@3x.png
+|   |   |   |   |-- Icon-App-40x40@1x.png
+|   |   |   |   |-- Icon-App-40x40@2x.png
+|   |   |   |   |-- Icon-App-40x40@3x.png
+|   |   |   |   |-- Icon-App-60x60@2x.png
+|   |   |   |   |-- Icon-App-60x60@3x.png
+|   |   |   |   |-- Icon-App-76x76@1x.png
+|   |   |   |   |-- Icon-App-76x76@2x.png
+|   |   |   |   L-- Icon-App-83.5x83.5@2x.png
+|   |   |   L-- LaunchImage.imageset
+|   |   |       |-- Contents.json
+|   |   |       |-- LaunchImage.png
+|   |   |       |-- LaunchImage@2x.png
+|   |   |       |-- LaunchImage@3x.png
+|   |   |       L-- README.md
+|   |   |-- Base.lproj
+|   |   |   |-- LaunchScreen.storyboard
+|   |   |   L-- Main.storyboard
+|   |   |-- AppDelegate.swift
+|   |   |-- GeneratedPluginRegistrant.h
+|   |   |-- GeneratedPluginRegistrant.m
+|   |   |-- Info.plist
+|   |   L-- Runner-Bridging-Header.h
+|   |-- Runner.xcodeproj
+|   |   |-- project.xcworkspace
+|   |   |   |-- xcshareddata
+|   |   |   |   |-- IDEWorkspaceChecks.plist
+|   |   |   |   L-- WorkspaceSettings.xcsettings
+|   |   |   L-- contents.xcworkspacedata
+|   |   |-- xcshareddata
+|   |   |   L-- xcschemes
+|   |   |       L-- Runner.xcscheme
+|   |   L-- project.pbxproj
+|   |-- Runner.xcworkspace
+|   |   |-- xcshareddata
+|   |   |   |-- IDEWorkspaceChecks.plist
+|   |   |   L-- WorkspaceSettings.xcsettings
+|   |   L-- contents.xcworkspacedata
+|   |-- RunnerTests
+|   |   L-- RunnerTests.swift
+|   L-- .gitignore
+|-- lib
+|   |-- core
+|   |   |-- config
+|   |   |   L-- .gitkeep
+|   |   |-- constants
+|   |   |   L-- .gitkeep
+|   |   |-- errors
+|   |   |   L-- .gitkeep
+|   |   |-- network
+|   |   |   L-- .gitkeep
+|   |   |-- supabase
+|   |   |   L-- .gitkeep
+|   |   |-- theme
+|   |   |   L-- .gitkeep
+|   |   |-- utils
+|   |   |   L-- .gitkeep
+|   |   L-- .gitkeep
+|   |-- features
+|   |   |-- auth
+|   |   |   |-- data
+|   |   |   |   |-- datasources
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   |-- models
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   |-- repositories
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   L-- .gitkeep
+|   |   |   |-- domain
+|   |   |   |   |-- entities
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   |-- repositories
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   |-- usecases
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   L-- .gitkeep
+|   |   |   |-- presentation
+|   |   |   |   |-- providers
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   |-- screens
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   |-- widgets
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   L-- .gitkeep
+|   |   |   L-- .gitkeep
+|   |   |-- chat_ia
+|   |   |   |-- presentation
+|   |   |   |   |-- providers
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   |-- screens
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   |-- widgets
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   L-- .gitkeep
+|   |   |   L-- .gitkeep
+|   |   |-- community
+|   |   |   |-- presentation
+|   |   |   |   |-- providers
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   |-- screens
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   |-- widgets
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   L-- .gitkeep
+|   |   |   L-- .gitkeep
+|   |   |-- content_library
+|   |   |   |-- data
+|   |   |   |   |-- datasources
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   |-- models
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   |-- repositories
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   L-- .gitkeep
+|   |   |   |-- domain
+|   |   |   |   |-- entities
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   |-- repositories
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   |-- usecases
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   L-- .gitkeep
+|   |   |   |-- presentation
+|   |   |   |   |-- providers
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   |-- screens
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   |-- widgets
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   L-- .gitkeep
+|   |   |   L-- .gitkeep
+|   |   |-- dashboard
+|   |   |   |-- presentation
+|   |   |   |   |-- providers
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   |-- screens
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   |-- widgets
+|   |   |   |   |   L-- .gitkeep
+|   |   |   |   L-- .gitkeep
+|   |   |   L-- .gitkeep
+|   |   L-- .gitkeep
+|   |-- shared
+|   |   |-- models
+|   |   |   L-- .gitkeep
+|   |   |-- widgets
+|   |   |   L-- .gitkeep
+|   |   L-- .gitkeep
+|   |-- app_widget.dart
+|   |-- main.dart
+|   L-- routes.dart
+|-- linux
+|   |-- flutter
+|   |   |-- CMakeLists.txt
+|   |   |-- generated_plugin_registrant.cc
+|   |   |-- generated_plugin_registrant.h
+|   |   L-- generated_plugins.cmake
+|   |-- runner
+|   |   |-- CMakeLists.txt
+|   |   |-- main.cc
+|   |   |-- my_application.cc
+|   |   L-- my_application.h
+|   |-- .gitignore
+|   L-- CMakeLists.txt
+|-- macos
+|   |-- Flutter
+|   |   |-- ephemeral
+|   |   |   |-- Flutter-Generated.xcconfig
+|   |   |   L-- flutter_export_environment.sh
+|   |   |-- Flutter-Debug.xcconfig
+|   |   |-- Flutter-Release.xcconfig
+|   |   L-- GeneratedPluginRegistrant.swift
+|   |-- Runner
+|   |   |-- Assets.xcassets
+|   |   |   L-- AppIcon.appiconset
+|   |   |       |-- Contents.json
+|   |   |       |-- app_icon_1024.png
+|   |   |       |-- app_icon_128.png
+|   |   |       |-- app_icon_16.png
+|   |   |       |-- app_icon_256.png
+|   |   |       |-- app_icon_32.png
+|   |   |       |-- app_icon_512.png
+|   |   |       L-- app_icon_64.png
+|   |   |-- Base.lproj
+|   |   |   L-- MainMenu.xib
+|   |   |-- Configs
+|   |   |   |-- AppInfo.xcconfig
+|   |   |   |-- Debug.xcconfig
+|   |   |   |-- Release.xcconfig
+|   |   |   L-- Warnings.xcconfig
+|   |   |-- AppDelegate.swift
+|   |   |-- DebugProfile.entitlements
+|   |   |-- Info.plist
+|   |   |-- MainFlutterWindow.swift
+|   |   L-- Release.entitlements
+|   |-- Runner.xcodeproj
+|   |   |-- project.xcworkspace
+|   |   |   L-- xcshareddata
+|   |   |       L-- IDEWorkspaceChecks.plist
+|   |   |-- xcshareddata
+|   |   |   L-- xcschemes
+|   |   |       L-- Runner.xcscheme
+|   |   L-- project.pbxproj
+|   |-- Runner.xcworkspace
+|   |   |-- xcshareddata
+|   |   |   L-- IDEWorkspaceChecks.plist
+|   |   L-- contents.xcworkspacedata
+|   |-- RunnerTests
+|   |   L-- RunnerTests.swift
+|   L-- .gitignore
+|-- test
+|   L-- widget_test.dart
+|-- web
+|   |-- icons
+|   |   |-- Icon-192.png
+|   |   |-- Icon-512.png
+|   |   |-- Icon-maskable-192.png
+|   |   L-- Icon-maskable-512.png
+|   |-- favicon.png
+|   |-- index.html
+|   L-- manifest.json
+|-- windows
+|   |-- flutter
+|   |   |-- CMakeLists.txt
+|   |   |-- generated_plugin_registrant.cc
+|   |   |-- generated_plugin_registrant.h
+|   |   L-- generated_plugins.cmake
+|   |-- runner
+|   |   |-- resources
+|   |   |   L-- app_icon.ico
+|   |   |-- CMakeLists.txt
+|   |   |-- Runner.rc
+|   |   |-- flutter_window.cpp
+|   |   |-- flutter_window.h
+|   |   |-- main.cpp
+|   |   |-- resource.h
+|   |   |-- runner.exe.manifest
+|   |   |-- utils.cpp
+|   |   |-- utils.h
+|   |   |-- win32_window.cpp
+|   |   L-- win32_window.h
+|   |-- .gitignore
+|   L-- CMakeLists.txt
 |-- .env
+|-- .gitignore
+|-- .metadata
 |-- README.md
 |-- STYLE_GUIDE.md
-L-- app-aya-v2_structure.txt
+|-- analysis_options.yaml
+|-- app-aya-v2_structure.txt
+|-- app.iml
+|-- pubspec.lock
+L-- pubspec.yaml
