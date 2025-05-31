@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:app/app_widget.dart';
 
 void main() {
-  runApp(const MyApp());
+  // TODO: Adicionar inicializações aqui (ex: Supabase, Riverpod ProviderScope, etc.)
+  // WidgetsFlutterBinding.ensureInitialized(); // Descomentar quando necessário
+
+  runApp(const AppWidget());
 }
 
 class MyApp extends StatelessWidget {

@@ -7,9 +7,15 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'App Aya',
-      home: Scaffold(body: Center(child: Text('App Aya'))),
+    return MaterialApp(
+      title: 'App Aya', // Provisório, será configurado com o tema depois
+      debugShowCheckedModeBanner: false, // Vamos remover o banner de debug
+      home: Scaffold(
+        // Placeholder para a tela inicial
+        appBar: AppBar(title: const Text('App Aya - Carregando...')),
+        body: const Center(child: Text('Bem-vindo ao App Aya!')),
+      ),
+      // routerConfig: goRouterProvider, // Será adicionado depois
     );
   }
 }
