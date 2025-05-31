@@ -81,3 +81,17 @@ Thumbs.db
 
 # Environment variables
 .env
+
+# Android specific
+**/android/**/gradle-wrapper.jar
+**/android/.gradle
+**/android/captures/
+**/android/gradlew
+**/android/gradlew.bat
+**/android/local.properties
+**/android/**/GeneratedPluginRegistrant.java
+**/android/key.properties
+*.jks
+
+# Web specific
+lib/generated_plugin_registrant.dart
