@@ -1,5 +1,6 @@
 /// Design constants for the app, following the design system guidelines.
 /// These values are used throughout the app to maintain consistency.
+library app_constants_design;
 
 /// Spacing constants based on an 8px grid system
 class AppDimensions {
