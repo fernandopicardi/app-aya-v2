@@ -2,6 +2,9 @@ import 'package:app/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconoir_flutter/iconoir_flutter.dart' as iconoir;
+import 'package:app/core/theme/app_colors.dart';
+import 'package:app/core/theme/app_dimensions.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MainScaffoldWidget extends StatefulWidget {
   final Widget child;
@@ -42,6 +45,21 @@ class _MainScaffoldWidgetState extends State<MainScaffoldWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Aya'),
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: AppDimensions.spacingSm),
+            child: IconButton(
+              icon: const iconoir.Bell(),
+              onPressed: () {
+                // TODO: Implement notifications navigation
+              },
+            ),
+          ),
+        ],
+      ),
       body: widget.child,
       drawer: Drawer(
         child: ListView(
@@ -49,32 +67,47 @@ class _MainScaffoldWidgetState extends State<MainScaffoldWidget> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [AyaColors.deepPurple, AyaColors.softLavender],
+                ),
               ),
               child: Text(
                 'App Aya Menu',
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: AyaColors.textPrimaryOnDark,
+                ),
               ),
             ),
             ListTile(
-              leading: const iconoir.User(),
-              title: const Text('Meu Perfil'),
+              leading: iconoir.ProfileCircle(color: AyaColors.lavender),
+              title: Text(
+                'Meu Perfil',
+                style: TextStyle(color: AyaColors.textPrimaryOnDark),
+              ),
               onTap: () {
                 Navigator.pop(context);
                 GoRouter.of(context).pushNamed(AppRouteNames.userProfile);
               },
             ),
             ListTile(
-              leading: const iconoir.Settings(),
-              title: const Text('Configurações'),
+              leading: iconoir.Settings(color: AyaColors.lavender),
+              title: Text(
+                'Configurações',
+                style: TextStyle(color: AyaColors.textPrimaryOnDark),
+              ),
               onTap: () {
                 Navigator.pop(context);
                 // TODO: Navigate to settings
               },
             ),
             ListTile(
-              leading: const iconoir.LogOut(),
-              title: const Text('Sair'),
+              leading: iconoir.LogOut(color: AyaColors.lavender),
+              title: Text(
+                'Sair',
+                style: TextStyle(color: AyaColors.textPrimaryOnDark),
+              ),
               onTap: () {
                 Navigator.pop(context);
                 // TODO: Implement logout and navigate to login
@@ -95,13 +128,18 @@ class _MainScaffoldWidgetState extends State<MainScaffoldWidget> {
             icon: iconoir.Community(),
             label: 'Comunidade',
           ),
-          BottomNavigationBarItem(
-            icon: iconoir.ChatBubbleQuestion(),
-            label: 'Chat IA',
-          ),
+          BottomNavigationBarItem(icon: iconoir.ChatLines(), label: 'Chat IA'),
         ],
         currentIndex: _calculateSelectedIndex(context),
         onTap: (index) => _onItemTapped(index, context),
+        selectedLabelStyle: GoogleFonts.inter(
+          fontSize: 12.0,
+          fontWeight: FontWeight.w500,
+        ),
+        unselectedLabelStyle: GoogleFonts.inter(
+          fontSize: 12.0,
+          fontWeight: FontWeight.w400,
+        ),
       ),
     );
   }

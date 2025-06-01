@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-/// Defines the spacing, border radius, and shadow dimensions for the App Aya.
+/// Defines the spacing and dimension constants for the App Aya.
 /// This class cannot be instantiated.
 class AppDimensions {
   AppDimensions._();
 
-  // Spacing Units
+  // Spacing
   static const double spacingXs = 4.0; // 0.5x
   static const double spacingSm = 8.0; // 1x
   static const double spacingMd = 16.0; // 2x

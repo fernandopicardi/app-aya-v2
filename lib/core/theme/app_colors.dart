@@ -15,9 +15,8 @@ class AyaColors {
 
   // Neutral Colors
   static const Color surface = Color(0xFFF8F8FF);
-  static Color get textPrimaryOnDark =>
-      Colors.white.withAlpha((255 * 0.87).round());
-  static Color get textSecondaryOnDark => softLavender;
+  static const Color textPrimaryOnDark = Colors.white;
+  static const Color textSecondaryOnDark = Color(0xFF575C84);
 
   // State Colors
   static const Color success = Color(0xFF4CAF50);

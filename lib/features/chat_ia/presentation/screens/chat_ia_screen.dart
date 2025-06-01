@@ -6,7 +6,6 @@ class ChatIAScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Aya Chat IA')),
       body: const Center(child: Text('Conteúdo da Chat IA Screen')),
     );
   }

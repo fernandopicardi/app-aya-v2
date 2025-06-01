@@ -7,15 +7,40 @@ import 'package:app/features/dashboard/presentation/screens/splash_screen.dart';
 import 'package:app/features/auth/presentation/screens/login_screen.dart';
 import 'package:app/features/auth/presentation/screens/signup_screen.dart';
 import 'package:app/features/auth/presentation/screens/user_profile_screen.dart';
-import 'package:app/features/dashboard/presentation/screens/home_screen.dart';
+import 'package:app/features/dashboard/presentation/screens/home_screen.dart'
+    show DashboardScreen;
 import 'package:app/features/content_library/presentation/screens/library_screen.dart';
 import 'package:app/features/community/presentation/screens/community_screen.dart';
 import 'package:app/features/chat_ia/presentation/screens/chat_ia_screen.dart';
 import 'package:app/shared/widgets/main_scaffold_widget.dart';
 
-// TODO: Definir telas de placeholder para / e /login
-// import 'package:app/features/auth/presentation/screens/login_screen.dart';
-// import 'package:app/features/dashboard/presentation/screens/dashboard_screen.dart';
+// Navigator keys
+final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'root',
+);
+final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'shell',
+);
+
+// NoTransitionPage implementation
+class NoTransitionPage<T> extends CustomTransitionPage<T> {
+  const NoTransitionPage({
+    required super.child,
+    super.name,
+    super.arguments,
+    super.restorationId,
+    super.key,
+  }) : super(transitionsBuilder: _transitionsBuilder);
+
+  static Widget _transitionsBuilder(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    return child; // No transition
+  }
+}
 
 // Nomes de Rotas (exemplo, será expandido em core/constants/)
 class AppRouteNames {
@@ -33,6 +58,7 @@ class AppRouteNames {
 final goRouterProvider = Provider<GoRouter>((ref) {
   // Criar como um Provider para fácil acesso/mocking
   return GoRouter(
+    navigatorKey: _rootNavigatorKey,
     initialLocation: AppRouteNames.splash,
     debugLogDiagnostics: true, // Útil para depuração de rotas
     routes: <RouteBase>[
@@ -65,7 +91,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         },
       ),
       ShellRoute(
-        navigatorKey: GlobalKey<NavigatorState>(),
+        navigatorKey: _shellNavigatorKey,
         builder: (BuildContext context, GoRouterState state, Widget child) {
           return MainScaffoldWidget(child: child);
         },
@@ -73,30 +99,25 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRouteNames.home,
             name: AppRouteNames.home,
-            pageBuilder: (context, state) =>
-                const NoTransitionPage(child: HomeScreen()),
+            builder: (context, state) => const DashboardScreen(),
           ),
           GoRoute(
             path: AppRouteNames.library,
             name: AppRouteNames.library,
-            pageBuilder: (context, state) =>
-                const NoTransitionPage(child: LibraryScreen()),
+            builder: (context, state) => const LibraryScreen(),
           ),
           GoRoute(
             path: AppRouteNames.community,
             name: AppRouteNames.community,
-            pageBuilder: (context, state) =>
-                const NoTransitionPage(child: CommunityScreen()),
+            builder: (context, state) => const CommunityScreen(),
           ),
           GoRoute(
             path: AppRouteNames.chatIA,
             name: AppRouteNames.chatIA,
-            pageBuilder: (context, state) =>
-                const NoTransitionPage(child: ChatIAScreen()),
+            builder: (context, state) => const ChatIAScreen(),
           ),
         ],
       ),
-      // TODO: Adicionar outras rotas (dashboard, settings, etc.)
     ],
     errorBuilder: (context, state) => Scaffold(
       // Tela de erro básica
