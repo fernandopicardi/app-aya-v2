@@ -1,9 +1,10 @@
 // Routes configuration using GoRouter
 
-import 'package:app/app_widget.dart'; // Placeholder, pode ser uma tela de erro real depois
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:app/features/dashboard/presentation/screens/splash_screen.dart';
+import 'package:app/features/auth/presentation/screens/login_screen.dart';
 
 // TODO: Definir telas de placeholder para / e /login
 // import 'package:app/features/auth/presentation/screens/login_screen.dart';
@@ -19,30 +20,21 @@ class AppRouteNames {
 final goRouterProvider = Provider<GoRouter>((ref) {
   // Criar como um Provider para fácil acesso/mocking
   return GoRouter(
-    initialLocation: AppRouteNames
-        .splash, // Mude para /login se não houver lógica de splash/auth check ainda
+    initialLocation: AppRouteNames.splash,
     debugLogDiagnostics: true, // Útil para depuração de rotas
     routes: <RouteBase>[
       GoRoute(
         path: AppRouteNames.splash,
         name: AppRouteNames.splash,
         builder: (BuildContext context, GoRouterState state) {
-          // TODO: Implementar tela de Splash ou Home/Dashboard
-          return Scaffold(
-            appBar: AppBar(title: const Text('App Aya - Splash/Home')),
-            body: const Center(child: Text('Conteúdo Splash/Home')),
-          );
+          return const SplashScreen();
         },
       ),
       GoRoute(
         path: AppRouteNames.login,
         name: AppRouteNames.login,
         builder: (BuildContext context, GoRouterState state) {
-          // TODO: Implementar LoginScreen real
-          return Scaffold(
-            appBar: AppBar(title: const Text('Login')),
-            body: const Center(child: Text('Conteúdo Login')),
-          );
+          return const LoginScreen();
         },
       ),
       // TODO: Adicionar outras rotas (dashboard, settings, etc.)

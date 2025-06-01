@@ -213,6 +213,25 @@ app-aya-v2
 |   |   L-- web_plugin_registrant.dart
 |   |-- extension_discovery
 |   |   L-- vs_code.json
+|   |-- flutter_build
+|   |   L-- f10ad9e80ff817eb91694fd3f8fd5a4f
+|   |       |-- .filecache
+|   |       |-- app.dill
+|   |       |-- dart_build.d
+|   |       |-- dart_build.stamp
+|   |       |-- dart_build_result.json
+|   |       |-- debug_bundle_windows-x64_assets.stamp
+|   |       |-- flutter_assets.d
+|   |       |-- gen_dart_plugin_registrant.stamp
+|   |       |-- gen_localizations.stamp
+|   |       |-- install_code_assets.d
+|   |       |-- install_code_assets.stamp
+|   |       |-- kernel_snapshot_program.d
+|   |       |-- kernel_snapshot_program.stamp
+|   |       |-- native_assets.json
+|   |       |-- outputs.json
+|   |       |-- unpack_windows.stamp
+|   |       L-- windows_engine_sources.d
 |   |-- package_config.json
 |   |-- package_config_subset
 |   |-- package_graph.json
@@ -249,13 +268,18 @@ app-aya-v2
 |   |-- objects
 |   |   |-- 06
 |   |   |   L-- 196b662110f1717a24aee90ed25f491f695e7f
+|   |   |-- 0c
+|   |   |   L-- 1c935aaa8b894fb3f4088f025b26accfb12324
 |   |   |-- 11
 |   |   |   L-- cae54a79077afef09a6224093e836cd89f521c
 |   |   |-- 12
 |   |   |   |-- 0394d2cc3a7ba3b942399980bc3781bed76ea0
 |   |   |   L-- 1a16293078568d27bcac10f0eb93fc0a7ed5dd
+|   |   |-- 15
+|   |   |   L-- 362483c47fee56bf37d7e7d2e4e9f360eaf192
 |   |   |-- 16
-|   |   |   L-- ac2a684b2af8cec6529e4dd93451d24a92b051
+|   |   |   |-- ac2a684b2af8cec6529e4dd93451d24a92b051
+|   |   |   L-- b281bdced2ecddfa7f28901efe2e841435f5d5
 |   |   |-- 17
 |   |   |   L-- b0adf7a09472c2769db4c5abcd32da073ba27b
 |   |   |-- 18
@@ -267,18 +291,31 @@ app-aya-v2
 |   |   |-- 24
 |   |   |   L-- 0168288f6c32f49f69731243579e9a09d2ad2b
 |   |   |-- 25
+|   |   |   |-- 41678d20702618e5ac3bce74ea34268b06dae5
 |   |   |   L-- 4c0bd15c3d7f3cc9779f376f118079d9de6556
+|   |   |-- 27
+|   |   |   L-- 3593d187a2e8260d92958ff7ee9de4b2c7cb5f
 |   |   |-- 29
 |   |   |   L-- 36ba58955be4eb94bd6862adc6a345324be539
 |   |   |-- 2b
 |   |   |   L-- f11ab7802cb588f97f5598fcb56e3c6c93b617
+|   |   |-- 2d
+|   |   |   L-- 868ddb1da196803c532879f0f6fed959de18b7
 |   |   |-- 2e
 |   |   |   |-- 1de87a7eb61e17463f7406106f6c413533cecf
-|   |   |   L-- 74fcf58d3a5a2453ccb0d85dc5ba3b0f8310ba
+|   |   |   |-- 74fcf58d3a5a2453ccb0d85dc5ba3b0f8310ba
+|   |   |   L-- dbf70c365d19dfcf3ba776c2bacefe177caade
 |   |   |-- 30
-|   |   |   L-- 4920978879ee0dd8feabfc422f86cd6659e0e6
+|   |   |   |-- 4920978879ee0dd8feabfc422f86cd6659e0e6
+|   |   |   L-- a5b29db54761506f4a889bc986e9e306ad59d5
+|   |   |-- 31
+|   |   |   L-- 28a74639c5a0a1a9b9c5f82834b723c5a5e55b
 |   |   |-- 33
 |   |   |   L-- 0c0e77f6aed142d8e6f321f269e814c3ce97e1
+|   |   |-- 35
+|   |   |   L-- b1d76a0ac61e197cd15d26ac9171d3844591cc
+|   |   |-- 36
+|   |   |   L-- 4c1860f1d5ce8cc6a9490e00034aa2c4ceb630
 |   |   |-- 3a
 |   |   |   |-- 32ea6ca0d93cb3c4654a428e3bbf24ad72f525
 |   |   |   L-- f14525c0fa1094604ba1f08f95023dad94be40
@@ -309,6 +346,8 @@ app-aya-v2
 |   |   |   L-- 2a713e053d80e7a96e9d35257d0a22c08b3c7a
 |   |   |-- 4f
 |   |   |   L-- fbff575783234620883a200ec63d15e73b80f0
+|   |   |-- 50
+|   |   |   L-- 4c9b96ea80a0b70715b2dc5da7425cd635969d
 |   |   |-- 52
 |   |   |   |-- 564b039780d8062fed6e59c31c83d952bc6b8d
 |   |   |   L-- bea9604fd3cb4327e1ef9ac6b156ccce50ba0c
@@ -318,9 +357,13 @@ app-aya-v2
 |   |   |   L-- 0d5011c7278b6c4986a2c2b472ed72798ed617
 |   |   |-- 56
 |   |   |   L-- 20a335abd44b3925fc9fcd77aaedce77abf47d
+|   |   |-- 57
+|   |   |   L-- 635cebafda616f2f1d5aa67abcc8cab8363779
 |   |   |-- 60
+|   |   |   |-- adbf5ae64c4c7b8127c05bd1885c7dd37d67df
 |   |   |   L-- d8cf32581c0e40509ec848ca0e78838b614c8c
 |   |   |-- 62
+|   |   |   |-- 0661fdea9d01f103e5b0764e7344b2c1893862
 |   |   |   L-- 94fee65172468decbb56931c7270e58f3706df
 |   |   |-- 64
 |   |   |   L-- 78b2634904515a6e1f33e404266be0a6ff4dd4
@@ -328,6 +371,8 @@ app-aya-v2
 |   |   |   L-- d17f3d6fca7e6501f08b1d853b96055c9eabf5
 |   |   |-- 6e
 |   |   |   L-- e3df00cf168ce40911031495f2124971523cd2
+|   |   |-- 71
+|   |   |   L-- 2a46ec60c390ba048efbeb10ff33c27adc904a
 |   |   |-- 74
 |   |   |   |-- 3736af91a5230b291c10fa01581b002140f4a4
 |   |   |   L-- 67ece0ec2c96756f0ccf71d5c390b8fb6b7db6
@@ -363,8 +408,12 @@ app-aya-v2
 |   |   |   L-- 9f8eceecd6de10c1afc503b19d19253567138a
 |   |   |-- 9a
 |   |   |   L-- c2645053149a09311c5bb05dabf488c2e8daa9
+|   |   |-- 9e
+|   |   |   L-- e878d67a767a76bb49e4000f22d7284fa681fc
 |   |   |-- a1
 |   |   |   L-- b7d0f24a6fbd6873af57b8ab7759542ea01491
+|   |   |-- a5
+|   |   |   L-- 4ff5a141ecfc3ccac5c522062364928ad4efc6
 |   |   |-- a6
 |   |   |   L-- 28c4223d7e3bb3f75dc2c0c5972119b861f007
 |   |   |-- a8
@@ -395,11 +444,14 @@ app-aya-v2
 |   |   |-- c5
 |   |   |   L-- 1230c0caa57ad75b0b724e58348b3833a84e0b
 |   |   |-- cb
-|   |   |   L-- 64055f0fbd4441a14371faf782f687918437c4
+|   |   |   |-- 64055f0fbd4441a14371faf782f687918437c4
+|   |   |   L-- 7cfe23cc6637a8a66bb402c89f5d2699ae1418
 |   |   |-- cc
 |   |   |   L-- cf817a52206e8a8eef501faed292993ff21a31
 |   |   |-- d4
 |   |   |   L-- 9766c66797314e129f288be56c56d4c23dbfd7
+|   |   |-- d5
+|   |   |   L-- 64d0bc3dd917926892c55e3706cc116d5b165e
 |   |   |-- d7
 |   |   |   L-- 1535623abbac771707c00c1cecf848e6c5dcfe
 |   |   |-- d9
@@ -410,11 +462,16 @@ app-aya-v2
 |   |   |-- dc
 |   |   |   L-- 0b4d344850a51c68703733c0d8f234333996c9
 |   |   |-- de
-|   |   |   L-- 36dddbe611a9300ebc05b13916eb22d39f85ab
+|   |   |   |-- 36dddbe611a9300ebc05b13916eb22d39f85ab
+|   |   |   L-- d444843592407044dd82c8c3374123be1f4145
 |   |   |-- e0
-|   |   |   L-- 7978c801f2b19fb51b9f6b773959682bcaeebc
+|   |   |   |-- 7978c801f2b19fb51b9f6b773959682bcaeebc
+|   |   |   L-- e81c6a27da444b21ae2e3d5df274e3e31b50fc
 |   |   |-- e1
 |   |   |   L-- 4da437ba5b4e41d13cae702341f51a61b6a523
+|   |   |-- e4
+|   |   |   |-- 089c778d8bb9b26fb6eccea8b4d2ff92463c50
+|   |   |   L-- 38b2308f57f53a395b9c4825660363f867b4cc
 |   |   |-- e7
 |   |   |   L-- 1a16d23d05881b554326e645083799ab9bfc5e
 |   |   |-- e8
@@ -423,10 +480,18 @@ app-aya-v2
 |   |   |   L-- c160114334016943127e242716c0a6fe6add79
 |   |   |-- f1
 |   |   |   L-- 6d0873be94edfbbf2003caed1b10cb331da52c
+|   |   |-- f2
+|   |   |   L-- d0f88c304c2053cdf6afe382fad1f9c1690b34
 |   |   |-- f3
 |   |   |   L-- 726a33300066dfa8e7214f0690d06756aa4e26
 |   |   |-- f5
 |   |   |   L-- 8bb76100e82ec653e9b32a02d18d9232922d51
+|   |   |-- f6
+|   |   |   L-- 55f106dfe04790d7e80030311f607eeeba875d
+|   |   |-- f7
+|   |   |   L-- eaa1752ef6e3ab24fe28d2c2a99ec6999642a5
+|   |   |-- f9
+|   |   |   L-- a90b0f4815349ce49fc4808b3f087e40431dd3
 |   |   |-- fa
 |   |   |   |-- aececbd647ec8187867b9de8cd2a2e2267e57f
 |   |   |   L-- ee269ce7c3ebe80769c9387702d3540b4745a5
@@ -532,6 +597,221 @@ app-aya-v2
 |   |   |-- AssetManifest.json
 |   |   |-- FontManifest.json
 |   |   L-- NOTICES
+|   |-- native_assets
+|   |   L-- windows
+|   |-- windows
+|   |   L-- x64
+|   |       |-- CMakeFiles
+|   |       |   |-- 3.30.5-msvc23
+|   |       |   |   |-- CompilerIdCXX
+|   |       |   |   |   |-- Debug
+|   |       |   |   |   |   |-- CompilerIdCXX.tlog
+|   |       |   |   |   |   |   |-- CL.command.1.tlog
+|   |       |   |   |   |   |   |-- CL.read.1.tlog
+|   |       |   |   |   |   |   |-- CL.write.1.tlog
+|   |       |   |   |   |   |   |-- Cl.items.tlog
+|   |       |   |   |   |   |   |-- CompilerIdCXX.lastbuildstate
+|   |       |   |   |   |   |   |-- link.command.1.tlog
+|   |       |   |   |   |   |   |-- link.read.1.tlog
+|   |       |   |   |   |   |   |-- link.secondary.1.tlog
+|   |       |   |   |   |   |   L-- link.write.1.tlog
+|   |       |   |   |   |   |-- CMakeCXXCompilerId.obj
+|   |       |   |   |   |   L-- CompilerIdCXX.exe.recipe
+|   |       |   |   |   |-- tmp
+|   |       |   |   |   |-- CMakeCXXCompilerId.cpp
+|   |       |   |   |   |-- CompilerIdCXX.exe
+|   |       |   |   |   L-- CompilerIdCXX.vcxproj
+|   |       |   |   |-- VCTargetsPath
+|   |       |   |   |   L-- x64
+|   |       |   |   |       L-- Debug
+|   |       |   |   |           |-- VCTargetsPath.tlog
+|   |       |   |   |           |   L-- VCTargetsPath.lastbuildstate
+|   |       |   |   |           L-- VCTargetsPath.recipe
+|   |       |   |   |-- x64
+|   |       |   |   |   L-- Debug
+|   |       |   |   |-- CMakeCXXCompiler.cmake
+|   |       |   |   |-- CMakeDetermineCompilerABI_CXX.bin
+|   |       |   |   |-- CMakeRCCompiler.cmake
+|   |       |   |   |-- CMakeSystem.cmake
+|   |       |   |   |-- VCTargetsPath.txt
+|   |       |   |   L-- VCTargetsPath.vcxproj
+|   |       |   |-- 37e60656feb028196667f838b4a57fa2
+|   |       |   |   |-- INSTALL_force.rule
+|   |       |   |   L-- generate.stamp.rule
+|   |       |   |-- 69fa1707319621ef278b99a3b29fce0f
+|   |       |   |   L-- INSTALL_force.rule
+|   |       |   |-- 8413f9ff515a13c34e3e52ce661150e3
+|   |       |   |   L-- flutter_windows.dll.rule
+|   |       |   |-- CMakeScratch
+|   |       |   |-- fcb306cd53b7644ef7b86610a052fbe1
+|   |       |   |   |-- INSTALL_force.rule
+|   |       |   |   L-- flutter_assemble.rule
+|   |       |   |-- pkgRedirects
+|   |       |   |-- CMakeConfigureLog.yaml
+|   |       |   |-- TargetDirectories.txt
+|   |       |   |-- cmake.check_cache
+|   |       |   |-- generate.stamp
+|   |       |   |-- generate.stamp.depend
+|   |       |   L-- generate.stamp.list
+|   |       |-- flutter
+|   |       |   |-- CMakeFiles
+|   |       |   |   |-- generate.stamp
+|   |       |   |   L-- generate.stamp.depend
+|   |       |   |-- Debug
+|   |       |   |   |-- flutter_wrapper_app.lib
+|   |       |   |   |-- flutter_wrapper_app.pdb
+|   |       |   |   |-- flutter_wrapper_plugin.lib
+|   |       |   |   L-- flutter_wrapper_plugin.pdb
+|   |       |   |-- flutter_wrapper_app.dir
+|   |       |   |   L-- Debug
+|   |       |   |       |-- flutter_.9494862D.tlog
+|   |       |   |       |   |-- CL.command.1.tlog
+|   |       |   |       |   |-- CL.read.1.tlog
+|   |       |   |       |   |-- CL.write.1.tlog
+|   |       |   |       |   |-- Cl.items.tlog
+|   |       |   |       |   |-- CustomBuild.command.1.tlog
+|   |       |   |       |   |-- CustomBuild.read.1.tlog
+|   |       |   |       |   |-- CustomBuild.write.1.tlog
+|   |       |   |       |   |-- Lib-link.read.1.tlog
+|   |       |   |       |   |-- Lib-link.write.1.tlog
+|   |       |   |       |   |-- Lib.command.1.tlog
+|   |       |   |       |   L-- flutter_wrapper_app.lastbuildstate
+|   |       |   |       |-- core_implementations.obj
+|   |       |   |       |-- flutter_engine.obj
+|   |       |   |       |-- flutter_view_controller.obj
+|   |       |   |       |-- flutter_wrapper_app.lib.recipe
+|   |       |   |       L-- standard_codec.obj
+|   |       |   |-- flutter_wrapper_plugin.dir
+|   |       |   |   L-- Debug
+|   |       |   |       |-- flutter_.5F720410.tlog
+|   |       |   |       |   |-- CL.command.1.tlog
+|   |       |   |       |   |-- CL.read.1.tlog
+|   |       |   |       |   |-- CL.write.1.tlog
+|   |       |   |       |   |-- Cl.items.tlog
+|   |       |   |       |   |-- CustomBuild.command.1.tlog
+|   |       |   |       |   |-- CustomBuild.read.1.tlog
+|   |       |   |       |   |-- CustomBuild.write.1.tlog
+|   |       |   |       |   |-- Lib-link.read.1.tlog
+|   |       |   |       |   |-- Lib-link.write.1.tlog
+|   |       |   |       |   |-- Lib.command.1.tlog
+|   |       |   |       |   L-- flutter_wrapper_plugin.lastbuildstate
+|   |       |   |       |-- core_implementations.obj
+|   |       |   |       |-- flutter_wrapper_plugin.lib.recipe
+|   |       |   |       |-- plugin_registrar.obj
+|   |       |   |       L-- standard_codec.obj
+|   |       |   |-- x64
+|   |       |   |   L-- Debug
+|   |       |   |       L-- flutter_assemble
+|   |       |   |           |-- flutter_assemble.tlog
+|   |       |   |           |   |-- CustomBuild.command.1.tlog
+|   |       |   |           |   |-- CustomBuild.read.1.tlog
+|   |       |   |           |   |-- CustomBuild.write.1.tlog
+|   |       |   |           |   L-- flutter_assemble.lastbuildstate
+|   |       |   |           L-- flutter_assemble.recipe
+|   |       |   |-- INSTALL.vcxproj
+|   |       |   |-- INSTALL.vcxproj.filters
+|   |       |   |-- cmake_install.cmake
+|   |       |   |-- flutter_assemble.vcxproj
+|   |       |   |-- flutter_assemble.vcxproj.filters
+|   |       |   |-- flutter_wrapper_app.vcxproj
+|   |       |   |-- flutter_wrapper_app.vcxproj.filters
+|   |       |   |-- flutter_wrapper_plugin.vcxproj
+|   |       |   L-- flutter_wrapper_plugin.vcxproj.filters
+|   |       |-- runner
+|   |       |   |-- CMakeFiles
+|   |       |   |   |-- generate.stamp
+|   |       |   |   L-- generate.stamp.depend
+|   |       |   |-- Debug
+|   |       |   |   |-- data
+|   |       |   |   |   |-- flutter_assets
+|   |       |   |   |   |   |-- fonts
+|   |       |   |   |   |   |   L-- MaterialIcons-Regular.otf
+|   |       |   |   |   |   |-- packages
+|   |       |   |   |   |   |   L-- cupertino_icons
+|   |       |   |   |   |   |       L-- assets
+|   |       |   |   |   |   |-- shaders
+|   |       |   |   |   |   |   L-- ink_sparkle.frag
+|   |       |   |   |   |   |-- AssetManifest.bin
+|   |       |   |   |   |   |-- AssetManifest.bin.json
+|   |       |   |   |   |   |-- AssetManifest.json
+|   |       |   |   |   |   |-- FontManifest.json
+|   |       |   |   |   |   |-- NOTICES
+|   |       |   |   |   |   |-- NOTICES.Z
+|   |       |   |   |   |   |-- NativeAssetsManifest.json
+|   |       |   |   |   |   L-- kernel_blob.bin
+|   |       |   |   |   L-- icudtl.dat
+|   |       |   |   |-- app.exe
+|   |       |   |   |-- app.pdb
+|   |       |   |   L-- flutter_windows.dll
+|   |       |   |-- app.dir
+|   |       |   |   L-- Debug
+|   |       |   |       |-- app.tlog
+|   |       |   |       |   |-- CL.command.1.tlog
+|   |       |   |       |   |-- CL.read.1.tlog
+|   |       |   |       |   |-- CL.write.1.tlog
+|   |       |   |       |   |-- Cl.items.tlog
+|   |       |   |       |   |-- CustomBuild.command.1.tlog
+|   |       |   |       |   |-- CustomBuild.read.1.tlog
+|   |       |   |       |   |-- CustomBuild.write.1.tlog
+|   |       |   |       |   |-- app.lastbuildstate
+|   |       |   |       |   |-- link.command.1.tlog
+|   |       |   |       |   |-- link.read.1.tlog
+|   |       |   |       |   |-- link.secondary.1.tlog
+|   |       |   |       |   |-- link.write.1.tlog
+|   |       |   |       |   |-- rc.command.1.tlog
+|   |       |   |       |   |-- rc.read.1.tlog
+|   |       |   |       |   L-- rc.write.1.tlog
+|   |       |   |       |-- Runner.res
+|   |       |   |       |-- app.exe.recipe
+|   |       |   |       |-- app.ilk
+|   |       |   |       |-- flutter_window.obj
+|   |       |   |       |-- generated_plugin_registrant.obj
+|   |       |   |       |-- main.obj
+|   |       |   |       |-- utils.obj
+|   |       |   |       |-- vc143.pdb
+|   |       |   |       L-- win32_window.obj
+|   |       |   |-- ALL_BUILD.vcxproj
+|   |       |   |-- ALL_BUILD.vcxproj.filters
+|   |       |   |-- INSTALL.vcxproj
+|   |       |   |-- INSTALL.vcxproj.filters
+|   |       |   |-- app.vcxproj
+|   |       |   |-- app.vcxproj.filters
+|   |       |   |-- cmake_install.cmake
+|   |       |   L-- runner.sln
+|   |       |-- x64
+|   |       |   L-- Debug
+|   |       |       |-- ALL_BUILD
+|   |       |       |   |-- ALL_BUILD.tlog
+|   |       |       |   |   |-- ALL_BUILD.lastbuildstate
+|   |       |       |   |   |-- CustomBuild.command.1.tlog
+|   |       |       |   |   |-- CustomBuild.read.1.tlog
+|   |       |       |   |   L-- CustomBuild.write.1.tlog
+|   |       |       |   L-- ALL_BUILD.recipe
+|   |       |       |-- INSTALL
+|   |       |       |   |-- INSTALL.tlog
+|   |       |       |   |   |-- CustomBuild.command.1.tlog
+|   |       |       |   |   |-- CustomBuild.read.1.tlog
+|   |       |       |   |   |-- CustomBuild.write.1.tlog
+|   |       |       |   |   L-- INSTALL.lastbuildstate
+|   |       |       |   L-- INSTALL.recipe
+|   |       |       L-- ZERO_CHECK
+|   |       |           |-- ZERO_CHECK.tlog
+|   |       |           |   |-- CustomBuild.command.1.tlog
+|   |       |           |   |-- CustomBuild.read.1.tlog
+|   |       |           |   |-- CustomBuild.write.1.tlog
+|   |       |           |   L-- ZERO_CHECK.lastbuildstate
+|   |       |           L-- ZERO_CHECK.recipe
+|   |       |-- ALL_BUILD.vcxproj
+|   |       |-- ALL_BUILD.vcxproj.filters
+|   |       |-- CMakeCache.txt
+|   |       |-- INSTALL.vcxproj
+|   |       |-- INSTALL.vcxproj.filters
+|   |       |-- ZERO_CHECK.vcxproj
+|   |       |-- ZERO_CHECK.vcxproj.filters
+|   |       |-- app.sln
+|   |       |-- cmake_install.cmake
+|   |       L-- install_manifest.txt
+|   |-- .last_build_id
 |   L-- b6862f53c5db0dffd80a6274ce6c73bd.cache.dill.track.dill
 |-- ios
 |   |-- Flutter
@@ -607,7 +887,11 @@ app-aya-v2
 |   |   |-- supabase
 |   |   |   L-- .gitkeep
 |   |   |-- theme
-|   |   |   L-- .gitkeep
+|   |   |   |-- .gitkeep
+|   |   |   |-- app_colors.dart
+|   |   |   |-- app_dimensions.dart
+|   |   |   |-- app_theme.dart
+|   |   |   L-- app_typography.dart
 |   |   |-- utils
 |   |   |   L-- .gitkeep
 |   |   L-- .gitkeep
@@ -706,6 +990,176 @@ app-aya-v2
 |   L-- routes.dart
 |-- linux
 |   |-- flutter
+|   |   |-- ephemeral
+|   |   |   L-- .plugin_symlinks
+|   |   |       |-- app_links_linux
+|   |   |       |   |-- lib
+|   |   |       |   |   L-- app_links_linux.dart
+|   |   |       |   |-- CHANGELOG.md
+|   |   |       |   |-- LICENSE
+|   |   |       |   |-- README.md
+|   |   |       |   |-- analysis_options.yaml
+|   |   |       |   L-- pubspec.yaml
+|   |   |       |-- gtk
+|   |   |       |   |-- example
+|   |   |       |   |   |-- lib
+|   |   |       |   |   |   L-- main.dart
+|   |   |       |   |   |-- linux
+|   |   |       |   |   |   |-- flutter
+|   |   |       |   |   |   |   L-- CMakeLists.txt
+|   |   |       |   |   |   |-- CMakeLists.txt
+|   |   |       |   |   |   |-- main.cc
+|   |   |       |   |   |   |-- my_application.cc
+|   |   |       |   |   |   L-- my_application.h
+|   |   |       |   |   |-- web
+|   |   |       |   |   |   |-- icons
+|   |   |       |   |   |   |   |-- Icon-192.png
+|   |   |       |   |   |   |   |-- Icon-512.png
+|   |   |       |   |   |   |   |-- Icon-maskable-192.png
+|   |   |       |   |   |   |   L-- Icon-maskable-512.png
+|   |   |       |   |   |   |-- favicon.png
+|   |   |       |   |   |   |-- index.html
+|   |   |       |   |   |   L-- manifest.json
+|   |   |       |   |   |-- README.md
+|   |   |       |   |   |-- analysis_options.yaml
+|   |   |       |   |   |-- pubspec.yaml
+|   |   |       |   |   |-- pubspec_overrides.yaml
+|   |   |       |   |   L-- screenshot.png
+|   |   |       |   |-- lib
+|   |   |       |   |   |-- src
+|   |   |       |   |   |   |-- constants.dart
+|   |   |       |   |   |   |-- gtk_application.dart
+|   |   |       |   |   |   |-- gtk_application_notifier.dart
+|   |   |       |   |   |   |-- gtk_settings.dart
+|   |   |       |   |   |   |-- gtk_settings_real.dart
+|   |   |       |   |   |   |-- gtk_settings_stub.dart
+|   |   |       |   |   |   |-- libgtk.dart
+|   |   |       |   |   |   L-- libgtk.g.dart
+|   |   |       |   |   L-- gtk.dart
+|   |   |       |   |-- linux
+|   |   |       |   |   |-- include
+|   |   |       |   |   |   L-- gtk
+|   |   |       |   |   |       L-- gtk_plugin.h
+|   |   |       |   |   |-- CMakeLists.txt
+|   |   |       |   |   L-- gtk_plugin.cc
+|   |   |       |   |-- test
+|   |   |       |   |   |-- gtk_application_notifier_test.dart
+|   |   |       |   |   |-- gtk_application_test.dart
+|   |   |       |   |   |-- gtk_settings_test.dart
+|   |   |       |   |   |-- test_utils.dart
+|   |   |       |   |   L-- test_utils.mocks.dart
+|   |   |       |   |-- CHANGELOG.md
+|   |   |       |   |-- LICENSE
+|   |   |       |   |-- README.md
+|   |   |       |   |-- codecov.yaml
+|   |   |       |   |-- ffigen.yaml
+|   |   |       |   |-- pubspec.yaml
+|   |   |       |   L-- renovate.json
+|   |   |       |-- path_provider_linux
+|   |   |       |   |-- example
+|   |   |       |   |   |-- integration_test
+|   |   |       |   |   |   L-- path_provider_test.dart
+|   |   |       |   |   |-- lib
+|   |   |       |   |   |   L-- main.dart
+|   |   |       |   |   |-- linux
+|   |   |       |   |   |   |-- flutter
+|   |   |       |   |   |   |   |-- CMakeLists.txt
+|   |   |       |   |   |   |   L-- generated_plugins.cmake
+|   |   |       |   |   |   |-- CMakeLists.txt
+|   |   |       |   |   |   |-- main.cc
+|   |   |       |   |   |   |-- my_application.cc
+|   |   |       |   |   |   L-- my_application.h
+|   |   |       |   |   |-- test_driver
+|   |   |       |   |   |   L-- integration_test.dart
+|   |   |       |   |   |-- README.md
+|   |   |       |   |   L-- pubspec.yaml
+|   |   |       |   |-- lib
+|   |   |       |   |   |-- src
+|   |   |       |   |   |   |-- get_application_id.dart
+|   |   |       |   |   |   |-- get_application_id_real.dart
+|   |   |       |   |   |   |-- get_application_id_stub.dart
+|   |   |       |   |   |   L-- path_provider_linux.dart
+|   |   |       |   |   L-- path_provider_linux.dart
+|   |   |       |   |-- test
+|   |   |       |   |   |-- get_application_id_test.dart
+|   |   |       |   |   L-- path_provider_linux_test.dart
+|   |   |       |   |-- AUTHORS
+|   |   |       |   |-- CHANGELOG.md
+|   |   |       |   |-- LICENSE
+|   |   |       |   |-- README.md
+|   |   |       |   L-- pubspec.yaml
+|   |   |       |-- shared_preferences_linux
+|   |   |       |   |-- example
+|   |   |       |   |   |-- integration_test
+|   |   |       |   |   |   L-- shared_preferences_test.dart
+|   |   |       |   |   |-- lib
+|   |   |       |   |   |   L-- main.dart
+|   |   |       |   |   |-- linux
+|   |   |       |   |   |   |-- flutter
+|   |   |       |   |   |   |   |-- CMakeLists.txt
+|   |   |       |   |   |   |   L-- generated_plugins.cmake
+|   |   |       |   |   |   |-- CMakeLists.txt
+|   |   |       |   |   |   |-- main.cc
+|   |   |       |   |   |   |-- my_application.cc
+|   |   |       |   |   |   L-- my_application.h
+|   |   |       |   |   |-- test_driver
+|   |   |       |   |   |   L-- integration_test.dart
+|   |   |       |   |   |-- README.md
+|   |   |       |   |   L-- pubspec.yaml
+|   |   |       |   |-- lib
+|   |   |       |   |   L-- shared_preferences_linux.dart
+|   |   |       |   |-- test
+|   |   |       |   |   |-- fake_path_provider_linux.dart
+|   |   |       |   |   |-- legacy_shared_preferences_linux_test.dart
+|   |   |       |   |   L-- shared_preferences_linux_async_test.dart
+|   |   |       |   |-- AUTHORS
+|   |   |       |   |-- CHANGELOG.md
+|   |   |       |   |-- LICENSE
+|   |   |       |   |-- README.md
+|   |   |       |   L-- pubspec.yaml
+|   |   |       L-- url_launcher_linux
+|   |   |           |-- example
+|   |   |           |   |-- integration_test
+|   |   |           |   |   L-- url_launcher_test.dart
+|   |   |           |   |-- lib
+|   |   |           |   |   L-- main.dart
+|   |   |           |   |-- linux
+|   |   |           |   |   |-- flutter
+|   |   |           |   |   |   |-- CMakeLists.txt
+|   |   |           |   |   |   L-- generated_plugins.cmake
+|   |   |           |   |   |-- CMakeLists.txt
+|   |   |           |   |   |-- main.cc
+|   |   |           |   |   |-- my_application.cc
+|   |   |           |   |   L-- my_application.h
+|   |   |           |   |-- test_driver
+|   |   |           |   |   L-- integration_test.dart
+|   |   |           |   |-- README.md
+|   |   |           |   L-- pubspec.yaml
+|   |   |           |-- lib
+|   |   |           |   |-- src
+|   |   |           |   |   L-- messages.g.dart
+|   |   |           |   L-- url_launcher_linux.dart
+|   |   |           |-- linux
+|   |   |           |   |-- include
+|   |   |           |   |   L-- url_launcher_linux
+|   |   |           |   |       L-- url_launcher_plugin.h
+|   |   |           |   |-- test
+|   |   |           |   |   L-- url_launcher_linux_test.cc
+|   |   |           |   |-- CMakeLists.txt
+|   |   |           |   |-- messages.g.cc
+|   |   |           |   |-- messages.g.h
+|   |   |           |   |-- url_launcher_plugin.cc
+|   |   |           |   L-- url_launcher_plugin_private.h
+|   |   |           |-- pigeons
+|   |   |           |   |-- copyright.txt
+|   |   |           |   L-- messages.dart
+|   |   |           |-- test
+|   |   |           |   L-- url_launcher_linux_test.dart
+|   |   |           |-- AUTHORS
+|   |   |           |-- CHANGELOG.md
+|   |   |           |-- LICENSE
+|   |   |           |-- README.md
+|   |   |           L-- pubspec.yaml
 |   |   |-- CMakeLists.txt
 |   |   |-- generated_plugin_registrant.cc
 |   |   |-- generated_plugin_registrant.h
@@ -776,6 +1230,395 @@ app-aya-v2
 |   L-- manifest.json
 |-- windows
 |   |-- flutter
+|   |   |-- ephemeral
+|   |   |   |-- .plugin_symlinks
+|   |   |   |   |-- app_links
+|   |   |   |   |   |-- android
+|   |   |   |   |   |   |-- gradle
+|   |   |   |   |   |   |   L-- wrapper
+|   |   |   |   |   |   |       L-- gradle-wrapper.properties
+|   |   |   |   |   |   |-- src
+|   |   |   |   |   |   |   |-- main
+|   |   |   |   |   |   |   |   |-- java
+|   |   |   |   |   |   |   |   |   L-- com
+|   |   |   |   |   |   |   |   |-- kotlin
+|   |   |   |   |   |   |   |   |   L-- com
+|   |   |   |   |   |   |   |   L-- AndroidManifest.xml
+|   |   |   |   |   |   |   L-- test
+|   |   |   |   |   |   |       L-- kotlin
+|   |   |   |   |   |   |           L-- com
+|   |   |   |   |   |   |-- build.gradle
+|   |   |   |   |   |   |-- gradle.properties
+|   |   |   |   |   |   |-- proguard.txt
+|   |   |   |   |   |   L-- settings.gradle
+|   |   |   |   |   |-- example
+|   |   |   |   |   |   |-- android
+|   |   |   |   |   |   |   |-- app
+|   |   |   |   |   |   |   |   |-- src
+|   |   |   |   |   |   |   |   |   |-- debug
+|   |   |   |   |   |   |   |   |   |-- main
+|   |   |   |   |   |   |   |   |   L-- profile
+|   |   |   |   |   |   |   |   L-- build.gradle
+|   |   |   |   |   |   |   |-- gradle
+|   |   |   |   |   |   |   |   L-- wrapper
+|   |   |   |   |   |   |   |       |-- gradle-wrapper.jar
+|   |   |   |   |   |   |   |       L-- gradle-wrapper.properties
+|   |   |   |   |   |   |   |-- build.gradle
+|   |   |   |   |   |   |   |-- gradle.properties
+|   |   |   |   |   |   |   |-- gradlew
+|   |   |   |   |   |   |   |-- gradlew.bat
+|   |   |   |   |   |   |   L-- settings.gradle
+|   |   |   |   |   |   |-- ios
+|   |   |   |   |   |   |   |-- Flutter
+|   |   |   |   |   |   |   |   |-- ephemeral
+|   |   |   |   |   |   |   |   |   L-- Packages
+|   |   |   |   |   |   |   |   |-- AppFrameworkInfo.plist
+|   |   |   |   |   |   |   |   |-- Debug.xcconfig
+|   |   |   |   |   |   |   |   L-- Release.xcconfig
+|   |   |   |   |   |   |   |-- Runner
+|   |   |   |   |   |   |   |   |-- Assets.xcassets
+|   |   |   |   |   |   |   |   |   |-- AppIcon.appiconset
+|   |   |   |   |   |   |   |   |   L-- LaunchImage.imageset
+|   |   |   |   |   |   |   |   |-- Base.lproj
+|   |   |   |   |   |   |   |   |   |-- LaunchScreen.storyboard
+|   |   |   |   |   |   |   |   |   L-- Main.storyboard
+|   |   |   |   |   |   |   |   |-- AppDelegate.swift
+|   |   |   |   |   |   |   |   |-- Info.plist
+|   |   |   |   |   |   |   |   |-- Runner-Bridging-Header.h
+|   |   |   |   |   |   |   |   L-- Runner.entitlements
+|   |   |   |   |   |   |   |-- Runner.xcodeproj
+|   |   |   |   |   |   |   |   |-- project.xcworkspace
+|   |   |   |   |   |   |   |   |   |-- xcshareddata
+|   |   |   |   |   |   |   |   |   L-- contents.xcworkspacedata
+|   |   |   |   |   |   |   |   |-- xcshareddata
+|   |   |   |   |   |   |   |   |   L-- xcschemes
+|   |   |   |   |   |   |   |   L-- project.pbxproj
+|   |   |   |   |   |   |   |-- Runner.xcworkspace
+|   |   |   |   |   |   |   |   |-- xcshareddata
+|   |   |   |   |   |   |   |   |   |-- IDEWorkspaceChecks.plist
+|   |   |   |   |   |   |   |   |   L-- WorkspaceSettings.xcsettings
+|   |   |   |   |   |   |   |   L-- contents.xcworkspacedata
+|   |   |   |   |   |   |   |-- RunnerTests
+|   |   |   |   |   |   |   |-- Podfile
+|   |   |   |   |   |   |   L-- Podfile.lock
+|   |   |   |   |   |   |-- lib
+|   |   |   |   |   |   |   |-- url_protocol
+|   |   |   |   |   |   |   |   |-- api.dart
+|   |   |   |   |   |   |   |   |-- protocol.dart
+|   |   |   |   |   |   |   |   |-- web_url_protocol.dart
+|   |   |   |   |   |   |   |   L-- windows_protocol.dart
+|   |   |   |   |   |   |   L-- main.dart
+|   |   |   |   |   |   |-- linux
+|   |   |   |   |   |   |   |-- flutter
+|   |   |   |   |   |   |   |   |-- CMakeLists.txt
+|   |   |   |   |   |   |   |   |-- generated_plugin_registrant.cc
+|   |   |   |   |   |   |   |   |-- generated_plugin_registrant.h
+|   |   |   |   |   |   |   |   L-- generated_plugins.cmake
+|   |   |   |   |   |   |   |-- CMakeLists.txt
+|   |   |   |   |   |   |   |-- main.cc
+|   |   |   |   |   |   |   |-- my_application.cc
+|   |   |   |   |   |   |   L-- my_application.h
+|   |   |   |   |   |   |-- macos
+|   |   |   |   |   |   |   |-- Flutter
+|   |   |   |   |   |   |   |   |-- Flutter-Debug.xcconfig
+|   |   |   |   |   |   |   |   |-- Flutter-Release.xcconfig
+|   |   |   |   |   |   |   |   L-- GeneratedPluginRegistrant.swift
+|   |   |   |   |   |   |   |-- Runner
+|   |   |   |   |   |   |   |   |-- Assets.xcassets
+|   |   |   |   |   |   |   |   |   L-- AppIcon.appiconset
+|   |   |   |   |   |   |   |   |-- Base.lproj
+|   |   |   |   |   |   |   |   |   L-- MainMenu.xib
+|   |   |   |   |   |   |   |   |-- Configs
+|   |   |   |   |   |   |   |   |   |-- AppInfo.xcconfig
+|   |   |   |   |   |   |   |   |   |-- Debug.xcconfig
+|   |   |   |   |   |   |   |   |   |-- Release.xcconfig
+|   |   |   |   |   |   |   |   |   L-- Warnings.xcconfig
+|   |   |   |   |   |   |   |   |-- AppDelegate.swift
+|   |   |   |   |   |   |   |   |-- DebugProfile.entitlements
+|   |   |   |   |   |   |   |   |-- Info.plist
+|   |   |   |   |   |   |   |   |-- MainFlutterWindow.swift
+|   |   |   |   |   |   |   |   L-- Release.entitlements
+|   |   |   |   |   |   |   |-- Runner.xcodeproj
+|   |   |   |   |   |   |   |   |-- project.xcworkspace
+|   |   |   |   |   |   |   |   |   L-- xcshareddata
+|   |   |   |   |   |   |   |   |-- xcshareddata
+|   |   |   |   |   |   |   |   |   L-- xcschemes
+|   |   |   |   |   |   |   |   L-- project.pbxproj
+|   |   |   |   |   |   |   |-- Runner.xcworkspace
+|   |   |   |   |   |   |   |   |-- xcshareddata
+|   |   |   |   |   |   |   |   |   L-- IDEWorkspaceChecks.plist
+|   |   |   |   |   |   |   |   L-- contents.xcworkspacedata
+|   |   |   |   |   |   |   |-- RunnerTests
+|   |   |   |   |   |   |   |-- Podfile
+|   |   |   |   |   |   |   L-- Podfile.lock
+|   |   |   |   |   |   |-- web
+|   |   |   |   |   |   |   |-- icons
+|   |   |   |   |   |   |   |   |-- Icon-192.png
+|   |   |   |   |   |   |   |   |-- Icon-512.png
+|   |   |   |   |   |   |   |   |-- Icon-maskable-192.png
+|   |   |   |   |   |   |   |   L-- Icon-maskable-512.png
+|   |   |   |   |   |   |   |-- favicon.png
+|   |   |   |   |   |   |   |-- index.html
+|   |   |   |   |   |   |   L-- manifest.json
+|   |   |   |   |   |   |-- windows
+|   |   |   |   |   |   |   |-- flutter
+|   |   |   |   |   |   |   |   |-- CMakeLists.txt
+|   |   |   |   |   |   |   |   |-- generated_plugin_registrant.cc
+|   |   |   |   |   |   |   |   |-- generated_plugin_registrant.h
+|   |   |   |   |   |   |   |   L-- generated_plugins.cmake
+|   |   |   |   |   |   |   |-- runner
+|   |   |   |   |   |   |   |   |-- resources
+|   |   |   |   |   |   |   |   |   L-- app_icon.ico
+|   |   |   |   |   |   |   |   |-- CMakeLists.txt
+|   |   |   |   |   |   |   |   |-- Runner.rc
+|   |   |   |   |   |   |   |   |-- flutter_window.cpp
+|   |   |   |   |   |   |   |   |-- flutter_window.h
+|   |   |   |   |   |   |   |   |-- main.cpp
+|   |   |   |   |   |   |   |   |-- resource.h
+|   |   |   |   |   |   |   |   |-- runner.exe.manifest
+|   |   |   |   |   |   |   |   |-- utils.cpp
+|   |   |   |   |   |   |   |   |-- utils.h
+|   |   |   |   |   |   |   |   |-- win32_window.cpp
+|   |   |   |   |   |   |   |   L-- win32_window.h
+|   |   |   |   |   |   |   L-- CMakeLists.txt
+|   |   |   |   |   |   |-- README.md
+|   |   |   |   |   |   |-- analysis_options.yaml
+|   |   |   |   |   |   L-- pubspec.yaml
+|   |   |   |   |   |-- ios
+|   |   |   |   |   |   |-- app_links
+|   |   |   |   |   |   |   |-- Sources
+|   |   |   |   |   |   |   |   L-- app_links
+|   |   |   |   |   |   |   |       |-- AppLinksIosPlugin.swift
+|   |   |   |   |   |   |   |       L-- PrivacyInfo.xcprivacy
+|   |   |   |   |   |   |   L-- Package.swift
+|   |   |   |   |   |   L-- app_links.podspec
+|   |   |   |   |   |-- lib
+|   |   |   |   |   |   |-- src
+|   |   |   |   |   |   |   L-- app_links.dart
+|   |   |   |   |   |   L-- app_links.dart
+|   |   |   |   |   |-- macos
+|   |   |   |   |   |   |-- app_links
+|   |   |   |   |   |   |   |-- Sources
+|   |   |   |   |   |   |   |   L-- app_links
+|   |   |   |   |   |   |   |       |-- AppLinksMacosPlugin.swift
+|   |   |   |   |   |   |   |       L-- PrivacyInfo.xcprivacy
+|   |   |   |   |   |   |   L-- Package.swift
+|   |   |   |   |   |   L-- app_links.podspec
+|   |   |   |   |   |-- windows
+|   |   |   |   |   |   |-- include
+|   |   |   |   |   |   |   L-- app_links
+|   |   |   |   |   |   |       L-- app_links_plugin_c_api.h
+|   |   |   |   |   |   |-- test
+|   |   |   |   |   |   |-- CMakeLists.txt
+|   |   |   |   |   |   |-- app_links_plugin.cpp
+|   |   |   |   |   |   |-- app_links_plugin.h
+|   |   |   |   |   |   L-- app_links_plugin_c_api.cpp
+|   |   |   |   |   |-- CHANGELOG.md
+|   |   |   |   |   |-- LICENSE
+|   |   |   |   |   |-- README.md
+|   |   |   |   |   |-- analysis_options.yaml
+|   |   |   |   |   L-- pubspec.yaml
+|   |   |   |   |-- path_provider_windows
+|   |   |   |   |   |-- example
+|   |   |   |   |   |   |-- integration_test
+|   |   |   |   |   |   |   L-- path_provider_test.dart
+|   |   |   |   |   |   |-- lib
+|   |   |   |   |   |   |   L-- main.dart
+|   |   |   |   |   |   |-- test_driver
+|   |   |   |   |   |   |   L-- integration_test.dart
+|   |   |   |   |   |   |-- windows
+|   |   |   |   |   |   |   |-- flutter
+|   |   |   |   |   |   |   |   |-- CMakeLists.txt
+|   |   |   |   |   |   |   |   L-- generated_plugins.cmake
+|   |   |   |   |   |   |   |-- runner
+|   |   |   |   |   |   |   |   |-- resources
+|   |   |   |   |   |   |   |   |   L-- app_icon.ico
+|   |   |   |   |   |   |   |   |-- CMakeLists.txt
+|   |   |   |   |   |   |   |   |-- Runner.rc
+|   |   |   |   |   |   |   |   |-- flutter_window.cpp
+|   |   |   |   |   |   |   |   |-- flutter_window.h
+|   |   |   |   |   |   |   |   |-- main.cpp
+|   |   |   |   |   |   |   |   |-- resource.h
+|   |   |   |   |   |   |   |   |-- run_loop.cpp
+|   |   |   |   |   |   |   |   |-- run_loop.h
+|   |   |   |   |   |   |   |   |-- runner.exe.manifest
+|   |   |   |   |   |   |   |   |-- utils.cpp
+|   |   |   |   |   |   |   |   |-- utils.h
+|   |   |   |   |   |   |   |   |-- win32_window.cpp
+|   |   |   |   |   |   |   |   L-- win32_window.h
+|   |   |   |   |   |   |   L-- CMakeLists.txt
+|   |   |   |   |   |   |-- README.md
+|   |   |   |   |   |   L-- pubspec.yaml
+|   |   |   |   |   |-- lib
+|   |   |   |   |   |   |-- src
+|   |   |   |   |   |   |   |-- folders.dart
+|   |   |   |   |   |   |   |-- folders_stub.dart
+|   |   |   |   |   |   |   |-- guid.dart
+|   |   |   |   |   |   |   |-- path_provider_windows_real.dart
+|   |   |   |   |   |   |   |-- path_provider_windows_stub.dart
+|   |   |   |   |   |   |   L-- win32_wrappers.dart
+|   |   |   |   |   |   L-- path_provider_windows.dart
+|   |   |   |   |   |-- test
+|   |   |   |   |   |   |-- guid_test.dart
+|   |   |   |   |   |   L-- path_provider_windows_test.dart
+|   |   |   |   |   |-- AUTHORS
+|   |   |   |   |   |-- CHANGELOG.md
+|   |   |   |   |   |-- LICENSE
+|   |   |   |   |   |-- README.md
+|   |   |   |   |   L-- pubspec.yaml
+|   |   |   |   |-- shared_preferences_windows
+|   |   |   |   |   |-- example
+|   |   |   |   |   |   |-- integration_test
+|   |   |   |   |   |   |   L-- shared_preferences_test.dart
+|   |   |   |   |   |   |-- lib
+|   |   |   |   |   |   |   L-- main.dart
+|   |   |   |   |   |   |-- test_driver
+|   |   |   |   |   |   |   L-- integration_test.dart
+|   |   |   |   |   |   |-- windows
+|   |   |   |   |   |   |   |-- flutter
+|   |   |   |   |   |   |   |   |-- CMakeLists.txt
+|   |   |   |   |   |   |   |   L-- generated_plugins.cmake
+|   |   |   |   |   |   |   |-- runner
+|   |   |   |   |   |   |   |   |-- resources
+|   |   |   |   |   |   |   |   |   L-- app_icon.ico
+|   |   |   |   |   |   |   |   |-- CMakeLists.txt
+|   |   |   |   |   |   |   |   |-- Runner.rc
+|   |   |   |   |   |   |   |   |-- flutter_window.cpp
+|   |   |   |   |   |   |   |   |-- flutter_window.h
+|   |   |   |   |   |   |   |   |-- main.cpp
+|   |   |   |   |   |   |   |   |-- resource.h
+|   |   |   |   |   |   |   |   |-- run_loop.cpp
+|   |   |   |   |   |   |   |   |-- run_loop.h
+|   |   |   |   |   |   |   |   |-- runner.exe.manifest
+|   |   |   |   |   |   |   |   |-- utils.cpp
+|   |   |   |   |   |   |   |   |-- utils.h
+|   |   |   |   |   |   |   |   |-- win32_window.cpp
+|   |   |   |   |   |   |   |   L-- win32_window.h
+|   |   |   |   |   |   |   L-- CMakeLists.txt
+|   |   |   |   |   |   |-- AUTHORS
+|   |   |   |   |   |   |-- LICENSE
+|   |   |   |   |   |   |-- README.md
+|   |   |   |   |   |   L-- pubspec.yaml
+|   |   |   |   |   |-- lib
+|   |   |   |   |   |   L-- shared_preferences_windows.dart
+|   |   |   |   |   |-- test
+|   |   |   |   |   |   |-- fake_path_provider_windows.dart
+|   |   |   |   |   |   |-- legacy_shared_preferences_windows_test.dart
+|   |   |   |   |   |   L-- shared_preferences_windows_async_test.dart
+|   |   |   |   |   |-- AUTHORS
+|   |   |   |   |   |-- CHANGELOG.md
+|   |   |   |   |   |-- LICENSE
+|   |   |   |   |   |-- README.md
+|   |   |   |   |   L-- pubspec.yaml
+|   |   |   |   L-- url_launcher_windows
+|   |   |   |       |-- example
+|   |   |   |       |   |-- integration_test
+|   |   |   |       |   |   L-- url_launcher_test.dart
+|   |   |   |       |   |-- lib
+|   |   |   |       |   |   L-- main.dart
+|   |   |   |       |   |-- test_driver
+|   |   |   |       |   |   L-- integration_test.dart
+|   |   |   |       |   |-- windows
+|   |   |   |       |   |   |-- flutter
+|   |   |   |       |   |   |   |-- CMakeLists.txt
+|   |   |   |       |   |   |   L-- generated_plugins.cmake
+|   |   |   |       |   |   |-- runner
+|   |   |   |       |   |   |   |-- resources
+|   |   |   |       |   |   |   |   L-- app_icon.ico
+|   |   |   |       |   |   |   |-- CMakeLists.txt
+|   |   |   |       |   |   |   |-- Runner.rc
+|   |   |   |       |   |   |   |-- flutter_window.cpp
+|   |   |   |       |   |   |   |-- flutter_window.h
+|   |   |   |       |   |   |   |-- main.cpp
+|   |   |   |       |   |   |   |-- resource.h
+|   |   |   |       |   |   |   |-- run_loop.cpp
+|   |   |   |       |   |   |   |-- run_loop.h
+|   |   |   |       |   |   |   |-- runner.exe.manifest
+|   |   |   |       |   |   |   |-- utils.cpp
+|   |   |   |       |   |   |   |-- utils.h
+|   |   |   |       |   |   |   |-- win32_window.cpp
+|   |   |   |       |   |   |   L-- win32_window.h
+|   |   |   |       |   |   L-- CMakeLists.txt
+|   |   |   |       |   |-- README.md
+|   |   |   |       |   L-- pubspec.yaml
+|   |   |   |       |-- lib
+|   |   |   |       |   |-- src
+|   |   |   |       |   |   L-- messages.g.dart
+|   |   |   |       |   L-- url_launcher_windows.dart
+|   |   |   |       |-- pigeons
+|   |   |   |       |   |-- copyright.txt
+|   |   |   |       |   L-- messages.dart
+|   |   |   |       |-- test
+|   |   |   |       |   L-- url_launcher_windows_test.dart
+|   |   |   |       |-- windows
+|   |   |   |       |   |-- include
+|   |   |   |       |   |   L-- url_launcher_windows
+|   |   |   |       |   |       L-- url_launcher_windows.h
+|   |   |   |       |   |-- test
+|   |   |   |       |   |   L-- url_launcher_windows_test.cpp
+|   |   |   |       |   |-- CMakeLists.txt
+|   |   |   |       |   |-- messages.g.cpp
+|   |   |   |       |   |-- messages.g.h
+|   |   |   |       |   |-- system_apis.cpp
+|   |   |   |       |   |-- system_apis.h
+|   |   |   |       |   |-- url_launcher_plugin.cpp
+|   |   |   |       |   |-- url_launcher_plugin.h
+|   |   |   |       |   L-- url_launcher_windows.cpp
+|   |   |   |       |-- AUTHORS
+|   |   |   |       |-- CHANGELOG.md
+|   |   |   |       |-- LICENSE
+|   |   |   |       |-- README.md
+|   |   |   |       L-- pubspec.yaml
+|   |   |   |-- cpp_client_wrapper
+|   |   |   |   |-- include
+|   |   |   |   |   L-- flutter
+|   |   |   |   |       |-- basic_message_channel.h
+|   |   |   |   |       |-- binary_messenger.h
+|   |   |   |   |       |-- byte_streams.h
+|   |   |   |   |       |-- dart_project.h
+|   |   |   |   |       |-- encodable_value.h
+|   |   |   |   |       |-- engine_method_result.h
+|   |   |   |   |       |-- event_channel.h
+|   |   |   |   |       |-- event_sink.h
+|   |   |   |   |       |-- event_stream_handler.h
+|   |   |   |   |       |-- event_stream_handler_functions.h
+|   |   |   |   |       |-- flutter_engine.h
+|   |   |   |   |       |-- flutter_view.h
+|   |   |   |   |       |-- flutter_view_controller.h
+|   |   |   |   |       |-- message_codec.h
+|   |   |   |   |       |-- method_call.h
+|   |   |   |   |       |-- method_channel.h
+|   |   |   |   |       |-- method_codec.h
+|   |   |   |   |       |-- method_result.h
+|   |   |   |   |       |-- method_result_functions.h
+|   |   |   |   |       |-- plugin_registrar.h
+|   |   |   |   |       |-- plugin_registrar_windows.h
+|   |   |   |   |       |-- plugin_registry.h
+|   |   |   |   |       |-- standard_codec_serializer.h
+|   |   |   |   |       |-- standard_message_codec.h
+|   |   |   |   |       |-- standard_method_codec.h
+|   |   |   |   |       L-- texture_registrar.h
+|   |   |   |   |-- binary_messenger_impl.h
+|   |   |   |   |-- byte_buffer_streams.h
+|   |   |   |   |-- core_implementations.cc
+|   |   |   |   |-- engine_method_result.cc
+|   |   |   |   |-- flutter_engine.cc
+|   |   |   |   |-- flutter_view_controller.cc
+|   |   |   |   |-- plugin_registrar.cc
+|   |   |   |   |-- readme
+|   |   |   |   |-- standard_codec.cc
+|   |   |   |   L-- texture_registrar_impl.h
+|   |   |   |-- flutter_export.h
+|   |   |   |-- flutter_messenger.h
+|   |   |   |-- flutter_plugin_registrar.h
+|   |   |   |-- flutter_texture_registrar.h
+|   |   |   |-- flutter_windows.dll
+|   |   |   |-- flutter_windows.dll.exp
+|   |   |   |-- flutter_windows.dll.lib
+|   |   |   |-- flutter_windows.dll.pdb
+|   |   |   |-- flutter_windows.h
+|   |   |   |-- generated_config.cmake
+|   |   |   L-- icudtl.dat
 |   |   |-- CMakeLists.txt
 |   |   |-- generated_plugin_registrant.cc
 |   |   |-- generated_plugin_registrant.h
@@ -797,6 +1640,7 @@ app-aya-v2
 |   |-- .gitignore
 |   L-- CMakeLists.txt
 |-- .env
+|-- .flutter-plugins-dependencies
 |-- .gitignore
 |-- .metadata
 |-- README.md
