@@ -15,7 +15,8 @@ class AyaColors {
 
   // Neutral Colors
   static const Color surface = Color(0xFFF8F8FF);
-  static Color get textPrimaryOnDark => Colors.white.withOpacity(0.87);
+  static Color get textPrimaryOnDark =>
+      Colors.white.withAlpha((255 * 0.87).round());
   static Color get textSecondaryOnDark => softLavender;
 
   // State Colors
@@ -44,7 +45,8 @@ class AyaColors {
   );
 
   // Overlays and Transparencies
-  static Color get darkOverlay => Colors.black.withOpacity(0.3);
-  static Color get lightOverlay => Colors.white.withOpacity(0.1);
-  static Color get glassyOverlay => Colors.white.withOpacity(0.05);
+  static Color get darkOverlay => Colors.black.withAlpha((255 * 0.3).round());
+  static Color get lightOverlay => Colors.white.withAlpha((255 * 0.1).round());
+  static Color get glassyOverlay =>
+      Colors.white.withAlpha((255 * 0.05).round());
 }

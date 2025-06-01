@@ -142,16 +142,16 @@ class AppTheme {
           vertical: AppDimensions.spacingMd,
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: Color(0xFF1E1D2B),
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLg),
         ),
-        shadowColor: Colors.black.withOpacity(0.1),
+        shadowColor: Colors.black.withAlpha((255 * 0.1).round()),
       ),
       iconTheme: IconThemeData(color: AyaColors.softLavender, size: 24.0),
-      dividerColor: AyaColors.softLavender.withOpacity(0.3),
+      dividerColor: AyaColors.softLavender.withAlpha((255 * 0.3).round()),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: AyaColors.deepPurple,
         selectedItemColor: AyaColors.lavender,
