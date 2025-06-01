@@ -1,6 +1,7 @@
 import 'package:app/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:iconoir_flutter/iconoir_flutter.dart' as iconoir;
 
 class MainScaffoldWidget extends StatefulWidget {
   final Widget child;
@@ -56,7 +57,7 @@ class _MainScaffoldWidgetState extends State<MainScaffoldWidget> {
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.person),
+              leading: const iconoir.User(),
               title: const Text('Meu Perfil'),
               onTap: () {
                 Navigator.pop(context);
@@ -64,19 +65,19 @@ class _MainScaffoldWidgetState extends State<MainScaffoldWidget> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.settings),
+              leading: const iconoir.Settings(),
               title: const Text('Configurações'),
               onTap: () {
-                // TODO: Navigate to settings
                 Navigator.pop(context);
+                // TODO: Navigate to settings
               },
             ),
             ListTile(
-              leading: const Icon(Icons.logout),
+              leading: const iconoir.LogOut(),
               title: const Text('Sair'),
               onTap: () {
-                // TODO: Implement logout and navigate to login
                 Navigator.pop(context);
+                // TODO: Implement logout and navigate to login
                 GoRouter.of(context).goNamed(AppRouteNames.login);
               },
             ),
@@ -85,13 +86,19 @@ class _MainScaffoldWidgetState extends State<MainScaffoldWidget> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Início'),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Biblioteca'),
+          BottomNavigationBarItem(icon: iconoir.Home(), label: 'Início'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.people),
+            icon: iconoir.BookStack(),
+            label: 'Biblioteca',
+          ),
+          BottomNavigationBarItem(
+            icon: iconoir.Community(),
             label: 'Comunidade',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat IA'),
+          BottomNavigationBarItem(
+            icon: iconoir.ChatBubbleQuestion(),
+            label: 'Chat IA',
+          ),
         ],
         currentIndex: _calculateSelectedIndex(context),
         onTap: (index) => _onItemTapped(index, context),
