@@ -1,12 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:app/app_widget.dart';
 
-void main() {
-  // TODO: Adicionar inicializações aqui (ex: Supabase, Riverpod ProviderScope, etc.)
-  // WidgetsFlutterBinding.ensureInitialized(); // Descomentar quando necessário
+// TODO: Mover para um arquivo .env e carregar com flutter_dotenv
+const String supabaseUrl = 'SUA_URL_DO_SUPABASE'; // Obtenha do seu .env
+const String supabaseAnonKey =
+    'SUA_CHAVE_ANONIMA_DO_SUPABASE'; // Obtenha do seu .env
 
-  runApp(const AppWidget());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Inicializar Supabase
+  await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
+
+  // TODO: Carregar variáveis de ambiente com flutter_dotenv futuramente
+  // await dotenv.load(fileName: ".env");
+  // final supabaseUrl = dotenv.env['SUPABASE_URL'];
+  // final supabaseAnonKey = dotenv.env['SUPABASE_ANON_KEY'];
+  // if (supabaseUrl == null || supabaseAnonKey == null) {
+  //   throw Exception('Supabase URL ou Anon Key não encontrados no .env');
+  // }
+  // await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
+
+  runApp(
+    const ProviderScope(
+      // Envolver com ProviderScope para Riverpod
+      child: AppWidget(),
+    ),
+  );
 }
+
+// Helper para acessar o cliente Supabase globalmente, se necessário (opcional, pode ser via provider)
+// final supabase = Supabase.instance.client;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
