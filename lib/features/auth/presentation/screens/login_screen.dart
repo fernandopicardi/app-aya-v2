@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iconoir_flutter/iconoir_flutter.dart';
+import 'package:iconoir_flutter/iconoir_flutter.dart' as iconoir;
 import 'package:app/core/theme/app_constants_design.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -23,7 +23,7 @@ class LoginScreen extends StatelessWidget {
                 Text(
                   'Bem-vinda de volta',
                   style: theme.textTheme.headlineMedium?.copyWith(
-                    color: colorScheme.onBackground,
+                    color: colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
@@ -32,7 +32,7 @@ class LoginScreen extends StatelessWidget {
                 Text(
                   'Acesse sua conta para continuar sua jornada',
                   style: theme.textTheme.bodyLarge?.copyWith(
-                    color: colorScheme.onBackground.withOpacity(0.7),
+                    color: colorScheme.onSurface.withAlpha((255 * 0.7).round()),
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -40,23 +40,25 @@ class LoginScreen extends StatelessWidget {
                 TextFormField(
                   decoration: InputDecoration(
                     hintText: 'Seu e-mail',
-                    prefixIcon: const Icon(Iconoir.mail),
+                    prefixIcon: iconoir.Mail(),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(
-                        AppDimensions.borderRadiusMd,
+                        AppBorderRadius.borderRadiusMd,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(
-                        AppDimensions.borderRadiusMd,
+                        AppBorderRadius.borderRadiusMd,
                       ),
                       borderSide: BorderSide(
-                        color: colorScheme.primary.withOpacity(0.5),
+                        color: colorScheme.primary.withAlpha(
+                          (255 * 0.5).round(),
+                        ),
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(
-                        AppDimensions.borderRadiusMd,
+                        AppBorderRadius.borderRadiusMd,
                       ),
                       borderSide: BorderSide(
                         color: colorScheme.primary,
@@ -70,23 +72,25 @@ class LoginScreen extends StatelessWidget {
                   obscureText: true,
                   decoration: InputDecoration(
                     hintText: 'Sua senha',
-                    prefixIcon: const Icon(Iconoir.keyAlt),
+                    prefixIcon: iconoir.Lock(),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(
-                        AppDimensions.borderRadiusMd,
+                        AppBorderRadius.borderRadiusMd,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(
-                        AppDimensions.borderRadiusMd,
+                        AppBorderRadius.borderRadiusMd,
                       ),
                       borderSide: BorderSide(
-                        color: colorScheme.primary.withOpacity(0.5),
+                        color: colorScheme.primary.withAlpha(
+                          (255 * 0.5).round(),
+                        ),
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(
-                        AppDimensions.borderRadiusMd,
+                        AppBorderRadius.borderRadiusMd,
                       ),
                       borderSide: BorderSide(
                         color: colorScheme.primary,
@@ -121,7 +125,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
-                        AppDimensions.borderRadiusMd,
+                        AppBorderRadius.borderRadiusMd,
                       ),
                     ),
                   ),
@@ -132,7 +136,9 @@ class LoginScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Divider(
-                        color: colorScheme.onBackground.withOpacity(0.2),
+                        color: colorScheme.onSurface.withAlpha(
+                          (255 * 0.2).round(),
+                        ),
                       ),
                     ),
                     Padding(
@@ -142,13 +148,17 @@ class LoginScreen extends StatelessWidget {
                       child: Text(
                         'Ou entre com',
                         style: theme.textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.onBackground.withOpacity(0.7),
+                          color: colorScheme.onSurface.withAlpha(
+                            (255 * 0.7).round(),
+                          ),
                         ),
                       ),
                     ),
                     Expanded(
                       child: Divider(
-                        color: colorScheme.onBackground.withOpacity(0.2),
+                        color: colorScheme.onSurface.withAlpha(
+                          (255 * 0.2).round(),
+                        ),
                       ),
                     ),
                   ],
