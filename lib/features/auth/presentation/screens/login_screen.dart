@@ -1,41 +1,198 @@
 import 'package:flutter/material.dart';
+import 'package:iconoir_flutter/iconoir_flutter.dart';
+import 'package:app/core/theme/app_constants_design.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Implementar UI de Login real
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'Bem-vindo(a) ao App Aya',
-                style: Theme.of(context).textTheme.headlineSmall,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 30),
-              // Placeholder para campos de email/senha e botões
-              const Text('Formulário de Login Aqui'),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  // TODO: Lógica de login
-                },
-                child: const Text('Entrar'),
-              ),
-              TextButton(
-                onPressed: () {
-                  // TODO: Navegar para tela de cadastro
-                },
-                child: const Text('Criar Conta'),
-              ),
-            ],
+      backgroundColor: theme.scaffoldBackgroundColor,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(AppDimensions.spacingLg),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: AppDimensions.spacing2xl),
+                Text(
+                  'Bem-vinda de volta',
+                  style: theme.textTheme.headlineMedium?.copyWith(
+                    color: colorScheme.onBackground,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: AppDimensions.spacingMd),
+                Text(
+                  'Acesse sua conta para continuar sua jornada',
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: colorScheme.onBackground.withOpacity(0.7),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: AppDimensions.spacing2xl),
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Seu e-mail',
+                    prefixIcon: const Icon(Iconoir.mail),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.borderRadiusMd,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.borderRadiusMd,
+                      ),
+                      borderSide: BorderSide(
+                        color: colorScheme.primary.withOpacity(0.5),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.borderRadiusMd,
+                      ),
+                      borderSide: BorderSide(
+                        color: colorScheme.primary,
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: AppDimensions.spacingLg),
+                TextFormField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    hintText: 'Sua senha',
+                    prefixIcon: const Icon(Iconoir.keyAlt),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.borderRadiusMd,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.borderRadiusMd,
+                      ),
+                      borderSide: BorderSide(
+                        color: colorScheme.primary.withOpacity(0.5),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.borderRadiusMd,
+                      ),
+                      borderSide: BorderSide(
+                        color: colorScheme.primary,
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: AppDimensions.spacingSm),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      // TODO: Implementar recuperação de senha
+                    },
+                    child: Text(
+                      'Esqueci minha senha',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: AppDimensions.spacingLg),
+                ElevatedButton(
+                  onPressed: () {
+                    // TODO: Implementar lógica de login
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: AppDimensions.spacingMd,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.borderRadiusMd,
+                      ),
+                    ),
+                  ),
+                  child: const Text('Entrar'),
+                ),
+                const SizedBox(height: AppDimensions.spacing2xl),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        color: colorScheme.onBackground.withOpacity(0.2),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppDimensions.spacingMd,
+                      ),
+                      child: Text(
+                        'Ou entre com',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.onBackground.withOpacity(0.7),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        color: colorScheme.onBackground.withOpacity(0.2),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppDimensions.spacingLg),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        // TODO: Implementar login social
+                      },
+                      icon: const Icon(Icons.circle),
+                    ),
+                    const SizedBox(width: AppDimensions.spacingMd),
+                    IconButton(
+                      onPressed: () {
+                        // TODO: Implementar login social
+                      },
+                      icon: const Icon(Icons.circle),
+                    ),
+                    const SizedBox(width: AppDimensions.spacingMd),
+                    IconButton(
+                      onPressed: () {
+                        // TODO: Implementar login social
+                      },
+                      icon: const Icon(Icons.circle),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppDimensions.spacingLg),
+                TextButton(
+                  onPressed: () {
+                    // TODO: Navegar para tela de cadastro
+                  },
+                  child: Text(
+                    'Não tem uma conta? Crie aqui',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.primary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

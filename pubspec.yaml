@@ -39,6 +39,7 @@ dependencies:
   flutter_riverpod: ^2.6.1
   supabase_flutter: ^2.9.0
   flutter_dotenv: ^5.2.1
+  iconoir_flutter: ^7.11.0
 
 dev_dependencies:
   flutter_test:
