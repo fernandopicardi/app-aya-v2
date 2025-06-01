@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iconoir_flutter/iconoir_flutter.dart' as iconoir;
 import 'package:app/core/theme/app_constants_design.dart';
+import 'package:go_router/go_router.dart';
+import 'package:app/routes.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -192,7 +194,7 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: AppDimensions.spacingLg),
                 TextButton(
                   onPressed: () {
-                    // TODO: Navegar para tela de cadastro
+                    context.goNamed(AppRouteNames.signup);
                   },
                   child: Text(
                     'Não tem uma conta? Crie aqui',

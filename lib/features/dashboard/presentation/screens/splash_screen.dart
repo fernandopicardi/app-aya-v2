@@ -14,13 +14,15 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _navigateToLogin();
+    _navigateToNextScreen();
   }
 
-  Future<void> _navigateToLogin() async {
+  Future<void> _navigateToNextScreen() async {
     await Future.delayed(const Duration(seconds: 2));
     if (mounted) {
-      context.goNamed(AppRouteNames.login);
+      // TODO: Implement proper auth check later
+      // For now, navigate directly to home
+      context.goNamed(AppRouteNames.home);
     }
   }
 
