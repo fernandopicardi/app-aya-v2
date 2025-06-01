@@ -8,14 +8,14 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Carregar variáveis de ambiente
-  await dotenv.load(fileName: ".env");
+  await dotenv.load(fileName: "assets/.env");
 
   final supabaseUrl = dotenv.env['SUPABASE_URL'];
   final supabaseAnonKey = dotenv.env['SUPABASE_ANON_KEY'];
 
   if (supabaseUrl == null || supabaseAnonKey == null) {
     throw Exception(
-      'Supabase URL ou Anon Key não encontrados no .env. Verifique o arquivo .env na raiz do projeto.',
+      'Supabase URL ou Anon Key não encontrados no .env. Verifique o arquivo .env na pasta assets.',
     );
   }
 
