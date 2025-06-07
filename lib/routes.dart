@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/features/dashboard/presentation/screens/splash_screen.dart';
+import 'package:app/features/content_library/presentation/screens/lesson_page.dart';
+import 'package:app/features/content_library/domain/entities/content_item.dart';
 import 'package:app/features/auth/presentation/screens/login_screen.dart';
 import 'package:app/features/auth/presentation/screens/signup_screen.dart';
 import 'package:app/features/auth/presentation/screens/user_profile_screen.dart';
@@ -52,6 +54,7 @@ class AppRouteNames {
   static const String community = '/community';
   static const String chatIA = '/chat-ia';
   static const String userProfile = '/profile';
+  static const String lesson = '/lesson';
   // Adicionar outras conforme necessário
 }
 
@@ -88,6 +91,20 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         name: AppRouteNames.userProfile,
         builder: (BuildContext context, GoRouterState state) {
           return const UserProfileScreen();
+        },
+      ),
+      GoRoute(
+        path: AppRouteNames.lesson,
+        name: AppRouteNames.lesson,
+        builder: (BuildContext context, GoRouterState state) {
+          final contentItem = state.extra as ContentItem?;
+          if (contentItem == null) {
+            return Scaffold(
+              appBar: AppBar(title: const Text('Error')),
+              body: const Center(child: Text('Lesson data not provided. Please return to the previous page.')),
+            );
+          }
+          return LessonPage(contentItem: contentItem);
         },
       ),
       ShellRoute(

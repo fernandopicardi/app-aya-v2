@@ -40,6 +40,12 @@ dependencies:
   supabase_flutter: ^2.9.0
   flutter_dotenv: ^5.2.1
   iconoir_flutter: ^7.11.0
+  video_player: ^2.10.0
+  just_audio: ^0.10.4
+  just_audio_background: ^0.0.1-beta.17
+  syncfusion_flutter_pdfviewer: ^29.2.9
+  flutter_html: ^3.0.0
+  audio_visualizer: ^1.1.0
 
 dev_dependencies:
   flutter_test:
