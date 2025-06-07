@@ -14,9 +14,10 @@ class AyaColors {
   static const Color softLavender = Color(0xFF575C84);
 
   // Neutral Colors
-  static const Color surface = Color(0xFFF8F8FF);
-  static const Color textPrimaryOnDark = Colors.white;
-  static const Color textSecondaryOnDark = Color(0xFF575C84);
+  static const Color surface = Color(0xFFF8F8FF); // Fundo claro
+  static const Color textPrimary = Color(0xFF2A2939); // Texto principal (em fundo claro)
+  static const Color textSecondary = Color(0xFF575C84); // Texto secundário (em fundo claro ou escuro)
+  static const Color textPrimaryOnDark = Colors.white; // Texto principal em fundo escuro
 
   // State Colors
   static const Color success = Color(0xFF4CAF50);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconoir_flutter/iconoir_flutter.dart' as iconoir;
-import 'package:app/core/theme/app_constants_design.dart';
+import 'package:app/core/theme/app_dimensions.dart';
 import 'package:go_router/go_router.dart';
 import 'package:app/routes.dart';
 
@@ -45,12 +45,12 @@ class LoginScreen extends StatelessWidget {
                     prefixIcon: iconoir.Mail(),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(
-                        AppBorderRadius.borderRadiusMd,
+                        AppDimensions.borderRadiusMd,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(
-                        AppBorderRadius.borderRadiusMd,
+                        AppDimensions.borderRadiusMd,
                       ),
                       borderSide: BorderSide(
                         color: colorScheme.primary.withAlpha(
@@ -60,7 +60,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(
-                        AppBorderRadius.borderRadiusMd,
+                        AppDimensions.borderRadiusMd,
                       ),
                       borderSide: BorderSide(
                         color: colorScheme.primary,
@@ -77,12 +77,12 @@ class LoginScreen extends StatelessWidget {
                     prefixIcon: iconoir.Lock(),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(
-                        AppBorderRadius.borderRadiusMd,
+                        AppDimensions.borderRadiusMd,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(
-                        AppBorderRadius.borderRadiusMd,
+                        AppDimensions.borderRadiusMd,
                       ),
                       borderSide: BorderSide(
                         color: colorScheme.primary.withAlpha(
@@ -92,7 +92,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(
-                        AppBorderRadius.borderRadiusMd,
+                        AppDimensions.borderRadiusMd,
                       ),
                       borderSide: BorderSide(
                         color: colorScheme.primary,
@@ -127,7 +127,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
-                        AppBorderRadius.borderRadiusMd,
+                        AppDimensions.borderRadiusMd,
                       ),
                     ),
                   ),
