@@ -57,10 +57,10 @@ class AppTheme {
           color: AyaColors.textPrimaryOnDark,
         ),
         bodyMedium: AyaTextStyles.bodyMedium.copyWith(
-          color: AyaColors.textSecondaryOnDark,
+          color: AyaColors.textSecondary,
         ),
         bodySmall: AyaTextStyles.bodySmall.copyWith(
-          color: AyaColors.textSecondaryOnDark,
+          color: AyaColors.textSecondary,
         ),
         labelLarge: AyaTextStyles.labelLarge.copyWith(
           color: AyaColors.textPrimaryOnDark,
